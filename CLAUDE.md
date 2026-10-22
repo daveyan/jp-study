@@ -1,6 +1,8 @@
 # Manabi
 
-A personal Japanese study app. Static HTML/CSS/JS with no build step, no bundler and no framework, hosted on GitHub Pages (served from a repo subpath such as `/manabi/`).
+A personal Japanese study app. Static HTML/CSS/JS with no build step, no bundler and no framework, hosted on GitHub Pages at https://daveyan.github.io/manabi/ (pushing to `main` deploys).
+
+The site is personal and should stay out of search engines: keep the `<meta name="robots" content="noindex, nofollow">` tag in `index.html`.
 
 ## What the app is
 
