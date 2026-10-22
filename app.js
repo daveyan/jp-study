@@ -16,9 +16,31 @@ function speak(t){ try{ if(!CAN_SPEAK) return; const u=new SpeechSynthesisUttera
 const SPK_SVG='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
 function spk(t){ return CAN_SPEAK ? '<button class="icon-btn" data-act="say" data-arg="'+esc(t)+'" aria-label="Play audio">'+SPK_SVG+'</button>' : ''; }
 
+/* ---------- Japanese text ---------- */
+// Sentences use {漢字|かんじ} for ruby and [..] for the highlighted word or grammar point (see data.js).
+const KANJI_RE=/[\u3400-\u4dbf\u4e00-\u9fff々]/;
+function jpPlain(s){ return String(s).replace(/\{([^|}]*)\|[^}]*\}/g,'$1').replace(/[\[\]]/g,''); }
+function kanjiKnown(ch){ const id='k:'+ch; return isKnown(id)||status(S.cards[id])==='mature'; }
+// Furigana setting: 'auto' shows it over kanji not yet known (marked known or mature), 'on' always, 'off' never.
+function showFuri(base){ const m=S.settings.furi; if(m==='on') return true; if(m==='off') return false; return [...base].some(ch=>KANJI_RE.test(ch)&&!kanjiKnown(ch)); }
+// Hidden furigana stays in the layout and can be tapped to show. opts.hideMark also hides it inside the highlight.
+function jpHtml(s,opts){
+  opts=opts||{}; let out='', inMark=false, m;
+  const re=/\{([^|}]*)\|([^}]*)\}|\[|\]|[^{[\]]+/g;
+  while((m=re.exec(s))){
+    if(m[1]!==undefined){
+      const show=!(inMark&&opts.hideMark)&&showFuri(m[1]);
+      out+='<ruby'+(show?'':' class="fh" data-act="furi" title="Tap for reading"')+'>'+esc(m[1])+'<rt>'+esc(m[2])+'</rt></ruby>';
+    } else if(m[0]==='['){ out+='<mark>'; inMark=true; }
+    else if(m[0]===']'){ out+='</mark>'; inMark=false; }
+    else out+=esc(m[0]);
+  }
+  return out;
+}
+
 /* ---------- State and storage ---------- */
 const KEY='manabi.progress.v1';
-function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},settings:{recall:false}}; }
+function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},settings:{recall:false,furi:'auto'}}; }
 function normalize(o){
   const d=defaultState();
   if(!o||typeof o!=='object') return d;
@@ -47,7 +69,7 @@ function merge(a,b){
       const g=src.grammar[id]; if(!g||(g.at||0)<=ra) return;
       const o=out.grammar[id];
       if(!o) out.grammar[id]=Object.assign({},g);
-      else { o.best=Math.max(o.best||0,g.best||0); o.tries=Math.max(o.tries||0,g.tries||0); o.done=!!(o.done||g.done); o.at=Math.max(o.at||0,g.at||0); }
+      else { o.best=Math.max(o.best||0,g.best||0); o.tries=Math.max(o.tries||0,g.tries||0); o.done=!!(o.done||g.done); o.read=Math.max(o.read||0,g.read||0); o.at=Math.max(o.at||0,g.at||0); }
     });
     Object.keys(src.known).forEach(id=>{
       const k=src.known[id]; if(!k||(k.at||0)<=ra) return;
@@ -145,7 +167,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={tab:'home',session:null,quiz:null,lesson:null,kanji:null,vq:'',vf:'all',mark:false,confirmReset:false};
+const ui={tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vq:'',vf:'all',mark:false,confirmReset:false};
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']];
 function go(fn){ fn(); render(); window.scrollTo(0,0); }
 
@@ -155,6 +177,7 @@ function render(){
   let h;
   if(ui.session) h=sessionHtml();
   else if(ui.quiz) h=quizHtml();
+  else if(ui.read) h=readHtml();
   else if(ui.tab==='home') h=homeHtml();
   else if(ui.tab==='vocab') h=vocabHtml();
   else if(ui.tab==='kanji') h=kanjiHtml();
@@ -165,7 +188,7 @@ function renderChrome(){
   const n=streak();
   $('#streak').innerHTML = n>0 ? '<b>'+n+'</b>-day streak' : 'No streak yet';
   const t=$('#tabs');
-  t.hidden=!!(ui.session||ui.quiz);
+  t.hidden=!!(ui.session||ui.quiz||ui.read);
   t.innerHTML=TABS.map(x=>'<button class="tab" role="tab" aria-selected="'+(ui.tab===x[0])+'" data-act="tab" data-arg="'+x[0]+'"><span class="tj" lang="ja">'+x[1]+'</span><span class="te">'+x[2]+'</span></button>').join('');
   renderFoot();
 }
@@ -199,9 +222,9 @@ function homeHtml(){
   const date=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
   const passed=GRAMMAR.filter(lessonDone).length;
   const nextG=GRAMMAR.findIndex(g=>!lessonDone(g));
-  const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+passed+' of '+GRAMMAR.length+' lessons passed or known</p></div></div>'
-    +'<div class="stack" role="img" aria-label="'+passed+' of '+GRAMMAR.length+' lessons passed or known"><i style="width:'+(passed/GRAMMAR.length*100)+'%;background:var(--st-mature)"></i></div>'
-    +'<div class="actions">'+(nextG>=0?'<button class="btn primary" data-act="gopen" data-arg="'+nextG+'">Lesson '+(nextG+1)+': '+esc(GRAMMAR[nextG].title)+'</button>':'<button class="btn" data-act="tab" data-arg="grammar">Review lessons</button>')+'</div></section>';
+  const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+passed+' of '+GRAMMAR.length+' lessons done or known</p></div></div>'
+    +'<div class="stack" role="img" aria-label="'+passed+' of '+GRAMMAR.length+' lessons done or known"><i style="width:'+(passed/GRAMMAR.length*100)+'%;background:var(--st-mature)"></i></div>'
+    +'<div class="actions">'+(nextG>=0?'<button class="btn primary" data-act="gopen" data-arg="'+nextG+'">Next: '+esc(GRAMMAR[nextG].level+' '+GRAMMAR[nextG].title)+'</button>':'<button class="btn" data-act="tab" data-arg="grammar">Review lessons</button>')+mixBtn()+'</div></section>';
   // activity, last 14 days
   const days=[]; for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); days.push({d:d,n:S.log[dayKey(d)]||0}); }
   const max=Math.max(1,...days.map(x=>x.n));
@@ -214,8 +237,9 @@ function homeHtml(){
     : '<div><button class="btn" data-act="resetAsk">Reset progress</button></div>';
   return '<section class="hero"><p class="eyebrow">'+esc(date)+'</p><h1>'+msg+'</h1></section>'
     +studyRow('vocab')+studyRow('kanji')+grammarRow
-    +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' answers in two weeks</p></section>'
-    +'<section class="panel settings"><div><h3 style="margin-bottom:8px">Card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>'+reset+'</section>';
+    +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' cards and sentences in two weeks</p></section>'
+    +'<section class="panel settings"><div><h3 style="margin-bottom:8px">Card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>'
+    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+reset+'</section>';
 }
 
 /* ---------- Study sessions ---------- */
@@ -245,20 +269,25 @@ function knowCurrent(){
   commit(); render(); window.scrollTo(0,0);
 }
 function bigCls(t){ const n=[...t].length; return n<=2?'xl':n<=4?'lg':'md'; }
-function exBlock(jp,en){ return '<div class="ex"><div class="ex-row"><span class="jpl" lang="ja">'+esc(jp)+'</span>'+spk(jp)+'</div><span class="muted">'+esc(en)+'</span></div>'; }
+function exBlock(jp,en){ return '<div class="ex"><div class="ex-row"><span class="jpl" lang="ja">'+jpHtml(jp)+'</span>'+spk(jpPlain(jp))+'</div><span class="muted">'+esc(en)+'</span></div>'; }
+// Vocab cards rotate through the word's example sentences, so the prompt changes between reviews.
+function cardExample(it,c){ return it.ex[(c?c.reps+c.lapses:0)%it.ex.length]; }
 function cardFaces(it,kind,recall){
   const front=[], back=[];
   if(kind==='vocab'){
+    const e=cardExample(it,S.cards[it.id]);
     if(!recall){
-      front.push('<div class="face '+bigCls(it.jp)+'" lang="ja">'+esc(it.jp)+'</div>');
+      front.push('<div class="sent" lang="ja">'+jpHtml(e.jp,{hideMark:true})+'</div>');
+      back.push('<div class="face md" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
       if(it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+esc(it.kana)+'</div>');
       back.push('<div class="gloss">'+esc(it.en)+'</div>');
+      back.push('<div class="ex-row sent-en"><span class="muted">'+esc(e.en)+'</span>'+spk(jpPlain(e.jp))+'</div>');
     } else {
       front.push('<div class="face en">'+esc(it.en)+'</div>');
       back.push('<div class="face '+bigCls(it.jp)+'" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
       if(it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+esc(it.kana)+'</div>');
+      back.push(exBlock(e.jp,e.en));
     }
-    back.push(exBlock(it.ex,it.exEn));
   } else {
     const info='<dl class="kv"><dt>On’yomi</dt><dd lang="ja">'+esc(it.on)+'</dd><dt>Kun’yomi</dt><dd lang="ja">'+esc(it.kun)+'</dd><dt>Strokes</dt><dd>'+it.st+'</dd></dl>';
     const words='<div class="words">'+it.ex.map(w=>'<div class="word"><span class="w" lang="ja">'+esc(w[0])+'</span><span class="wm"><span class="wr" lang="ja">'+esc(w[1])+'</span><span>'+esc(w[2])+'</span></span>'+spk(w[1])+'</div>').join('')+'</div>';
@@ -325,7 +354,7 @@ function vocabListHtml(){
   return rows.map(w=>{
     const st=stateOf(w.id);
     return '<details class="vrow"><summary><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+(w.kana!==w.jp?esc(w.kana):'')+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></summary>'
-      +'<div class="vbody">'+exBlock(w.ex,w.exEn)+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana)+knowBtn(w.id)+(S.cards[w.id]||st==='known'?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div></div></details>';
+      +'<div class="vbody">'+w.ex.map(e=>exBlock(e.jp,e.en)).join('')+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana)+knowBtn(w.id)+(S.cards[w.id]||st==='known'?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div></div></details>';
   }).join('');
 }
 function vocabHtml(){
@@ -357,19 +386,75 @@ function kanjiHtml(){
 }
 
 /* ---------- Grammar tab ---------- */
+function lessonNum(i){ const lv=GRAMMAR[i].level; return GRAMMAR.slice(0,i+1).filter(g=>g.level===lv).length; }
+function lessonStatus(g){
+  const p=S.grammar[g.id];
+  if(isKnown(g.id)) return 'Known';
+  if(p&&p.done) return 'Done';
+  if(p&&p.read) return 'Read '+Math.min(p.read,g.ex.length)+'/'+g.ex.length;
+  if(p&&p.tries) return 'Quiz '+p.best+'/'+g.quiz.length;
+  return p?'Opened':'Not started';
+}
+// Opening a lesson records it, so its sentences join the mixed reading feed.
+function openLesson(i){ const g=GRAMMAR[i]; if(!S.grammar[g.id]){ S.grammar[g.id]={best:0,tries:0,done:false,read:0,at:Date.now()}; commit(); } ui.lesson=i; }
+function mixLessons(){ return GRAMMAR.filter(g=>S.grammar[g.id]||isKnown(g.id)); }
+function mixBtn(){ return mixLessons().length?'<button class="btn" data-act="readMix">Mixed reading</button>':''; }
 function grammarHtml(){
   if(ui.lesson!==null){
     const g=GRAMMAR[ui.lesson], i=ui.lesson, p=S.grammar[g.id];
     return '<div class="lesson-view"><div><button class="btn link" data-act="closeLesson">← All lessons</button></div>'
-      +'<div class="titleline"><span class="ln" style="grid-row:auto">'+(i+1)+'</span><div><h1 style="font-size:24px">'+esc(g.title)+'</h1><p class="muted">'+esc(g.sub)+'</p></div></div>'
+      +'<div class="titleline"><span class="ln" style="grid-row:auto">'+lessonNum(i)+'</span><div><p class="eyebrow">'+esc(g.level)+'</p><h1 style="font-size:24px">'+esc(g.title)+'</h1><p class="muted">'+esc(g.sub)+'</p></div></div>'
       +'<div class="pattern" lang="ja">'+esc(g.pattern)+'</div>'
-      +'<ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul>'
-      +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+g.ex.map(e=>exBlock(e[0],e[1])).join('')+'</section>'
-      +'<div class="actions"><button class="btn primary" data-act="lessonQuiz" data-arg="'+i+'">Take the quiz</button>'+knowBtn(g.id)+(p?'<span class="muted" style="align-self:center">Best score '+p.best+'/'+g.quiz.length+'</span>':'')+'</div></div>';
+      +'<div class="actions"><button class="btn primary" data-act="readLesson" data-arg="'+i+'">Read '+g.ex.length+' examples</button><button class="btn" data-act="lessonQuiz" data-arg="'+i+'">Quiz</button>'+knowBtn(g.id)+'</div>'
+      +'<p class="muted" style="font-size:13px">'+esc(lessonStatus(g))+(p&&p.tries?' · best quiz '+p.best+'/'+g.quiz.length:'')+'</p>'
+      +'<details class="how"><summary>How it works</summary><ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul></details>'
+      +'<section class="panel" style="display:grid;gap:10px"><h3>First examples</h3>'+g.ex.slice(0,3).map(e=>exBlock(e[0],e[1])).join('')+'</section></div>';
   }
-  return '<section class="glist-head"><div><h2>Grammar lessons</h2><p class="muted">Thirteen short lessons. Pass each quiz with 3 of 4 correct.</p></div><div class="actions">'+markBtn()+'</div>'+markHint()+'</section><div class="lessons">'
-    +GRAMMAR.map((g,i)=>{ const p=S.grammar[g.id], kn=isKnown(g.id);
-      return '<button class="lesson'+(kn?' known':p&&p.done?' pass':'')+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(g.id)+'" aria-pressed="'+kn+'"':'data-act="openLesson" data-arg="'+i+'"')+'><span class="ln">'+(kn||(p&&p.done)?'✓':i+1)+'</span><span class="lt"><b>'+esc(g.title)+'</b><small>'+esc(g.sub)+'</small></span><span class="lres">'+(kn?'Known':p?(p.done?'Passed · ':'')+p.best+'/'+g.quiz.length:'Not started')+'</span><span class="lpat" lang="ja">'+esc(g.pattern)+'</span></button>'; }).join('')+'</div>';
+  let level='';
+  return '<section class="glist-head"><div><h2>Grammar lessons</h2><p class="muted">Read lots of examples for each pattern. Quizzes are optional.</p></div><div class="actions">'+mixBtn()+markBtn()+'</div>'+markHint()+'</section><div class="lessons">'
+    +GRAMMAR.map((g,i)=>{ const p=S.grammar[g.id], kn=isKnown(g.id), done=kn||(p&&p.done);
+      const head=g.level!==level?'<h3 class="lvl">'+esc(g.level)+'</h3>':''; level=g.level;
+      return head+'<button class="lesson'+(kn?' known':done?' pass':'')+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(g.id)+'" aria-pressed="'+kn+'"':'data-act="openLesson" data-arg="'+i+'"')+'><span class="ln">'+(done?'✓':lessonNum(i))+'</span><span class="lt"><b>'+esc(g.title)+'</b><small>'+esc(g.sub)+'</small></span><span class="lres">'+esc(lessonStatus(g))+'</span><span class="lpat" lang="ja">'+esc(g.pattern)+'</span></button>'; }).join('')+'</div>';
+}
+
+/* ---------- Reading feed ---------- */
+// One sentence at a time: read it, optionally reveal the English, move on. No grading.
+function startRead(title,items,meta){ go(()=>{ ui.read={title:title,items:items,i:0,shown:false,meta:meta}; }); }
+function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, g.ex.map(e=>({jp:e[0],en:e[1],g:i})), {type:'lesson',idx:i}); }
+function readMix(){
+  const items=[]; mixLessons().forEach(g=>{ const i=GRAMMAR.indexOf(g); g.ex.forEach(e=>items.push({jp:e[0],en:e[1],g:i})); });
+  if(items.length) startRead('Mixed reading', shuffle(items).slice(0,20), {type:'mix'});
+}
+function readNext(){
+  const r=ui.read; if(!r||r.i>=r.items.length) return;
+  bump(1);
+  if(r.meta.type==='lesson'){
+    const g=GRAMMAR[r.meta.idx], p=S.grammar[g.id]||{best:0,tries:0,done:false,read:0,at:0};
+    p.read=Math.max(p.read||0,r.i+1); p.at=Date.now();
+    if(p.read>=g.ex.length) p.done=true;
+    S.grammar[g.id]=p;
+  }
+  commit();
+  r.i++; r.shown=false;
+  render(); window.scrollTo(0,0);
+}
+function readHtml(){
+  const r=ui.read, n=r.items.length;
+  const head='<div class="sess-head"><button class="btn link" data-act="readExit">← Back</button><div class="prog"><i style="width:'+(r.i/n*100)+'%"></i></div><span class="count">'+Math.min(r.i+1,n)+' / '+n+'</span></div>';
+  if(r.i>=n){
+    const lesson=r.meta.type==='lesson', nx=lesson?r.meta.idx+1:-1;
+    const btns=lesson
+      ? '<button class="btn primary" data-act="readExit">Back to lesson</button><button class="btn" data-act="readLesson" data-arg="'+r.meta.idx+'">Read again</button>'+(nx<GRAMMAR.length?'<button class="btn" data-act="gopen" data-arg="'+nx+'">Next lesson</button>':'')
+      : '<button class="btn primary" data-act="readMix">More sentences</button><button class="btn" data-act="readExit">Done</button>';
+    return head+'<section class="panel done"><p class="eyebrow">'+esc(r.title)+'</p><div class="big">'+n+'</div><p>sentences read</p><div class="actions">'+btns+'</div></section>';
+  }
+  const it=r.items[r.i], g=GRAMMAR[it.g];
+  const top='<div class="card-top"><span>'+esc(r.meta.type==='mix'?g.level+' · '+g.title:g.pattern)+'</span></div>';
+  const en=r.shown?'<hr class="divider"><div class="ex-row sent-en"><span>'+esc(it.en)+'</span></div>':'';
+  const ctrl=r.shown
+    ? '<button class="btn primary wide" data-act="readNext">Next</button>'
+    : '<div class="grades two"><button class="btn primary" data-act="readShow">Show English</button><button class="btn" data-act="readNext">Next →</button></div>';
+  return head+'<article class="card">'+top+'<div class="ex-row"><div class="sent" lang="ja">'+jpHtml(it.jp)+'</div>'+spk(jpPlain(it.jp))+'</div>'+en+'</article>'+ctrl+'<p class="keyhint">Space: English, then next · → skip ahead</p>';
 }
 
 /* ---------- Quizzes ---------- */
@@ -457,11 +542,17 @@ function act(a,arg){
     case 'grade': gradeCurrent(+arg); break;
     case 'exit': go(()=>{ ui.session=null; }); break;
     case 'say': speak(arg); break;
-    case 'openLesson': go(()=>{ ui.lesson=+arg; }); break;
-    case 'gopen': go(()=>{ ui.quiz=null; ui.tab='grammar'; ui.lesson=+arg; }); break;
+    case 'openLesson': go(()=>{ openLesson(+arg); }); break;
+    case 'gopen': go(()=>{ ui.quiz=null; ui.read=null; ui.tab='grammar'; openLesson(+arg); }); break;
+    case 'readLesson': readLesson(+arg); break;
+    case 'readMix': readMix(); break;
+    case 'readShow': if(ui.read){ ui.read.shown=true; render(); } break;
+    case 'readNext': readNext(); break;
+    case 'readExit': go(()=>{ ui.read=null; }); break;
+    case 'furiMode': S.settings.furi=arg; commit(); render(); break;
     case 'closeLesson': go(()=>{ ui.lesson=null; }); break;
     case 'lessonBack': go(()=>{ ui.quiz=null; }); break;
-    case 'lessonQuiz': { const i=+arg, g=GRAMMAR[i]; startQuiz('Lesson '+(i+1)+': '+g.title, shuffle(g.quiz).map(shuffleQ), {type:'lesson',idx:i}); break; }
+    case 'lessonQuiz': { const i=+arg, g=GRAMMAR[i]; startQuiz(g.level+' · '+g.title, shuffle(g.quiz).map(shuffleQ), {type:'lesson',idx:i}); break; }
     case 'vquiz': startQuiz('Vocabulary quiz', vocabQuizQs(10), {type:'vocab'}); break;
     case 'kquiz': startQuiz('Kanji reading quiz', kanjiQuizQs(10), {type:'kanji'}); break;
     case 'pick': pickAnswer(+arg); break;
@@ -485,6 +576,7 @@ function act(a,arg){
 }
 document.addEventListener('click',function(e){
   const b=e.target.closest('[data-act]'); if(!b) return;
+  if(b.dataset.act==='furi'){ b.classList.toggle('fs'); return; }
   act(b.dataset.act,b.dataset.arg);
 });
 document.addEventListener('input',function(e){
@@ -497,6 +589,9 @@ document.addEventListener('keydown',function(e){
     if((e.key===' '||e.key==='Enter')&&!ui.session.revealed){ e.preventDefault(); act('reveal'); }
     else if(ui.session.revealed&&'1234'.indexOf(e.key)>=0&&e.key.length===1){ e.preventDefault(); gradeCurrent(+e.key-1); }
     else if(e.key==='k'||e.key==='K'){ e.preventDefault(); knowCurrent(); }
+  } else if(ui.read&&ui.read.i<ui.read.items.length){
+    if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(ui.read.shown) readNext(); else act('readShow'); }
+    else if(e.key==='ArrowRight'){ e.preventDefault(); readNext(); }
   } else if(ui.quiz&&!ui.quiz.finished){
     if(ui.quiz.picked===null&&'1234'.indexOf(e.key)>=0&&e.key.length===1){ const i=+e.key-1; if(i<ui.quiz.qs[ui.quiz.i].opts.length) pickAnswer(i); }
     else if(ui.quiz.picked!==null&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); nextQuestion(); }

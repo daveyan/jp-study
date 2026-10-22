@@ -215,3 +215,20 @@ h3{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--m
 .glist-head{display:grid; gap:10px}
 .btn.know{justify-self:center; font-size:13px}
 .btn.know kbd{font:inherit; font-size:11px; border:1px solid var(--line); border-radius:4px; padding:0 5px; margin-left:4px}
+
+/* Japanese sentences: ruby furigana, highlights, reading feed */
+ruby rt{font-size:.5em; font-weight:500; color:var(--muted)}
+ruby.fh{cursor:pointer; text-decoration:underline dotted var(--line); text-underline-offset:.25em}
+ruby.fh rt{visibility:hidden}
+ruby.fh.fs rt{visibility:visible}
+mark{background:var(--accent-soft); color:inherit; border-radius:4px; padding:0 2px; box-decoration-break:clone; -webkit-box-decoration-break:clone}
+.ex .jpl{line-height:2}
+.sent{font:500 clamp(22px,6vw,28px)/2.1 var(--f-jp); overflow-wrap:anywhere; padding-block:8px}
+.sent-en{font-size:16px}
+.seg.three{grid-template-columns:repeat(3,auto)}
+.grades.two{grid-template-columns:2fr 1fr}
+.grades.two .btn{padding:13px 14px; font-size:16px}
+.how{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px 14px}
+.how summary{cursor:pointer; font-weight:500}
+.how .notes{margin:10px 0 2px}
+.lvl{font-size:13px; letter-spacing:.08em; color:var(--muted); margin:10px 2px 0}
