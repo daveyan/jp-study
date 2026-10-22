@@ -167,7 +167,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vq:'',vf:'all',mark:false,confirmReset:false};
+const ui={tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,preview:[],vq:'',vf:'all',mark:false,confirmReset:false};
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']];
 function go(fn){ fn(); render(); window.scrollTo(0,0); }
 
@@ -408,7 +408,8 @@ function lessonStatus(g){
   return p?'Opened':'Not started';
 }
 // Opening a lesson records it, so its sentences join the mixed reading feed.
-function openLesson(i){ const g=GRAMMAR[i]; if(!S.grammar[g.id]){ S.grammar[g.id]={best:0,tries:0,done:false,read:0,at:Date.now()}; commit(); } ui.lesson=i; }
+// It also picks three random examples to preview; they stay the same until the lesson is opened again.
+function openLesson(i){ const g=GRAMMAR[i]; if(!S.grammar[g.id]){ S.grammar[g.id]={best:0,tries:0,done:false,read:0,at:Date.now()}; commit(); } ui.lesson=i; ui.preview=shuffle(g.ex).slice(0,3); }
 function mixLessons(){ return GRAMMAR.filter(g=>S.grammar[g.id]||isKnown(g.id)); }
 function mixBtn(){ return mixLessons().length?'<button class="btn" data-act="readMix">Mixed reading</button>':''; }
 function grammarHtml(){
@@ -420,7 +421,7 @@ function grammarHtml(){
       +'<div class="actions"><button class="btn primary" data-act="readLesson" data-arg="'+i+'">Read '+g.ex.length+' examples</button><button class="btn" data-act="lessonQuiz" data-arg="'+i+'">Quiz</button>'+knowBtn(g.id)+'</div>'
       +'<p class="muted" style="font-size:13px">'+esc(lessonStatus(g))+(p&&p.tries?' · best quiz '+p.best+'/'+g.quiz.length:'')+'</p>'
       +'<details class="how"><summary>How it works</summary><ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul></details>'
-      +'<section class="panel" style="display:grid;gap:10px"><h3>First examples</h3>'+g.ex.slice(0,3).map(e=>exBlock(e[0],e[1])).join('')+'</section></div>';
+      +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+ui.preview.map(e=>exBlock(e[0],e[1])).join('')+'</section></div>';
   }
   let level='';
   return '<section class="glist-head"><div><h2>Grammar lessons</h2><p class="muted">Read lots of examples for each pattern. Quizzes are optional.</p></div><div class="actions">'+mixBtn()+markBtn()+'</div>'+markHint()+'</section><div class="lessons">'
