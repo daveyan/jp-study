@@ -18,13 +18,14 @@ function spk(t){ return CAN_SPEAK ? '<button class="icon-btn" data-act="say" dat
 
 /* ---------- State and storage ---------- */
 const KEY='manabi.progress.v1';
-function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},log:{},settings:{recall:false}}; }
+function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},settings:{recall:false}}; }
 function normalize(o){
   const d=defaultState();
   if(!o||typeof o!=='object') return d;
   return {v:1, updatedAt:+o.updatedAt||0, resetAt:+o.resetAt||0,
     cards:(o.cards&&typeof o.cards==='object')?o.cards:{},
     grammar:(o.grammar&&typeof o.grammar==='object')?o.grammar:{},
+    known:(o.known&&typeof o.known==='object')?o.known:{},
     log:(o.log&&typeof o.log==='object')?o.log:{},
     settings:Object.assign(d.settings,(o.settings&&typeof o.settings==='object')?o.settings:{})};
 }
@@ -47,6 +48,10 @@ function merge(a,b){
       const o=out.grammar[id];
       if(!o) out.grammar[id]=Object.assign({},g);
       else { o.best=Math.max(o.best||0,g.best||0); o.tries=Math.max(o.tries||0,g.tries||0); o.done=!!(o.done||g.done); o.at=Math.max(o.at||0,g.at||0); }
+    });
+    Object.keys(src.known).forEach(id=>{
+      const k=src.known[id]; if(!k||(k.at||0)<=ra) return;
+      const o=out.known[id]; if(!o||(k.at||0)>(o.at||0)) out.known[id]=k;
     });
     Object.keys(src.log).forEach(k=>{ out.log[k]=Math.max(out.log[k]||0, src.log[k]||0); });
   });
@@ -113,16 +118,22 @@ function fmtIv(c,g,now){
   return (iv/365).toFixed(1)+' y';
 }
 function status(c){ if(!c) return 'new'; if(c.reps<2) return 'learning'; if(c.int<21) return 'young'; return 'mature'; }
-const STATUS_LABEL={new:'New',learning:'Learning',young:'Young',mature:'Mature'};
+const STATUS_LABEL={new:'New',learning:'Learning',young:'Young',mature:'Mature',known:'Known'};
+// Known items (vocab, kanji or grammar ids) skip the review queue; their card, if any, is kept so unmarking resumes it.
+// Stored as {on, at} rather than deleted so merge() can tell an unmark from a missing entry.
+function isKnown(id){ const k=S.known[id]; return !!(k&&k.on); }
+function setKnown(id,on){ S.known[id]={on:!!on,at:Date.now()}; }
+function stateOf(id){ return isKnown(id)?'known':status(S.cards[id]); }
+function lessonDone(g){ const p=S.grammar[g.id]; return isKnown(g.id)||!!(p&&p.done); }
 function itemsOf(kind){ return kind==='vocab'?VOCAB:KANJI; }
 function dueIds(kind,now){
-  return itemsOf(kind).filter(it=>{const c=S.cards[it.id]; return c&&c.due<=now;})
+  return itemsOf(kind).filter(it=>{const c=S.cards[it.id]; return c&&c.due<=now&&!isKnown(it.id);})
     .sort((a,b)=>S.cards[a.id].due-S.cards[b.id].due).map(it=>it.id);
 }
-function newIds(kind,n){ return itemsOf(kind).filter(it=>!S.cards[it.id]).slice(0,n).map(it=>it.id); }
+function newIds(kind,n){ return itemsOf(kind).filter(it=>!S.cards[it.id]&&!isKnown(it.id)).slice(0,n).map(it=>it.id); }
 function counts(kind){
-  const c={new:0,learning:0,young:0,mature:0};
-  itemsOf(kind).forEach(it=>{c[status(S.cards[it.id])]++;});
+  const c={new:0,learning:0,young:0,mature:0,known:0};
+  itemsOf(kind).forEach(it=>{c[stateOf(it.id)]++;});
   return c;
 }
 function bump(n){ const k=dayKey(); S.log[k]=(S.log[k]||0)+(n||1); }
@@ -134,7 +145,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={tab:'home',session:null,quiz:null,lesson:null,kanji:null,vq:'',vf:'all',confirmReset:false};
+const ui={tab:'home',session:null,quiz:null,lesson:null,kanji:null,vq:'',vf:'all',mark:false,confirmReset:false};
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']];
 function go(fn){ fn(); render(); window.scrollTo(0,0); }
 
@@ -164,19 +175,19 @@ function renderFoot(){
 
 /* ---------- Home ---------- */
 function stackBar(kind){
-  const c=counts(kind), n=c.new+c.learning+c.young+c.mature;
+  const c=counts(kind), n=c.new+c.learning+c.young+c.mature+c.known;
   const seg=(k,v)=>'<i style="width:'+(c[k]/n*100)+'%;background:var(--'+v+')"></i>';
-  return '<div class="stack" role="img" aria-label="'+(n-c.new)+' of '+n+' started">'+seg('mature','st-mature')+seg('young','st-young')+seg('learning','st-learn')+'</div>';
+  return '<div class="stack" role="img" aria-label="'+(n-c.new)+' of '+n+' started or known">'+seg('known','st-known')+seg('mature','st-mature')+seg('young','st-young')+seg('learning','st-learn')+'</div>';
 }
 function legend(kind){
   const c=counts(kind);
   const li=(k,v)=>'<span><i style="background:var(--'+v+')"></i>'+c[k]+' '+k+'</span>';
-  return '<div class="legend">'+li('mature','st-mature')+li('young','st-young')+li('learning','st-learn')+li('new','st-new')+'</div>';
+  return '<div class="legend">'+li('mature','st-mature')+li('young','st-young')+li('learning','st-learn')+li('new','st-new')+(c.known?li('known','st-known'):'')+'</div>';
 }
 function studyRow(kind){
   const now=Date.now(), items=itemsOf(kind), c=counts(kind);
-  const due=dueIds(kind,now).length, nn=newIds(kind,5).length, started=items.length-c.new;
-  return '<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">'+(kind==='vocab'?'単語':'漢字')+'</span><div><h2>'+(kind==='vocab'?'Vocabulary':'Kanji')+'</h2><p class="muted">'+started+' of '+items.length+' started · '+due+' due now</p></div></div>'
+  const due=dueIds(kind,now).length, nn=newIds(kind,5).length, started=items.length-c.new-c.known;
+  return '<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">'+(kind==='vocab'?'単語':'漢字')+'</span><div><h2>'+(kind==='vocab'?'Vocabulary':'Kanji')+'</h2><p class="muted">'+started+' of '+items.length+' started'+(c.known?' · '+c.known+' known':'')+' · '+due+' due now</p></div></div>'
    +stackBar(kind)
    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="'+kind+'"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button></div></section>';
 }
@@ -186,10 +197,10 @@ function homeHtml(){
   const started=Object.keys(S.cards).length;
   const msg = started===0 ? 'Start with five new words.' : due>0 ? due+(due===1?' card is':' cards are')+' ready to review.' : 'You are all caught up.';
   const date=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
-  const passed=GRAMMAR.filter(g=>S.grammar[g.id]&&S.grammar[g.id].done).length;
-  const nextG=GRAMMAR.findIndex(g=>!(S.grammar[g.id]&&S.grammar[g.id].done));
-  const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+passed+' of '+GRAMMAR.length+' lessons passed</p></div></div>'
-    +'<div class="stack" role="img" aria-label="'+passed+' of '+GRAMMAR.length+' lessons passed"><i style="width:'+(passed/GRAMMAR.length*100)+'%;background:var(--st-mature)"></i></div>'
+  const passed=GRAMMAR.filter(lessonDone).length;
+  const nextG=GRAMMAR.findIndex(g=>!lessonDone(g));
+  const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+passed+' of '+GRAMMAR.length+' lessons passed or known</p></div></div>'
+    +'<div class="stack" role="img" aria-label="'+passed+' of '+GRAMMAR.length+' lessons passed or known"><i style="width:'+(passed/GRAMMAR.length*100)+'%;background:var(--st-mature)"></i></div>'
     +'<div class="actions">'+(nextG>=0?'<button class="btn primary" data-act="gopen" data-arg="'+nextG+'">Lesson '+(nextG+1)+': '+esc(GRAMMAR[nextG].title)+'</button>':'<button class="btn" data-act="tab" data-arg="grammar">Review lessons</button>')+'</div></section>';
   // activity, last 14 days
   const days=[]; for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); days.push({d:d,n:S.log[dayKey(d)]||0}); }
@@ -212,7 +223,7 @@ function startSession(kind,mode){
   const now=Date.now();
   const ids = mode==='due' ? dueIds(kind,now).slice(0,30) : newIds(kind,5);
   if(!ids.length) return;
-  go(()=>{ ui.session={kind:kind,mode:mode,queue:ids.slice(),total:ids.length,done:0,again:0,revealed:false,grades:[0,0,0,0]}; });
+  go(()=>{ ui.session={kind:kind,mode:mode,queue:ids.slice(),total:ids.length,done:0,again:0,known:0,revealed:false,grades:[0,0,0,0]}; });
 }
 function gradeCurrent(g){
   const s=ui.session; if(!s||!s.queue.length||!s.revealed) return;
@@ -222,6 +233,14 @@ function gradeCurrent(g){
   bump(1);
   s.queue.shift(); s.grades[g]++;
   if(g===0){ s.again++; s.queue.splice(Math.min(2,s.queue.length),0,id); } else { s.done++; }
+  s.revealed=false;
+  commit(); render(); window.scrollTo(0,0);
+}
+function knowCurrent(){
+  const s=ui.session; if(!s||!s.queue.length) return;
+  const id=s.queue[0];
+  setKnown(id,true);
+  s.queue=s.queue.filter(x=>x!==id); s.total--; s.known++;
   s.revealed=false;
   commit(); render(); window.scrollTo(0,0);
 }
@@ -265,7 +284,7 @@ function sessionHtml(){
     if(nextDue<Infinity){ const mins=Math.round((nextDue-now)/60000); nxt = mins<60? 'in '+mins+' min' : mins<60*24 ? 'later today' : mins<60*48 ? 'tomorrow' : 'in '+Math.round(mins/1440)+' days'; }
     const more=newIds(s.kind,5).length;
     return head+'<section class="panel done"><p class="eyebrow">Session complete</p><div class="big">'+s.done+'</div><p>'+(s.kind==='vocab'?'words':'kanji')+' finished</p>'
-      +'<div class="facts"><span><b>'+acc+'%</b> got it first time</span><span><b>'+s.again+'</b> repeated</span>'+(nxt?'<span>Next review <b>'+nxt+'</b></span>':'')+'</div>'
+      +'<div class="facts"><span><b>'+acc+'%</b> got it first time</span><span><b>'+s.again+'</b> repeated</span>'+(s.known?'<span><b>'+s.known+'</b> marked known</span>':'')+(nxt?'<span>Next review <b>'+nxt+'</b></span>':'')+'</div>'
       +'<div class="actions"><button class="btn primary" data-act="exit">Back</button>'+(more?'<button class="btn" data-act="learn" data-arg="'+s.kind+'">Learn 5 more</button>':'')+'</div></section>';
   }
   const id=s.queue[0], it=ITEM[id], c=S.cards[id], now=Date.now(), recall=!!S.settings.recall;
@@ -279,29 +298,41 @@ function sessionHtml(){
     const names=['Again','Hard','Good','Easy'], cols=['again','hard','good','easy'];
     ctrl='<div class="grades">'+names.map((nm,g)=>'<button class="grade" style="--c:var(--'+cols[g]+')" data-act="grade" data-arg="'+g+'"><b>'+nm+'</b><small>'+fmtIv(base,g,now)+'</small></button>').join('')+'</div><p class="keyhint">Keys 1 to 4</p>';
   }
+  ctrl+='<button class="btn link know" data-act="knowCur">I already know this <kbd>K</kbd></button>';
   return head+'<article class="card">'+top+f.front+(s.revealed?'<hr class="divider"><div class="back">'+f.back+'</div>':'')+'</article>'+ctrl;
 }
 
 /* ---------- Vocab tab ---------- */
-function vocabListHtml(){
+function markBtn(){ return '<button class="btn'+(ui.mark?' primary':'')+'" data-act="markMode" aria-pressed="'+ui.mark+'">'+(ui.mark?'Done marking':'Mark known')+'</button>'; }
+function markHint(){ return ui.mark?'<p class="markhint">Tap what you already know. Known items leave the review queue; tap again to bring one back.</p>':''; }
+function knowBtn(id){ return '<button class="btn" data-act="toggleKnown" data-arg="'+esc(id)+'">'+(isKnown(id)?'Unmark known':'I know this')+'</button>'; }
+function vocabRows(){
   const q=ui.vq.trim().toLowerCase(), f=ui.vf;
-  const rows=VOCAB.filter(w=>{
-    const st=status(S.cards[w.id]);
-    if(f!=='all'&&st!==f) return false;
+  return VOCAB.filter(w=>{
+    if(f!=='all'&&stateOf(w.id)!==f) return false;
     return !q || (w.jp+' '+w.kana+' '+w.en+' '+w.tag).toLowerCase().includes(q);
   });
+}
+function vocabListHtml(){
+  const rows=vocabRows();
   if(!rows.length) return '<p class="muted" style="padding:12px 4px">No words match.</p>';
+  if(ui.mark){
+    const on=rows.filter(w=>isKnown(w.id)).length;
+    return '<div class="bulk"><span class="muted">'+rows.length+' shown</span><button class="btn" data-act="markShown" data-arg="1"'+(on<rows.length?'':' disabled')+'>Mark all shown known</button><button class="btn" data-act="markShown" data-arg="0"'+(on?'':' disabled')+'>Unmark all shown</button></div>'
+      +rows.map(w=>{ const st=stateOf(w.id);
+        return '<button class="vrow mrow" data-act="toggleKnown" data-arg="'+esc(w.id)+'" aria-pressed="'+(st==='known')+'"><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+(w.kana!==w.jp?esc(w.kana):'')+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></button>'; }).join('');
+  }
   return rows.map(w=>{
-    const st=status(S.cards[w.id]);
+    const st=stateOf(w.id);
     return '<details class="vrow"><summary><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+(w.kana!==w.jp?esc(w.kana):'')+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></summary>'
-      +'<div class="vbody">'+exBlock(w.ex,w.exEn)+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana)+(S.cards[w.id]?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div></div></details>';
+      +'<div class="vbody">'+exBlock(w.ex,w.exEn)+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana)+knowBtn(w.id)+(S.cards[w.id]||st==='known'?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div></div></details>';
   }).join('');
 }
 function vocabHtml(){
   const now=Date.now(), due=dueIds('vocab',now).length, nn=newIds('vocab',5).length;
-  const chips=['all','new','learning','young','mature'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('');
+  const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('');
   return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' everyday words with example sentences</p></div>'+stackBar('vocab')+legend('vocab')
-    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="vocab"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="vquiz">Quick quiz</button></div></section>'
+    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="vocab"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="vquiz">Quick quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>';
 }
@@ -309,19 +340,19 @@ function vocabHtml(){
 /* ---------- Kanji tab ---------- */
 function kanjiHtml(){
   if(ui.kanji){
-    const k=ITEM['k:'+ui.kanji]; const i=KANJI.indexOf(k); const st=status(S.cards[k.id]);
+    const k=ITEM['k:'+ui.kanji]; const i=KANJI.indexOf(k); const st=stateOf(k.id);
     return '<section class="panel kd"><div class="kd-top"><button class="btn" data-act="closeKanji">← All kanji</button><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></div>'
       +'<div class="kd-char" lang="ja">'+esc(k.ch)+'</div><h2>'+esc(k.en)+'</h2>'
       +'<dl class="kv"><dt>On’yomi</dt><dd lang="ja">'+esc(k.on)+'</dd><dt>Kun’yomi</dt><dd lang="ja">'+esc(k.kun)+'</dd><dt>Strokes</dt><dd>'+k.st+'</dd></dl>'
       +'<div class="words">'+k.ex.map(w=>'<div class="word"><span class="w" lang="ja">'+esc(w[0])+'</span><span class="wm"><span class="wr" lang="ja">'+esc(w[1])+'</span><span>'+esc(w[2])+'</span></span>'+spk(w[1])+'</div>').join('')+'</div>'
       +'<div class="actions"><button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+KANJI.length-1)%KANJI.length].ch)+'">← Previous</button>'
-      +(S.cards[k.id]?'':'<button class="btn primary" data-act="addCard" data-arg="'+esc(k.id)+'">Add to reviews</button>')
+      +knowBtn(k.id)+(S.cards[k.id]||st==='known'?'':'<button class="btn primary" data-act="addCard" data-arg="'+esc(k.id)+'">Add to reviews</button>')
       +'<button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+1)%KANJI.length].ch)+'">Next →</button></div></section>';
   }
   const now=Date.now(), due=dueIds('kanji',now).length, nn=newIds('kanji',5).length;
-  const tiles=KANJI.map(k=>'<button class="ktile st-'+status(S.cards[k.id])+'" data-act="openKanji" data-arg="'+esc(k.ch)+'" aria-label="'+esc(k.ch+', '+k.en)+'"><span class="kc" lang="ja">'+esc(k.ch)+'</span><span class="km">'+esc(k.en)+'</span></button>').join('');
+  const tiles=KANJI.map(k=>{ const st=stateOf(k.id); return '<button class="ktile st-'+st+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(k.id)+'" aria-pressed="'+(st==='known')+'"':'data-act="openKanji" data-arg="'+esc(k.ch)+'"')+' aria-label="'+esc(k.ch+', '+k.en)+'"><span class="kc" lang="ja">'+esc(k.ch)+'</span><span class="km">'+esc(k.en)+'</span></button>'; }).join('');
   return '<section class="panel row"><div><h2>Kanji</h2><p class="muted">'+KANJI.length+' kanji from the N5 level, with readings and words</p></div>'+stackBar('kanji')+legend('kanji')
-    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="kanji"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="kanji"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="kquiz">Reading quiz</button></div></section>'
+    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="kanji"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="kanji"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="kquiz">Reading quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="kgrid">'+tiles+'</div>';
 }
 
@@ -334,11 +365,11 @@ function grammarHtml(){
       +'<div class="pattern" lang="ja">'+esc(g.pattern)+'</div>'
       +'<ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul>'
       +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+g.ex.map(e=>exBlock(e[0],e[1])).join('')+'</section>'
-      +'<div class="actions"><button class="btn primary" data-act="lessonQuiz" data-arg="'+i+'">Take the quiz</button>'+(p?'<span class="muted" style="align-self:center">Best score '+p.best+'/'+g.quiz.length+'</span>':'')+'</div></div>';
+      +'<div class="actions"><button class="btn primary" data-act="lessonQuiz" data-arg="'+i+'">Take the quiz</button>'+knowBtn(g.id)+(p?'<span class="muted" style="align-self:center">Best score '+p.best+'/'+g.quiz.length+'</span>':'')+'</div></div>';
   }
-  return '<section><h2>Grammar lessons</h2><p class="muted">Thirteen short lessons. Pass each quiz with 3 of 4 correct.</p></section><div class="lessons">'
-    +GRAMMAR.map((g,i)=>{ const p=S.grammar[g.id];
-      return '<button class="lesson'+(p&&p.done?' pass':'')+'" data-act="openLesson" data-arg="'+i+'"><span class="ln">'+(p&&p.done?'✓':i+1)+'</span><span class="lt"><b>'+esc(g.title)+'</b><small>'+esc(g.sub)+'</small></span><span class="lres">'+(p?(p.done?'Passed · ':'')+p.best+'/'+g.quiz.length:'Not started')+'</span><span class="lpat" lang="ja">'+esc(g.pattern)+'</span></button>'; }).join('')+'</div>';
+  return '<section class="glist-head"><div><h2>Grammar lessons</h2><p class="muted">Thirteen short lessons. Pass each quiz with 3 of 4 correct.</p></div><div class="actions">'+markBtn()+'</div>'+markHint()+'</section><div class="lessons">'
+    +GRAMMAR.map((g,i)=>{ const p=S.grammar[g.id], kn=isKnown(g.id);
+      return '<button class="lesson'+(kn?' known':p&&p.done?' pass':'')+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(g.id)+'" aria-pressed="'+kn+'"':'data-act="openLesson" data-arg="'+i+'"')+'><span class="ln">'+(kn||(p&&p.done)?'✓':i+1)+'</span><span class="lt"><b>'+esc(g.title)+'</b><small>'+esc(g.sub)+'</small></span><span class="lres">'+(kn?'Known':p?(p.done?'Passed · ':'')+p.best+'/'+g.quiz.length:'Not started')+'</span><span class="lpat" lang="ja">'+esc(g.pattern)+'</span></button>'; }).join('')+'</div>';
 }
 
 /* ---------- Quizzes ---------- */
@@ -419,7 +450,7 @@ function quizHtml(){
 /* ---------- Events ---------- */
 function act(a,arg){
   switch(a){
-    case 'tab': go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.confirmReset=false; }); break;
+    case 'tab': go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'review': startSession(arg,'due'); break;
     case 'learn': startSession(arg,'new'); break;
     case 'reveal': if(ui.session){ ui.session.revealed=true; render(); } break;
@@ -440,6 +471,10 @@ function act(a,arg){
     case 'closeKanji': go(()=>{ ui.kanji=null; }); break;
     case 'addCard': if(!S.cards[arg]){ S.cards[arg]=newCard(Date.now()); commit(); render(); } break;
     case 'filter': ui.vf=arg; render(); break;
+    case 'knowCur': knowCurrent(); break;
+    case 'markMode': ui.mark=!ui.mark; render(); break;
+    case 'toggleKnown': setKnown(arg,!isKnown(arg)); commit(); render(); break;
+    case 'markShown': { const on=arg==='1'; vocabRows().forEach(w=>{ if(isKnown(w.id)!==on) setKnown(w.id,on); }); commit(); render(); break; }
     case 'dir': S.settings.recall=(arg==='recall'); commit(); render(); break;
     case 'resetAsk': ui.confirmReset=true; render(); break;
     case 'resetNo': ui.confirmReset=false; render(); break;
@@ -461,6 +496,7 @@ document.addEventListener('keydown',function(e){
   if(ui.session&&ui.session.queue.length){
     if((e.key===' '||e.key==='Enter')&&!ui.session.revealed){ e.preventDefault(); act('reveal'); }
     else if(ui.session.revealed&&'1234'.indexOf(e.key)>=0&&e.key.length===1){ e.preventDefault(); gradeCurrent(+e.key-1); }
+    else if(e.key==='k'||e.key==='K'){ e.preventDefault(); knowCurrent(); }
   } else if(ui.quiz&&!ui.quiz.finished){
     if(ui.quiz.picked===null&&'1234'.indexOf(e.key)>=0&&e.key.length===1){ const i=+e.key-1; if(i<ui.quiz.qs[ui.quiz.i].opts.length) pickAnswer(i); }
     else if(ui.quiz.picked!==null&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); nextQuestion(); }

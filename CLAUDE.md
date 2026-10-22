@@ -30,7 +30,8 @@ Card and lesson IDs come from the content (`'v:'+written form`, `'k:'+kanji`, `g
 
 ## State and storage (`app.js`)
 
-- Progress is stored in `localStorage` under `manabi.progress.v1` in the shape `{v, updatedAt, resetAt, cards, grammar, log, settings:{recall}}`. `commit()` saves after every change.
+- Progress is stored in `localStorage` under `manabi.progress.v1` in the shape `{v, updatedAt, resetAt, cards, grammar, known, log, settings:{recall}}`. `commit()` saves after every change.
+- **Known items**: `S.known` maps a vocab, kanji or grammar id to `{on, at}`. Known items are skipped by `dueIds`/`newIds`, count as status `known` (`stateOf(id)`), and known lessons count as done (`lessonDone`). Unmarking keeps any existing card, so its schedule resumes. Entries are flipped to `on:false` rather than deleted so `merge()` resolves by `at`. You can mark items via Mark known mode on each tab, the per-item toggle, vocab's bulk "mark all shown" (respects search and filter), and "I already know this" (key K) in study sessions.
 - `initRemote()` syncs through `window.claude` (the claude.ai Artifact runtime) when it is available. On GitHub Pages it isn't, so the app quietly stays on localStorage and the footer says "saved in this browser only". `merge()` combines two states; keep it if the sync code stays.
 - Scheduling: SM-2 style (`nextState`). The grades are Again/Hard/Good/Easy (0–3). Again re-queues the card in 10 minutes.
 - The `/*TEST_HOOK*/` comment near the end of `app.js` is a marker for injecting test code. Leave it in place.
