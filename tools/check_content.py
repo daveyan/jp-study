@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the markup in Manabi's example sentences.
+"""Check the markup in the app's example sentences.
 
 Usage: python3 tools/check_content.py   (from the repo root)
 

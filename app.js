@@ -39,7 +39,7 @@ function jpHtml(s,opts){
 }
 
 /* ---------- State and storage ---------- */
-const KEY='manabi.progress.v1';
+const KEY='jp-study.progress.v1';
 function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},settings:{recall:false,furi:'auto'}}; }
 function normalize(o){
   const d=defaultState();

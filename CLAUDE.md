@@ -1,6 +1,6 @@
-# Manabi
+# JP Study
 
-A personal Japanese study app. Static HTML/CSS/JS with no build step, no bundler and no framework, hosted on GitHub Pages at https://daveyan.github.io/manabi/ (pushing to `main` deploys).
+A personal Japanese study app. Static HTML/CSS/JS with no build step, no bundler and no framework, hosted on GitHub Pages at https://daveyan.github.io/jp-study/ (pushing to `main` deploys).
 
 The site is personal and should stay out of search engines: keep the `<meta name="robots" content="noindex, nofollow">` tag in `index.html`.
 
@@ -36,7 +36,7 @@ Card and lesson IDs are keys for saved progress (`'v:'+written form`, `'k:'+kanj
 
 ## State and storage (`app.js`)
 
-- Progress is stored in `localStorage` under `manabi.progress.v1` in the shape `{v, updatedAt, resetAt, cards, grammar, known, log, settings:{recall, furi}}`. `commit()` saves after every change.
+- Progress is stored in `localStorage` under `jp-study.progress.v1` in the shape `{v, updatedAt, resetAt, cards, grammar, known, log, settings:{recall, furi}}`. `commit()` saves after every change.
 - `S.grammar[id]` = `{best, tries, done, read, at}`. Opening a lesson creates the entry, which adds the lesson to the **Mixed reading** pool. `read` is the furthest sentence reached in the lesson's feed. Reading the whole feed, or passing the quiz, sets `done`.
 - **Known items**: `S.known` maps a vocab, kanji or grammar id to `{on, at}`. Known items are skipped by `dueIds`/`newIds`, count as status `known` (`stateOf(id)`), and known lessons count as done (`lessonDone`). Unmarking keeps any existing card, so its schedule resumes. Entries are flipped to `on:false` rather than deleted so `merge()` resolves by `at`. You can mark items via Mark known mode on each tab, the per-item toggle, vocab's bulk "mark all shown" (respects search and filter), and "I already know this" (key K) in study sessions.
 - **Furigana** (`settings.furi`): `'auto'` (default) shows readings only over kanji the learner doesn't know yet (kanji marked known or with a mature card count as known; kanji outside the 56 never do). `'on'` always shows them, `'off'` never does. Hidden readings keep their layout space and can be tapped to show (`ruby.fh`, toggles `.fs`). On a vocab card front, the highlighted word's reading is always hidden.
@@ -48,4 +48,4 @@ Card and lesson IDs are keys for saved progress (`'v:'+written form`, `'k:'+kanj
 
 ## Checking changes
 
-There's no test suite. Run the content checker, then serve the folder from a subpath (for example, symlink it to `<root>/manabi` and run `python3 -m http.server` in `<root>`). Load it, run a study session, read a lesson feed, take a quiz, reload, and confirm progress persists.
+There's no test suite. Run the content checker, then serve the folder from a subpath (for example, symlink it to `<root>/jp-study` and run `python3 -m http.server` in `<root>`). Load it, run a study session, read a lesson feed, take a quiz, reload, and confirm progress persists.
