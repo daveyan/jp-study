@@ -247,13 +247,14 @@ function startSession(kind,mode){
   const now=Date.now();
   const ids = mode==='due' ? dueIds(kind,now).slice(0,30) : newIds(kind,5);
   if(!ids.length) return;
-  go(()=>{ ui.session={kind:kind,mode:mode,queue:ids.slice(),total:ids.length,done:0,again:0,known:0,revealed:false,grades:[0,0,0,0]}; });
+  go(()=>{ ui.session={kind:kind,mode:mode,queue:ids.slice(),total:ids.length,done:0,again:0,known:0,revealed:false,grades:[0,0,0,0],pick:{}}; });
 }
 function gradeCurrent(g){
   const s=ui.session; if(!s||!s.queue.length||!s.revealed) return;
   const id=s.queue[0], now=Date.now();
   const prev=S.cards[id]||newCard(now);
   S.cards[id]=nextState(prev,g,now);
+  if(s.pick[id]!==undefined){ S.cards[id].exi=s.pick[id]; delete s.pick[id]; }
   bump(1);
   s.queue.shift(); s.grades[g]++;
   if(g===0){ s.again++; s.queue.splice(Math.min(2,s.queue.length),0,id); } else { s.done++; }
@@ -271,11 +272,22 @@ function knowCurrent(){
 function bigCls(t){ const n=[...t].length; return n<=2?'xl':n<=4?'lg':'md'; }
 function exBlock(jp,en){ return '<div class="ex"><div class="ex-row"><span class="jpl" lang="ja">'+jpHtml(jp)+'</span>'+spk(jpPlain(jp))+'</div><span class="muted">'+esc(en)+'</span></div>'; }
 // Vocab cards rotate through the word's example sentences, so the prompt changes between reviews.
-function cardExample(it,c){ return it.ex[(c?c.reps+c.lapses:0)%it.ex.length]; }
+// Vocab cards show a random example sentence, never the one shown at the previous review (card.exi).
+// The pick is held in the session so it stays put while the card is on screen.
+function cardExample(it){
+  const s=ui.session, c=S.cards[it.id];
+  if(!s) return it.ex[0];
+  if(s.pick[it.id]===undefined){
+    let idx=it.ex.map((_,i)=>i).filter(i=>!c||i!==c.exi);
+    if(!idx.length) idx=[0];
+    s.pick[it.id]=idx[Math.floor(Math.random()*idx.length)];
+  }
+  return it.ex[s.pick[it.id]];
+}
 function cardFaces(it,kind,recall){
   const front=[], back=[];
   if(kind==='vocab'){
-    const e=cardExample(it,S.cards[it.id]);
+    const e=cardExample(it);
     if(!recall){
       front.push('<div class="sent" lang="ja">'+jpHtml(e.jp,{hideMark:true})+'</div>');
       back.push('<div class="face md" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
@@ -420,7 +432,7 @@ function grammarHtml(){
 /* ---------- Reading feed ---------- */
 // One sentence at a time: read it, optionally reveal the English, move on. No grading.
 function startRead(title,items,meta){ go(()=>{ ui.read={title:title,items:items,i:0,shown:false,meta:meta}; }); }
-function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, g.ex.map(e=>({jp:e[0],en:e[1],g:i})), {type:'lesson',idx:i}); }
+function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, shuffle(g.ex.map(e=>({jp:e[0],en:e[1],g:i}))), {type:'lesson',idx:i}); }
 function readMix(){
   const items=[]; mixLessons().forEach(g=>{ const i=GRAMMAR.indexOf(g); g.ex.forEach(e=>items.push({jp:e[0],en:e[1],g:i})); });
   if(items.length) startRead('Mixed reading', shuffle(items).slice(0,20), {type:'mix'});
