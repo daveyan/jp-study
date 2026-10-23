@@ -225,7 +225,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',mark:false,confirmReset:false};
+const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',gq:'',gf:'all',glv:'',mark:false,confirmReset:false};
 // The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
 const SHOW_KANJI=false;
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
@@ -681,11 +681,29 @@ function grammarHtml(){
       +'<details class="how"><summary>How it works</summary><ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul></details>'
       +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+ui.preview.map(e=>exBlock(e[0],e[1],e[2],GRAMMAR[ui.lesson].title)).join('')+'</section></div>';
   }
+  const chips=Object.keys(GSTATE_LABEL).map(k=>'<button class="chip" data-act="gfilter" data-arg="'+k+'" aria-pressed="'+(ui.gf===k)+'">'+GSTATE_LABEL[k]+'</button>').join('')
+    +['N5','N4'].map(l=>'<button class="chip" data-act="glv" data-arg="'+l+'" aria-pressed="'+(ui.glv===l)+'">'+l+'</button>').join('');
+  return '<section class="glist-head"><div><h2>Grammar lessons</h2><p class="muted">Read lots of examples for each pattern. Quizzes are optional.</p></div><div class="actions">'+mixBtn()+markBtn()+'</div>'+markHint()+'</section>'
+    +'<div class="toolbar"><input class="search" id="gq" type="search" placeholder="Search titles, patterns or notes" aria-label="Search lessons" value="'+esc(ui.gq)+'"><div class="chips">'+chips+'</div></div>'
+    +'<div class="lessons" id="glist">'+lessonListHtml()+'</div>';
+}
+// Lesson list filters: search (title, description, pattern, notes; romaji works), progress, and level.
+const GSTATE_LABEL={all:'All',new:'Not started',started:'In progress',done:'Done',known:'Known'};
+function gstate(g){ const p=S.grammar[g.id]; return isKnown(g.id)?'known':p&&p.done?'done':p?'started':'new'; }
+function lessonListHtml(){
+  const q=ui.gq.trim().toLowerCase(), qh=q?romajiToKana(q):'', qk=qh?toKata(qh):'';
   let level='';
-  return '<section class="glist-head"><div><h2>Grammar lessons</h2><p class="muted">Read lots of examples for each pattern. Quizzes are optional.</p></div><div class="actions">'+mixBtn()+markBtn()+'</div>'+markHint()+'</section><div class="lessons">'
-    +GRAMMAR.map((g,i)=>{ const p=S.grammar[g.id], kn=isKnown(g.id), done=kn||(p&&p.done);
-      const head=g.level!==level?'<h3 class="lvl">'+esc(g.level)+'</h3>':''; level=g.level;
-      return head+'<button class="lesson'+(kn?' known':done?' pass':'')+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(g.id)+'" aria-pressed="'+kn+'"':'data-act="openLesson" data-arg="'+i+'"')+'><span class="ln">'+(done?'✓':lessonNum(i))+'</span><span class="lt"><b>'+esc(g.title)+'</b><small>'+esc(g.sub)+'</small></span><span class="lres">'+esc(lessonStatus(g))+'</span><span class="lpat" lang="ja">'+esc(g.pattern)+'</span></button>'; }).join('')+'</div>';
+  const rows=GRAMMAR.map((g,i)=>[g,i]).filter(([g])=>{
+    if(ui.gf!=='all'&&gstate(g)!==ui.gf) return false;
+    if(ui.glv&&g.level!==ui.glv) return false;
+    if(!q) return true;
+    const hay=(g.title+' '+g.sub+' '+g.pattern+' '+g.notes.join(' ')).replace(/<[^>]+>/g,'').toLowerCase();
+    return hay.includes(q)||(qh&&hay.includes(qh))||(qk&&hay.includes(qk));
+  });
+  if(!rows.length) return '<p class="muted" style="padding:8px 2px">No lessons match.</p>';
+  return rows.map(([g,i])=>{ const kn=isKnown(g.id), done=kn||lessonDone(g);
+    const head=g.level!==level?'<h3 class="lvl">'+esc(g.level)+'</h3>':''; level=g.level;
+    return head+'<button class="lesson'+(kn?' known':done?' pass':'')+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(g.id)+'" aria-pressed="'+kn+'"':'data-act="openLesson" data-arg="'+i+'"')+'><span class="ln">'+(done?'✓':lessonNum(i))+'</span><span class="lt"><b>'+esc(g.title)+'</b><small>'+esc(g.sub)+'</small></span><span class="lres">'+esc(lessonStatus(g))+'</span><span class="lpat" lang="ja">'+esc(g.pattern)+'</span></button>'; }).join('');
 }
 
 /* ---------- Reading feed ---------- */
@@ -888,6 +906,8 @@ function act(a,arg){
     case 'filter': ui.vf=arg; render(); break;
     case 'vtop': ui.vtop=!ui.vtop; render(); break;
     case 'vlv': ui.vlv=ui.vlv===arg?'':arg; render(); break;
+    case 'gfilter': ui.gf=arg; render(); break;
+    case 'glv': ui.glv=ui.glv===arg?'':arg; render(); break;
     case 'knowCur': knowCurrent(); break;
     case 'markMode': ui.mark=!ui.mark; render(); break;
     case 'toggleKnown': setKnown(arg,!isKnown(arg)); commit(); render(); break;
@@ -919,6 +939,7 @@ if(CAN_SPEAK){
 }
 document.addEventListener('input',function(e){
   if(e.target&&e.target.id==='vq'){ ui.vq=e.target.value; const l=$('#vlist'); if(l) l.innerHTML=vocabListHtml(); }
+  if(e.target&&e.target.id==='gq'){ ui.gq=e.target.value; const l=$('#glist'); if(l) l.innerHTML=lessonListHtml(); }
 });
 document.addEventListener('keydown',function(e){
   const t=e.target; if(t&&t!==document.body&&t!==document.documentElement) return;
