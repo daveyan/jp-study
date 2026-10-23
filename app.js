@@ -168,7 +168,9 @@ function streak(){
 
 /* ---------- UI state ---------- */
 const ui={tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,preview:[],vq:'',vf:'all',mark:false,confirmReset:false};
-const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']];
+// The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
+const SHOW_KANJI=false;
+const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
 function go(fn){ fn(); render(); window.scrollTo(0,0); }
 
 function render(){
@@ -216,7 +218,7 @@ function studyRow(kind){
 }
 function homeHtml(){
   const now=Date.now();
-  const due=dueIds('vocab',now).length+dueIds('kanji',now).length;
+  const due=dueIds('vocab',now).length+(SHOW_KANJI?dueIds('kanji',now).length:0);
   const started=Object.keys(S.cards).length;
   const msg = started===0 ? 'Start with five new words.' : due>0 ? due+(due===1?' card is':' cards are')+' ready to review.' : 'You are all caught up.';
   const date=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
@@ -236,7 +238,7 @@ function homeHtml(){
     ? '<div class="confirm"><span>Erase all progress on every device?</span><button class="btn danger" data-act="resetGo">Erase</button><button class="btn" data-act="resetNo">Cancel</button></div>'
     : '<div><button class="btn" data-act="resetAsk">Reset progress</button></div>';
   return '<section class="hero"><p class="eyebrow">'+esc(date)+'</p><h1>'+msg+'</h1></section>'
-    +studyRow('vocab')+studyRow('kanji')+grammarRow
+    +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' cards and sentences in two weeks</p></section>'
     +'<section class="panel settings"><div><h3 style="margin-bottom:8px">Card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>'
     +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+reset+'</section>';

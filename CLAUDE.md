@@ -6,7 +6,8 @@ The site is personal and should stay out of search engines: keep the `<meta name
 
 ## What the app is
 
-- Tabs: **Today** (dashboard), **Vocab** (99 N5 words, spaced repetition), **Kanji** (56 N5 kanji, spaced repetition plus a reading quiz), **Grammar** (13 N5 + 33 N4 lessons).
+- Tabs: **Today** (dashboard), **Vocab** (99 N5 words, spaced repetition), **Grammar** (13 N5 + 33 N4 lessons).
+- **Kanji** (56 N5 kanji, spaced repetition plus a reading quiz) is hidden for now: `SHOW_KANJI=false` in `app.js` drops its tab and its Today row and due count. The code and data stay, so flipping the flag brings it back.
 - The learner is around N5–N4 and already knows kana and the basics.
 - **How they like to study:** they skim, and they have a strong memory, so grading self-tested cards and taking quizzes doesn't teach them much. Reading lots of example sentences in context does. Favour volume of natural examples over drills. Grammar is read through a sentence feed (quizzes are optional), and vocab review cards show a sentence instead of the bare word.
 
