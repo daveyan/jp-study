@@ -1,6 +1,6 @@
-# Usage: python3 -I tools/build_pitch.py accents.txt  -- adds pitch accent for vocab words missing from pitch.js.
-# accents.txt is Kanjium's data/source_files/raw/accents.txt (word, reading, downsteps; CC BY-SA 4.0).
-# Entries already in pitch.js are kept as they are; MANUAL always wins. Counters (～本) are skipped, and words with
+# Usage: python3 -I tools/build_pitch.py  -- adds pitch accent for vocab words missing from pitch.js.
+# Reads tools/kanjium/accents.txt (Kanjium's accent data, CC BY-SA 4.0; see the README there), or a path given as
+# the first argument. Entries already in pitch.js are kept as they are; MANUAL and WIKTIONARY always win. Counters (～本) are skipped, and words with
 # no entry (most loanwords, phrases like 役に立つ) are left out rather than guessed. Prints the words it couldn't match.
 import collections
 import json
@@ -20,6 +20,14 @@ MANUAL = {'こと': [['こと', [2]]], 'ため': [['ため', [2]]], 'わけ': [[
           '多分': [['たぶん', [1]]], '大事': [['だいじ', [0, 3]]], '大体': [['だいたい', [0]]], '結構': [['けっこう', [1]]],
           '遠く': [['とおく', [3, 0]]], '都合': [['つごう', [0]]]}
 
+# Words Kanjium lacks, from English Wiktionary's {{ja-pron}} accents (CC BY-SA 4.0), which cite NHK, Daijirin (DJR)
+# and Shin Meikai (SMK). For words with several etymologies, the value is the one for the sense taught here.
+WIKTIONARY = {'グラム': [['グラム', [1, 0]]],  # gram (unit): acc=1 SMK8,DJR4,NHK; acc2=0 SMK8,DJS2
+              'ワイシャツ': [['ワイシャツ', [0]]],  # DJR,NHK,SMK5
+              'アメリカ': [['アメリカ', [0]]],  # NHK,SMK7
+              'アフリカ': [['アフリカ', [0]]]}  # SMK5
+MANUAL.update(WIKTIONARY)
+
 
 def hira(s):
     return ''.join(chr(ord(c) - 0x60) if 'ァ' <= c <= 'ヶ' else c for c in s)
@@ -27,7 +35,8 @@ def hira(s):
 
 byword = collections.defaultdict(list)
 byread = collections.defaultdict(list)
-for line in open(sys.argv[1], encoding='utf-8'):
+for line in open(sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, 'tools', 'kanjium', 'accents.txt'),
+                 encoding='utf-8'):
     p = line.rstrip('\n').split('\t')
     if len(p) < 3:
         continue

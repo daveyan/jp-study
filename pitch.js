@@ -1,9 +1,10 @@
 'use strict';
 // Pitch accent for vocab words: PITCH['v:'+written form] = [[reading, [downstep, ...]], ...].
 // Downstep n: 0 = flat (heiban), 1 = high then low, n = drops after the n-th mora. Several numbers are alternatives.
-// Counters (～本) and a few words with no entry are left out.
-// Source: Kanjium accents data (github.com/mifunetoshiro/kanjium), CC BY-SA 4.0. This file is a derived work under the
-// same license; see https://creativecommons.org/licenses/by-sa/4.0/
+// Counters (～本) and words with no entry are left out. Built by tools/build_pitch.py.
+// Sources: Kanjium accents data (github.com/mifunetoshiro/kanjium), CC BY-SA 4.0, and for a few loanwords English
+// Wiktionary (en.wiktionary.org), CC BY-SA 4.0. This file is a derived work under the same license;
+// see https://creativecommons.org/licenses/by-sa/4.0/
 const PITCH = {
 "v:あ":[["あ",[1]]],
 "v:ああ":[["ああ",[0]]],
@@ -201,6 +202,8 @@ const PITCH = {
 "v:アジア":[["アジア",[1]]],
 "v:アナウンサー":[["アナウンサー",[3]]],
 "v:アパート":[["アパート",[2]]],
+"v:アフリカ":[["アフリカ",[0]]],
+"v:アメリカ":[["アメリカ",[0]]],
 "v:アルコール":[["アルコール",[0]]],
 "v:アルバイト":[["アルバイト",[3]]],
 "v:エスカレーター":[["エスカレーター",[4]]],
@@ -219,6 +222,7 @@ const PITCH = {
 "v:キロ":[["キロ",[1]]],
 "v:ギター":[["ギター",[1]]],
 "v:クラス":[["クラス",[1]]],
+"v:グラム":[["グラム",[1,0]]],
 "v:ケーキ":[["ケーキ",[1]]],
 "v:コップ":[["コップ",[0]]],
 "v:コピーする":[["コピーする",[1]]],
@@ -290,6 +294,7 @@ const PITCH = {
 "v:レジ":[["レジ",[1]]],
 "v:レストラン":[["レストラン",[1]]],
 "v:レポート":[["レポート",[2]]],
+"v:ワイシャツ":[["ワイシャツ",[0]]],
 "v:一":[["いち",[2]]],
 "v:一つ":[["ひとつ",[2]]],
 "v:一人":[["ひとり",[2]]],
