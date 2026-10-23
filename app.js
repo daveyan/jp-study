@@ -59,7 +59,7 @@ function jpHtml(s,opts){
 
 /* ---------- State and storage ---------- */
 const KEY='jp-study.progress.v1';
-function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},settings:{recall:false,furi:'auto',order:['pol','cas','en'],off:[]}}; }
+function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},flags:{},settings:{recall:false,furi:'auto',order:['pol','cas','en'],off:[]}}; }
 function normalize(o){
   const d=defaultState();
   if(!o||typeof o!=='object') return d;
@@ -68,6 +68,7 @@ function normalize(o){
     grammar:(o.grammar&&typeof o.grammar==='object')?o.grammar:{},
     known:(o.known&&typeof o.known==='object')?o.known:{},
     log:(o.log&&typeof o.log==='object')?o.log:{},
+    flags:(o.flags&&typeof o.flags==='object')?o.flags:{},
     settings:Object.assign(d.settings,(o.settings&&typeof o.settings==='object')?o.settings:{})};
 }
 function loadLocal(){ try{ const r=localStorage.getItem(KEY); if(r) return JSON.parse(r); }catch(e){} return null; }
@@ -95,6 +96,7 @@ function merge(a,b){
       const o=out.known[id]; if(!o||(k.at||0)>(o.at||0)) out.known[id]=k;
     });
     Object.keys(src.log).forEach(k=>{ out.log[k]=Math.max(out.log[k]||0, src.log[k]||0); });
+    Object.keys(src.flags||{}).forEach(k=>{ const f=src.flags[k], o=out.flags[k]; if(f&&(!o||(f.at||0)>(o.at||0))) out.flags[k]=f; });
   });
   if(ra){ const rd=dayKey(new Date(ra)); Object.keys(out.log).forEach(k=>{ if(k<rd) delete out.log[k]; }); }
   out.updatedAt=Math.max(a.updatedAt||0,b.updatedAt||0);
@@ -237,7 +239,7 @@ function studyRow(kind){
   const due=dueIds(kind,now).length, nn=newIds(kind,5).length, started=items.length-c.new-c.known;
   return '<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">'+(kind==='vocab'?'単語':'漢字')+'</span><div><h2>'+(kind==='vocab'?'Vocabulary':'Kanji')+'</h2><p class="muted">'+started+' of '+items.length+' started'+(c.known?' · '+c.known+' known':'')+' · '+due+' due now</p></div></div>'
    +stackBar(kind)
-   +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="'+kind+'"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button></div></section>';
+   +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="'+kind+'"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button>'+(kind==='vocab'?'<button class="btn" data-act="readVocab">Read sentences</button>':'')+'</div></section>';
 }
 function homeHtml(){
   const now=Date.now();
@@ -264,7 +266,7 @@ function homeHtml(){
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' cards and sentences in two weeks</p></section>'
     +'<section class="panel settings"><div><h3 style="margin-bottom:8px">Card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>'
-    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+voiceSetting()+reset+'</section>';
+    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+voiceSetting()+backupSetting()+reset+'</section>';
 }
 
 // The last Japanese line that is on can't be hidden, so every example still shows some Japanese.
@@ -279,6 +281,41 @@ function linesSetting(){
     +'</div><p class="muted" style="margin-top:6px;font-size:13px">Order and visibility for example sentences on cards, reading feeds and lesson pages.</p></div>';
 }
 
+// Backup: progress lives only in this browser's storage, so export it to a file now and then.
+// Import merges the file into what's here (newest wins per card), so nothing current is lost.
+function backupSetting(){
+  const nf=flaggedList().length;
+  return '<div><h3 style="margin-bottom:8px">Backup</h3><div class="actions"><button class="btn sm" data-act="exportData">Export progress</button>'
+    +'<label class="btn sm" for="importFile">Import…</label><input type="file" id="importFile" accept=".json,application/json" hidden></div>'
+    +'<p class="muted" style="margin-top:6px;font-size:13px">Progress is saved in this browser only. Export a backup file now and then; importing merges it with what\'s here.</p>'
+    +'<h3 style="margin:14px 0 8px">Flagged sentences</h3><p class="muted" style="font-size:13px">'+(nf?nf+' flagged. Copy the list and paste it to Claude to get them fixed.':'Tap the flag on any sentence that sounds unnatural. They collect here.')+'</p>'
+    +(nf?'<div class="actions" style="margin-top:6px"><button class="btn sm" data-act="copyFlags">Copy list</button><button class="btn sm" data-act="clearFlags">Clear list</button></div>':'')
+    +(ui.backupMsg?'<p class="backup-msg">'+esc(ui.backupMsg)+'</p>':'')+'</div>';
+}
+function exportData(){
+  try{
+    const blob=new Blob([JSON.stringify({app:'jp-study',exportedAt:new Date().toISOString(),state:S},null,1)],{type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='jp-study-backup-'+dayKey()+'.json';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+    ui.backupMsg='Saved jp-study-backup-'+dayKey()+'.json.';
+  }catch(e){ ui.backupMsg='Export failed: '+e.message; }
+  render();
+}
+function importData(text){
+  try{
+    const o=JSON.parse(text), st=normalize(o&&o.state?o.state:o);
+    const n=Object.keys(st.cards).length;
+    if(!n&&!Object.keys(st.known).length&&!Object.keys(st.grammar).length) throw new Error('no progress found in that file');
+    S=merge(S,st); commit(); ui.backupMsg='Imported '+n+' cards from the backup.';
+  }catch(e){ ui.backupMsg='Import failed: '+e.message; }
+  render();
+}
+function copyFlags(){
+  const t=flagsText();
+  const done=()=>{ ui.backupMsg='Copied '+flaggedList().length+' flagged sentences.'; render(); };
+  try{ navigator.clipboard.writeText(t).then(done,()=>{ ui.backupMsg='Copy failed. Here they are:\n'+t; render(); }); }
+  catch(e){ ui.backupMsg='Here they are:\n'+t; render(); }
+}
 function voiceSetting(){
   let body;
   if(!CAN_SPEAK) body='<p class="muted" style="font-size:13px">This browser has no speech support.</p>';
@@ -328,20 +365,33 @@ const LINES={pol:'formal',cas:'casual',en:'English'};
 function lineOrder(){ const o=S.settings.order; return Array.isArray(o)&&o.length===3&&['pol','cas','en'].every(k=>o.includes(k))?o:['pol','cas','en']; }
 function lineOn(k){ const off=S.settings.off; return !(Array.isArray(off)&&off.includes(k)); }
 // Lines for one example {jp, en, cas}. A missing casual version is skipped, and if no Japanese line would
-// show, the formal one does. opts: big (card/feed size), noEn, noSpk, plus jpHtml's opts.
+// show, the formal one does. opts: big (card/feed size), noEn, noSpk, flag (source label: adds a flag button
+// to the last row), plus jpHtml's opts.
 function exLines(e,opts){
   const o=opts||{};
   let ks=lineOrder().filter(k=>lineOn(k)&&(k!=='cas'||e.cas));
   if(!ks.some(k=>k!=='en')) ks=lineOrder().filter(k=>k==='pol'||ks.includes(k));
   if(o.noEn) ks=ks.filter(k=>k!=='en');
-  return ks.map(k=>{
-    const tag='<span class="reg">'+LINES[k]+'</span>';
-    if(k==='en') return '<div class="ex-row line"><span class="'+(o.big?'sent-en':'enl')+'">'+tag+'<span>'+esc(e.en)+'</span></span></div>';
+  return ks.map((k,i)=>{
+    const tag='<span class="reg">'+LINES[k]+'</span>', fl=(o.flag&&i===ks.length-1)?flagBtn(e,o.flag):'';
+    if(k==='en') return '<div class="ex-row line"><span class="'+(o.big?'sent-en':'enl')+'">'+tag+'<span>'+esc(e.en)+'</span></span>'+fl+'</div>';
     const s=k==='pol'?e.jp:e.cas;
-    return '<div class="ex-row line"><span class="'+(o.big?'sent':'jpl')+'" lang="ja">'+tag+'<span>'+jpHtml(s,o)+'</span></span>'+(o.noSpk?'':spk(jpPlain(s)))+'</div>';
+    return '<div class="ex-row line"><span class="'+(o.big?'sent':'jpl')+'" lang="ja">'+tag+'<span>'+jpHtml(s,o)+'</span></span>'+(o.noSpk?'':spk(jpPlain(s)))+fl+'</div>';
   }).join('');
 }
-function exBlock(jp,en,cas){ return '<div class="ex">'+exLines({jp:jp,en:en,cas:cas})+'</div>'; }
+function exBlock(jp,en,cas,src){ return '<div class="ex">'+exLines({jp:jp,en:en,cas:cas},{flag:src})+'</div>'; }
+// Flagged sentences (S.flags, keyed by the polite sentence) collect ones that sound off, to fix in one pass later.
+// FLAG_SRC remembers what each rendered button points at, so a tap can store the whole example.
+const FLAG_SRC={};
+const FLAG_SVG='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>';
+function isFlagged(jp){ const f=S.flags[jp]; return !!(f&&f.on); }
+function flagBtn(e,src){ FLAG_SRC[e.jp]={jp:e.jp,cas:e.cas||'',en:e.en,src:src};
+  const on=isFlagged(e.jp);
+  return '<button class="icon-btn flag" data-act="flag" data-arg="'+esc(e.jp)+'" aria-pressed="'+on+'" aria-label="'+(on?'Unflag this sentence':'Flag this sentence as unnatural')+'" title="'+(on?'Flagged':'Flag as unnatural')+'">'+FLAG_SVG+'</button>'; }
+function toggleFlag(jp){ const on=!isFlagged(jp), d=FLAG_SRC[jp]||S.flags[jp]||{jp:jp};
+  S.flags[jp]={jp:d.jp,cas:d.cas||'',en:d.en||'',src:d.src||'',on:on,at:Date.now()}; commit(); }
+function flaggedList(){ return Object.values(S.flags).filter(f=>f.on).sort((a,b)=>a.at-b.at); }
+function flagsText(){ return flaggedList().map((f,i)=>(i+1)+'. ['+f.src+'] '+jpPlain(f.jp)+(f.cas?' / '+jpPlain(f.cas):'')+' — '+f.en).join('\n'); }
 // Vocab cards rotate through the word's example sentences, so the prompt changes between reviews.
 // Vocab cards show a random example sentence, never the one shown at the previous review (card.exi).
 // The pick is held in the session so it stays put while the card is on screen.
@@ -364,12 +414,12 @@ function cardFaces(it,kind,recall){
       back.push('<div class="face md" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
       if(it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+esc(it.kana)+'</div>');
       back.push('<div class="gloss">'+esc(it.en)+'</div>');
-      back.push('<div class="ex-row"><span class="sent-en">'+(lineOn('en')?'<span class="reg">English</span>'+esc(e.en):'')+'</span>'+spk(jpPlain(e.jp))+'</div>');
+      back.push('<div class="ex-row"><span class="sent-en">'+(lineOn('en')?'<span class="reg">English</span>'+esc(e.en):'')+'</span>'+spk(jpPlain(e.jp))+flagBtn(e,it.jp)+'</div>');
     } else {
       front.push('<div class="face en">'+esc(it.en)+'</div>');
       back.push('<div class="face '+bigCls(it.jp)+'" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
       if(it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+esc(it.kana)+'</div>');
-      back.push(exBlock(e.jp,e.en,e.cas));
+      back.push(exBlock(e.jp,e.en,e.cas,it.jp));
     }
   } else {
     const info='<dl class="kv"><dt>On’yomi</dt><dd lang="ja">'+esc(it.on)+'</dd><dt>Kun’yomi</dt><dd lang="ja">'+esc(it.kun)+'</dd><dt>Strokes</dt><dd>'+it.st+'</dd></dl>';
@@ -443,12 +493,12 @@ function vocabListHtml(){
 }
 // A word's examples are built when its row is opened, so a long list stays fast to render and filter.
 function vocabBody(w){ const st=stateOf(w.id);
-  return w.ex.map(e=>exBlock(e.jp,e.en,e.cas)).join('')+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana.split('・')[0])+knowBtn(w.id)+(S.cards[w.id]||st==='known'?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div>'; }
+  return w.ex.map(e=>exBlock(e.jp,e.en,e.cas,w.jp)).join('')+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana.split('・')[0])+knowBtn(w.id)+(S.cards[w.id]||st==='known'?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div>'; }
 function vocabHtml(){
   const now=Date.now(), due=dueIds('vocab',now).length, nn=newIds('vocab',5).length;
   const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>';
   return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' N5 words with example sentences</p></div>'+stackBar('vocab')+legend('vocab')
-    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="vocab"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="vquiz">Quick quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
+    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="vocab"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="readVocab">Read sentences</button><button class="btn" data-act="vquiz">Quick quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>'
     +'<p class="muted credits">Word list: JLPT lists by Jonathan Waller (<a href="https://www.tanos.co.uk/jlpt/">tanos.co.uk</a>, CC BY). Frequency: BCCWJ word frequency lists (NINJAL).</p>';
@@ -500,7 +550,7 @@ function grammarHtml(){
       +'<div class="actions"><button class="btn primary" data-act="readLesson" data-arg="'+i+'">Read '+feedLen(g)+' examples</button><button class="btn" data-act="lessonQuiz" data-arg="'+i+'">Quiz</button>'+knowBtn(g.id)+'</div>'
       +'<p class="muted" style="font-size:13px">'+esc(lessonStatus(g))+(p&&p.tries?' · best quiz '+p.best+'/'+g.quiz.length:'')+'</p>'
       +'<details class="how"><summary>How it works</summary><ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul></details>'
-      +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+ui.preview.map(e=>exBlock(e[0],e[1],e[2])).join('')+'</section></div>';
+      +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+ui.preview.map(e=>exBlock(e[0],e[1],e[2],GRAMMAR[ui.lesson].title)).join('')+'</section></div>';
   }
   let level='';
   return '<section class="glist-head"><div><h2>Grammar lessons</h2><p class="muted">Read lots of examples for each pattern. Quizzes are optional.</p></div><div class="actions">'+mixBtn()+markBtn()+'</div>'+markHint()+'</section><div class="lessons">'
@@ -516,6 +566,20 @@ function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, sh
 function readMix(){
   const items=[]; mixLessons().forEach(g=>{ const i=GRAMMAR.indexOf(g); g.ex.forEach(e=>items.push({jp:e[0],en:e[1],cas:e[2]||'',g:i})); });
   if(items.length) startRead('Mixed reading', shuffle(items).slice(0,20), {type:'mix'});
+}
+// Vocab reading: random example sentences from words you've started or marked known, topped up with the
+// most frequent new words so it's useful from day one. Nothing to grade.
+const VREAD_N=20;
+function vocabReadPool(){
+  const pool=VOCAB.filter(w=>S.cards[w.id]||isKnown(w.id));
+  if(pool.length<40) VOCAB.filter(w=>!S.cards[w.id]&&!isKnown(w.id)).sort(byRank).slice(0,40-pool.length).forEach(w=>pool.push(w));
+  return pool;
+}
+function readVocab(){
+  const pairs=[]; vocabReadPool().forEach(w=>w.ex.forEach(e=>pairs.push({jp:e.jp,en:e.en,cas:e.cas,w:w.id})));
+  const seen=new Set(), items=[];
+  shuffle(pairs).forEach(p=>{ if(items.length<VREAD_N&&!seen.has(p.w)){ seen.add(p.w); items.push(p); } });
+  startRead('Vocab reading', items, {type:'vocab'});
 }
 function readNext(){
   const r=ui.read; if(!r||r.i>=r.items.length) return;
@@ -537,11 +601,12 @@ function readHtml(){
     const lesson=r.meta.type==='lesson', nx=lesson?r.meta.idx+1:-1;
     const btns=lesson
       ? '<button class="btn primary" data-act="readExit">Back to lesson</button><button class="btn" data-act="readLesson" data-arg="'+r.meta.idx+'">Read again</button>'+(nx<GRAMMAR.length?'<button class="btn" data-act="gopen" data-arg="'+nx+'">Next lesson</button>':'')
-      : '<button class="btn primary" data-act="readMix">More sentences</button><button class="btn" data-act="readExit">Done</button>';
+      : '<button class="btn primary" data-act="'+(r.meta.type==='vocab'?'readVocab':'readMix')+'">More sentences</button><button class="btn" data-act="readExit">Done</button>';
     return head+'<section class="panel done"><p class="eyebrow">'+esc(r.title)+'</p><div class="big">'+n+'</div><p>sentences read</p><div class="actions">'+btns+'</div></section>';
   }
-  const it=r.items[r.i], g=GRAMMAR[it.g];
-  const top='<div class="card-top"><span>'+esc(r.meta.type==='mix'?g.level+' · '+g.title:g.pattern)+'</span></div>';
+  const it=r.items[r.i], w=it.w&&ITEM[it.w], g=w?null:GRAMMAR[it.g];
+  const label=w?w.jp+(w.kana!==w.jp?' · '+w.kana:'')+' · '+w.en:r.meta.type==='mix'?g.level+' · '+g.title:g.pattern;
+  const top='<div class="card-top"><span'+(w?' lang="ja"':'')+'>'+esc(label)+'</span>'+flagBtn(it,w?w.jp:g.title)+'</div>';
   const enOn=lineOn('en'), shown=r.shown||!enOn;
   const ctrl=shown
     ? '<button class="btn primary wide" data-act="readNext">Next</button>'
@@ -638,6 +703,11 @@ function act(a,arg){
     case 'gopen': go(()=>{ ui.quiz=null; ui.read=null; ui.tab='grammar'; openLesson(+arg); }); break;
     case 'readLesson': readLesson(+arg); break;
     case 'readMix': readMix(); break;
+    case 'readVocab': readVocab(); break;
+    case 'flag': toggleFlag(arg); render(); break;
+    case 'exportData': exportData(); break;
+    case 'copyFlags': copyFlags(); break;
+    case 'clearFlags': flaggedList().forEach(f=>{ f.on=false; f.at=Date.now(); }); commit(); ui.backupMsg='Cleared the flagged list.'; render(); break;
     case 'readShow': if(ui.read){ ui.read.shown=true; render(); } break;
     case 'readNext': readNext(); break;
     case 'readExit': go(()=>{ ui.read=null; }); break;
@@ -683,8 +753,11 @@ document.addEventListener('toggle',function(e){
   const b=d.querySelector('.vbody[data-w]'); if(b&&!b.childElementCount&&ITEM[b.dataset.w]) b.innerHTML=vocabBody(ITEM[b.dataset.w]);
 },true);
 document.addEventListener('change',function(e){
+  if(e.target&&e.target.id==='importFile'&&e.target.files&&e.target.files[0]){ const f=e.target.files[0]; f.text().then(importData,()=>{ ui.backupMsg='Could not read that file.'; render(); }); return; }
   if(e.target&&e.target.id==='voice'){ setVoicePref(e.target.value); speak('こんにちは。日本語を勉強しましょう。'); }
 });
+// Offline support and home-screen install (sw.js). Only over http(s); file:// can't register workers.
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){ try{ navigator.serviceWorker.register('sw.js').catch(()=>{}); }catch(e){} }
 if(CAN_SPEAK){
   // Re-render only where it matters, so a late voice list doesn't reset a search box or a card.
   const voicesReady=()=>{ voicesChecked=true; if(!jaVoices().length||(ui.tab==='home'&&!ui.session&&!ui.quiz&&!ui.read)) render(); };

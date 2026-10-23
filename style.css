@@ -237,6 +237,12 @@ mark{background:var(--accent-soft); color:inherit; border-radius:4px; padding:0 
 .top1k{display:inline-block; font:600 10px/1 var(--f-ui); letter-spacing:.05em; text-transform:uppercase; color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:3px 7px; vertical-align:.15em; white-space:nowrap}
 .credits{font-size:12px; padding:4px}
 .credits a{color:inherit}
+.icon-btn.flag{width:28px; height:28px; background:transparent; opacity:.55}
+.icon-btn.flag:hover{opacity:1}
+.icon-btn.flag[aria-pressed="true"]{opacity:1; color:var(--seal); background:var(--panel2)}
+.card-top .icon-btn.flag{margin-left:auto}
+.backup-msg{margin-top:8px; font-size:13px; white-space:pre-wrap; color:var(--ink)}
+label.btn{display:inline-block}
 .lineset{display:grid; gap:6px; max-width:420px}
 .lrow{display:grid; grid-template-columns:76px 1fr auto auto auto; gap:6px; align-items:center}
 .lrow .reg{justify-self:start}
