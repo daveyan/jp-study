@@ -23,8 +23,9 @@ MANUAL = {'こと': [['こと', [2]]], 'ため': [['ため', [2]]], 'わけ': [[
 # Words Kanjium lacks, from English Wiktionary's {{ja-pron}} accents (CC BY-SA 4.0), with the dictionaries it cites
 # (NHK, DJR = Daijirin, SMK = Shin Meikai; none listed = uncited). For words with several etymologies, the value is
 # the one for the sense taught here. びっくりする takes the accent of びっくり, as けがする does in MANUAL.
-# Left out: じゃあ, それで, それに (pages give no accent), お金持ち, もうすぐ (no page), and 役に立つ, which Wiktionary
-# gives as two accent phrases (やくに 2 + たつ 1) that one diagram can't show.
+# Left out: じゃあ, それで, それに (pages give no accent) and お金持ち, もうすぐ (no page).
+# 役に立つ is two accent phrases, やく 2 + particle に + たつ 1, so its reading splits them with a space and its
+# downstep is a list with one number per phrase.
 WIKTIONARY = {'グラム': [['グラム', [1, 0]]],  # gram (unit): acc=1 SMK8,DJR4,NHK; acc2=0 SMK8,DJS2
               'ワイシャツ': [['ワイシャツ', [0]]],  # DJR,NHK,SMK5
               'アメリカ': [['アメリカ', [0]]],  # NHK,SMK7
@@ -38,7 +39,8 @@ WIKTIONARY = {'グラム': [['グラム', [1, 0]]],  # gram (unit): acc=1 SMK8,D
               'ご主人': [['ごしゅじん', [2]]],
               '会議室': [['かいぎしつ', [3]]],  # NHK16
               'ごらんになる': [['ごらんになる', [5]]],  # page ご覧になる
-              'できるだけ': [['できるだけ', [0]]]}  # page 出来るだけ: NHK
+              'できるだけ': [['できるだけ', [0]]],  # page 出来るだけ: NHK
+              '役に立つ': [['やくに たつ', [[2, 1]]]]}  # acc=やく+に+たつ 2+p+1
 MANUAL.update(WIKTIONARY)
 
 

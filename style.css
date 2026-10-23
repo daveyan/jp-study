@@ -277,9 +277,8 @@ mark{background:var(--accent-soft); color:inherit; border-radius:4px; padding:0 
 .pitch .m.pt{width:.45em; padding:0}
 .vkana .pitch{font-size:15px}
 .reading .pitch .m{border-top-width:3px; padding-top:4px}
-.reading .pitch .m.up,.reading .pitch .m.dn{border-width:0 3px 0 0}
-.reading .pitch .m.up{border-width:3px 0 0 3px}
-.reading .pitch .m.h{border-top-width:3px}
+.reading .pitch .m.up{border-left-width:3px}
+.reading .pitch .m.dn{border-right-width:3px}
 .psep{color:var(--muted); margin:0 3px}
 .icon-btn.flag{width:32px; height:32px; background:transparent; opacity:.55}
 .icon-btn.flag:hover{opacity:1}

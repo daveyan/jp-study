@@ -528,13 +528,22 @@ function sessionHtml(){
 // PITCH (pitch.js) gives each word's downstep: 0 = flat, 1 = high then low, n = drops after the n-th mora.
 // Drawn as a line over the high morae, with a tick where the pitch rises or drops. The empty slot at the end
 // stands for a following particle, which is what tells a flat word (particle stays high) from one that drops on its last mora.
+// A phrase like 役に立つ has two accent phrases: its reading separates them with a space ('やくに たつ') and its
+// downstep is a list with one number per phrase ([2,1]). The highs are joined into one line, so the rise into the
+// second phrase gets a tick.
 const SMALL_KANA=/[ゃゅょぁぃぅぇぉゎャュョァィゥェォヮ]/;
 function morae(s){ const out=[]; for(const ch of s){ if(SMALL_KANA.test(ch)&&out.length) out[out.length-1]+=ch; else out.push(ch); } return out; }
 function pitchHtml(reading,n){
-  const ms=morae(reading), M=ms.length, hi=i=>n===0?i>=1:n===1?i===0:(i>=1&&i<n);
-  const cls=i=>(hi(i)?' h':'')+(hi(i)&&i>0&&!hi(i-1)?' up':'')+(hi(i)&&i<M&&!hi(i+1)?' dn':'');
-  const kind=n===0?'flat':n===1?'drops after the first sound':n===M?'drops after the last sound':'drops after sound '+n;
-  return '<span class="pitch" title="Pitch accent '+n+': '+kind+'">'+ms.map((m,i)=>'<span class="m'+cls(i)+'">'+esc(m)+'</span>').join('')+'<span class="m pt'+cls(M)+'"></span></span>';
+  const parts=Array.isArray(n)?reading.split(' '):[reading], ns=Array.isArray(n)?n:[n];
+  const ms=[], hs=[], kinds=[];
+  parts.forEach((r,j)=>{
+    const pm=morae(r), M=pm.length, k=ns[j], hi=i=>k===0?i>=1:k===1?i===0:(i>=1&&i<k);
+    pm.forEach((m,i)=>{ ms.push(m); hs.push(hi(i)); });
+    if(j===parts.length-1) hs.push(hi(M));
+    kinds.push((parts.length>1?r+' ':'')+(k===0?'flat':k===1?'drops after the first sound':k===M?'drops after the last sound':'drops after sound '+k));
+  });
+  const L=ms.length, cls=i=>(hs[i]?' h':'')+(hs[i]&&i>0&&!hs[i-1]?' up':'')+(hs[i]&&i<L&&!hs[i+1]?' dn':'');
+  return '<span class="pitch" title="Pitch accent '+ns.join('+')+': '+kinds.join(', then ')+'">'+ms.map((m,i)=>'<span class="m'+cls(i)+'">'+esc(m)+'</span>').join('')+'<span class="m pt'+cls(L)+'"></span></span>';
 }
 function pitchFor(w){
   const p=typeof PITCH!=='undefined'&&PITCH[w.id]; if(!p) return '';
@@ -573,7 +582,7 @@ function vocabListHtml(){
 }
 function vocabDetailHtml(){
   const w=ITEM[ui.vocab];
-  if(!w) return vocabHtml();
+  if(!w){ ui.vocab=null; return vocabHtml(); }
   const st=stateOf(w.id), c=S.cards[w.id];
   const rows=vocabRows();
   const list=rows.some(x=>x.id===w.id)?rows:VOCAB;
@@ -656,7 +665,9 @@ function lessonStatus(g){
 }
 // Opening a lesson records it, so its sentences join the mixed reading feed.
 // It also picks three random examples to preview; they stay the same until the lesson is opened again.
-function openLesson(i){ const g=GRAMMAR[i]; if(!S.grammar[g.id]){ S.grammar[g.id]={best:0,tries:0,done:false,read:0,at:Date.now()}; commit(); } ui.lesson=i; ui.preview=shuffle(g.ex).slice(0,3); }
+// Opening a lesson adds it to the Mixed reading pool. Swiping between lessons only browses (browse=true): those
+// lessons join the pool once their feed or quiz is used.
+function openLesson(i,browse){ const g=GRAMMAR[i]; if(!browse&&!S.grammar[g.id]){ S.grammar[g.id]={best:0,tries:0,done:false,read:0,at:Date.now()}; commit(); } ui.lesson=i; ui.preview=shuffle(g.ex).slice(0,3); }
 function mixLessons(){ return GRAMMAR.filter(g=>S.grammar[g.id]||isKnown(g.id)); }
 function mixBtn(){ return mixLessons().length?'<button class="btn" data-act="readMix">Mixed reading</button>':''; }
 function grammarHtml(){
@@ -840,7 +851,7 @@ function act(a,arg){
     case 'grade': gradeCurrent(+arg); break;
     case 'exit': go(()=>{ ui.session=null; }); break;
     case 'say': speak(arg); break;
-    case 'openLesson': lessonScroll=window.scrollY; go(()=>{ openLesson(+arg); }); break;
+    case 'openLesson': if(ui.lesson===null) lessonScroll=window.scrollY; go(()=>{ openLesson(+arg); }); break;
     case 'gopen': go(()=>{ ui.quiz=null; ui.read=null; ui.tab='grammar'; openLesson(+arg); }); break;
     case 'readLesson': readLesson(+arg); break;
     case 'readMix': readMix(); break;
@@ -868,9 +879,10 @@ function act(a,arg){
     case 'pick': pickAnswer(+arg); break;
     case 'next': nextQuestion(); break;
     case 'quizExit': go(()=>{ ui.quiz=null; }); break;
-    case 'openKanji': kanjiScroll=window.scrollY; go(()=>{ ui.kanji=arg; }); break;
+    case 'openKanji': if(ui.kanji===null) kanjiScroll=window.scrollY; go(()=>{ ui.kanji=arg; }); break;
     case 'closeKanji': ui.kanji=null; render(); window.scrollTo(0,kanjiScroll); break;
-    case 'openVocab': vocabScroll=window.scrollY; go(()=>{ ui.vocab=arg; }); break;
+    // The list's scroll position is kept only when leaving the list, not on Previous/Next from a detail page.
+    case 'openVocab': if(ui.vocab===null) vocabScroll=window.scrollY; go(()=>{ ui.vocab=arg; }); break;
     case 'closeVocab': ui.vocab=null; render(); window.scrollTo(0,vocabScroll); break;
     case 'addCard': if(!S.cards[arg]){ S.cards[arg]=newCard(Date.now()); commit(); render(); } break;
     case 'filter': ui.vf=arg; render(); break;
@@ -984,8 +996,8 @@ document.addEventListener('touchend',function(e){
       else if(dx>0) act('openVocab', list[(idx+list.length-1)%list.length].id);
     }
   } else if(ui.lesson!==null&&!ui.session&&!ui.quiz&&!ui.read){
-    if(dx<0&&ui.lesson+1<GRAMMAR.length) act('openLesson', ui.lesson+1);
-    else if(dx>0&&ui.lesson>0) act('openLesson', ui.lesson-1);
+    const j=ui.lesson+(dx<0?1:-1);
+    if(j>=0&&j<GRAMMAR.length) go(()=>{ openLesson(j,true); });
   }
 },{passive:true});
 

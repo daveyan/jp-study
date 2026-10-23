@@ -1,6 +1,8 @@
 'use strict';
 // Pitch accent for vocab words: PITCH['v:'+written form] = [[reading, [downstep, ...]], ...].
 // Downstep n: 0 = flat (heiban), 1 = high then low, n = drops after the n-th mora. Several numbers are alternatives.
+// A word with two accent phrases has a space between them in the reading and a list as its downstep: 役に立つ is
+// ["やくに たつ",[[2,1]]].
 // Counters (～本) and words with no entry are left out. Built by tools/build_pitch.py.
 // Sources: Kanjium accents data (github.com/mifunetoshiro/kanjium), CC BY-SA 4.0, and for words it lacks English
 // Wiktionary (en.wiktionary.org), CC BY-SA 4.0. This file is a derived work under the same license;
@@ -680,6 +682,7 @@ const PITCH = {
 "v:強い":[["つよい",[2]]],
 "v:弾く":[["ひく",[0]]],
 "v:形":[["かたち",[0]]],
+"v:役に立つ":[["やくに たつ",[[2,1]]]],
 "v:彼":[["かれ",[1]]],
 "v:彼ら":[["かれら",[1]]],
 "v:彼女":[["かのじょ",[1]]],
