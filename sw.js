@@ -1,7 +1,7 @@
 // Offline support. Site files are network-first (so a fresh push shows up on the next load) with the
 // cached copy as the fallback when offline. Google Fonts files never change, so they're cache-first.
 const CACHE = 'jp-study-v1';
-const SHELL = ['./', 'index.html', 'style.css', 'data.js', 'grammar-n5.js', 'grammar-n4.js', 'app.js',
+const SHELL = ['./', 'index.html', 'style.css', 'data.js', 'pitch.js', 'grammar-n5.js', 'grammar-n4.js', 'app.js',
   'manifest.json', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {

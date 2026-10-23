@@ -13,9 +13,10 @@ The site is personal and should stay out of search engines: keep the `<meta name
 
 ## Files
 
-- `index.html`: the page shell. It loads Google Fonts and `style.css`, then **classic** `<script>` tags in this order: `data.js`, `grammar-n5.js`, `grammar-n4.js`, `app.js`. Load order matters.
+- `index.html`: the page shell. It loads Google Fonts and `style.css`, then **classic** `<script>` tags in this order: `data.js`, `pitch.js`, `grammar-n5.js`, `grammar-n4.js`, `app.js`. Load order matters.
 - `style.css`: all styles. The first four rules are the base reset that used to come from the Artifact skeleton. Keep them.
 - `data.js`: `VOCAB` and `KANJI`. It also documents the sentence markup.
+- `pitch.js`: `PITCH['v:'+written form] = [[reading, [downstep, ...]], ...]` for 653 vocab words, from Kanjium's accent data (CC BY-SA 4.0, so this file stays under that license; keep its header and the credit on the Vocab tab). Counters and words with no Kanjium entry are left out rather than guessed. `pitchHtml()` in `app.js` draws it (line over high morae, ticks at the rise and drop, an empty slot for a following particle) on vocab list rows and on review card backs.
 - `grammar-n5.js` defines `GRAMMAR`; `grammar-n4.js` appends to it with `GRAMMAR.push(...)`. The top-level `const`s in these classic scripts are shared globals that `app.js` reads.
 - `app.js`: everything else, wrapped in an IIFE.
 - `manifest.json`, `sw.js`, `icons/`: home-screen install and offline support. `sw.js` serves site files network-first (fresh pushes show on the next load) with the cache as the offline fallback; Google Fonts are cache-first. Add any new site file to `SHELL` in `sw.js`.

@@ -412,13 +412,13 @@ function cardFaces(it,kind,recall){
     if(!recall){
       front.push('<div class="lines">'+exLines(e,{big:true,noEn:true,noSpk:true,hideMark:true})+'</div>');
       back.push('<div class="face md" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
-      if(it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+esc(it.kana)+'</div>');
+      { const pr=pitchFor(it); if(pr||it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+(pr||esc(it.kana))+'</div>'); }
       back.push('<div class="gloss">'+esc(it.en)+'</div>');
       back.push('<div class="ex-row"><span class="sent-en">'+(lineOn('en')?'<span class="reg">English</span>'+esc(e.en):'')+'</span>'+spk(jpPlain(e.jp))+flagBtn(e,it.jp)+'</div>');
     } else {
       front.push('<div class="face en">'+esc(it.en)+'</div>');
       back.push('<div class="face '+bigCls(it.jp)+'" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
-      if(it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+esc(it.kana)+'</div>');
+      { const pr=pitchFor(it); if(pr||it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+(pr||esc(it.kana))+'</div>'); }
       back.push(exBlock(e.jp,e.en,e.cas,it.jp));
     }
   } else {
@@ -464,6 +464,23 @@ function sessionHtml(){
   return head+'<article class="card">'+top+f.front+(s.revealed?'<hr class="divider"><div class="back">'+f.back+'</div>':'')+'</article>'+ctrl;
 }
 
+/* ---------- Pitch accent ---------- */
+// PITCH (pitch.js) gives each word's downstep: 0 = flat, 1 = high then low, n = drops after the n-th mora.
+// Drawn as a line over the high morae, with a tick where the pitch rises or drops. The empty slot at the end
+// stands for a following particle, which is what tells a flat word (particle stays high) from one that drops on its last mora.
+const SMALL_KANA=/[ゃゅょぁぃぅぇぉゎャュョァィゥェォヮ]/;
+function morae(s){ const out=[]; for(const ch of s){ if(SMALL_KANA.test(ch)&&out.length) out[out.length-1]+=ch; else out.push(ch); } return out; }
+function pitchHtml(reading,n){
+  const ms=morae(reading), M=ms.length, hi=i=>n===0?i>=1:n===1?i===0:(i>=1&&i<n);
+  const cls=i=>(hi(i)?' h':'')+(hi(i)&&i>0&&!hi(i-1)?' up':'')+(hi(i)&&i<M&&!hi(i+1)?' dn':'');
+  const kind=n===0?'flat':n===1?'drops after the first sound':n===M?'drops after the last sound':'drops after sound '+n;
+  return '<span class="pitch" title="Pitch accent '+n+': '+kind+'">'+ms.map((m,i)=>'<span class="m'+cls(i)+'">'+esc(m)+'</span>').join('')+'<span class="m pt'+cls(M)+'"></span></span>';
+}
+function pitchFor(w){
+  const p=typeof PITCH!=='undefined'&&PITCH[w.id]; if(!p) return '';
+  return p.map(x=>x[1].slice(0,2).map(n=>pitchHtml(x[0],n)).join('<span class="psep">・</span>')).join('<span class="psep">・</span>');
+}
+
 /* ---------- Vocab tab ---------- */
 function markBtn(){ return '<button class="btn'+(ui.mark?' primary':'')+'" data-act="markMode" aria-pressed="'+ui.mark+'">'+(ui.mark?'Done marking':'Mark known')+'</button>'; }
 function markHint(){ return ui.mark?'<p class="markhint">Tap what you already know. Known items leave the review queue; tap again to bring one back.</p>':''; }
@@ -487,7 +504,7 @@ function vocabListHtml(){
   }
   return rows.map(w=>{
     const st=stateOf(w.id);
-    return '<details class="vrow"><summary><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+(w.kana!==w.jp?esc(w.kana)+' ':'')+(isTop(w)?TOP_BADGE:'')+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></summary>'
+    return '<details class="vrow"><summary><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+((pitchFor(w)||(w.kana!==w.jp?esc(w.kana):''))+' ')+(isTop(w)?TOP_BADGE:'')+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></summary>'
       +'<div class="vbody" data-w="'+esc(w.id)+'"></div></details>';
   }).join('');
 }
@@ -501,7 +518,7 @@ function vocabHtml(){
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="vocab"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="readVocab">Read sentences</button><button class="btn" data-act="vquiz">Quick quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>'
-    +'<p class="muted credits">Word list: JLPT lists by Jonathan Waller (<a href="https://www.tanos.co.uk/jlpt/">tanos.co.uk</a>, CC BY). Frequency: BCCWJ word frequency lists (NINJAL).</p>';
+    +'<p class="muted credits">Word list: JLPT lists by Jonathan Waller (<a href="https://www.tanos.co.uk/jlpt/">tanos.co.uk</a>, CC BY). Frequency: BCCWJ word frequency lists (NINJAL). Pitch accent: <a href="https://github.com/mifunetoshiro/kanjium">Kanjium</a> (CC BY-SA 4.0).</p>';
 }
 
 /* ---------- Kanji tab ---------- */
