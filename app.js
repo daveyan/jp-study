@@ -177,6 +177,7 @@ function dueIds(kind,now){
 const byRank=(a,b)=>(a.rank||1e9)-(b.rank||1e9);
 function newIds(kind,n){ let l=itemsOf(kind).filter(it=>!S.cards[it.id]&&!isKnown(it.id)); if(kind==='vocab') l=l.slice().sort(byRank); return l.slice(0,n).map(it=>it.id); }
 const isTop=w=>w.rank>0&&w.rank<=1000;
+const lvBadge=w=>w.lv==='N5'?'':' <span class="lvb">'+w.lv+'</span>';
 const TOP_BADGE='<span class="top1k" title="Among the 1,000 most frequent words in the BCCWJ corpus">Top 1000</span>';
 function counts(kind){
   const c={new:0,learning:0,young:0,mature:0,known:0};
@@ -192,7 +193,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={vtop:false,tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,preview:[],vq:'',vf:'all',mark:false,confirmReset:false};
+const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,preview:[],vq:'',vf:'all',mark:false,confirmReset:false};
 // The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
 const SHOW_KANJI=false;
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
@@ -451,7 +452,7 @@ function sessionHtml(){
   }
   const id=s.queue[0], it=ITEM[id], c=S.cards[id], now=Date.now(), recall=!!S.settings.recall;
   const f=cardFaces(it,s.kind,recall);
-  const top='<div class="card-top"><span>'+(s.kind==='vocab'?esc(it.tag)+(isTop(it)?' '+TOP_BADGE:''):'Kanji')+'</span>'+(c?'<span class="stat st-'+status(c)+'">'+STATUS_LABEL[status(c)]+'</span>':'<span class="pill">New</span>')+'</div>';
+  const top='<div class="card-top"><span>'+(s.kind==='vocab'?esc(it.tag)+(isTop(it)?' '+TOP_BADGE:'')+lvBadge(it):'Kanji')+'</span>'+(c?'<span class="stat st-'+status(c)+'">'+STATUS_LABEL[status(c)]+'</span>':'<span class="pill">New</span>')+'</div>';
   let ctrl;
   if(!s.revealed){
     ctrl='<button class="btn primary wide" data-act="reveal">Show answer</button><p class="keyhint">Space or Enter</p>';
@@ -490,6 +491,7 @@ function vocabRows(){
   return VOCAB.filter(w=>{
     if(f!=='all'&&stateOf(w.id)!==f) return false;
     if(ui.vtop&&!isTop(w)) return false;
+    if(ui.vlv&&w.lv!==ui.vlv) return false;
     return !q || (w.jp+' '+w.kana+' '+w.en+' '+w.tag).toLowerCase().includes(q);
   });
 }
@@ -504,7 +506,7 @@ function vocabListHtml(){
   }
   return rows.map(w=>{
     const st=stateOf(w.id);
-    return '<details class="vrow"><summary><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+((pitchFor(w)||(w.kana!==w.jp?esc(w.kana):''))+' ')+(isTop(w)?TOP_BADGE:'')+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></summary>'
+    return '<details class="vrow"><summary><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+((pitchFor(w)||(w.kana!==w.jp?esc(w.kana):''))+' ')+(isTop(w)?TOP_BADGE:'')+lvBadge(w)+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></summary>'
       +'<div class="vbody" data-w="'+esc(w.id)+'"></div></details>';
   }).join('');
 }
@@ -513,8 +515,8 @@ function vocabBody(w){ const st=stateOf(w.id);
   return w.ex.map(e=>exBlock(e.jp,e.en,e.cas,w.jp)).join('')+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana.split('・')[0])+knowBtn(w.id)+(S.cards[w.id]||st==='known'?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div>'; }
 function vocabHtml(){
   const now=Date.now(), due=dueIds('vocab',now).length, nn=newIds('vocab',5).length;
-  const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>';
-  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' N5 words with example sentences</p></div>'+stackBar('vocab')+legend('vocab')
+  const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>'+['N5','N4'].map(l=>'<button class="chip" data-act="vlv" data-arg="'+l+'" aria-pressed="'+(ui.vlv===l)+'">'+l+'</button>').join('');
+  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="vocab"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="readVocab">Read sentences</button><button class="btn" data-act="vquiz">Quick quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>'
@@ -748,6 +750,7 @@ function act(a,arg){
     case 'addCard': if(!S.cards[arg]){ S.cards[arg]=newCard(Date.now()); commit(); render(); } break;
     case 'filter': ui.vf=arg; render(); break;
     case 'vtop': ui.vtop=!ui.vtop; render(); break;
+    case 'vlv': ui.vlv=ui.vlv===arg?'':arg; render(); break;
     case 'knowCur': knowCurrent(); break;
     case 'markMode': ui.mark=!ui.mark; render(); break;
     case 'toggleKnown': setKnown(arg,!isKnown(arg)); commit(); render(); break;

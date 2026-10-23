@@ -99,10 +99,10 @@ def check_vocab():
         if not line.startswith('["'):
             continue
         row = json.loads(line)
-        if len(row) != 6 or not isinstance(row[5], int):
-            errors.append(f'vocab row should be [jp, kana, en, group, examples, rank]: {line[:60]}')
+        if len(row) not in (6, 7) or not isinstance(row[5], int) or (len(row) == 7 and row[6] != 'N4'):
+            errors.append(f'vocab row should be [jp, kana, en, group, examples, rank] plus \'N4\' for N4 words: {line[:60]}')
             continue
-        jp, kana, en, tag, exs, _rank = row
+        jp, kana, en, tag, exs, _rank = row[:6]
         if jp in seen_words:
             errors.append(f'vocab {jp}: duplicate written form (ids must be unique)')
         seen_words.add(jp)
