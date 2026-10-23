@@ -8,6 +8,8 @@ Checks every vocab example (data.js) and grammar example (grammar-*.js):
   - every kanji sits inside a ruby base, and readings are kana only
   - each vocab example highlights the word exactly once, in both its polite and casual versions
   - examples are [polite, translation] or [polite, translation, casual]
+  - each grammar example highlights the grammar point, in both versions
+  - every lesson named in tools/bunpro_map.json exists
 Prints a list of bases that appear with more than one reading, for a human to eyeball.
 Exits non-zero if any error is found.
 """
@@ -132,6 +134,9 @@ def check_vocab():
     return n
 
 
+ids = set()
+
+
 def check_grammar():
     lessons = sentences = 0
     for path in sorted(ROOT.glob('grammar-*.js')):
@@ -153,15 +158,25 @@ def check_grammar():
                 if len(ex) == 3 and ex[0] == ex[2]:
                     errors.append(f'{lid}: casual version is identical to the polite one: {ex[0]}')
                 for s in ex[::2]:
-                    parse(s, lid)
+                    if not parse(s, lid)[1]:
+                        errors.append(f'{lid}: no [highlight] in {s}')
                 if not t.strip() or KANJI.search(t):
                     errors.append(f'{lid}: translation looks wrong: {t!r} for {ex[0]}')
+            ids.add(lid)
     return lessons, sentences
+
+
+def check_bunpro():
+    rows = json.loads((ROOT / 'tools' / 'bunpro_map.json').read_text(encoding='utf-8'))
+    for lid in sorted({r['lesson'] for r in rows} - ids):
+        errors.append(f'bunpro_map.json names a lesson that does not exist: {lid}')
+    return len(rows)
 
 
 nv = check_vocab()
 nl, ns = check_grammar()
-print(f'{nv} vocab words, {nl} grammar lessons, {ns} grammar sentences')
+nb = check_bunpro()
+print(f'{nv} vocab words, {nl} grammar lessons, {ns} grammar sentences, {nb} Bunpro points mapped')
 multi = {b: r for b, r in readings.items() if len(r) > 1}
 if multi:
     print('Bases with more than one reading (check these are intended):')
