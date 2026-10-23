@@ -105,7 +105,8 @@ def check_vocab():
             errors.append(f'vocab {jp}: duplicate written form (ids must be unique)')
         seen_words.add(jp)
         # Counters and suffixes (～本) only need to appear inside the highlight; readings may list alternatives (じゅう・とお).
-        affix = jp.startswith('～')
+        # Single-kanji words (三, 千, 目) also often sit inside a compound (三千, 二つ目).
+        affix = jp.startswith('～') or (len(jp) == 1 and bool(KANJI.match(jp)))
         forms = [jp.lstrip('～')] + kana.split('・')
         forms += IRREGULAR.get(jp, [])
         n += 1
