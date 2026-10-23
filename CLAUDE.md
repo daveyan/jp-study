@@ -18,6 +18,7 @@ The site is personal and should stay out of search engines: keep the `<meta name
 - `data.js`: `VOCAB` and `KANJI`. It also documents the sentence markup.
 - `grammar-n5.js` defines `GRAMMAR`; `grammar-n4.js` appends to it with `GRAMMAR.push(...)`. The top-level `const`s in these classic scripts are shared globals that `app.js` reads.
 - `app.js`: everything else, wrapped in an IIFE.
+- `manifest.json`, `sw.js`, `icons/`: home-screen install and offline support. `sw.js` serves site files network-first (fresh pushes show on the next load) with the cache as the offline fallback; Google Fonts are cache-first. Add any new site file to `SHELL` in `sw.js`.
 - `tools/check_content.py`: content checker (see below). It isn't loaded by the site.
 - `tools/n5_plan.json` + `tools/add_vocab_batch.py`: the curated N5 word list (readings, BCCWJ ranks) and the script that appended vocab in batches. Kept for adding more words the same way.
 
@@ -40,9 +41,12 @@ Card and lesson IDs are keys for saved progress (`'v:'+written form`, `'k:'+kanj
 
 ## State and storage (`app.js`)
 
-- Progress is stored in `localStorage` under `jp-study.progress.v1` in the shape `{v, updatedAt, resetAt, cards, grammar, known, log, settings:{recall, furi, order, off}}`. `commit()` saves after every change.
+- Progress is stored in `localStorage` under `jp-study.progress.v1` in the shape `{v, updatedAt, resetAt, cards, grammar, known, log, flags, settings:{recall, furi, order, off}}`. `commit()` saves after every change.
 - `S.grammar[id]` = `{best, tries, done, read, at}`. Opening a lesson creates the entry, which adds the lesson to the **Mixed reading** pool. `read` is the furthest sentence reached in a feed session (out of 10). Finishing a session, or passing the quiz, sets `done`.
 - **Known items**: `S.known` maps a vocab, kanji or grammar id to `{on, at}`. Known items are skipped by `dueIds`/`newIds`, count as status `known` (`stateOf(id)`), and known lessons count as done (`lessonDone`). Unmarking keeps any existing card, so its schedule resumes. Entries are flipped to `on:false` rather than deleted so `merge()` resolves by `at`. You can mark items via Mark known mode on each tab, the per-item toggle, vocab's bulk "mark all shown" (respects search and filter), and "I already know this" (key K) in study sessions.
+- **Backup** (Today tab): Export downloads the whole state as `jp-study-backup-<date>.json`; Import runs `merge()` on the file and what's here, so nothing current is lost.
+- **Flagged sentences**: the flag button on any example (vocab list, cards, feeds, lesson previews) toggles `S.flags[polite sentence] = {jp, cas, en, src, on, at}`. The Today tab copies the list as plain text for the learner to paste into a session. When they do, fix those sentences, then they can clear the list.
+- **Vocab reading** (`readVocab`): a 20-sentence feed, one sentence per word, from words that are started or known, topped up to 40 words with the most frequent new ones. Buttons are on the Vocab tab and the Today vocab row.
 - **Furigana** (`settings.furi`): `'auto'` (default) shows readings only over kanji the learner doesn't know yet (a kanji counts as known once a vocab word containing it is marked known or has a mature card; a known or mature kanji card also counts). `'on'` always shows them, `'off'` never does. Hidden readings keep their layout space and can be tapped to show (`ruby.fh`, toggles `.fs`). On a vocab card front, the highlighted word's reading is always hidden.
 - **Vocab cards** show `cardExample(it)`: a random example, never the one shown at the previous review (stored on the card as `exi`). The pick is held in `ui.session.pick` while the card is on screen.
 - **Reading feed** (`ui.read`): one sentence at a time, 10 random sentences each time a lesson's feed starts. Space reveals the English, then moves to the next sentence; → skips ahead. Each sentence read counts toward the activity log, the same as a card or quiz answer.

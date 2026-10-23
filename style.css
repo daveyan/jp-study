@@ -237,6 +237,7 @@ mark{background:var(--accent-soft); color:inherit; border-radius:4px; padding:0 
 .top1k{display:inline-block; font:600 10px/1 var(--f-ui); letter-spacing:.05em; text-transform:uppercase; color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:3px 7px; vertical-align:.15em; white-space:nowrap}
 .credits{font-size:12px; padding:4px}
 .credits a{color:inherit}
+.card-top span[lang="ja"]{text-transform:none; letter-spacing:.02em; font-size:13px}
 .icon-btn.flag{width:28px; height:28px; background:transparent; opacity:.55}
 .icon-btn.flag:hover{opacity:1}
 .icon-btn.flag[aria-pressed="true"]{opacity:1; color:var(--seal); background:var(--panel2)}
