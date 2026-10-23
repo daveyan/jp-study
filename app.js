@@ -277,7 +277,9 @@ function knowCurrent(){
   commit(); render(); window.scrollTo(0,0);
 }
 function bigCls(t){ const n=[...t].length; return n<=2?'xl':n<=4?'lg':'md'; }
-function exBlock(jp,en){ return '<div class="ex"><div class="ex-row"><span class="jpl" lang="ja">'+jpHtml(jp)+'</span>'+spk(jpPlain(jp))+'</div><span class="muted">'+esc(en)+'</span></div>'; }
+// Examples come in a polite (です/ます) version and, usually, a casual one shown underneath it.
+function casLine(cas,opts){ return cas?'<div class="ex-row cas"><span class="jpl" lang="ja"><span class="reg">casual</span>'+jpHtml(cas,opts)+'</span>'+spk(jpPlain(cas))+'</div>':''; }
+function exBlock(jp,en,cas){ return '<div class="ex"><div class="ex-row"><span class="jpl" lang="ja">'+jpHtml(jp)+'</span>'+spk(jpPlain(jp))+'</div>'+casLine(cas)+'<span class="muted">'+esc(en)+'</span></div>'; }
 // Vocab cards rotate through the word's example sentences, so the prompt changes between reviews.
 // Vocab cards show a random example sentence, never the one shown at the previous review (card.exi).
 // The pick is held in the session so it stays put while the card is on screen.
@@ -297,6 +299,7 @@ function cardFaces(it,kind,recall){
     const e=cardExample(it);
     if(!recall){
       front.push('<div class="sent" lang="ja">'+jpHtml(e.jp,{hideMark:true})+'</div>');
+      if(e.cas) front.push('<div class="sent cas" lang="ja"><span class="reg">casual</span>'+jpHtml(e.cas,{hideMark:true})+'</div>');
       back.push('<div class="face md" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
       if(it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+esc(it.kana)+'</div>');
       back.push('<div class="gloss">'+esc(it.en)+'</div>');
@@ -305,7 +308,7 @@ function cardFaces(it,kind,recall){
       front.push('<div class="face en">'+esc(it.en)+'</div>');
       back.push('<div class="face '+bigCls(it.jp)+'" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
       if(it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+esc(it.kana)+'</div>');
-      back.push(exBlock(e.jp,e.en));
+      back.push(exBlock(e.jp,e.en,e.cas));
     }
   } else {
     const info='<dl class="kv"><dt>On’yomi</dt><dd lang="ja">'+esc(it.on)+'</dd><dt>Kun’yomi</dt><dd lang="ja">'+esc(it.kun)+'</dd><dt>Strokes</dt><dd>'+it.st+'</dd></dl>';
@@ -373,7 +376,7 @@ function vocabListHtml(){
   return rows.map(w=>{
     const st=stateOf(w.id);
     return '<details class="vrow"><summary><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+(w.kana!==w.jp?esc(w.kana):'')+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></summary>'
-      +'<div class="vbody">'+w.ex.map(e=>exBlock(e.jp,e.en)).join('')+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana)+knowBtn(w.id)+(S.cards[w.id]||st==='known'?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div></div></details>';
+      +'<div class="vbody">'+w.ex.map(e=>exBlock(e.jp,e.en,e.cas)).join('')+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana)+knowBtn(w.id)+(S.cards[w.id]||st==='known'?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div></div></details>';
   }).join('');
 }
 function vocabHtml(){
@@ -431,7 +434,7 @@ function grammarHtml(){
       +'<div class="actions"><button class="btn primary" data-act="readLesson" data-arg="'+i+'">Read '+feedLen(g)+' examples</button><button class="btn" data-act="lessonQuiz" data-arg="'+i+'">Quiz</button>'+knowBtn(g.id)+'</div>'
       +'<p class="muted" style="font-size:13px">'+esc(lessonStatus(g))+(p&&p.tries?' · best quiz '+p.best+'/'+g.quiz.length:'')+'</p>'
       +'<details class="how"><summary>How it works</summary><ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul></details>'
-      +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+ui.preview.map(e=>exBlock(e[0],e[1])).join('')+'</section></div>';
+      +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+ui.preview.map(e=>exBlock(e[0],e[1],e[2])).join('')+'</section></div>';
   }
   let level='';
   return '<section class="glist-head"><div><h2>Grammar lessons</h2><p class="muted">Read lots of examples for each pattern. Quizzes are optional.</p></div><div class="actions">'+mixBtn()+markBtn()+'</div>'+markHint()+'</section><div class="lessons">'
@@ -443,9 +446,9 @@ function grammarHtml(){
 /* ---------- Reading feed ---------- */
 // One sentence at a time: read it, optionally reveal the English, move on. No grading.
 function startRead(title,items,meta){ go(()=>{ ui.read={title:title,items:items,i:0,shown:false,meta:meta}; }); }
-function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, shuffle(g.ex.map(e=>({jp:e[0],en:e[1],g:i}))).slice(0,FEED_N), {type:'lesson',idx:i}); }
+function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, shuffle(g.ex.map(e=>({jp:e[0],en:e[1],cas:e[2]||'',g:i}))).slice(0,FEED_N), {type:'lesson',idx:i}); }
 function readMix(){
-  const items=[]; mixLessons().forEach(g=>{ const i=GRAMMAR.indexOf(g); g.ex.forEach(e=>items.push({jp:e[0],en:e[1],g:i})); });
+  const items=[]; mixLessons().forEach(g=>{ const i=GRAMMAR.indexOf(g); g.ex.forEach(e=>items.push({jp:e[0],en:e[1],cas:e[2]||'',g:i})); });
   if(items.length) startRead('Mixed reading', shuffle(items).slice(0,20), {type:'mix'});
 }
 function readNext(){
@@ -477,7 +480,7 @@ function readHtml(){
   const ctrl=r.shown
     ? '<button class="btn primary wide" data-act="readNext">Next</button>'
     : '<div class="grades two"><button class="btn primary" data-act="readShow">Show English</button><button class="btn" data-act="readNext">Next →</button></div>';
-  return head+'<article class="card">'+top+'<div class="ex-row"><div class="sent" lang="ja">'+jpHtml(it.jp)+'</div>'+spk(jpPlain(it.jp))+'</div>'+en+'</article>'+ctrl+'<p class="keyhint">Space: English, then next · → skip ahead</p>';
+  return head+'<article class="card">'+top+'<div class="ex-row"><div class="sent" lang="ja">'+jpHtml(it.jp)+'</div>'+spk(jpPlain(it.jp))+'</div>'+(it.cas?'<div class="ex-row"><div class="sent cas" lang="ja"><span class="reg">casual</span>'+jpHtml(it.cas)+'</div>'+spk(jpPlain(it.cas))+'</div>':'')+en+'</article>'+ctrl+'<p class="keyhint">Space: English, then next · → skip ahead</p>';
 }
 
 /* ---------- Quizzes ---------- */

@@ -225,6 +225,10 @@ mark{background:var(--accent-soft); color:inherit; border-radius:4px; padding:0 
 .ex .jpl{line-height:2}
 .sent{font:500 clamp(22px,6vw,28px)/2.1 var(--f-jp); overflow-wrap:anywhere; padding-block:8px}
 .sent-en{font-size:16px}
+/* casual (plain-form) version of an example, under the polite one */
+.sent.cas{font-size:clamp(18px,4.8vw,22px); padding-block:0 8px; color:var(--muted)}
+.ex .cas .jpl{font-size:15px; color:var(--muted)}
+.reg{display:inline-block; font:600 10px/1 var(--f-ui); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:3px 6px; margin-right:8px; vertical-align:.35em}
 .seg.three{grid-template-columns:repeat(3,auto)}
 .grades.two{grid-template-columns:2fr 1fr}
 .grades.two .btn{padding:13px 14px; font-size:16px}

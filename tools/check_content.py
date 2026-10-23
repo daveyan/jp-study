@@ -6,7 +6,8 @@ Usage: python3 tools/check_content.py   (from the repo root)
 Checks every vocab example (data.js) and grammar example (grammar-*.js):
   - {base|reading} and [highlight] markup is well formed and not nested wrongly
   - every kanji sits inside a ruby base, and readings are kana only
-  - each vocab example highlights the word exactly once
+  - each vocab example highlights the word exactly once, in both its polite and casual versions
+  - examples are [polite, translation] or [polite, translation, casual]
 Prints a list of bases that appear with more than one reading, for a human to eyeball.
 Exits non-zero if any error is found.
 """
@@ -19,7 +20,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 KANJI = re.compile(r'[\u3400-\u4dbf\u4e00-\u9fff々]')
 KANA = re.compile(r'^[\u3040-\u309f\u30a0-\u30ffー]+$')
-STRING = re.compile(r"'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"")
 
 errors = []
 readings = defaultdict(set)
@@ -95,14 +95,19 @@ def check_vocab():
         n += 1
         if len(exs) < 2:
             errors.append(f'vocab {jp}: only {len(exs)} example(s)')
-        for s, t in exs:
-            plain, hl = parse(s, f'vocab {jp}')
-            if len(hl) != 1:
-                errors.append(f'vocab {jp}: {len(hl)} highlights in {s}')
-            elif not (hl[0].startswith(stem(jp)) or hl[0].startswith(stem(kana))):
-                errors.append(f'vocab {jp}: highlight "{hl[0]}" does not look like the word in {s}')
+        for ex in exs:
+            if len(ex) not in (2, 3):
+                errors.append(f'vocab {jp}: example should have 2 or 3 strings: {ex}')
+                continue
+            t = ex[1]
+            for s in ex[::2]:
+                plain, hl = parse(s, f'vocab {jp}')
+                if len(hl) != 1:
+                    errors.append(f'vocab {jp}: {len(hl)} highlights in {s}')
+                elif not (hl[0].startswith(stem(jp)) or hl[0].startswith(stem(kana))):
+                    errors.append(f'vocab {jp}: highlight "{hl[0]}" does not look like the word in {s}')
             if not t.strip():
-                errors.append(f'vocab {jp}: empty translation for {s}')
+                errors.append(f'vocab {jp}: empty translation for {ex[0]}')
     return n
 
 
@@ -113,15 +118,21 @@ def check_grammar():
         for m in re.finditer(r"\{id:'([^']+)'.*?\bex:\[(.*?)\],\s*quiz:\[", text, re.S):
             lid, body = m.group(1), m.group(2)
             lessons += 1
-            strs = [json.loads('"' + x[1:-1].replace('"', '\\"') + '"') if x[0] == "'" else json.loads(x)
-                    for x in STRING.findall(body)]
-            if len(strs) % 2:
-                errors.append(f'{lid}: odd number of strings in ex')
-            for s, t in zip(strs[::2], strs[1::2]):
+            try:
+                exs = json.loads('[' + body + ']')
+            except ValueError as e:
+                errors.append(f'{lid}: ex is not a list of double-quoted strings ({e})')
+                continue
+            for ex in exs:
+                if len(ex) not in (2, 3):
+                    errors.append(f'{lid}: example should have 2 or 3 strings: {ex}')
+                    continue
                 sentences += 1
-                parse(s, lid)
+                t = ex[1]
+                for s in ex[::2]:
+                    parse(s, lid)
                 if not t.strip() or KANJI.search(t):
-                    errors.append(f'{lid}: translation looks wrong: {t!r} for {s}')
+                    errors.append(f'{lid}: translation looks wrong: {t!r} for {ex[0]}')
     return lessons, sentences
 
 
