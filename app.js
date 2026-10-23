@@ -24,7 +24,8 @@ const VOICE_MALE=/otoya|hattori|ichiro|keita|daichi|naoki|takumi/i, VOICE_FEMALE
 function voiceGender(v){ return VOICE_MALE.test(v.name)?'male':VOICE_FEMALE.test(v.name)?'female':''; }
 function speak(t,uri){ try{ if(!CAN_SPEAK) return; const u=new SpeechSynthesisUtterance(t); u.lang='ja-JP'; u.rate=0.9;
   const want=uri===undefined?voicePref():uri, v=want&&jaVoices().find(x=>x.voiceURI===want); if(v){ u.voice=v; u.lang=v.lang; }
-  speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
+  if(speechSynthesis.speaking||speechSynthesis.pending){ speechSynthesis.cancel(); setTimeout(()=>{ try{ speechSynthesis.speak(u); }catch(e){} },25); }
+  else speechSynthesis.speak(u); }catch(e){} }
 // Speaker buttons hide once we know the device has no Japanese voice.
 function canSpeakJa(){ return CAN_SPEAK&&(!voicesChecked||jaVoices().length>0); }
 const SPK_SVG='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
@@ -34,6 +35,37 @@ function spk(t){ return canSpeakJa() ? '<button class="icon-btn" data-act="say" 
 // Sentences use {漢字|かんじ} for ruby and [..] for the highlighted word or grammar point (see data.js).
 const KANJI_RE=/[\u3400-\u4dbf\u4e00-\u9fff々]/;
 function jpPlain(s){ return String(s).replace(/\{([^|}]*)\|[^}]*\}/g,'$1').replace(/[\[\]]/g,''); }
+// Romaji to hiragana/katakana conversion for search on mobile/desktop without switching IME.
+const ROMAJI_MAP={
+  kya:'きゃ',kyu:'きゅ',kyo:'きょ',sha:'しゃ',shu:'しゅ',sho:'しょ',cha:'ちゃ',chu:'ちゅ',cho:'ちょ',
+  nya:'にゃ',nyu:'にゅ',nyo:'にょ',hya:'ひゃ',hyu:'ひゅ',hyo:'ひょ',mya:'みゃ',myu:'みゅ',myo:'みょ',
+  rya:'りゃ',ryu:'りゅ',ryo:'りょ',gya:'ぎゃ',gyu:'ぎゅ',gyo:'ぎょ',ja:'じゃ',ju:'じゅ',jo:'じょ',
+  bya:'びゃ',byu:'びゅ',byo:'びょ',pya:'ぴゃ',pyu:'ぴゅ',pyo:'ぴょ',
+  shi:'し',chi:'ち',tsu:'つ',fu:'ふ',
+  ka:'か',ki:'き',ku:'く',ke:'け',ko:'こ',sa:'さ',su:'す',se:'せ',so:'そ',ta:'た',te:'て',to:'と',
+  na:'な',ni:'に',nu:'ぬ',ne:'ね',no:'の',ha:'は',hi:'ひ',he:'へ',ho:'ほ',ma:'ま',mi:'み',mu:'む',me:'め',mo:'も',
+  ya:'や',yu:'ゆ',yo:'よ',ra:'ら',ri:'り',ru:'る',re:'れ',ro:'ろ',wa:'わ',wo:'を',
+  ga:'が',gi:'ぎ',gu:'ぐ',ge:'げ',go:'ご',za:'ざ',ji:'じ',zu:'ず',ze:'ぜ',zo:'ぞ',
+  da:'だ',di:'ぢ',du:'づ',de:'で',do:'ど',ba:'ば',bi:'び',bu:'ぶ',be:'べ',bo:'ぼ',
+  pa:'ぱ',pi:'ぴ',pu:'ぷ',pe:'ぺ',po:'ぽ',
+  a:'あ',i:'い',u:'う',e:'え',o:'お',nn:'ん','-':'ー'
+};
+function romajiToKana(s){
+  s=String(s).toLowerCase().trim();
+  let out='', i=0; const n=s.length;
+  while(i<n){
+    if(s[i]==='n'&&(i+1===n||(s[i+1]!=='n'&&!'aiueoy'.includes(s[i+1])))){ out+='ん'; if(s[i+1]==='n') i++; i++; continue; }
+    if(i+1<n&&s[i]===s[i+1]&&'bcdfghjklmpqrstvwxyz'.includes(s[i])){ out+='っ'; i++; continue; }
+    let matched=false;
+    for(const len of [3,2,1]){
+      const sub=s.slice(i,i+len);
+      if(ROMAJI_MAP[sub]){ out+=ROMAJI_MAP[sub]; i+=len; matched=true; break; }
+    }
+    if(!matched){ out+=s[i]; i++; }
+  }
+  return out;
+}
+const toKata=s=>s.replace(/[\u3041-\u3096]/g,c=>String.fromCharCode(c.charCodeAt(0)+0x60));
 // Vocab ids whose written form contains each kanji.
 const WORDS_WITH={};
 VOCAB.forEach(v=>{ new Set([...v.jp].filter(ch=>KANJI_RE.test(ch))).forEach(ch=>{ (WORDS_WITH[ch]=WORDS_WITH[ch]||[]).push(v.id); }); });
@@ -413,7 +445,7 @@ function cardFaces(it,kind,recall){
     if(!recall){
       front.push('<div class="lines">'+exLines(e,{big:true,noEn:true,noSpk:true,hideMark:true})+'</div>');
       back.push('<div class="face md" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
-      { const pr=pitchFor(it); if(pr||it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+(pr||esc(it.kana))+'</div>'); }
+      { const pr=pitchFor(it); if(pr||it.kana!==it.jp) back.push('<div class="reading" lang="ja"><span>'+(pr||esc(it.kana))+'</span>'+spk(it.kana.split('・')[0])+'</div>'); }
       back.push('<div class="gloss">'+esc(it.en)+'</div>');
       back.push('<div class="ex-row"><span class="sent-en">'+(lineOn('en')?'<span class="reg">English</span>'+esc(e.en):'')+'</span>'+spk(jpPlain(e.jp))+flagBtn(e,it.jp)+'</div>');
     } else {
@@ -455,14 +487,15 @@ function sessionHtml(){
   const top='<div class="card-top"><span>'+(s.kind==='vocab'?esc(it.tag)+(isTop(it)?' '+TOP_BADGE:'')+lvBadge(it):'Kanji')+'</span>'+(c?'<span class="stat st-'+status(c)+'">'+STATUS_LABEL[status(c)]+'</span>':'<span class="pill">New</span>')+'</div>';
   let ctrl;
   if(!s.revealed){
-    ctrl='<button class="btn primary wide" data-act="reveal">Show answer</button><p class="keyhint">Space or Enter</p>';
+    ctrl='<button class="btn primary wide" data-act="reveal">Show answer</button><p class="keyhint">Space, Enter or tap card · R audio</p>';
   } else {
     const base=c||newCard(now);
     const names=['Again','Hard','Good','Easy'], cols=['again','hard','good','easy'];
-    ctrl='<div class="grades">'+names.map((nm,g)=>'<button class="grade" style="--c:var(--'+cols[g]+')" data-act="grade" data-arg="'+g+'"><b>'+nm+'</b><small>'+fmtIv(base,g,now)+'</small></button>').join('')+'</div><p class="keyhint">Keys 1 to 4</p>';
+    ctrl='<div class="grades">'+names.map((nm,g)=>'<button class="grade" style="--c:var(--'+cols[g]+')" data-act="grade" data-arg="'+g+'"><b>'+nm+'</b><small>'+fmtIv(base,g,now)+'</small></button>').join('')+'</div><p class="keyhint">Keys 1 to 4 · R audio</p>';
   }
   ctrl+='<button class="btn link know" data-act="knowCur">I already know this <kbd>K</kbd></button>';
-  return head+'<article class="card">'+top+f.front+(s.revealed?'<hr class="divider"><div class="back">'+f.back+'</div>':'')+'</article>'+ctrl;
+  const cardAct=!s.revealed?' data-act="reveal" role="button" tabindex="0" aria-label="Show answer"':'';
+  return head+'<article class="card'+(!s.revealed?' tap-reveal':'')+'"'+cardAct+'>'+top+f.front+(s.revealed?'<hr class="divider"><div class="back">'+f.back+'</div>':'')+'</article>'+ctrl;
 }
 
 /* ---------- Pitch accent ---------- */
@@ -488,11 +521,14 @@ function markHint(){ return ui.mark?'<p class="markhint">Tap what you already kn
 function knowBtn(id){ return '<button class="btn" data-act="toggleKnown" data-arg="'+esc(id)+'">'+(isKnown(id)?'Unmark known':'I know this')+'</button>'; }
 function vocabRows(){
   const q=ui.vq.trim().toLowerCase(), f=ui.vf;
+  const qh=q?romajiToKana(q):'', qk=qh?toKata(qh):'';
   return VOCAB.filter(w=>{
     if(f!=='all'&&stateOf(w.id)!==f) return false;
     if(ui.vtop&&!isTop(w)) return false;
     if(ui.vlv&&w.lv!==ui.vlv) return false;
-    return !q || (w.jp+' '+w.kana+' '+w.en+' '+w.tag).toLowerCase().includes(q);
+    if(!q) return true;
+    const hay=(w.jp+' '+w.kana+' '+w.en+' '+w.tag).toLowerCase();
+    return hay.includes(q)||(qh&&hay.includes(qh))||(qk&&hay.includes(qk));
   });
 }
 function vocabListHtml(){
@@ -630,7 +666,7 @@ function readHtml(){
   const ctrl=shown
     ? '<button class="btn primary wide" data-act="readNext">Next</button>'
     : '<div class="grades two"><button class="btn primary" data-act="readShow">Show English</button><button class="btn" data-act="readNext">Next →</button></div>';
-  return head+'<article class="card">'+top+'<div class="lines">'+exLines(it,{big:true,noEn:!r.shown})+'</div></article>'+ctrl+'<p class="keyhint">'+(enOn?'Space: English, then next':'Space: next')+' · → skip ahead</p>';
+  return head+'<article class="card">'+top+'<div class="lines">'+exLines(it,{big:true,noEn:!r.shown})+'</div></article>'+ctrl+'<p class="keyhint">'+(enOn?'Space: English, then next':'Space: next')+' · → skip ahead · R audio</p>';
 }
 
 /* ---------- Quizzes ---------- */
@@ -711,6 +747,7 @@ function quizHtml(){
 /* ---------- Events ---------- */
 function act(a,arg){
   switch(a){
+    case 'home': go(()=>{ ui.tab='home'; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'tab': go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'review': startSession(arg,'due'); break;
     case 'learn': startSession(arg,'new'); break;
@@ -794,9 +831,21 @@ document.addEventListener('keydown',function(e){
     if((e.key===' '||e.key==='Enter')&&!ui.session.revealed){ e.preventDefault(); act('reveal'); }
     else if(ui.session.revealed&&'1234'.indexOf(e.key)>=0&&e.key.length===1){ e.preventDefault(); gradeCurrent(+e.key-1); }
     else if(e.key==='k'||e.key==='K'){ e.preventDefault(); knowCurrent(); }
+    else if(e.key==='r'||e.key==='R'||e.key==='s'||e.key==='S'){
+      e.preventDefault();
+      const id=ui.session.queue[0], it=ITEM[id];
+      if(it){
+        if(ui.session.kind==='vocab'){
+          const ex=cardExample(it); speak(jpPlain(ex.jp));
+        } else {
+          speak(it.ex&&it.ex[0]?it.ex[0][1]:(it.kun||it.on));
+        }
+      }
+    }
   } else if(ui.read&&ui.read.i<ui.read.items.length){
     if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(ui.read.shown||!lineOn('en')) readNext(); else act('readShow'); }
     else if(e.key==='ArrowRight'){ e.preventDefault(); readNext(); }
+    else if(e.key==='r'||e.key==='R'||e.key==='s'||e.key==='S'){ e.preventDefault(); speak(jpPlain(ui.read.items[ui.read.i].jp)); }
   } else if(ui.quiz&&!ui.quiz.finished){
     if(ui.quiz.picked===null&&'1234'.indexOf(e.key)>=0&&e.key.length===1){ const i=+e.key-1; if(i<ui.quiz.qs[ui.quiz.i].opts.length) pickAnswer(i); }
     else if(ui.quiz.picked!==null&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); nextQuestion(); }

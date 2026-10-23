@@ -6,7 +6,7 @@ The site is personal and should stay out of search engines: keep the `<meta name
 
 ## What the app is
 
-- Tabs: **Today** (dashboard), **Vocab** (694 words: the full N5 list, spaced repetition), **Grammar** (58 N5 + 79 N4 lessons, covering every point on Bunpro's N5 and N4 lists).
+- Tabs: **Today** (dashboard), **Vocab** (694 N5 words + N4 words in progress, spaced repetition), **Grammar** (58 N5 + 79 N4 lessons, covering every point on Bunpro's N5 and N4 lists).
 - **Kanji** (56 N5 kanji, spaced repetition plus a reading quiz) is hidden for now: `SHOW_KANJI=false` in `app.js` drops its tab and its Today row and due count. The code and data stay, so flipping the flag brings it back.
 - The learner is around N5–N4 and already knows kana and the basics.
 - **How they like to study:** they skim, and they have a strong memory, so grading self-tested cards and taking quizzes doesn't teach them much. Reading lots of example sentences in context does. Favour volume of natural examples over drills. Grammar is read through a sentence feed (quizzes are optional), and vocab review cards show a sentence instead of the bare word.
@@ -40,7 +40,7 @@ Every path is relative (no leading `/`), so the site works from a subpath.
 
 Card and lesson IDs are keys for saved progress (`'v:'+written form`, `'k:'+kanji`, `g1`…`g13`, `n5-…`, `n4-…`). Never rename them; add new items instead.
 
-<!-- TODO: the original notes for this file were cut off at "GRAMMAR"; add the rest. -->
+- **Navigation & Ergonomics**: clicking the brand (`学 JP Study`) in the header returns to the Today tab from any view (study session, reading feed, quiz, or other tabs). Vocab search supports romaji input (transliterated to hiragana and katakana) without switching system IMEs. Review cards can be tapped on mobile touchscreens to reveal answers. Review sessions and reading feeds support key `R` or `S` to replay Japanese audio hands-on-keyboard. Hidden furigana has expanded touch hit areas for one-handed phone use.
 
 ## State and storage (`app.js`)
 
