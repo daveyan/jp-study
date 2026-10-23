@@ -6,7 +6,7 @@ The site is personal and should stay out of search engines: keep the `<meta name
 
 ## What the app is
 
-- Tabs: **Today** (dashboard), **Vocab** (694 words: the full N5 list, spaced repetition), **Grammar** (13 N5 + 33 N4 lessons).
+- Tabs: **Today** (dashboard), **Vocab** (694 words: the full N5 list, spaced repetition), **Grammar** (37 N5 + 33 N4 lessons).
 - **Kanji** (56 N5 kanji, spaced repetition plus a reading quiz) is hidden for now: `SHOW_KANJI=false` in `app.js` drops its tab and its Today row and due count. The code and data stay, so flipping the flag brings it back.
 - The learner is around N5–N4 and already knows kana and the basics.
 - **How they like to study:** they skim, and they have a strong memory, so grading self-tested cards and taking quizzes doesn't teach them much. Reading lots of example sentences in context does. Favour volume of natural examples over drills. Grammar is read through a sentence feed (quizzes are optional), and vocab review cards show a sentence instead of the bare word.
@@ -22,6 +22,7 @@ The site is personal and should stay out of search engines: keep the `<meta name
 - `manifest.json`, `sw.js`, `icons/`: home-screen install and offline support. `sw.js` serves site files network-first (fresh pushes show on the next load) with the cache as the offline fallback; Google Fonts are cache-first. Add any new site file to `SHELL` in `sw.js`.
 - `tools/check_content.py`: content checker (see below). It isn't loaded by the site.
 - `tools/n5_plan.json` + `tools/add_vocab_batch.py`: the curated N5 word list (readings, BCCWJ ranks) and the script that appended vocab in batches. Kept for adding more words the same way.
+- `tools/add_grammar_lessons.py`: inserts grammar lessons from a batch file (`L=[dict(id, after, title, sub, pattern, notes, ex=[(polite, casual, English)], quiz=[(q, [right, wrong×3], why)])]`) after the lesson named by `after`, in the grammar files' style. The app lists lessons in file order, so `after` sets the teaching order.
 
 Every path is relative (no leading `/`), so the site works from a subpath.
 
@@ -36,7 +37,7 @@ Every path is relative (no leading `/`), so the site works from a subpath.
 - After editing content, run `python3 tools/check_content.py`. It fails on malformed markup, kanji without readings, or vocab examples that don't highlight the word. It also lists bases that appear with more than one reading, so you can check they're intended.
 - The sentences were written by Claude. The learner may flag ones that sound unnatural; fix those when asked.
 
-Card and lesson IDs are keys for saved progress (`'v:'+written form`, `'k:'+kanji`, `g1`…`g13`, `n4-…`). Never rename them; add new items instead.
+Card and lesson IDs are keys for saved progress (`'v:'+written form`, `'k:'+kanji`, `g1`…`g13`, `n5-…`, `n4-…`). Never rename them; add new items instead.
 
 <!-- TODO: the original notes for this file were cut off at "GRAMMAR"; add the rest. -->
 
