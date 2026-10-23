@@ -225,7 +225,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,preview:[],vq:'',vf:'all',mark:false,confirmReset:false};
+const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',mark:false,confirmReset:false};
 // The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
 const SHOW_KANJI=false;
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
@@ -542,14 +542,51 @@ function vocabListHtml(){
   }
   return rows.map(w=>{
     const st=stateOf(w.id);
-    return '<details class="vrow"><summary><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+((pitchFor(w)||(w.kana!==w.jp?esc(w.kana):''))+' ')+(isTop(w)?TOP_BADGE:'')+lvBadge(w)+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></summary>'
-      +'<div class="vbody" data-w="'+esc(w.id)+'"></div></details>';
+    return '<button class="vrow" data-act="openVocab" data-arg="'+esc(w.id)+'"><span class="vjp" lang="ja">'+esc(w.jp)+'</span><span class="vmid"><span class="vkana" lang="ja">'+((pitchFor(w)||(w.kana!==w.jp?esc(w.kana):''))+' ')+(isTop(w)?TOP_BADGE:'')+lvBadge(w)+'</span><span class="ven">'+esc(w.en)+'</span></span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></button>';
   }).join('');
 }
-// A word's examples are built when its row is opened, so a long list stays fast to render and filter.
-function vocabBody(w){ const st=stateOf(w.id);
-  return w.ex.map(e=>exBlock(e.jp,e.en,e.cas,w.jp)).join('')+'<div class="ex-row"><span class="tagline">'+esc(w.tag)+'</span><span class="actions">'+spk(w.kana.split('・')[0])+knowBtn(w.id)+(S.cards[w.id]||st==='known'?'':'<button class="btn" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')+'</span></div>'; }
+function vocabDetailHtml(){
+  const w=ITEM[ui.vocab];
+  if(!w) return vocabHtml();
+  const st=stateOf(w.id), c=S.cards[w.id];
+  const rows=vocabRows();
+  const list=rows.some(x=>x.id===w.id)?rows:VOCAB;
+  const idx=list.indexOf(w);
+  const prevW=list[(idx+list.length-1)%list.length];
+  const nextW=list[(idx+1)%list.length];
+
+  let cardStatText='';
+  if(isKnown(w.id)){
+    cardStatText='Marked as known · skipped in review queue';
+  } else if(c){
+    const now=Date.now();
+    const dueIn=c.due<=now?'due now':'due in '+Math.max(1,Math.round((c.due-now)/86400000))+'d';
+    cardStatText='Interval '+c.int+'d · '+c.reps+' review'+(c.reps===1?'':'s')+' · '+dueIn;
+  } else {
+    cardStatText='New word · not yet in review queue';
+  }
+  const pr=pitchFor(w);
+  return '<div class="lesson-view"><div><button class="btn link" data-act="closeVocab">← All vocabulary</button></div>'
+    +'<div class="titleline"><span class="ln" style="grid-row:auto">'+esc(w.lv||'N5')+'</span><div>'
+    +'<p class="eyebrow">'+esc(w.tag)+(isTop(w)?' · '+TOP_BADGE:'')+(w.rank?' · BCCWJ #'+w.rank:'')+'</p>'
+    +'<h1 style="font-size:clamp(28px,7vw,38px);line-height:1.2" lang="ja">'+esc(w.jp)+'</h1>'
+    +(pr||w.kana!==w.jp?'<p class="reading" lang="ja" style="font-size:22px;margin-top:2px;justify-content:flex-start">'+(pr||esc(w.kana))+'</p>':'')
+    +'<p style="font-size:18px;margin-top:4px">'+esc(w.en)+'</p>'
+    +'</div></div>'
+    +'<div class="actions">'
+    +(canSpeakJa()?'<button class="btn" data-act="say" data-arg="'+esc(w.kana.split('・')[0])+'">Play audio</button>':'')
+    +knowBtn(w.id)
+    +(S.cards[w.id]||st==='known'?'':'<button class="btn primary" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')
+    +'<button class="btn" data-act="openVocab" data-arg="'+esc(prevW.id)+'">← Previous</button>'
+    +'<button class="btn" data-act="openVocab" data-arg="'+esc(nextW.id)+'">Next →</button>'
+    +'</div>'
+    +'<p class="muted" style="font-size:13px"><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span> · '+esc(cardStatText)+'</p>'
+    +'<section class="panel" style="display:grid;gap:10px"><h3>Example sentences ('+w.ex.length+')</h3>'
+    +w.ex.map(e=>exBlock(e.jp,e.en,e.cas,w.jp)).join('')
+    +'</section></div>';
+}
 function vocabHtml(){
+  if(ui.vocab!==null) return vocabDetailHtml();
   const now=Date.now(), due=dueIds('vocab',now).length, nn=newIds('vocab',5).length;
   const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>'+['N5','N4'].map(l=>'<button class="chip" data-act="vlv" data-arg="'+l+'" aria-pressed="'+(ui.vlv===l)+'">'+l+'</button>').join('');
   return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')
@@ -747,8 +784,8 @@ function quizHtml(){
 /* ---------- Events ---------- */
 function act(a,arg){
   switch(a){
-    case 'home': go(()=>{ ui.tab='home'; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.mark=false; ui.confirmReset=false; }); break;
-    case 'tab': go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.mark=false; ui.confirmReset=false; }); break;
+    case 'home': go(()=>{ ui.tab='home'; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
+    case 'tab': go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'review': startSession(arg,'due'); break;
     case 'learn': startSession(arg,'new'); break;
     case 'reveal': if(ui.session){ ui.session.revealed=true; render(); } break;
@@ -784,6 +821,8 @@ function act(a,arg){
     case 'quizExit': go(()=>{ ui.quiz=null; }); break;
     case 'openKanji': go(()=>{ ui.kanji=arg; }); break;
     case 'closeKanji': go(()=>{ ui.kanji=null; }); break;
+    case 'openVocab': go(()=>{ ui.vocab=arg; }); break;
+    case 'closeVocab': go(()=>{ ui.vocab=null; }); break;
     case 'addCard': if(!S.cards[arg]){ S.cards[arg]=newCard(Date.now()); commit(); render(); } break;
     case 'filter': ui.vf=arg; render(); break;
     case 'vtop': ui.vtop=!ui.vtop; render(); break;
@@ -805,10 +844,6 @@ document.addEventListener('click',function(e){
   if(b.dataset.act==='furi'){ b.classList.toggle('fs'); return; }
   act(b.dataset.act,b.dataset.arg);
 });
-document.addEventListener('toggle',function(e){
-  const d=e.target; if(!d||d.tagName!=='DETAILS'||!d.open) return;
-  const b=d.querySelector('.vbody[data-w]'); if(b&&!b.childElementCount&&ITEM[b.dataset.w]) b.innerHTML=vocabBody(ITEM[b.dataset.w]);
-},true);
 document.addEventListener('change',function(e){
   if(e.target&&e.target.id==='importFile'&&e.target.files&&e.target.files[0]){ const f=e.target.files[0]; f.text().then(importData,()=>{ ui.backupMsg='Could not read that file.'; render(); }); return; }
   if(e.target&&e.target.id==='voice'){ setVoicePref(e.target.value); speak('こんにちは。日本語を勉強しましょう。'); }
@@ -849,6 +884,29 @@ document.addEventListener('keydown',function(e){
   } else if(ui.quiz&&!ui.quiz.finished){
     if(ui.quiz.picked===null&&'1234'.indexOf(e.key)>=0&&e.key.length===1){ const i=+e.key-1; if(i<ui.quiz.qs[ui.quiz.i].opts.length) pickAnswer(i); }
     else if(ui.quiz.picked!==null&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); nextQuestion(); }
+  } else if(ui.vocab!==null&&!ui.session&&!ui.quiz&&!ui.read){
+    if(e.key==='ArrowLeft'){
+      e.preventDefault();
+      const rows=vocabRows(), list=rows.some(w=>w.id===ui.vocab)?rows:VOCAB;
+      const idx=list.findIndex(w=>w.id===ui.vocab);
+      if(idx>=0) act('openVocab', list[(idx+list.length-1)%list.length].id);
+    } else if(e.key==='ArrowRight'){
+      e.preventDefault();
+      const rows=vocabRows(), list=rows.some(w=>w.id===ui.vocab)?rows:VOCAB;
+      const idx=list.findIndex(w=>w.id===ui.vocab);
+      if(idx>=0) act('openVocab', list[(idx+1)%list.length].id);
+    } else if(e.key==='Escape'||e.key==='Backspace'){
+      e.preventDefault();
+      act('closeVocab');
+    } else if(e.key==='r'||e.key==='R'||e.key==='s'||e.key==='S'){
+      e.preventDefault();
+      const w=ITEM[ui.vocab];
+      if(w) speak(w.kana.split('・')[0]);
+    } else if(e.key==='k'||e.key==='K'){
+      e.preventDefault();
+      const w=ITEM[ui.vocab];
+      if(w) act('toggleKnown', w.id);
+    }
   }
 });
 

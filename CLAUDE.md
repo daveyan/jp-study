@@ -40,7 +40,7 @@ Every path is relative (no leading `/`), so the site works from a subpath.
 
 Card and lesson IDs are keys for saved progress (`'v:'+written form`, `'k:'+kanji`, `g1`…`g13`, `n5-…`, `n4-…`). Never rename them; add new items instead.
 
-- **Navigation & Ergonomics**: clicking the brand (`学 JP Study`) in the header returns to the Today tab from any view (study session, reading feed, quiz, or other tabs). Vocab search supports romaji input (transliterated to hiragana and katakana) without switching system IMEs. Review cards can be tapped on mobile touchscreens to reveal answers. Review sessions and reading feeds support key `R` or `S` to replay Japanese audio hands-on-keyboard. Hidden furigana has expanded touch hit areas for one-handed phone use.
+- **Navigation & Ergonomics**: clicking the brand (`学 JP Study`) in the header returns to the Today tab from any view (study session, reading feed, quiz, or other tabs). Vocab items open into a dedicated word view with audio, SRS status, Previous/Next navigation, and full example sentences, matching the Grammar and Kanji detail pages. Vocab search supports romaji input (transliterated to hiragana and katakana) without switching system IMEs. Review cards can be tapped on mobile touchscreens to reveal answers. Review sessions and reading feeds support key `R` or `S` to replay Japanese audio hands-on-keyboard. Hidden furigana has expanded touch hit areas for one-handed phone use.
 
 ## State and storage (`app.js`)
 
