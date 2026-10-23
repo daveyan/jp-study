@@ -232,6 +232,8 @@ mark{background:var(--accent-soft); color:inherit; border-radius:4px; padding:0 
 .line > span:first-child{display:flex; align-items:baseline; gap:8px; min-width:0}
 .line .reg{flex:none; min-width:66px; text-align:center; margin-right:0; vertical-align:baseline; position:relative; top:-.2em}
 .sent .reg{top:-.35em}
+.voicerow{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.voicerow select{font:inherit; color:inherit; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:6px 10px; max-width:100%; min-width:0; flex:1 1 200px}
 .lineset{display:grid; gap:6px; max-width:420px}
 .lrow{display:grid; grid-template-columns:76px 1fr auto auto auto; gap:6px; align-items:center}
 .lrow .reg{justify-self:start}

@@ -12,9 +12,23 @@ function dayKey(d){ d=d||new Date(); return d.getFullYear()+'-'+String(d.getMont
 function dayStartPlus(now,n){ const d=new Date(now); d.setHours(0,0,0,0); d.setDate(d.getDate()+n); return d.getTime(); }
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
 const CAN_SPEAK = typeof window!=='undefined' && 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance!=='undefined';
-function speak(t){ try{ if(!CAN_SPEAK) return; const u=new SpeechSynthesisUtterance(t); u.lang='ja-JP'; u.rate=0.9; speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
+// Voices come from the device (they load asynchronously). The chosen one is a per-device preference,
+// kept in localStorage rather than in synced progress, because each device has different voices.
+const VOICE_KEY='jp-study.voice';
+let voicesChecked=false;
+function jaVoices(){ try{ return CAN_SPEAK?speechSynthesis.getVoices().filter(v=>/^ja\b|^ja[-_]/i.test(v.lang)):[]; }catch(e){ return []; } }
+function voicePref(){ try{ return localStorage.getItem(VOICE_KEY)||''; }catch(e){ return ''; } }
+function setVoicePref(uri){ try{ if(uri) localStorage.setItem(VOICE_KEY,uri); else localStorage.removeItem(VOICE_KEY); }catch(e){} }
+// Gender from well-known voice names (Apple, Microsoft, Google, Amazon). Unknown names get no label.
+const VOICE_MALE=/otoya|hattori|ichiro|keita|daichi|naoki|takumi/i, VOICE_FEMALE=/kyoko|o-?ren|haruka|ayumi|sayaka|nanami|mizuki|aoi|mayu|shiori|kazuha|tomoko|google/i;
+function voiceGender(v){ return VOICE_MALE.test(v.name)?'male':VOICE_FEMALE.test(v.name)?'female':''; }
+function speak(t,uri){ try{ if(!CAN_SPEAK) return; const u=new SpeechSynthesisUtterance(t); u.lang='ja-JP'; u.rate=0.9;
+  const want=uri===undefined?voicePref():uri, v=want&&jaVoices().find(x=>x.voiceURI===want); if(v){ u.voice=v; u.lang=v.lang; }
+  speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
+// Speaker buttons hide once we know the device has no Japanese voice.
+function canSpeakJa(){ return CAN_SPEAK&&(!voicesChecked||jaVoices().length>0); }
 const SPK_SVG='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
-function spk(t){ return CAN_SPEAK ? '<button class="icon-btn" data-act="say" data-arg="'+esc(t)+'" aria-label="Play audio">'+SPK_SVG+'</button>' : ''; }
+function spk(t){ return canSpeakJa() ? '<button class="icon-btn" data-act="say" data-arg="'+esc(t)+'" aria-label="Play audio">'+SPK_SVG+'</button>' : ''; }
 
 /* ---------- Japanese text ---------- */
 // Sentences use {漢字|かんじ} for ruby and [..] for the highlighted word or grammar point (see data.js).
@@ -246,7 +260,7 @@ function homeHtml(){
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' cards and sentences in two weeks</p></section>'
     +'<section class="panel settings"><div><h3 style="margin-bottom:8px">Card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>'
-    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+reset+'</section>';
+    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+voiceSetting()+reset+'</section>';
 }
 
 // The last Japanese line that is on can't be hidden, so every example still shows some Japanese.
@@ -259,6 +273,21 @@ function linesSetting(){
       +'<button class="icon-btn" data-act="lineMove" data-arg="'+k+':1" aria-label="Move '+LINES[k]+' down"'+(i<o.length-1?'':' disabled')+'>↓</button>'
       +'<button class="btn sm" data-act="lineToggle" data-arg="'+k+'" aria-pressed="'+on+'"'+(lineLocked(k)?' disabled title="Keep at least one Japanese line"':'')+'>'+(on?'Shown':'Hidden')+'</button></div>'; }).join('')
     +'</div><p class="muted" style="margin-top:6px;font-size:13px">Order and visibility for example sentences on cards, reading feeds and lesson pages.</p></div>';
+}
+
+function voiceSetting(){
+  let body;
+  if(!CAN_SPEAK) body='<p class="muted" style="font-size:13px">This browser has no speech support.</p>';
+  else if(voicesChecked&&!jaVoices().length) body='<p class="muted" style="font-size:13px">No Japanese voice on this device, so audio buttons are hidden. Installing a Japanese voice in the system speech settings adds them back.</p>';
+  else {
+    const cur=voicePref(), vs=jaVoices(), n={};
+    const opt=(uri,label)=>'<option value="'+esc(uri)+'"'+(uri===cur?' selected':'')+'>'+esc(label)+'</option>';
+    body='<div class="voicerow"><select id="voice" aria-label="Voice">'+opt('','Device default')
+      +vs.map((v,i)=>{ const g=voiceGender(v); return opt(v.voiceURI,v.name+(g?' ('+g+')':'')); }).join('')
+      +'</select><button class="btn sm" data-act="voiceTest">Play sample</button></div>'
+      +'<p class="muted" style="margin-top:6px;font-size:13px">Voices come from your device, so the choice is saved on this device only.'+(vs.some(v=>!voiceGender(v))?' Unlabelled voices: play a sample to hear which is which.':'')+'</p>';
+  }
+  return '<div><h3 style="margin-bottom:8px">Voice</h3>'+body+'</div>';
 }
 
 /* ---------- Study sessions ---------- */
@@ -603,6 +632,7 @@ function act(a,arg){
     case 'readShow': if(ui.read){ ui.read.shown=true; render(); } break;
     case 'readNext': readNext(); break;
     case 'readExit': go(()=>{ ui.read=null; }); break;
+    case 'voiceTest': speak('こんにちは。日本語を勉強しましょう。'); break;
     case 'furiMode': S.settings.furi=arg; commit(); render(); break;
     case 'lineMove': { const k=arg.split(':')[0], o=lineOrder().slice(), i=o.indexOf(k), j=i+(+arg.split(':')[1]);
       if(i>=0&&j>=0&&j<o.length){ o[i]=o[j]; o[j]=k; S.settings.order=o; commit(); render(); } } break;
@@ -638,6 +668,15 @@ document.addEventListener('click',function(e){
   if(b.dataset.act==='furi'){ b.classList.toggle('fs'); return; }
   act(b.dataset.act,b.dataset.arg);
 });
+document.addEventListener('change',function(e){
+  if(e.target&&e.target.id==='voice'){ setVoicePref(e.target.value); speak('こんにちは。日本語を勉強しましょう。'); }
+});
+if(CAN_SPEAK){
+  // Re-render only where it matters, so a late voice list doesn't reset a search box or a card.
+  const voicesReady=()=>{ voicesChecked=true; if(!jaVoices().length||(ui.tab==='home'&&!ui.session&&!ui.quiz&&!ui.read)) render(); };
+  try{ speechSynthesis.addEventListener('voiceschanged',voicesReady); }catch(e){}
+  setTimeout(()=>{ if(!voicesChecked) voicesReady(); },2000);
+}
 document.addEventListener('input',function(e){
   if(e.target&&e.target.id==='vq'){ ui.vq=e.target.value; const l=$('#vlist'); if(l) l.innerHTML=vocabListHtml(); }
 });
