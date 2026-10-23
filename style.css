@@ -313,3 +313,17 @@ label.btn{display:inline-block}
   .vjp{font-size:20px}
   .card{padding:16px 14px 18px; min-height:230px}
 }
+
+/* Word lookup: tappable words in sentences and the sheet that shows their meaning */
+.lk{cursor:pointer; border-radius:3px; -webkit-tap-highlight-color:transparent}
+@media (hover:hover){ .lk:hover{background:color-mix(in srgb, var(--accent-soft) 70%, transparent)} }
+.lk.on{background:var(--accent-soft); box-shadow:0 0 0 2px var(--accent-soft)}
+#lk-sheet{position:fixed; left:0; right:0; bottom:0; z-index:40; transform:translateY(105%); transition:transform .18s ease; pointer-events:none}
+#lk-sheet.open{transform:none; pointer-events:auto}
+.lk-sheet-in{max-width:760px; margin:0 auto; background:var(--panel); border:1px solid var(--line); border-bottom:0; border-radius:16px 16px 0 0; box-shadow:0 -8px 30px rgba(0,0,0,.14); padding:16px 16px calc(16px + env(safe-area-inset-bottom, 0px)); display:grid; gap:8px}
+.lk-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px}
+.lk-jp{font:600 28px/1.2 var(--f-jp)}
+.reading.lk-rd{font-size:20px; justify-content:flex-start}
+.lk-en{font-size:17px}
+.lk-meta{font-size:13px; display:flex; gap:10px; align-items:center}
+@media (prefers-reduced-motion:reduce){ #lk-sheet{transition:none} }

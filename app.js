@@ -75,18 +75,114 @@ function kanjiKnown(ch){ return wellKnown('k:'+ch)||(WORDS_WITH[ch]||[]).some(we
 // Furigana setting: 'auto' shows it over kanji not yet known (see kanjiKnown), 'on' always, 'off' never.
 function showFuri(base){ const m=S.settings.furi; if(m==='on') return true; if(m==='off') return false; return [...base].some(ch=>KANJI_RE.test(ch)&&!kanjiKnown(ch)); }
 // Hidden furigana stays in the layout and can be tapped to show. opts.hideMark also hides it inside the highlight.
+// Words found in VOCAB are wrapped in <span class="lk" data-lk=id> so a tap opens the lookup sheet; a word split
+// by the highlight gets one span per piece, sharing data-g. Review card fronts (hideMark) get no lookups.
+let LKG=0;
 function jpHtml(s,opts){
-  opts=opts||{}; let out='', inMark=false, m;
-  const re=/\{([^|}]*)\|([^}]*)\}|\[|\]|[^{[\]]+/g;
+  opts=opts||{};
+  const atoms=[], re=/\{([^|}]*)\|([^}]*)\}|\[|\]|[^{[\]]/g; let m, plain='';
   while((m=re.exec(s))){
-    if(m[1]!==undefined){
-      const show=!(inMark&&opts.hideMark)&&showFuri(m[1]);
-      out+='<ruby'+(show?'':' class="fh" data-act="furi" title="Tap for reading"')+'>'+esc(m[1])+'<rt>'+esc(m[2])+'</rt></ruby>';
-    } else if(m[0]==='['){ out+='<mark>'; inMark=true; }
-    else if(m[0]===']'){ out+='</mark>'; inMark=false; }
-    else out+=esc(m[0]);
+    if(m[1]!==undefined) atoms.push({b:m[1],r:m[2]});
+    else if(m[0]==='[') atoms.push({o:1});
+    else if(m[0]===']') atoms.push({x:1});
+    else atoms.push({b:m[0]});
+  }
+  const starts=[];
+  atoms.forEach(a=>{ if(a.b!==undefined){ a.p=plain.length; starts.push(a.p); plain+=a.b; } });
+  const at={}; (opts.hideMark?[]:lookupSegs(plain,starts)).forEach(g=>{ g.g=++LKG; at[g.s]=g; });
+  let out='', inMark=false, cur=null, open=false;
+  atoms.forEach(a=>{
+    if(a.o||a.x){ if(open){ out+='</span>'; open=false; } out+=a.o?'<mark>':'</mark>'; inMark=!!a.o; return; }
+    if(cur&&a.p>=cur.e){ if(open) out+='</span>'; open=false; cur=null; }
+    if(!cur&&at[a.p]) cur=at[a.p];
+    if(cur&&!open){ out+='<span class="lk" data-lk="'+esc(cur.id)+'" data-g="'+cur.g+'">'; open=true; }
+    if(a.r!==undefined){
+      const show=!(inMark&&opts.hideMark)&&showFuri(a.b);
+      out+='<ruby'+(show?'':' class="fh" data-act="furi" title="Tap for reading"')+'>'+esc(a.b)+'<rt>'+esc(a.r)+'</rt></ruby>';
+    } else out+=esc(a.b);
+  });
+  if(open) out+='</span>';
+  return out;
+}
+
+/* ---------- Word lookup ---------- */
+// Finds vocab words in a sentence's plain text. Matches start and end on ruby/character boundaries, longest first.
+// exact: written forms with kanji, all-katakana words, and the noun part of する verbs. stem: verbs and い-adjectives
+// minus their last kana, which match only when followed by kana an inflection can start with (飲 + み/ま/ん…).
+// Hiragana keys (kana-only words, and the kana spelling of non-verbs like おいしい) need 4+ characters; shorter ones
+// turn up inside too many other words. A ます-stem noun (休み, 帰り) followed by a verb ending reads as the verb.
+let LK=null;
+const KATA_RE=/^[\u30a1-\u30fa\u30fc]+$/, HIRA_RE=/[\u3041-\u3096]/;
+const GODAN_NEXT={'う':'わいうえおっ','く':'かきくけこいっ','ぐ':'がぎぐげごい','す':'さしすせそ','つ':'たちつてとっ','ぬ':'なにぬねのん','ぶ':'ばびぶべぼん','む':'まみむめもん'};
+function lookupIndex(){
+  if(LK) return LK;
+  const exact=new Map(), stem=new Map(), ws=VOCAB.slice().sort(byRank), hasK=t=>KANJI_RE.test(t);
+  const HIRA_ONLY=/^[\u3041-\u3096ー]+$/;
+  ws.forEach(w=>{ if(w.jp[0]!=='～'&&(hasK(w.jp)||KATA_RE.test(w.jp))&&!exact.has(w.jp)) exact.set(w.jp,w.id); });
+  ws.forEach(w=>{
+    if(w.jp[0]==='～'||w.tag==='Verbs') return;
+    w.kana.split('・').forEach(k=>{
+      if(k.length<4||!HIRA_ONLY.test(k)) return;
+      if(!exact.has(k)) exact.set(k,w.id);
+      if(w.tag==='Adjectives'&&k.slice(-1)==='い'&&!stem.has(k.slice(0,-1))) stem.set(k.slice(0,-1),{id:w.id,nx:'いくかけさそす'});
+    });
+  });
+  ws.forEach(w=>{
+    const jp=w.jp, last=jp.slice(-1), base=jp.slice(0,-1);
+    if(jp[0]==='～') return;
+    if(jp.length>2&&jp.endsWith('する')){ const n=jp.slice(0,-2); if((hasK(n)||KATA_RE.test(n))&&!exact.has(n)) exact.set(n,w.id); return; }
+    if(!hasK(base)) return;
+    const nx=w.tag==='Adjectives'&&last==='い'?'いくかけさそす':last==='る'?'*':GODAN_NEXT[last];
+    if(nx&&!stem.has(base)) stem.set(base,{id:w.id,nx:nx});
+  });
+  let max=1; exact.forEach((v,k)=>{ max=Math.max(max,k.length); }); stem.forEach((v,k)=>{ max=Math.max(max,k.length); });
+  return LK={exact:exact,stem:stem,max:max};
+}
+function lookupSegs(plain,starts){
+  const ix=lookupIndex(), n=plain.length, B=new Set(starts.concat([n])), out=[];
+  const isKata=c=>!!c&&KATA_RE.test(c);
+  for(let k=0;k<starts.length;k++){
+    const i=starts[k]; if(out.length&&i<out[out.length-1].e) continue;
+    for(let L=Math.min(ix.max,n-i);L>0;L--){
+      const e=i+L; if(!B.has(e)) continue;
+      const sub=plain.slice(i,e), st=ix.stem.get(sub), ex=ix.exact.get(sub);
+      if(st&&e<n&&(st.nx==='*'?HIRA_RE.test(plain[e]):st.nx.indexOf(plain[e])>=0)){ out.push({s:i,e:e,id:st.id}); break; }
+      if(ex&&HIRA_RE.test(sub[0])&&'てで'.indexOf(plain[i-1]||'')>=0) continue;  // てください etc. are auxiliaries
+      if(ex&&!(KATA_RE.test(sub)&&(isKata(plain[i-1])||isKata(plain[e])))){
+        const vs=L>1&&HIRA_RE.test(sub.slice(-1))&&'まなそやすた'.indexOf(plain[e]||'')>=0?ix.stem.get(sub.slice(0,-1)):null;
+        if(vs&&vs.nx!=='*'&&vs.nx.indexOf(sub.slice(-1))>=0) out.push({s:i,e:e-1,id:vs.id});
+        else if(vs&&vs.nx==='*') out.push({s:i,e:e-1,id:vs.id});
+        else out.push({s:i,e:e,id:ex});
+        break;
+      }
+    }
   }
   return out;
+}
+// The lookup sheet: a panel fixed to the bottom of the screen, outside #main so re-renders don't touch it.
+let LKOPEN=null;
+function lookupHtml(id){
+  const w=ITEM[id], st=stateOf(id), pr=pitchFor(w);
+  return '<div class="lk-sheet-in"><div class="lk-head"><div><div class="lk-jp" lang="ja">'+esc(w.jp)+'</div>'
+    +(pr||w.kana!==w.jp?'<div class="reading lk-rd" lang="ja">'+(pr||esc(w.kana))+'</div>':'')+'</div>'
+    +'<button class="icon-btn" data-act="lkClose" aria-label="Close">✕</button></div>'
+    +'<p class="lk-en">'+esc(w.en)+'</p>'
+    +'<p class="lk-meta"><span class="lvb">'+esc(w.lv||'N5')+'</span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></p>'
+    +'<div class="actions">'+(canSpeakJa()?'<button class="btn" data-act="say" data-arg="'+esc(w.kana.split('・')[0])+'">Play audio</button>':'')
+    +(!S.cards[id]&&st!=='known'?'<button class="btn" data-act="lkAdd" data-arg="'+esc(id)+'">Add to reviews</button>':'')
+    +(ui.session||ui.quiz?'':'<button class="btn primary" data-act="lkOpen" data-arg="'+esc(id)+'">Open word</button>')+'</div></div>';
+}
+function openLookup(id,el){
+  if(!ITEM[id]) return;
+  let sh=$('#lk-sheet');
+  if(!sh){ sh=document.createElement('div'); sh.id='lk-sheet'; sh.setAttribute('role','dialog'); sh.setAttribute('aria-label','Word lookup'); document.body.appendChild(sh); }
+  sh.innerHTML=lookupHtml(id); sh.classList.add('open'); LKOPEN=id;
+  document.querySelectorAll('.lk.on').forEach(x=>x.classList.remove('on'));
+  if(el) document.querySelectorAll('.lk[data-g="'+el.dataset.g+'"]').forEach(x=>x.classList.add('on'));
+}
+function closeLookup(){
+  const sh=$('#lk-sheet'); if(sh) sh.classList.remove('open');
+  LKOPEN=null; document.querySelectorAll('.lk.on').forEach(x=>x.classList.remove('on'));
 }
 
 /* ---------- State and storage ---------- */
@@ -234,6 +330,7 @@ const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢�
 function go(fn){ fn(); render(); window.scrollTo(0,0); }
 
 function render(){
+  closeLookup();
   renderChrome();
   const m=$('#main');
   let h;
@@ -726,8 +823,8 @@ function lessonStep(i,d){
   let l=lessonRows().map(r=>r[1]); if(l.indexOf(i)<0) l=GRAMMAR.map((g,j)=>j);
   return l[(l.indexOf(i)+d+l.length)%l.length];
 }
-// Word and lesson pages opened from a reading feed go back to the feed instead of the list.
-function backBtn(a,label){ return ui.back?'<button class="btn link" data-act="backToRead">← Back to reading</button>':'<button class="btn link" data-act="'+a+'">← '+label+'</button>'; }
+// Word and lesson pages opened from a reading feed or a lookup go back to where you were instead of the list.
+function backBtn(a,label){ return ui.back?'<button class="btn link" data-act="backToRead">← '+(ui.back.read?'Back to reading':'Back')+'</button>':'<button class="btn link" data-act="'+a+'">← '+label+'</button>'; }
 function lessonListHtml(){
   const rows=lessonRows(); let level='';
   if(!rows.length) return '<p class="muted" style="padding:8px 2px">No lessons match.</p>';
@@ -827,7 +924,7 @@ function readHtml(){
   const ctrl=shown
     ? '<button class="btn primary wide" data-act="readNext">Next</button>'
     : '<div class="grades two"><button class="btn primary" data-act="readShow">Show English</button><button class="btn" data-act="readNext">Next →</button></div>';
-  return head+'<article class="card">'+top+'<div class="lines">'+exLines(it,{big:true,noEn:!r.shown})+'</div></article>'+ctrl+'<p class="keyhint">'+(enOn?'Space: English, then next':'Space: next')+' · → skip ahead · R audio</p>';
+  return head+'<article class="card">'+top+'<div class="lines">'+exLines(it,{big:true,noEn:!r.shown})+'</div></article>'+ctrl+'<p class="keyhint">'+(enOn?'Space: English, then next':'Space: next')+' · → skip ahead · R audio · tap a word to look it up</p>';
 }
 
 /* ---------- Quizzes ---------- */
@@ -971,9 +1068,13 @@ function act(a,arg){
     case 'vlv': ui.vlv=ui.vlv===arg?'':arg; render(); break;
     case 'gfilter': ui.gf=arg; render(); break;
     case 'lessonStep': go(()=>{ openLesson(lessonStep(ui.lesson,+arg),true); }); break;
-    case 'feedOpen': { const b={read:ui.read,tab:ui.tab,vocab:ui.vocab,lesson:ui.lesson};
+    case 'lkClose': closeLookup(); break;
+    case 'lkAdd': if(!S.cards[arg]){ S.cards[arg]=newCard(Date.now()); commit(); } render(); openLookup(arg); break;
+    case 'lkOpen': { const b={read:ui.read,tab:ui.tab,vocab:ui.vocab,lesson:ui.lesson,y:window.scrollY,prev:ui.back};
+      go(()=>{ ui.back=b; ui.read=null; ui.tab='vocab'; ui.lesson=null; ui.vocab=arg; }); break; }
+    case 'feedOpen': { const b={read:ui.read,tab:ui.tab,vocab:ui.vocab,lesson:ui.lesson,y:window.scrollY,prev:ui.back};
       go(()=>{ ui.back=b; ui.read=null; if(arg[0]==='g'){ ui.tab='grammar'; ui.vocab=null; openLesson(+arg.slice(1),true); } else { ui.tab='vocab'; ui.lesson=null; ui.vocab=arg; } }); break; }
-    case 'backToRead': { const b=ui.back; if(!b) break; go(()=>{ ui.back=null; ui.tab=b.tab; ui.vocab=b.vocab; ui.lesson=b.lesson; ui.read=b.read; }); break; }
+    case 'backToRead': { const b=ui.back; if(!b) break; ui.back=b.prev; ui.tab=b.tab; ui.vocab=b.vocab; ui.lesson=b.lesson; ui.read=b.read; render(); window.scrollTo(0,b.y||0); break; }
     case 'readSession': { const ids=ui.session&&ui.session.ids; ui.session=null; if(ids) readWords(ids); else render(); break; }
     case 'readWordsAgain': readWords(ui.read.meta.ids); break;
     case 'glv': ui.glv=ui.glv===arg?'':arg; render(); break;
@@ -990,6 +1091,9 @@ function act(a,arg){
   }
 }
 document.addEventListener('click',function(e){
+  const lk=e.target.closest('.lk');
+  if(lk){ lk.querySelectorAll('ruby.fh').forEach(r=>r.classList.add('fs')); openLookup(lk.dataset.lk,lk); return; }
+  if(LKOPEN&&!e.target.closest('#lk-sheet')){ closeLookup(); return; }
   const b=e.target.closest('[data-act]'); if(!b) return;
   if(b.dataset.act==='furi'){ b.classList.toggle('fs'); return; }
   act(b.dataset.act,b.dataset.arg);
@@ -1011,6 +1115,7 @@ document.addEventListener('input',function(e){
   if(e.target&&e.target.id==='gq'){ ui.gq=e.target.value; const l=$('#glist'); if(l) l.innerHTML=lessonListHtml(); }
 });
 document.addEventListener('keydown',function(e){
+  if(LKOPEN&&e.key==='Escape'){ e.preventDefault(); closeLookup(); return; }
   const t=e.target; if(t&&t!==document.body&&t!==document.documentElement) return;
   if(e.metaKey||e.ctrlKey||e.altKey) return;
   if(ui.session&&ui.session.queue.length){
