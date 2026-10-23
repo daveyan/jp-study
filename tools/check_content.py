@@ -109,6 +109,8 @@ def check_vocab():
         affix = jp.startswith('～') or (len(jp) == 1 and bool(KANJI.match(jp)))
         forms = [jp.lstrip('～')] + kana.split('・')
         forms += IRREGULAR.get(jp, [])
+        if jp.endswith('する') and len(jp) > 2:
+            forms.append(jp[:-2])  # する verbs conjugate from the noun part: コピーして
         n += 1
         if len(exs) < 2:
             errors.append(f'vocab {jp}: only {len(exs)} example(s)')
