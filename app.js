@@ -91,7 +91,7 @@ function jpHtml(s,opts){
 
 /* ---------- State and storage ---------- */
 const KEY='jp-study.progress.v1';
-function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},flags:{},settings:{recall:false,furi:'auto',order:['pol','cas','en'],off:[]}}; }
+function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},flags:{},settings:{recall:false,furi:'auto',order:['pol','cas','en'],off:[],autoSpeak:false}}; }
 function normalize(o){
   const d=defaultState();
   if(!o||typeof o!=='object') return d;
@@ -299,7 +299,7 @@ function homeHtml(){
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' cards and sentences in two weeks</p></section>'
     +'<section class="panel settings"><div><h3 style="margin-bottom:8px">Card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>'
-    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+voiceSetting()+backupSetting()+reset+'</section>';
+    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</section>';
 }
 
 // The last Japanese line that is on can't be hidden, so every example still shows some Japanese.
@@ -314,6 +314,17 @@ function linesSetting(){
     +'</div><p class="muted" style="margin-top:6px;font-size:13px">Order and visibility for example sentences on cards, reading feeds and lesson pages.</p></div>';
 }
 
+function autoSpeakSetting(){
+  if(!CAN_SPEAK) return '';
+  const on=!!S.settings.autoSpeak;
+  return '<div><h3 style="margin-bottom:8px">Audio autoplay</h3>'
+    +'<div class="seg" role="group" aria-label="Audio autoplay">'
+    +'<button data-act="autoSpeak" data-arg="0" aria-pressed="'+(!on)+'">Off</button>'
+    +'<button data-act="autoSpeak" data-arg="1" aria-pressed="'+on+'">On (reviews & feeds)</button>'
+    +'</div>'
+    +'<p class="muted" style="margin-top:6px;font-size:13px">Automatically plays sentence audio when revealing a review card or viewing a sentence in reading feeds.</p></div>';
+}
+
 // Backup: progress lives only in this browser's storage, so export it to a file now and then.
 // Import merges the file into what's here (newest wins per card), so nothing current is lost.
 function backupSetting(){
@@ -325,12 +336,27 @@ function backupSetting(){
     +(nf?'<div class="actions" style="margin-top:6px"><button class="btn sm" data-act="copyFlags">Copy list</button><button class="btn sm" data-act="clearFlags">Clear list</button></div>':'')
     +(ui.backupMsg?'<p class="backup-msg">'+esc(ui.backupMsg)+'</p>':'')+'</div>';
 }
-function exportData(){
+async function exportData(){
   try{
-    const blob=new Blob([JSON.stringify({app:'jp-study',exportedAt:new Date().toISOString(),state:S},null,1)],{type:'application/json'});
-    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='jp-study-backup-'+dayKey()+'.json';
+    const json=JSON.stringify({app:'jp-study',exportedAt:new Date().toISOString(),state:S},null,1);
+    const filename='jp-study-backup-'+dayKey()+'.json';
+    const blob=new Blob([json],{type:'application/json'});
+    if(typeof navigator!=='undefined'&&navigator.canShare){
+      try{
+        const file=new File([blob],filename,{type:'application/json'});
+        if(navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],title:filename});
+          ui.backupMsg='Saved '+filename+'.';
+          render();
+          return;
+        }
+      }catch(err){
+        if(err&&err.name==='AbortError') return;
+      }
+    }
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename;
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),5000);
-    ui.backupMsg='Saved jp-study-backup-'+dayKey()+'.json.';
+    ui.backupMsg='Saved '+filename+'.';
   }catch(e){ ui.backupMsg='Export failed: '+e.message; }
   render();
 }
@@ -653,7 +679,12 @@ function grammarHtml(){
 
 /* ---------- Reading feed ---------- */
 // One sentence at a time: read it, optionally reveal the English, move on. No grading.
-function startRead(title,items,meta){ go(()=>{ ui.read={title:title,items:items,i:0,shown:false,meta:meta}; }); }
+function startRead(title,items,meta){
+  go(()=>{
+    ui.read={title:title,items:items,i:0,shown:false,meta:meta};
+    if(S.settings.autoSpeak&&items.length) speak(jpPlain(items[0].jp));
+  });
+}
 function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, shuffle(g.ex.map(e=>({jp:e[0],en:e[1],cas:e[2]||'',g:i}))).slice(0,FEED_N), {type:'lesson',idx:i}); }
 function readMix(){
   const items=[]; mixLessons().forEach(g=>{ const i=GRAMMAR.indexOf(g); g.ex.forEach(e=>items.push({jp:e[0],en:e[1],cas:e[2]||'',g:i})); });
@@ -685,6 +716,7 @@ function readNext(){
   commit();
   r.i++; r.shown=false;
   render(); window.scrollTo(0,0);
+  if(S.settings.autoSpeak&&r.i<r.items.length) speak(jpPlain(r.items[r.i].jp));
 }
 function readHtml(){
   const r=ui.read, n=r.items.length;
@@ -782,17 +814,33 @@ function quizHtml(){
 }
 
 /* ---------- Events ---------- */
+let vocabScroll=0, lessonScroll=0, kanjiScroll=0;
 function act(a,arg){
   switch(a){
-    case 'home': go(()=>{ ui.tab='home'; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
-    case 'tab': go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
+    case 'home': vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab='home'; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
+    case 'tab': vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'review': startSession(arg,'due'); break;
     case 'learn': startSession(arg,'new'); break;
-    case 'reveal': if(ui.session){ ui.session.revealed=true; render(); } break;
+    case 'reveal':
+      if(ui.session){
+        ui.session.revealed=true;
+        render();
+        if(S.settings.autoSpeak){
+          const id=ui.session.queue[0], it=ITEM[id];
+          if(it){
+            if(ui.session.kind==='vocab'){
+              const ex=cardExample(it); speak(jpPlain(ex.jp));
+            } else {
+              speak(it.ex&&it.ex[0]?it.ex[0][1]:(it.kun||it.on));
+            }
+          }
+        }
+      }
+      break;
     case 'grade': gradeCurrent(+arg); break;
     case 'exit': go(()=>{ ui.session=null; }); break;
     case 'say': speak(arg); break;
-    case 'openLesson': go(()=>{ openLesson(+arg); }); break;
+    case 'openLesson': lessonScroll=window.scrollY; go(()=>{ openLesson(+arg); }); break;
     case 'gopen': go(()=>{ ui.quiz=null; ui.read=null; ui.tab='grammar'; openLesson(+arg); }); break;
     case 'readLesson': readLesson(+arg); break;
     case 'readMix': readMix(); break;
@@ -806,12 +854,13 @@ function act(a,arg){
     case 'readExit': go(()=>{ ui.read=null; }); break;
     case 'voiceTest': speak('こんにちは。日本語を勉強しましょう。'); break;
     case 'furiMode': S.settings.furi=arg; commit(); render(); break;
+    case 'autoSpeak': S.settings.autoSpeak=(arg==='1'); commit(); render(); break;
     case 'lineMove': { const k=arg.split(':')[0], o=lineOrder().slice(), i=o.indexOf(k), j=i+(+arg.split(':')[1]);
       if(i>=0&&j>=0&&j<o.length){ o[i]=o[j]; o[j]=k; S.settings.order=o; commit(); render(); } } break;
     case 'lineToggle': { if(!LINES[arg]||lineLocked(arg)) break;
       const off=(Array.isArray(S.settings.off)?S.settings.off:[]).filter(x=>x!==arg); if(lineOn(arg)) off.push(arg);
       S.settings.off=off; commit(); render(); } break;
-    case 'closeLesson': go(()=>{ ui.lesson=null; }); break;
+    case 'closeLesson': ui.lesson=null; render(); window.scrollTo(0,lessonScroll); break;
     case 'lessonBack': go(()=>{ ui.quiz=null; }); break;
     case 'lessonQuiz': { const i=+arg, g=GRAMMAR[i]; startQuiz(g.level+' · '+g.title, shuffle(g.quiz).map(shuffleQ), {type:'lesson',idx:i}); break; }
     case 'vquiz': startQuiz('Vocabulary quiz', vocabQuizQs(10), {type:'vocab'}); break;
@@ -819,10 +868,10 @@ function act(a,arg){
     case 'pick': pickAnswer(+arg); break;
     case 'next': nextQuestion(); break;
     case 'quizExit': go(()=>{ ui.quiz=null; }); break;
-    case 'openKanji': go(()=>{ ui.kanji=arg; }); break;
-    case 'closeKanji': go(()=>{ ui.kanji=null; }); break;
-    case 'openVocab': go(()=>{ ui.vocab=arg; }); break;
-    case 'closeVocab': go(()=>{ ui.vocab=null; }); break;
+    case 'openKanji': kanjiScroll=window.scrollY; go(()=>{ ui.kanji=arg; }); break;
+    case 'closeKanji': ui.kanji=null; render(); window.scrollTo(0,kanjiScroll); break;
+    case 'openVocab': vocabScroll=window.scrollY; go(()=>{ ui.vocab=arg; }); break;
+    case 'closeVocab': ui.vocab=null; render(); window.scrollTo(0,vocabScroll); break;
     case 'addCard': if(!S.cards[arg]){ S.cards[arg]=newCard(Date.now()); commit(); render(); } break;
     case 'filter': ui.vf=arg; render(); break;
     case 'vtop': ui.vtop=!ui.vtop; render(); break;
@@ -909,6 +958,36 @@ document.addEventListener('keydown',function(e){
     }
   }
 });
+let touchStartX=0, touchStartY=0, touchStartTime=0;
+document.addEventListener('touchstart',function(e){
+  if(e.touches.length===1){
+    touchStartX=e.touches[0].clientX;
+    touchStartY=e.touches[0].clientY;
+    touchStartTime=Date.now();
+  }
+},{passive:true});
+document.addEventListener('touchend',function(e){
+  if(e.changedTouches.length!==1) return;
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  const dt=Date.now()-touchStartTime;
+  if(dt>600||Math.abs(dx)<48||Math.abs(dy)>Math.abs(dx)*0.75) return;
+  if(ui.read&&ui.read.i<ui.read.items.length){
+    if(dx<0){ if(ui.read.shown||!lineOn('en')) readNext(); else act('readShow'); }
+  } else if(ui.session&&ui.session.queue.length){
+    if(dx<0&&!ui.session.revealed) act('reveal');
+  } else if(ui.vocab!==null&&!ui.session&&!ui.quiz&&!ui.read){
+    const rows=vocabRows(), list=rows.some(w=>w.id===ui.vocab)?rows:VOCAB;
+    const idx=list.findIndex(w=>w.id===ui.vocab);
+    if(idx>=0){
+      if(dx<0) act('openVocab', list[(idx+1)%list.length].id);
+      else if(dx>0) act('openVocab', list[(idx+list.length-1)%list.length].id);
+    }
+  } else if(ui.lesson!==null&&!ui.session&&!ui.quiz&&!ui.read){
+    if(dx<0&&ui.lesson+1<GRAMMAR.length) act('openLesson', ui.lesson+1);
+    else if(dx>0&&ui.lesson>0) act('openLesson', ui.lesson-1);
+  }
+},{passive:true});
 
 /*TEST_HOOK*/
 render();
