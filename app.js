@@ -45,7 +45,7 @@ function jpHtml(s,opts){
 
 /* ---------- State and storage ---------- */
 const KEY='jp-study.progress.v1';
-function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},settings:{recall:false,furi:'auto'}}; }
+function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},settings:{recall:false,furi:'auto',order:['pol','cas','en'],off:[]}}; }
 function normalize(o){
   const d=defaultState();
   if(!o||typeof o!=='object') return d;
@@ -246,7 +246,19 @@ function homeHtml(){
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' cards and sentences in two weeks</p></section>'
     +'<section class="panel settings"><div><h3 style="margin-bottom:8px">Card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>'
-    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+reset+'</section>';
+    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+reset+'</section>';
+}
+
+// The last Japanese line that is on can't be hidden, so every example still shows some Japanese.
+function lineLocked(k){ return k!=='en'&&lineOn(k)&&['pol','cas'].filter(lineOn).length===1; }
+function linesSetting(){
+  const hint={pol:'です / ます',cas:'だ / plain form',en:'translation'}, o=lineOrder();
+  return '<div><h3 style="margin-bottom:8px">Example lines</h3><div class="lineset">'+o.map((k,i)=>{ const on=lineOn(k);
+    return '<div class="lrow'+(on?'':' off')+'"><span class="reg">'+LINES[k]+'</span><span class="muted lhint" lang="ja">'+hint[k]+'</span>'
+      +'<button class="icon-btn" data-act="lineMove" data-arg="'+k+':-1" aria-label="Move '+LINES[k]+' up"'+(i?'':' disabled')+'>↑</button>'
+      +'<button class="icon-btn" data-act="lineMove" data-arg="'+k+':1" aria-label="Move '+LINES[k]+' down"'+(i<o.length-1?'':' disabled')+'>↓</button>'
+      +'<button class="btn sm" data-act="lineToggle" data-arg="'+k+'" aria-pressed="'+on+'"'+(lineLocked(k)?' disabled title="Keep at least one Japanese line"':'')+'>'+(on?'Shown':'Hidden')+'</button></div>'; }).join('')
+    +'</div><p class="muted" style="margin-top:6px;font-size:13px">Order and visibility for example sentences on cards, reading feeds and lesson pages.</p></div>';
 }
 
 /* ---------- Study sessions ---------- */
@@ -277,9 +289,26 @@ function knowCurrent(){
   commit(); render(); window.scrollTo(0,0);
 }
 function bigCls(t){ const n=[...t].length; return n<=2?'xl':n<=4?'lg':'md'; }
-// Examples come in a polite (です/ます) version and, usually, a casual one shown underneath it.
-function casLine(cas,opts){ return cas?'<div class="ex-row cas"><span class="jpl" lang="ja"><span class="reg">casual</span>'+jpHtml(cas,opts)+'</span>'+spk(jpPlain(cas))+'</div>':''; }
-function exBlock(jp,en,cas){ return '<div class="ex"><div class="ex-row"><span class="jpl" lang="ja">'+jpHtml(jp)+'</span>'+spk(jpPlain(jp))+'</div>'+casLine(cas)+'<span class="muted">'+esc(en)+'</span></div>'; }
+// Each example has up to three lines: formal (です/ます), casual (plain form) and English.
+// Their order and which ones show are settings (S.settings.order / .off), changed on the Today tab.
+const LINES={pol:'formal',cas:'casual',en:'English'};
+function lineOrder(){ const o=S.settings.order; return Array.isArray(o)&&o.length===3&&['pol','cas','en'].every(k=>o.includes(k))?o:['pol','cas','en']; }
+function lineOn(k){ const off=S.settings.off; return !(Array.isArray(off)&&off.includes(k)); }
+// Lines for one example {jp, en, cas}. A missing casual version is skipped, and if no Japanese line would
+// show, the formal one does. opts: big (card/feed size), noEn, noSpk, plus jpHtml's opts.
+function exLines(e,opts){
+  const o=opts||{};
+  let ks=lineOrder().filter(k=>lineOn(k)&&(k!=='cas'||e.cas));
+  if(!ks.some(k=>k!=='en')) ks=lineOrder().filter(k=>k==='pol'||ks.includes(k));
+  if(o.noEn) ks=ks.filter(k=>k!=='en');
+  return ks.map(k=>{
+    const tag='<span class="reg">'+LINES[k]+'</span>';
+    if(k==='en') return '<div class="ex-row line"><span class="'+(o.big?'sent-en':'enl')+'">'+tag+'<span>'+esc(e.en)+'</span></span></div>';
+    const s=k==='pol'?e.jp:e.cas;
+    return '<div class="ex-row line"><span class="'+(o.big?'sent':'jpl')+'" lang="ja">'+tag+'<span>'+jpHtml(s,o)+'</span></span>'+(o.noSpk?'':spk(jpPlain(s)))+'</div>';
+  }).join('');
+}
+function exBlock(jp,en,cas){ return '<div class="ex">'+exLines({jp:jp,en:en,cas:cas})+'</div>'; }
 // Vocab cards rotate through the word's example sentences, so the prompt changes between reviews.
 // Vocab cards show a random example sentence, never the one shown at the previous review (card.exi).
 // The pick is held in the session so it stays put while the card is on screen.
@@ -298,12 +327,11 @@ function cardFaces(it,kind,recall){
   if(kind==='vocab'){
     const e=cardExample(it);
     if(!recall){
-      front.push('<div class="sent" lang="ja">'+jpHtml(e.jp,{hideMark:true})+'</div>');
-      if(e.cas) front.push('<div class="sent cas" lang="ja"><span class="reg">casual</span>'+jpHtml(e.cas,{hideMark:true})+'</div>');
+      front.push('<div class="lines">'+exLines(e,{big:true,noEn:true,noSpk:true,hideMark:true})+'</div>');
       back.push('<div class="face md" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
       if(it.kana!==it.jp) back.push('<div class="reading" lang="ja">'+esc(it.kana)+'</div>');
       back.push('<div class="gloss">'+esc(it.en)+'</div>');
-      back.push('<div class="ex-row sent-en"><span class="muted">'+esc(e.en)+'</span>'+spk(jpPlain(e.jp))+'</div>');
+      back.push('<div class="ex-row"><span class="sent-en">'+(lineOn('en')?'<span class="reg">English</span>'+esc(e.en):'')+'</span>'+spk(jpPlain(e.jp))+'</div>');
     } else {
       front.push('<div class="face en">'+esc(it.en)+'</div>');
       back.push('<div class="face '+bigCls(it.jp)+'" lang="ja" style="padding:0">'+esc(it.jp)+'</div>');
@@ -476,11 +504,11 @@ function readHtml(){
   }
   const it=r.items[r.i], g=GRAMMAR[it.g];
   const top='<div class="card-top"><span>'+esc(r.meta.type==='mix'?g.level+' · '+g.title:g.pattern)+'</span></div>';
-  const en=r.shown?'<hr class="divider"><div class="ex-row sent-en"><span>'+esc(it.en)+'</span></div>':'';
-  const ctrl=r.shown
+  const enOn=lineOn('en'), shown=r.shown||!enOn;
+  const ctrl=shown
     ? '<button class="btn primary wide" data-act="readNext">Next</button>'
     : '<div class="grades two"><button class="btn primary" data-act="readShow">Show English</button><button class="btn" data-act="readNext">Next →</button></div>';
-  return head+'<article class="card">'+top+'<div class="ex-row"><div class="sent" lang="ja">'+jpHtml(it.jp)+'</div>'+spk(jpPlain(it.jp))+'</div>'+(it.cas?'<div class="ex-row"><div class="sent cas" lang="ja"><span class="reg">casual</span>'+jpHtml(it.cas)+'</div>'+spk(jpPlain(it.cas))+'</div>':'')+en+'</article>'+ctrl+'<p class="keyhint">Space: English, then next · → skip ahead</p>';
+  return head+'<article class="card">'+top+'<div class="lines">'+exLines(it,{big:true,noEn:!r.shown})+'</div></article>'+ctrl+'<p class="keyhint">'+(enOn?'Space: English, then next':'Space: next')+' · → skip ahead</p>';
 }
 
 /* ---------- Quizzes ---------- */
@@ -576,6 +604,11 @@ function act(a,arg){
     case 'readNext': readNext(); break;
     case 'readExit': go(()=>{ ui.read=null; }); break;
     case 'furiMode': S.settings.furi=arg; commit(); render(); break;
+    case 'lineMove': { const k=arg.split(':')[0], o=lineOrder().slice(), i=o.indexOf(k), j=i+(+arg.split(':')[1]);
+      if(i>=0&&j>=0&&j<o.length){ o[i]=o[j]; o[j]=k; S.settings.order=o; commit(); render(); } } break;
+    case 'lineToggle': { if(!LINES[arg]||lineLocked(arg)) break;
+      const off=(Array.isArray(S.settings.off)?S.settings.off:[]).filter(x=>x!==arg); if(lineOn(arg)) off.push(arg);
+      S.settings.off=off; commit(); render(); } break;
     case 'closeLesson': go(()=>{ ui.lesson=null; }); break;
     case 'lessonBack': go(()=>{ ui.quiz=null; }); break;
     case 'lessonQuiz': { const i=+arg, g=GRAMMAR[i]; startQuiz(g.level+' · '+g.title, shuffle(g.quiz).map(shuffleQ), {type:'lesson',idx:i}); break; }
@@ -616,7 +649,7 @@ document.addEventListener('keydown',function(e){
     else if(ui.session.revealed&&'1234'.indexOf(e.key)>=0&&e.key.length===1){ e.preventDefault(); gradeCurrent(+e.key-1); }
     else if(e.key==='k'||e.key==='K'){ e.preventDefault(); knowCurrent(); }
   } else if(ui.read&&ui.read.i<ui.read.items.length){
-    if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(ui.read.shown) readNext(); else act('readShow'); }
+    if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(ui.read.shown||!lineOn('en')) readNext(); else act('readShow'); }
     else if(e.key==='ArrowRight'){ e.preventDefault(); readNext(); }
   } else if(ui.quiz&&!ui.quiz.finished){
     if(ui.quiz.picked===null&&'1234'.indexOf(e.key)>=0&&e.key.length===1){ const i=+e.key-1; if(i<ui.quiz.qs[ui.quiz.i].opts.length) pickAnswer(i); }
