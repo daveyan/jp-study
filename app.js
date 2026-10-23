@@ -447,7 +447,7 @@ function vocabBody(w){ const st=stateOf(w.id);
 function vocabHtml(){
   const now=Date.now(), due=dueIds('vocab',now).length, nn=newIds('vocab',5).length;
   const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>';
-  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' everyday words with example sentences</p></div>'+stackBar('vocab')+legend('vocab')
+  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' N5 words with example sentences</p></div>'+stackBar('vocab')+legend('vocab')
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="vocab"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="vquiz">Quick quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>'
