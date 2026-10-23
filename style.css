@@ -223,7 +223,6 @@ h3{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--m
 .mrow[aria-pressed="true"],.ktile[aria-pressed="true"],.lesson[aria-pressed="true"]{border-color:var(--st-known); box-shadow:inset 0 0 0 1px var(--st-known)}
 .ktile[aria-pressed="false"],.mrow[aria-pressed="false"],.lesson[aria-pressed="false"]{border-style:dashed}
 .lesson.known .ln{background:var(--st-known); color:var(--panel)}
-.glist-head{display:grid; gap:10px}
 .btn.know{justify-self:center; font-size:13px}
 .btn.know kbd{font:inherit; font-size:11px; border:1px solid var(--line); border-radius:4px; padding:0 5px; margin-left:4px}
 
@@ -269,6 +268,12 @@ mark{background:var(--accent-soft); color:inherit; border-radius:4px; padding:0 
 .credits{font-size:12px; padding:4px}
 .credits a{color:inherit}
 .card-top span[lang="ja"]{text-transform:none; letter-spacing:.02em; font-size:13px}
+.card-top .linkish{background:none; border:0; padding:0; font:inherit; color:inherit; letter-spacing:inherit; text-transform:inherit; text-align:left; cursor:pointer; text-decoration:underline dotted; text-underline-offset:3px; min-width:0}
+.card-top .linkish[lang="ja"]{text-transform:none; letter-spacing:.02em; font-size:13px}
+.card-top .linkish:hover{color:var(--accent)}
+.allex-list{display:grid; gap:10px; margin-top:10px}
+.pager{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.pager .btn{text-align:center}
 .pitch{display:inline-flex; align-items:stretch; line-height:1.25; vertical-align:bottom}
 .pitch .m{border-top:2px solid transparent; padding:3px .5px 0}
 .pitch .m.h{border-top-color:var(--accent); border-top-width:2.5px}

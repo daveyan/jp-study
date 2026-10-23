@@ -205,9 +205,11 @@ function dueIds(kind,now){
   return itemsOf(kind).filter(it=>{const c=S.cards[it.id]; return c&&c.due<=now&&!isKnown(it.id);})
     .sort((a,b)=>S.cards[a.id].due-S.cards[b.id].due).map(it=>it.id);
 }
-// New vocab comes most frequent first (BCCWJ rank; unranked words last). Kanji keep list order.
+// New vocab comes N5 first, then N4; within a level most frequent first (BCCWJ rank; unranked words last).
+// Kanji keep list order.
 const byRank=(a,b)=>(a.rank||1e9)-(b.rank||1e9);
-function newIds(kind,n){ let l=itemsOf(kind).filter(it=>!S.cards[it.id]&&!isKnown(it.id)); if(kind==='vocab') l=l.slice().sort(byRank); return l.slice(0,n).map(it=>it.id); }
+const byLearnOrder=(a,b)=>((a.lv==='N4')-(b.lv==='N4'))||byRank(a,b);
+function newIds(kind,n){ let l=itemsOf(kind).filter(it=>!S.cards[it.id]&&!isKnown(it.id)); if(kind==='vocab') l=l.slice().sort(byLearnOrder); return l.slice(0,n).map(it=>it.id); }
 const isTop=w=>w.rank>0&&w.rank<=1000;
 const lvBadge=w=>w.lv==='N5'?'':' <span class="lvb">'+w.lv+'</span>';
 const TOP_BADGE='<span class="top1k" title="Among the 1,000 most frequent words in the BCCWJ corpus">Top 1000</span>';
@@ -225,7 +227,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',gq:'',gf:'all',glv:'',mark:false,confirmReset:false};
+const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',gq:'',gf:'all',glv:'',back:null,mark:false,confirmReset:false};
 // The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
 const SHOW_KANJI=false;
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
@@ -267,6 +269,23 @@ function legend(kind){
   const li=(k,v)=>'<span><i style="background:var(--'+v+')"></i>'+c[k]+' '+k+'</span>';
   return '<div class="legend">'+li('mature','st-mature')+li('young','st-young')+li('learning','st-learn')+li('new','st-new')+(c.known?li('known','st-known'):'')+'</div>';
 }
+// Grammar progress: not started, in progress (opened, read or quizzed), done, known.
+const GSTATE_LABEL={all:'All',new:'Not started',started:'In progress',done:'Done',known:'Known'};
+const GSTATE_CLS={new:'st-new',started:'st-learning',done:'st-mature',known:'st-known'};
+function gstate(g){ const p=S.grammar[g.id]; return isKnown(g.id)?'known':p&&p.done?'done':p?'started':'new'; }
+function gcounts(){ const c={new:0,started:0,done:0,known:0}; GRAMMAR.forEach(g=>{c[gstate(g)]++;}); return c; }
+function gStackBar(){
+  const c=gcounts(), n=GRAMMAR.length, seg=(k,v)=>'<i style="width:'+(c[k]/n*100)+'%;background:var(--'+v+')"></i>';
+  return '<div class="stack" role="img" aria-label="'+(c.done+c.known)+' of '+n+' lessons done or known">'+seg('known','st-known')+seg('done','st-mature')+seg('started','st-learn')+'</div>';
+}
+function gLegend(){
+  const c=gcounts(), li=(k,v)=>'<span><i style="background:var(--'+v+')"></i>'+c[k]+' '+GSTATE_LABEL[k].toLowerCase()+'</span>';
+  return '<div class="legend">'+li('done','st-mature')+li('started','st-learn')+li('new','st-new')+(c.known?li('known','st-known'):'')+'</div>';
+}
+function nextLessonBtn(){
+  const i=GRAMMAR.findIndex(g=>!lessonDone(g));
+  return i>=0?'<button class="btn primary" data-act="gopen" data-arg="'+i+'">Next: '+esc(GRAMMAR[i].level+' '+GRAMMAR[i].title)+'</button>':'';
+}
 function studyRow(kind){
   const now=Date.now(), items=itemsOf(kind), c=counts(kind);
   const due=dueIds(kind,now).length, nn=newIds(kind,5).length, started=items.length-c.new-c.known;
@@ -280,11 +299,10 @@ function homeHtml(){
   const started=Object.keys(S.cards).length;
   const msg = started===0 ? 'Start with five new words.' : due>0 ? due+(due===1?' card is':' cards are')+' ready to review.' : 'You are all caught up.';
   const date=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
-  const passed=GRAMMAR.filter(lessonDone).length;
-  const nextG=GRAMMAR.findIndex(g=>!lessonDone(g));
-  const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+passed+' of '+GRAMMAR.length+' lessons done or known</p></div></div>'
-    +'<div class="stack" role="img" aria-label="'+passed+' of '+GRAMMAR.length+' lessons done or known"><i style="width:'+(passed/GRAMMAR.length*100)+'%;background:var(--st-mature)"></i></div>'
-    +'<div class="actions">'+(nextG>=0?'<button class="btn primary" data-act="gopen" data-arg="'+nextG+'">Next: '+esc(GRAMMAR[nextG].level+' '+GRAMMAR[nextG].title)+'</button>':'<button class="btn" data-act="tab" data-arg="grammar">Review lessons</button>')+mixBtn()+'</div></section>';
+  const gc=gcounts();
+  const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+(gc.started+gc.done)+' of '+GRAMMAR.length+' lessons started · '+gc.done+' done'+(gc.known?' · '+gc.known+' known':'')+'</p></div></div>'
+    +gStackBar()
+    +'<div class="actions">'+(nextLessonBtn()||'<button class="btn" data-act="tab" data-arg="grammar">Review lessons</button>')+mixBtn()+'</div></section>';
   // activity, last 14 days
   const days=[]; for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); days.push({d:d,n:S.log[dayKey(d)]||0}); }
   const max=Math.max(1,...days.map(x=>x.n));
@@ -395,7 +413,7 @@ function startSession(kind,mode){
   const now=Date.now();
   const ids = mode==='due' ? dueIds(kind,now).slice(0,30) : newIds(kind,5);
   if(!ids.length) return;
-  go(()=>{ ui.session={kind:kind,mode:mode,queue:ids.slice(),total:ids.length,done:0,again:0,known:0,revealed:false,grades:[0,0,0,0],pick:{}}; });
+  go(()=>{ ui.session={kind:kind,mode:mode,ids:ids.slice(),queue:ids.slice(),total:ids.length,done:0,again:0,known:0,revealed:false,grades:[0,0,0,0],pick:{}}; });
 }
 function gradeCurrent(g){
   const s=ui.session; if(!s||!s.queue.length||!s.revealed) return;
@@ -506,7 +524,7 @@ function sessionHtml(){
     const more=newIds(s.kind,5).length;
     return head+'<section class="panel done"><p class="eyebrow">Session complete</p><div class="big">'+s.done+'</div><p>'+(s.kind==='vocab'?'words':'kanji')+' finished</p>'
       +'<div class="facts"><span><b>'+acc+'%</b> got it first time</span><span><b>'+s.again+'</b> repeated</span>'+(s.known?'<span><b>'+s.known+'</b> marked known</span>':'')+(nxt?'<span>Next review <b>'+nxt+'</b></span>':'')+'</div>'
-      +'<div class="actions"><button class="btn primary" data-act="exit">Back</button>'+(more?'<button class="btn" data-act="learn" data-arg="'+s.kind+'">Learn 5 more</button>':'')+'</div></section>';
+      +'<div class="actions"><button class="btn primary" data-act="exit">Back</button>'+(s.kind==='vocab'?'<button class="btn" data-act="readSession">Read sentences with these words</button>':'')+(more?'<button class="btn" data-act="learn" data-arg="'+s.kind+'">Learn 5 more</button>':'')+'</div></section>';
   }
   const id=s.queue[0], it=ITEM[id], c=S.cards[id], now=Date.now(), recall=!!S.settings.recall;
   const f=cardFaces(it,s.kind,recall);
@@ -592,18 +610,18 @@ function vocabDetailHtml(){
 
   let cardStatText='';
   if(isKnown(w.id)){
-    cardStatText='Marked as known · skipped in review queue';
+    cardStatText='Skipped in reviews';
   } else if(c){
     const now=Date.now();
-    const dueIn=c.due<=now?'due now':'due in '+Math.max(1,Math.round((c.due-now)/86400000))+'d';
-    cardStatText='Interval '+c.int+'d · '+c.reps+' review'+(c.reps===1?'':'s')+' · '+dueIn;
+    const days=Math.max(1,Math.round((c.due-now)/86400000));
+    cardStatText=(c.due<=now?'Due for review now':'Next review in '+days+' day'+(days===1?'':'s'))+' · '+c.reps+' review'+(c.reps===1?'':'s')+' so far';
   } else {
-    cardStatText='New word · not yet in review queue';
+    cardStatText='Not in your reviews yet';
   }
   const pr=pitchFor(w);
-  return '<div class="lesson-view"><div><button class="btn link" data-act="closeVocab">← All vocabulary</button></div>'
+  return '<div class="lesson-view"><div>'+backBtn('closeVocab','All vocabulary')+'</div>'
     +'<div class="titleline"><span class="ln" style="grid-row:auto">'+esc(w.lv||'N5')+'</span><div>'
-    +'<p class="eyebrow">'+esc(w.tag)+(isTop(w)?' · '+TOP_BADGE:'')+(w.rank?' · BCCWJ #'+w.rank:'')+'</p>'
+    +'<p class="eyebrow">'+esc(w.tag)+(isTop(w)?' · '+TOP_BADGE:'')+(w.rank?' · frequency rank '+w.rank.toLocaleString('en-US'):'')+'</p>'
     +'<h1 style="font-size:clamp(28px,7vw,38px);line-height:1.2" lang="ja">'+esc(w.jp)+'</h1>'
     +(pr||w.kana!==w.jp?'<p class="reading" lang="ja" style="font-size:22px;margin-top:2px;justify-content:flex-start">'+(pr||esc(w.kana))+'</p>':'')
     +'<p style="font-size:18px;margin-top:4px">'+esc(w.en)+'</p>'
@@ -612,9 +630,9 @@ function vocabDetailHtml(){
     +(canSpeakJa()?'<button class="btn" data-act="say" data-arg="'+esc(w.kana.split('・')[0])+'">Play audio</button>':'')
     +knowBtn(w.id)
     +(S.cards[w.id]||st==='known'?'':'<button class="btn primary" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')
-    +'<button class="btn" data-act="openVocab" data-arg="'+esc(prevW.id)+'">← Previous</button>'
-    +'<button class="btn" data-act="openVocab" data-arg="'+esc(nextW.id)+'">Next →</button>'
     +'</div>'
+    +'<div class="pager"><button class="btn" data-act="openVocab" data-arg="'+esc(prevW.id)+'">← Previous</button>'
+    +'<button class="btn" data-act="openVocab" data-arg="'+esc(nextW.id)+'">Next →</button></div>'
     +'<p class="muted" style="font-size:13px"><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span> · '+esc(cardStatText)+'</p>'
     +'<section class="panel" style="display:grid;gap:10px"><h3>Example sentences ('+w.ex.length+')</h3>'
     +w.ex.map(e=>exBlock(e.jp,e.en,e.cas,w.jp)).join('')
@@ -667,39 +685,51 @@ function lessonStatus(g){
 // It also picks three random examples to preview; they stay the same until the lesson is opened again.
 // Opening a lesson adds it to the Mixed reading pool. Swiping between lessons only browses (browse=true): those
 // lessons join the pool once their feed or quiz is used.
-function openLesson(i,browse){ const g=GRAMMAR[i]; if(!browse&&!S.grammar[g.id]){ S.grammar[g.id]={best:0,tries:0,done:false,read:0,at:Date.now()}; commit(); } ui.lesson=i; ui.preview=shuffle(g.ex).slice(0,3); }
+function openLesson(i,browse){ const g=GRAMMAR[i]; if(!browse&&!S.grammar[g.id]){ S.grammar[g.id]={best:0,tries:0,done:false,read:0,at:Date.now()}; commit(); } ui.lesson=i; ui.preview=shuffle(g.ex).slice(0,5); }
 function mixLessons(){ return GRAMMAR.filter(g=>S.grammar[g.id]||isKnown(g.id)); }
 function mixBtn(){ return mixLessons().length?'<button class="btn" data-act="readMix">Mixed reading</button>':''; }
 function grammarHtml(){
   if(ui.lesson!==null){
-    const g=GRAMMAR[ui.lesson], i=ui.lesson, p=S.grammar[g.id];
-    return '<div class="lesson-view"><div><button class="btn link" data-act="closeLesson">← All lessons</button></div>'
+    const g=GRAMMAR[ui.lesson], i=ui.lesson, p=S.grammar[g.id], st=gstate(g);
+    const more=g.ex.filter(e=>ui.preview.indexOf(e)<0);
+    return '<div class="lesson-view"><div>'+backBtn('closeLesson','All lessons')+'</div>'
       +'<div class="titleline"><span class="ln" style="grid-row:auto">'+lessonNum(i)+'</span><div><p class="eyebrow">'+esc(g.level)+'</p><h1 style="font-size:24px">'+esc(g.title)+'</h1><p class="muted">'+esc(g.sub)+'</p></div></div>'
       +'<div class="pattern" lang="ja">'+esc(g.pattern)+'</div>'
       +'<div class="actions"><button class="btn primary" data-act="readLesson" data-arg="'+i+'">Read '+feedLen(g)+' examples</button><button class="btn" data-act="lessonQuiz" data-arg="'+i+'">Quiz</button>'+knowBtn(g.id)+'</div>'
-      +'<p class="muted" style="font-size:13px">'+esc(lessonStatus(g))+(p&&p.tries?' · best quiz '+p.best+'/'+g.quiz.length:'')+'</p>'
+      +'<div class="pager"><button class="btn" data-act="lessonStep" data-arg="-1">← Previous</button><button class="btn" data-act="lessonStep" data-arg="1">Next →</button></div>'
+      +'<p class="muted" style="font-size:13px"><span class="stat '+GSTATE_CLS[st]+'">'+GSTATE_LABEL[st]+'</span> · '+seenText(g)+(p&&p.tries?' · best quiz '+p.best+'/'+g.quiz.length:'')+'</p>'
       +'<details class="how"><summary>How it works</summary><ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul></details>'
-      +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+ui.preview.map(e=>exBlock(e[0],e[1],e[2],GRAMMAR[ui.lesson].title)).join('')+'</section></div>';
+      +'<section class="panel" style="display:grid;gap:10px"><h3>Example sentences ('+g.ex.length+')</h3>'+ui.preview.map(e=>exBlock(e[0],e[1],e[2],g.title)).join('')
+      +(more.length?'<details class="how allex"><summary>Show the other '+more.length+'</summary><div class="allex-list">'+more.map(e=>exBlock(e[0],e[1],e[2],g.title)).join('')+'</div></details>':'')+'</section></div>';
   }
   const chips=Object.keys(GSTATE_LABEL).map(k=>'<button class="chip" data-act="gfilter" data-arg="'+k+'" aria-pressed="'+(ui.gf===k)+'">'+GSTATE_LABEL[k]+'</button>').join('')
     +['N5','N4'].map(l=>'<button class="chip" data-act="glv" data-arg="'+l+'" aria-pressed="'+(ui.glv===l)+'">'+l+'</button>').join('');
-  return '<section class="glist-head"><div><h2>Grammar lessons</h2><p class="muted">Read lots of examples for each pattern. Quizzes are optional.</p></div><div class="actions">'+mixBtn()+markBtn()+'</div>'+markHint()+'</section>'
+  return '<section class="panel row"><div><h2>Grammar</h2><p class="muted">'+GRAMMAR.length+' lessons with example sentences ('+['N5','N4'].map(l=>GRAMMAR.filter(g=>g.level===l).length+' '+l).join(', ')+'). Quizzes are optional.</p></div>'+gStackBar()+gLegend()
+    +'<div class="actions">'+nextLessonBtn()+mixBtn()+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="gq" type="search" placeholder="Search titles, patterns or notes" aria-label="Search lessons" value="'+esc(ui.gq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="lessons" id="glist">'+lessonListHtml()+'</div>';
 }
 // Lesson list filters: search (title, description, pattern, notes; romaji works), progress, and level.
-const GSTATE_LABEL={all:'All',new:'Not started',started:'In progress',done:'Done',known:'Known'};
-function gstate(g){ const p=S.grammar[g.id]; return isKnown(g.id)?'known':p&&p.done?'done':p?'started':'new'; }
-function lessonListHtml(){
+// Returns [lesson, index] pairs; the lesson page's Previous/Next step through the same filtered list.
+function lessonRows(){
   const q=ui.gq.trim().toLowerCase(), qh=q?romajiToKana(q):'', qk=qh?toKata(qh):'';
-  let level='';
-  const rows=GRAMMAR.map((g,i)=>[g,i]).filter(([g])=>{
+  return GRAMMAR.map((g,i)=>[g,i]).filter(([g])=>{
     if(ui.gf!=='all'&&gstate(g)!==ui.gf) return false;
     if(ui.glv&&g.level!==ui.glv) return false;
     if(!q) return true;
     const hay=(g.title+' '+g.sub+' '+g.pattern+' '+g.notes.join(' ')).replace(/<[^>]+>/g,'').toLowerCase();
     return hay.includes(q)||(qh&&hay.includes(qh))||(qk&&hay.includes(qk));
   });
+}
+// The lesson d steps away from lesson i in the filtered list (wrapping), or in the full list if i isn't in it.
+function lessonStep(i,d){
+  let l=lessonRows().map(r=>r[1]); if(l.indexOf(i)<0) l=GRAMMAR.map((g,j)=>j);
+  return l[(l.indexOf(i)+d+l.length)%l.length];
+}
+// Word and lesson pages opened from a reading feed go back to the feed instead of the list.
+function backBtn(a,label){ return ui.back?'<button class="btn link" data-act="backToRead">← Back to reading</button>':'<button class="btn link" data-act="'+a+'">← '+label+'</button>'; }
+function lessonListHtml(){
+  const rows=lessonRows(); let level='';
   if(!rows.length) return '<p class="muted" style="padding:8px 2px">No lessons match.</p>';
   return rows.map(([g,i])=>{ const kn=isKnown(g.id), done=kn||lessonDone(g);
     const head=g.level!==level?'<h3 class="lvl">'+esc(g.level)+'</h3>':''; level=g.level;
@@ -714,17 +744,38 @@ function startRead(title,items,meta){
     if(S.settings.autoSpeak&&items.length) speak(jpPlain(items[0].jp));
   });
 }
-function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, shuffle(g.ex.map(e=>({jp:e[0],en:e[1],cas:e[2]||'',g:i}))).slice(0,FEED_N), {type:'lesson',idx:i}); }
+// A lesson feed shows sentences not yet read in the current round first, so a few sessions cover the whole pool.
+// S.grammar[id].seen lists the example indexes read this round; when it covers them all, rounds goes up and it resets.
+function readLesson(i){
+  const g=GRAMMAR[i], p=S.grammar[g.id], seen=new Set((p&&p.seen)||[]), all=g.ex.map((e,k)=>k);
+  const order=shuffle(all.filter(k=>!seen.has(k))).concat(shuffle(all.filter(k=>seen.has(k)))).slice(0,FEED_N);
+  startRead(g.level+' · '+g.title, order.map(k=>({jp:g.ex[k][0],en:g.ex[k][1],cas:g.ex[k][2]||'',g:i,exi:k})), {type:'lesson',idx:i});
+}
+function seenText(g){
+  const p=S.grammar[g.id]||{}, n=(p.seen||[]).length, r=p.rounds||0;
+  return r?'all '+g.ex.length+' sentences read'+(r>1?' '+r+' times':'')+(n?' · '+n+' into the next round':''):n+' of '+g.ex.length+' sentences read';
+}
+// Mixed reading: 20 sentences from lessons you've opened or know. Lessons you haven't read for a while come up more
+// (weight 1 + days since last read, up to 30), and no lesson gets more than 3 sentences when there are enough lessons.
 function readMix(){
-  const items=[]; mixLessons().forEach(g=>{ const i=GRAMMAR.indexOf(g); g.ex.forEach(e=>items.push({jp:e[0],en:e[1],cas:e[2]||'',g:i})); });
-  if(items.length) startRead('Mixed reading', shuffle(items).slice(0,20), {type:'mix'});
+  const ls=mixLessons(); if(!ls.length) return;
+  const now=Date.now(), last=g=>Math.max((S.grammar[g.id]||{}).at||0,(S.known[g.id]||{}).at||0);
+  const wt=ls.map(g=>1+Math.min(30,(now-last(g))/86400000)), total=wt.reduce((a,b)=>a+b,0);
+  const per=ls.length>=7?3:Math.ceil(20/ls.length), used=new Map(), picked=new Set(), items=[];
+  for(let tries=0;items.length<20&&tries<1000;tries++){
+    let r=Math.random()*total, k=0; while(k<wt.length-1&&r>=wt[k]){ r-=wt[k]; k++; }
+    const g=ls[k], e=g.ex[Math.floor(Math.random()*g.ex.length)];
+    if((used.get(g)||0)>=per||picked.has(e)) continue;
+    picked.add(e); used.set(g,(used.get(g)||0)+1); items.push({jp:e[0],en:e[1],cas:e[2]||'',g:GRAMMAR.indexOf(g)});
+  }
+  startRead('Mixed reading', items, {type:'mix'});
 }
 // Vocab reading: random example sentences from words you've started or marked known, topped up with the
 // most frequent new words so it's useful from day one. Nothing to grade.
 const VREAD_N=20;
 function vocabReadPool(){
   const pool=VOCAB.filter(w=>S.cards[w.id]||isKnown(w.id));
-  if(pool.length<40) VOCAB.filter(w=>!S.cards[w.id]&&!isKnown(w.id)).sort(byRank).slice(0,40-pool.length).forEach(w=>pool.push(w));
+  if(pool.length<40) VOCAB.filter(w=>!S.cards[w.id]&&!isKnown(w.id)).sort(byLearnOrder).slice(0,40-pool.length).forEach(w=>pool.push(w));
   return pool;
 }
 function readVocab(){
@@ -733,13 +784,25 @@ function readVocab(){
   shuffle(pairs).forEach(p=>{ if(items.length<VREAD_N&&!seen.has(p.w)){ seen.add(p.w); items.push(p); } });
   startRead('Vocab reading', items, {type:'vocab'});
 }
+// After a vocab session: sentences for just the words studied (two each for small sessions, up to 20).
+function readWords(ids){
+  const ws=ids.map(id=>ITEM[id]).filter(Boolean), per=ws.length<=10?2:1, items=[];
+  ws.forEach(w=>shuffle(w.ex).slice(0,per).forEach(e=>items.push({jp:e.jp,en:e.en,cas:e.cas,w:w.id})));
+  if(items.length) startRead('These words', shuffle(items).slice(0,20), {type:'words',ids:ids});
+}
 function readNext(){
   const r=ui.read; if(!r||r.i>=r.items.length) return;
   bump(1);
-  if(r.meta.type==='lesson'){
-    const g=GRAMMAR[r.meta.idx], p=S.grammar[g.id]||{best:0,tries:0,done:false,read:0,at:0};
-    p.read=Math.max(p.read||0,r.i+1); p.at=Date.now();
-    if(r.i+1>=r.items.length) p.done=true;
+  const it=r.items[r.i];
+  if(r.meta.type==='lesson'||r.meta.type==='mix'){
+    const g=GRAMMAR[it.g], p=S.grammar[g.id]||{best:0,tries:0,done:false,read:0,at:0};
+    p.at=Date.now();
+    if(r.meta.type==='lesson'){
+      p.read=Math.max(p.read||0,r.i+1);
+      if(r.i+1>=r.items.length) p.done=true;
+      p.seen=p.seen||[]; if(p.seen.indexOf(it.exi)<0) p.seen.push(it.exi);
+      if(p.seen.length>=g.ex.length){ p.rounds=(p.rounds||0)+1; p.seen=[]; }
+    }
     S.grammar[g.id]=p;
   }
   commit();
@@ -754,12 +817,12 @@ function readHtml(){
     const lesson=r.meta.type==='lesson', nx=lesson?r.meta.idx+1:-1;
     const btns=lesson
       ? '<button class="btn primary" data-act="readExit">Back to lesson</button><button class="btn" data-act="readLesson" data-arg="'+r.meta.idx+'">Read again</button>'+(nx<GRAMMAR.length?'<button class="btn" data-act="gopen" data-arg="'+nx+'">Next lesson</button>':'')
-      : '<button class="btn primary" data-act="'+(r.meta.type==='vocab'?'readVocab':'readMix')+'">More sentences</button><button class="btn" data-act="readExit">Done</button>';
+      : '<button class="btn primary" data-act="'+({vocab:'readVocab',mix:'readMix',words:'readWordsAgain'}[r.meta.type])+'">More sentences</button><button class="btn" data-act="readExit">Done</button>';
     return head+'<section class="panel done"><p class="eyebrow">'+esc(r.title)+'</p><div class="big">'+n+'</div><p>sentences read</p><div class="actions">'+btns+'</div></section>';
   }
   const it=r.items[r.i], w=it.w&&ITEM[it.w], g=w?null:GRAMMAR[it.g];
   const label=w?w.jp+(w.kana!==w.jp?' · '+w.kana:'')+' · '+w.en:r.meta.type==='mix'?g.level+' · '+g.title:g.pattern;
-  const top='<div class="card-top"><span'+(w?' lang="ja"':'')+'>'+esc(label)+'</span>'+flagBtn(it,w?w.jp:g.title)+'</div>';
+  const top='<div class="card-top"><button class="linkish" data-act="feedOpen" data-arg="'+(w?esc(w.id):'g'+it.g)+'"'+(w?' lang="ja"':'')+' title="'+(w?'Open this word':'Open this lesson')+'">'+esc(label)+'</button>'+flagBtn(it,w?w.jp:g.title)+'</div>';
   const enOn=lineOn('en'), shown=r.shown||!enOn;
   const ctrl=shown
     ? '<button class="btn primary wide" data-act="readNext">Next</button>'
@@ -846,8 +909,8 @@ function quizHtml(){
 let vocabScroll=0, lessonScroll=0, kanjiScroll=0;
 function act(a,arg){
   switch(a){
-    case 'home': vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab='home'; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
-    case 'tab': vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
+    case 'home': ui.back=null; vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab='home'; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
+    case 'tab': ui.back=null; vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'review': startSession(arg,'due'); break;
     case 'learn': startSession(arg,'new'); break;
     case 'reveal':
@@ -889,7 +952,7 @@ function act(a,arg){
     case 'lineToggle': { if(!LINES[arg]||lineLocked(arg)) break;
       const off=(Array.isArray(S.settings.off)?S.settings.off:[]).filter(x=>x!==arg); if(lineOn(arg)) off.push(arg);
       S.settings.off=off; commit(); render(); } break;
-    case 'closeLesson': ui.lesson=null; render(); window.scrollTo(0,lessonScroll); break;
+    case 'closeLesson': if(ui.back){ act('backToRead'); break; } ui.lesson=null; render(); window.scrollTo(0,lessonScroll); break;
     case 'lessonBack': go(()=>{ ui.quiz=null; }); break;
     case 'lessonQuiz': { const i=+arg, g=GRAMMAR[i]; startQuiz(g.level+' · '+g.title, shuffle(g.quiz).map(shuffleQ), {type:'lesson',idx:i}); break; }
     case 'vquiz': startQuiz('Vocabulary quiz', vocabQuizQs(10), {type:'vocab'}); break;
@@ -901,12 +964,18 @@ function act(a,arg){
     case 'closeKanji': ui.kanji=null; render(); window.scrollTo(0,kanjiScroll); break;
     // The list's scroll position is kept only when leaving the list, not on Previous/Next from a detail page.
     case 'openVocab': if(ui.vocab===null) vocabScroll=window.scrollY; go(()=>{ ui.vocab=arg; }); break;
-    case 'closeVocab': ui.vocab=null; render(); window.scrollTo(0,vocabScroll); break;
+    case 'closeVocab': if(ui.back){ act('backToRead'); break; } ui.vocab=null; render(); window.scrollTo(0,vocabScroll); break;
     case 'addCard': if(!S.cards[arg]){ S.cards[arg]=newCard(Date.now()); commit(); render(); } break;
     case 'filter': ui.vf=arg; render(); break;
     case 'vtop': ui.vtop=!ui.vtop; render(); break;
     case 'vlv': ui.vlv=ui.vlv===arg?'':arg; render(); break;
     case 'gfilter': ui.gf=arg; render(); break;
+    case 'lessonStep': go(()=>{ openLesson(lessonStep(ui.lesson,+arg),true); }); break;
+    case 'feedOpen': { const b={read:ui.read,tab:ui.tab,vocab:ui.vocab,lesson:ui.lesson};
+      go(()=>{ ui.back=b; ui.read=null; if(arg[0]==='g'){ ui.tab='grammar'; ui.vocab=null; openLesson(+arg.slice(1),true); } else { ui.tab='vocab'; ui.lesson=null; ui.vocab=arg; } }); break; }
+    case 'backToRead': { const b=ui.back; if(!b) break; go(()=>{ ui.back=null; ui.tab=b.tab; ui.vocab=b.vocab; ui.lesson=b.lesson; ui.read=b.read; }); break; }
+    case 'readSession': { const ids=ui.session&&ui.session.ids; ui.session=null; if(ids) readWords(ids); else render(); break; }
+    case 'readWordsAgain': readWords(ui.read.meta.ids); break;
     case 'glv': ui.glv=ui.glv===arg?'':arg; render(); break;
     case 'knowCur': knowCurrent(); break;
     case 'markMode': ui.mark=!ui.mark; render(); break;
@@ -989,6 +1058,10 @@ document.addEventListener('keydown',function(e){
       const w=ITEM[ui.vocab];
       if(w) act('toggleKnown', w.id);
     }
+  } else if(ui.lesson!==null&&ui.tab==='grammar'&&!ui.session&&!ui.quiz&&!ui.read){
+    if(e.key==='ArrowLeft'||e.key==='ArrowRight'){ e.preventDefault(); act('lessonStep', e.key==='ArrowLeft'?-1:1); }
+    else if(e.key==='Escape'||e.key==='Backspace'){ e.preventDefault(); act('closeLesson'); }
+    else if(e.key==='k'||e.key==='K'){ e.preventDefault(); act('toggleKnown', GRAMMAR[ui.lesson].id); }
   }
 });
 let touchStartX=0, touchStartY=0, touchStartTime=0;
@@ -1017,8 +1090,7 @@ document.addEventListener('touchend',function(e){
       else if(dx>0) act('openVocab', list[(idx+list.length-1)%list.length].id);
     }
   } else if(ui.lesson!==null&&!ui.session&&!ui.quiz&&!ui.read){
-    const j=ui.lesson+(dx<0?1:-1);
-    if(j>=0&&j<GRAMMAR.length) go(()=>{ openLesson(j,true); });
+    act('lessonStep', dx<0?1:-1);
   }
 },{passive:true});
 
