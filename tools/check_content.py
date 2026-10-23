@@ -117,6 +117,8 @@ def check_vocab():
                 errors.append(f'vocab {jp}: example should have 2 or 3 strings: {ex}')
                 continue
             t = ex[1]
+            if len(ex) == 3 and ex[0] == ex[2]:
+                errors.append(f'vocab {jp}: casual version is identical to the polite one: {ex[0]}')
             for s in ex[::2]:
                 plain, hl = parse(s, f'vocab {jp}')
                 if len(hl) != 1:
@@ -146,6 +148,8 @@ def check_grammar():
                     continue
                 sentences += 1
                 t = ex[1]
+                if len(ex) == 3 and ex[0] == ex[2]:
+                    errors.append(f'{lid}: casual version is identical to the polite one: {ex[0]}')
                 for s in ex[::2]:
                     parse(s, lid)
                 if not t.strip() or KANJI.search(t):
