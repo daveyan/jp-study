@@ -20,8 +20,13 @@ function spk(t){ return CAN_SPEAK ? '<button class="icon-btn" data-act="say" dat
 // Sentences use {漢字|かんじ} for ruby and [..] for the highlighted word or grammar point (see data.js).
 const KANJI_RE=/[\u3400-\u4dbf\u4e00-\u9fff々]/;
 function jpPlain(s){ return String(s).replace(/\{([^|}]*)\|[^}]*\}/g,'$1').replace(/[\[\]]/g,''); }
-function kanjiKnown(ch){ const id='k:'+ch; return isKnown(id)||status(S.cards[id])==='mature'; }
-// Furigana setting: 'auto' shows it over kanji not yet known (marked known or mature), 'on' always, 'off' never.
+// Vocab ids whose written form contains each kanji.
+const WORDS_WITH={};
+VOCAB.forEach(v=>{ new Set([...v.jp].filter(ch=>KANJI_RE.test(ch))).forEach(ch=>{ (WORDS_WITH[ch]=WORDS_WITH[ch]||[]).push(v.id); }); });
+const wellKnown=id=>isKnown(id)||status(S.cards[id])==='mature';
+// A kanji is known once a vocab word containing it is known or mature (or the kanji itself is, from the hidden Kanji tab).
+function kanjiKnown(ch){ return wellKnown('k:'+ch)||(WORDS_WITH[ch]||[]).some(wellKnown); }
+// Furigana setting: 'auto' shows it over kanji not yet known (see kanjiKnown), 'on' always, 'off' never.
 function showFuri(base){ const m=S.settings.furi; if(m==='on') return true; if(m==='off') return false; return [...base].some(ch=>KANJI_RE.test(ch)&&!kanjiKnown(ch)); }
 // Hidden furigana stays in the layout and can be tapped to show. opts.hideMark also hides it inside the highlight.
 function jpHtml(s,opts){
@@ -400,12 +405,15 @@ function kanjiHtml(){
 }
 
 /* ---------- Grammar tab ---------- */
+// Each lesson feed session shows this many of the lesson's examples, picked at random.
+const FEED_N=10;
+function feedLen(g){ return Math.min(FEED_N,g.ex.length); }
 function lessonNum(i){ const lv=GRAMMAR[i].level; return GRAMMAR.slice(0,i+1).filter(g=>g.level===lv).length; }
 function lessonStatus(g){
   const p=S.grammar[g.id];
   if(isKnown(g.id)) return 'Known';
   if(p&&p.done) return 'Done';
-  if(p&&p.read) return 'Read '+Math.min(p.read,g.ex.length)+'/'+g.ex.length;
+  if(p&&p.read) return 'Read '+Math.min(p.read,feedLen(g))+'/'+feedLen(g);
   if(p&&p.tries) return 'Quiz '+p.best+'/'+g.quiz.length;
   return p?'Opened':'Not started';
 }
@@ -420,7 +428,7 @@ function grammarHtml(){
     return '<div class="lesson-view"><div><button class="btn link" data-act="closeLesson">← All lessons</button></div>'
       +'<div class="titleline"><span class="ln" style="grid-row:auto">'+lessonNum(i)+'</span><div><p class="eyebrow">'+esc(g.level)+'</p><h1 style="font-size:24px">'+esc(g.title)+'</h1><p class="muted">'+esc(g.sub)+'</p></div></div>'
       +'<div class="pattern" lang="ja">'+esc(g.pattern)+'</div>'
-      +'<div class="actions"><button class="btn primary" data-act="readLesson" data-arg="'+i+'">Read '+g.ex.length+' examples</button><button class="btn" data-act="lessonQuiz" data-arg="'+i+'">Quiz</button>'+knowBtn(g.id)+'</div>'
+      +'<div class="actions"><button class="btn primary" data-act="readLesson" data-arg="'+i+'">Read '+feedLen(g)+' examples</button><button class="btn" data-act="lessonQuiz" data-arg="'+i+'">Quiz</button>'+knowBtn(g.id)+'</div>'
       +'<p class="muted" style="font-size:13px">'+esc(lessonStatus(g))+(p&&p.tries?' · best quiz '+p.best+'/'+g.quiz.length:'')+'</p>'
       +'<details class="how"><summary>How it works</summary><ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul></details>'
       +'<section class="panel" style="display:grid;gap:10px"><h3>Examples</h3>'+ui.preview.map(e=>exBlock(e[0],e[1])).join('')+'</section></div>';
@@ -435,7 +443,7 @@ function grammarHtml(){
 /* ---------- Reading feed ---------- */
 // One sentence at a time: read it, optionally reveal the English, move on. No grading.
 function startRead(title,items,meta){ go(()=>{ ui.read={title:title,items:items,i:0,shown:false,meta:meta}; }); }
-function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, shuffle(g.ex.map(e=>({jp:e[0],en:e[1],g:i}))), {type:'lesson',idx:i}); }
+function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, shuffle(g.ex.map(e=>({jp:e[0],en:e[1],g:i}))).slice(0,FEED_N), {type:'lesson',idx:i}); }
 function readMix(){
   const items=[]; mixLessons().forEach(g=>{ const i=GRAMMAR.indexOf(g); g.ex.forEach(e=>items.push({jp:e[0],en:e[1],g:i})); });
   if(items.length) startRead('Mixed reading', shuffle(items).slice(0,20), {type:'mix'});
@@ -446,7 +454,7 @@ function readNext(){
   if(r.meta.type==='lesson'){
     const g=GRAMMAR[r.meta.idx], p=S.grammar[g.id]||{best:0,tries:0,done:false,read:0,at:0};
     p.read=Math.max(p.read||0,r.i+1); p.at=Date.now();
-    if(p.read>=g.ex.length) p.done=true;
+    if(r.i+1>=r.items.length) p.done=true;
     S.grammar[g.id]=p;
   }
   commit();
