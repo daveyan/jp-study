@@ -80,18 +80,34 @@ def stem(word):
     m = re.match(r'^(.*[\u4e00-\u9fff々])', word)
     if m:
         return m.group(1)
-    return word[:-1] if len(word) > 2 else word
+    return word[:-1] if len(word) >= 2 else word
+
+
+# Irregular verbs whose conjugated forms don't start with the dictionary form's stem.
+IRREGULAR = {'する': ['し', 'さ', 'せ'], 'ある': ['ない', 'なかっ', 'なく', 'なけれ']}
 
 
 def check_vocab():
     text = (ROOT / 'data.js').read_text(encoding='utf-8')
     block = text[text.index('const VOCAB = ['):text.index('].map(r=>({id:\'v:\'')]
     n = 0
+    seen_words = set()
     for line in block.splitlines():
         line = line.strip().rstrip(',')
         if not line.startswith('["'):
             continue
-        jp, kana, en, tag, exs = json.loads(line)
+        row = json.loads(line)
+        if len(row) != 6 or not isinstance(row[5], int):
+            errors.append(f'vocab row should be [jp, kana, en, group, examples, rank]: {line[:60]}')
+            continue
+        jp, kana, en, tag, exs, _rank = row
+        if jp in seen_words:
+            errors.append(f'vocab {jp}: duplicate written form (ids must be unique)')
+        seen_words.add(jp)
+        # Counters and suffixes (～本) only need to appear inside the highlight; readings may list alternatives (じゅう・とお).
+        affix = jp.startswith('～')
+        forms = [jp.lstrip('～')] + kana.split('・')
+        forms += IRREGULAR.get(jp, [])
         n += 1
         if len(exs) < 2:
             errors.append(f'vocab {jp}: only {len(exs)} example(s)')
@@ -104,7 +120,7 @@ def check_vocab():
                 plain, hl = parse(s, f'vocab {jp}')
                 if len(hl) != 1:
                     errors.append(f'vocab {jp}: {len(hl)} highlights in {s}')
-                elif not (hl[0].startswith(stem(jp)) or hl[0].startswith(stem(kana))):
+                elif not (any(f in hl[0] for f in forms) if affix else any(hl[0].startswith(stem(f)) for f in forms)):
                     errors.append(f'vocab {jp}: highlight "{hl[0]}" does not look like the word in {s}')
             if not t.strip():
                 errors.append(f'vocab {jp}: empty translation for {ex[0]}')
