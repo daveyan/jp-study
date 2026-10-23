@@ -6,7 +6,7 @@ The site is personal and should stay out of search engines: keep the `<meta name
 
 ## What the app is
 
-- Tabs: **Today** (dashboard), **Vocab** (N5 words, spaced repetition; growing toward the full ~700-word N5 list), **Grammar** (13 N5 + 33 N4 lessons).
+- Tabs: **Today** (dashboard), **Vocab** (694 words: the full N5 list, spaced repetition), **Grammar** (13 N5 + 33 N4 lessons).
 - **Kanji** (56 N5 kanji, spaced repetition plus a reading quiz) is hidden for now: `SHOW_KANJI=false` in `app.js` drops its tab and its Today row and due count. The code and data stay, so flipping the flag brings it back.
 - The learner is around N5–N4 and already knows kana and the basics.
 - **How they like to study:** they skim, and they have a strong memory, so grading self-tested cards and taking quizzes doesn't teach them much. Reading lots of example sentences in context does. Favour volume of natural examples over drills. Grammar is read through a sentence feed (quizzes are optional), and vocab review cards show a sentence instead of the bare word.
@@ -19,6 +19,7 @@ The site is personal and should stay out of search engines: keep the `<meta name
 - `grammar-n5.js` defines `GRAMMAR`; `grammar-n4.js` appends to it with `GRAMMAR.push(...)`. The top-level `const`s in these classic scripts are shared globals that `app.js` reads.
 - `app.js`: everything else, wrapped in an IIFE.
 - `tools/check_content.py`: content checker (see below). It isn't loaded by the site.
+- `tools/n5_plan.json` + `tools/add_vocab_batch.py`: the curated N5 word list (readings, BCCWJ ranks) and the script that appended vocab in batches. Kept for adding more words the same way.
 
 Every path is relative (no leading `/`), so the site works from a subpath.
 
