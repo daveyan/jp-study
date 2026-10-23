@@ -1,0 +1,3572 @@
+[
+{
+"jp": "する",
+"kana": "する",
+"src": "to do, to try; to wear small items (e.g., necktie, watch, etc.)",
+"rank": 9
+},
+{
+"jp": "いる",
+"kana": "いる",
+"src": "(humble) to be (animate), to exist",
+"rank": 13
+},
+{
+"jp": "ある",
+"kana": "ある",
+"src": "to be, to have",
+"rank": 15
+},
+{
+"jp": "言う",
+"kana": "いう",
+"src": "to say",
+"rank": 17
+},
+{
+"jp": "ない",
+"kana": "ない",
+"src": "there isn't, doesn't have",
+"rank": 21
+},
+{
+"jp": "一",
+"kana": "いち",
+"src": "one",
+"rank": 23
+},
+{
+"jp": "なる",
+"kana": "なる",
+"src": "to become",
+"rank": 24
+},
+{
+"jp": "二",
+"kana": "に",
+"src": "two",
+"rank": 26
+},
+{
+"jp": "その",
+"kana": "その",
+"src": "that",
+"rank": 28
+},
+{
+"jp": "～さん",
+"kana": "さん",
+"src": "Mr. ~, Ms. ~",
+"rank": 29
+},
+{
+"jp": "三",
+"kana": "さん",
+"src": "three",
+"rank": 29
+},
+{
+"jp": "十",
+"kana": "じゅう・とお",
+"src": "ten",
+"rank": 31
+},
+{
+"jp": "物",
+"kana": "もの",
+"src": "thing (concrete object)",
+"rank": 32
+},
+{
+"jp": "～人",
+"kana": "にん・じん",
+"src": "counter for people",
+"rank": 33
+},
+{
+"jp": "この",
+"kana": "この",
+"src": "this",
+"rank": 35
+},
+{
+"jp": "それ",
+"kana": "それ",
+"src": "that one",
+"rank": 37
+},
+{
+"jp": "年",
+"kana": "とし",
+"src": "year, age",
+"rank": 39
+},
+{
+"jp": "～年",
+"kana": "ねん",
+"src": "~ years",
+"rank": 39
+},
+{
+"jp": "五",
+"kana": "ご",
+"src": "five",
+"rank": 40
+},
+{
+"jp": "～時",
+"kana": "じ",
+"src": "~ o'clock (time)",
+"rank": 42
+},
+{
+"jp": "時",
+"kana": "とき",
+"src": "time, when",
+"rank": 42
+},
+{
+"jp": "四",
+"kana": "よん・し",
+"src": "four",
+"rank": 47
+},
+{
+"jp": "できる",
+"kana": "できる",
+"src": "to be able to (to accomplish)",
+"rank": 50
+},
+{
+"jp": "これ",
+"kana": "これ",
+"src": "this one",
+"rank": 52
+},
+{
+"jp": "～日",
+"kana": "にち",
+"src": "~ day of the month, for ~ days",
+"rank": 54
+},
+{
+"jp": "そう",
+"kana": "そう",
+"src": "yes; appears, to be the case",
+"rank": 55
+},
+{
+"jp": "～など",
+"kana": "など",
+"src": "et cetera",
+"rank": 56
+},
+{
+"jp": "～中",
+"kana": "じゅう・ちゅう",
+"src": "during, while",
+"rank": 60
+},
+{
+"jp": "中",
+"kana": "なか",
+"src": "inside, middle, among",
+"rank": 60
+},
+{
+"jp": "方",
+"kana": "かた",
+"src": "-- honorific form for 人 (ひと) --; way of doing",
+"rank": 63
+},
+{
+"jp": "六",
+"kana": "ろく",
+"src": "six",
+"rank": 66
+},
+{
+"jp": "～月",
+"kana": "がつ",
+"src": "month of year",
+"rank": 67
+},
+{
+"jp": "八",
+"kana": "はち",
+"src": "eight",
+"rank": 70
+},
+{
+"jp": "所",
+"kana": "ところ",
+"src": "place",
+"rank": 71
+},
+{
+"jp": "七",
+"kana": "なな・しち",
+"src": "seven",
+"rank": 72
+},
+{
+"jp": "また",
+"kana": "また",
+"src": "and; furthermore",
+"rank": 74
+},
+{
+"jp": "九",
+"kana": "きゅう・く",
+"src": "nine",
+"rank": 77
+},
+{
+"jp": "～だけ",
+"kana": "だけ",
+"src": "only ~, just ~, as ~",
+"rank": 78
+},
+{
+"jp": "～たち",
+"kana": "たち",
+"src": "plural suffix",
+"rank": 79
+},
+{
+"jp": "どう",
+"kana": "どう",
+"src": "how, in what way",
+"rank": 81
+},
+{
+"jp": "千",
+"kana": "せん",
+"src": "thousand",
+"rank": 84
+},
+{
+"jp": "後",
+"kana": "あと",
+"src": "afterwards (later); in the future; the rest; since then",
+"rank": 85
+},
+{
+"jp": "自分",
+"kana": "じぶん",
+"src": "myself, oneself",
+"rank": 86
+},
+{
+"jp": "零",
+"kana": "れい",
+"src": "zero, nought",
+"rank": 88
+},
+{
+"jp": "持つ",
+"kana": "もつ",
+"src": "to hold, to carry; to possess",
+"rank": 98
+},
+{
+"jp": "やる",
+"kana": "やる",
+"src": "to do; to give (to pets, parents, siblings, etc.)",
+"rank": 99
+},
+{
+"jp": "前",
+"kana": "まえ",
+"src": "before, in front",
+"rank": 100
+},
+{
+"jp": "分かる",
+"kana": "わかる",
+"src": "to understand",
+"rank": 102
+},
+{
+"jp": "目",
+"kana": "め",
+"src": "eye(s)",
+"rank": 106
+},
+{
+"jp": "上",
+"kana": "うえ",
+"src": "above (up, top, etc.), over, on top of",
+"rank": 107
+},
+{
+"jp": "出る",
+"kana": "でる",
+"src": "to appear, to leave",
+"rank": 109
+},
+{
+"jp": "～円",
+"kana": "えん",
+"src": "Yen",
+"rank": 110
+},
+{
+"jp": "取る",
+"kana": "とる",
+"src": "to take (a class); to get (a grade)",
+"rank": 113
+},
+{
+"jp": "万",
+"kana": "まん",
+"src": "ten thousand",
+"rank": 115
+},
+{
+"jp": "うち",
+"kana": "うち",
+"src": "home; house; my place",
+"rank": 116
+},
+{
+"jp": "百",
+"kana": "ひゃく",
+"src": "hundred",
+"rank": 121
+},
+{
+"jp": "ください",
+"kana": "ください",
+"src": "(with te-form verb) please do for me",
+"rank": 122
+},
+{
+"jp": "しかし",
+"kana": "しかし",
+"src": "however; but",
+"rank": 123
+},
+{
+"jp": "問題",
+"kana": "もんだい",
+"src": "a problem",
+"rank": 124
+},
+{
+"jp": "～分",
+"kana": "ふん",
+"src": "~ minutes",
+"rank": 132
+},
+{
+"jp": "知る",
+"kana": "しる",
+"src": "to know, to understand",
+"rank": 137
+},
+{
+"jp": "もう",
+"kana": "もう",
+"src": "already; again; more",
+"rank": 140
+},
+{
+"jp": "そして",
+"kana": "そして",
+"src": "and, like that",
+"rank": 141
+},
+{
+"jp": "入る",
+"kana": "はいる",
+"src": "to enter, to contain, to hold",
+"rank": 142
+},
+{
+"jp": "国",
+"kana": "くに",
+"src": "country; place of origin",
+"rank": 143
+},
+{
+"jp": "置く",
+"kana": "おく",
+"src": "to put; to lay; to place",
+"rank": 145
+},
+{
+"jp": "～度",
+"kana": "ど",
+"src": "counter for occurrences; ~ degree; ~ point",
+"rank": 146
+},
+{
+"jp": "作る",
+"kana": "つくる",
+"src": "to make, to create",
+"rank": 149
+},
+{
+"jp": "ここ",
+"kana": "ここ",
+"src": "here, this place",
+"rank": 151
+},
+{
+"jp": "多い",
+"kana": "おおい",
+"src": "many; there are a lot",
+"rank": 152
+},
+{
+"jp": "そこ",
+"kana": "そこ",
+"src": "that place, there; bottom, sole",
+"rank": 154
+},
+{
+"jp": "でも",
+"kana": "でも",
+"src": "but, however",
+"rank": 155
+},
+{
+"jp": "同じ",
+"kana": "おなじ",
+"src": "same, identical",
+"rank": 157
+},
+{
+"jp": "次",
+"kana": "つぎ",
+"src": "next",
+"rank": 158
+},
+{
+"jp": "～くらい",
+"kana": "くらい・ぐらい",
+"src": "approximate (quantity)",
+"rank": 160
+},
+{
+"jp": "手",
+"kana": "て",
+"src": "hand",
+"rank": 162
+},
+{
+"jp": "話",
+"kana": "はなし",
+"src": "talk (chat), story",
+"rank": 164
+},
+{
+"jp": "出す",
+"kana": "だす",
+"src": "to take (something) out; to hand in (something)",
+"rank": 167
+},
+{
+"jp": "あなた",
+"kana": "あなた",
+"src": "you",
+"rank": 170
+},
+{
+"jp": "～歳",
+"kana": "さい",
+"src": "~ years old",
+"rank": 180
+},
+{
+"jp": "みんな",
+"kana": "みんな",
+"src": "all, everyone, everybody",
+"rank": 181
+},
+{
+"jp": "つける",
+"kana": "つける",
+"src": "to turn on (e.g., a light); to take",
+"rank": 184
+},
+{
+"jp": "よく",
+"kana": "よく",
+"src": "frequently, often (much); well, skillfully",
+"rank": 192
+},
+{
+"jp": "男",
+"kana": "おとこ",
+"src": "man, male",
+"rank": 197
+},
+{
+"jp": "いつ",
+"kana": "いつ",
+"src": "when",
+"rank": 198
+},
+{
+"jp": "かける",
+"kana": "かける",
+"src": "to dial/call (e.g., phone); to sit down",
+"rank": 200
+},
+{
+"jp": "～本",
+"kana": "ほん",
+"src": "counter for long cylindrical things",
+"rank": 204
+},
+{
+"jp": "顔",
+"kana": "かお",
+"src": "face (body part)",
+"rank": 206
+},
+{
+"jp": "意味",
+"kana": "いみ",
+"src": "meaning, significance",
+"rank": 208
+},
+{
+"jp": "～回",
+"kana": "かい",
+"src": "counter for occurrences (~ times)",
+"rank": 209
+},
+{
+"jp": "下",
+"kana": "した",
+"src": "under, below, beneath",
+"rank": 213
+},
+{
+"jp": "言葉",
+"kana": "ことば",
+"src": "language; word(s); expression(s)",
+"rank": 217
+},
+{
+"jp": "入れる",
+"kana": "いれる",
+"src": "to put in",
+"rank": 218
+},
+{
+"jp": "あげる",
+"kana": "あげる",
+"src": "to raise, to lift",
+"rank": 222
+},
+{
+"jp": "仕事",
+"kana": "しごと",
+"src": "work, job, occupation, employment",
+"rank": 225
+},
+{
+"jp": "体",
+"kana": "からだ",
+"src": "body; health",
+"rank": 226
+},
+{
+"jp": "まだ",
+"kana": "まだ",
+"src": "yet, still, besides",
+"rank": 227
+},
+{
+"jp": "一人",
+"kana": "ひとり",
+"src": "one person",
+"rank": 229
+},
+{
+"jp": "誰か",
+"kana": "だれか",
+"src": "someone",
+"rank": 231
+},
+{
+"jp": "少し",
+"kana": "すこし",
+"src": "little, few",
+"rank": 241
+},
+{
+"jp": "本当",
+"kana": "ほんとう",
+"src": "real, true",
+"rank": 242
+},
+{
+"jp": "あの",
+"kana": "あの",
+"src": "that over there; like that, that way; um...",
+"rank": 243
+},
+{
+"jp": "声",
+"kana": "こえ",
+"src": "voice",
+"rank": 244
+},
+{
+"jp": "二人",
+"kana": "ふたり",
+"src": "two people",
+"rank": 245
+},
+{
+"jp": "かかる",
+"kana": "かかる",
+"src": "it takes (amount of time, money) (v.i.)",
+"rank": 246
+},
+{
+"jp": "町",
+"kana": "まち",
+"src": "town; city",
+"rank": 248
+},
+{
+"jp": "風",
+"kana": "かぜ",
+"src": "wind, breeze",
+"rank": 251
+},
+{
+"jp": "教える",
+"kana": "おしえる",
+"src": "to teach, to inform, to instruct",
+"rank": 259
+},
+{
+"jp": "～ごろ",
+"kana": "ごろ・ころ",
+"src": "about, toward, approximately (time)",
+"rank": 261
+},
+{
+"jp": "違う",
+"kana": "ちがう",
+"src": "to be different; to differ; wrong",
+"rank": 266
+},
+{
+"jp": "あまり",
+"kana": "あまり",
+"src": "not very; surplus",
+"rank": 271
+},
+{
+"jp": "大きな",
+"kana": "おおきな",
+"src": "big",
+"rank": 272
+},
+{
+"jp": "女",
+"kana": "おんな",
+"src": "woman, female",
+"rank": 274
+},
+{
+"jp": "先",
+"kana": "さき",
+"src": "future; recent, previous",
+"rank": 278
+},
+{
+"jp": "ちょっと",
+"kana": "ちょっと",
+"src": "a little, somewhat; just a little, somewhat",
+"rank": 279
+},
+{
+"jp": "こんな",
+"kana": "こんな",
+"src": "such, like this",
+"rank": 280
+},
+{
+"jp": "呼ぶ",
+"kana": "よぶ",
+"src": "to call (one's name); to invite",
+"rank": 288
+},
+{
+"jp": "強い",
+"kana": "つよい",
+"src": "strong, powerful",
+"rank": 292
+},
+{
+"jp": "道",
+"kana": "みち",
+"src": "road, street; way, directions",
+"rank": 298
+},
+{
+"jp": "悪い",
+"kana": "わるい",
+"src": "bad, sinful; inferior",
+"rank": 304
+},
+{
+"jp": "すぐ",
+"kana": "すぐ",
+"src": "immediately, soon",
+"rank": 305
+},
+{
+"jp": "大学",
+"kana": "だいがく",
+"src": "college; university",
+"rank": 307
+},
+{
+"jp": "どの",
+"kana": "どの",
+"src": "which",
+"rank": 312
+},
+{
+"jp": "頭",
+"kana": "あたま",
+"src": "head",
+"rank": 318
+},
+{
+"jp": "少ない",
+"kana": "すくない",
+"src": "a little; a few",
+"rank": 331
+},
+{
+"jp": "～側",
+"kana": "がわ",
+"src": "~ side",
+"rank": 334
+},
+{
+"jp": "そば",
+"kana": "そば",
+"src": "near, close, beside; Japanese traditional buckwheat noodle",
+"rank": 334
+},
+{
+"jp": "それから",
+"kana": "それから",
+"src": "and then, after that",
+"rank": 335
+},
+{
+"jp": "どれ",
+"kana": "どれ",
+"src": "which one",
+"rank": 336
+},
+{
+"jp": "長い",
+"kana": "ながい",
+"src": "long, lengthy",
+"rank": 339
+},
+{
+"jp": "ページ",
+"kana": "ページ",
+"src": "a page",
+"rank": 341
+},
+{
+"jp": "早い",
+"kana": "はやい",
+"src": "early",
+"rank": 344
+},
+{
+"jp": "切る",
+"kana": "きる",
+"src": "to cut; to hang up (a phone)",
+"rank": 355
+},
+{
+"jp": "いろいろ",
+"kana": "いろいろ",
+"src": "various",
+"rank": 357
+},
+{
+"jp": "質問",
+"kana": "しつもん",
+"src": "question, inquiry",
+"rank": 363
+},
+{
+"jp": "なぜ",
+"kana": "なぜ",
+"src": "why (same as どうして)",
+"rank": 367
+},
+{
+"jp": "どんな",
+"kana": "どんな",
+"src": "what, what kind of",
+"rank": 368
+},
+{
+"jp": "口",
+"kana": "くち",
+"src": "job opening; mouth",
+"rank": 370
+},
+{
+"jp": "立つ",
+"kana": "たつ",
+"src": "to stand up",
+"rank": 373
+},
+{
+"jp": "一緒",
+"kana": "いっしょ",
+"src": "together",
+"rank": 381
+},
+{
+"jp": "一番",
+"kana": "いちばん",
+"src": "best (most), first, number one",
+"rank": 382
+},
+{
+"jp": "皆さん",
+"kana": "みなさん",
+"src": "all of you, everyone",
+"rank": 391
+},
+{
+"jp": "村",
+"kana": "むら",
+"src": "village",
+"rank": 391
+},
+{
+"jp": "～語",
+"kana": "ご",
+"src": "word, language",
+"rank": 395
+},
+{
+"jp": "欲しい",
+"kana": "ほしい",
+"src": "to want, in need of",
+"rank": 407
+},
+{
+"jp": "色",
+"kana": "いろ",
+"src": "color",
+"rank": 436
+},
+{
+"jp": "乗る",
+"kana": "のる",
+"src": "to get on, to ride in, to board",
+"rank": 440
+},
+{
+"jp": "開く",
+"kana": "あく",
+"src": "to open, to become open",
+"rank": 451
+},
+{
+"jp": "答える",
+"kana": "こたえる",
+"src": "to answer, to reply",
+"rank": 454
+},
+{
+"jp": "終わる",
+"kana": "おわる",
+"src": "to finish, to close",
+"rank": 456
+},
+{
+"jp": "初めて",
+"kana": "はじめて",
+"src": "for the first time",
+"rank": 457
+},
+{
+"jp": "とても",
+"kana": "とても",
+"src": "very (much), greatly, exceedingly",
+"rank": 466
+},
+{
+"jp": "～か月",
+"kana": "かげつ",
+"src": "(number of) months",
+"rank": 467
+},
+{
+"jp": "他",
+"kana": "ほか",
+"src": "other, else",
+"rank": 479
+},
+{
+"jp": "歩く",
+"kana": "あるく",
+"src": "to walk",
+"rank": 486
+},
+{
+"jp": "こちら",
+"kana": "こちら",
+"src": "this person (polite); this way (polite)",
+"rank": 490
+},
+{
+"jp": "午後",
+"kana": "ごご",
+"src": "afternoon, P.M.",
+"rank": 494
+},
+{
+"jp": "もっと",
+"kana": "もっと",
+"src": "more",
+"rank": 513
+},
+{
+"jp": "結婚",
+"kana": "けっこん",
+"src": "marriage (get married)",
+"rank": 515
+},
+{
+"jp": "どちら",
+"kana": "どちら",
+"src": "which (one) (way); where (polite)",
+"rank": 519
+},
+{
+"jp": "どなた",
+"kana": "どなた",
+"src": "who",
+"rank": 519
+},
+{
+"jp": "大変",
+"kana": "たいへん",
+"src": "very; difficult, hard",
+"rank": 523
+},
+{
+"jp": "見せる",
+"kana": "みせる",
+"src": "to show, to display",
+"rank": 529
+},
+{
+"jp": "死ぬ",
+"kana": "しぬ",
+"src": "to die",
+"rank": 533
+},
+{
+"jp": "若い",
+"kana": "わかい",
+"src": "young",
+"rank": 536
+},
+{
+"jp": "メートル",
+"kana": "メートル",
+"src": "meter",
+"rank": 537
+},
+{
+"jp": "～屋",
+"kana": "や",
+"src": "~ shop",
+"rank": 556
+},
+{
+"jp": "たくさん",
+"kana": "たくさん",
+"src": "many, much",
+"rank": 557
+},
+{
+"jp": "木",
+"kana": "き",
+"src": "tree, wood, timber",
+"rank": 559
+},
+{
+"jp": "どうして",
+"kana": "どうして",
+"src": "why, for what reason",
+"rank": 564
+},
+{
+"jp": "生まれる",
+"kana": "うまれる",
+"src": "to be born",
+"rank": 575
+},
+{
+"jp": "足",
+"kana": "あし",
+"src": "foot; leg",
+"rank": 583
+},
+{
+"jp": "いくつ",
+"kana": "いくつ",
+"src": "how many, how old",
+"rank": 597
+},
+{
+"jp": "始まる",
+"kana": "はじまる",
+"src": "(something) begins",
+"rank": 597
+},
+{
+"jp": "走る",
+"kana": "はしる",
+"src": "to run",
+"rank": 607
+},
+{
+"jp": "忘れる",
+"kana": "わすれる",
+"src": "to forget",
+"rank": 608
+},
+{
+"jp": "～枚",
+"kana": "まい",
+"src": "counter for flat things",
+"rank": 612
+},
+{
+"jp": "海",
+"kana": "うみ",
+"src": "sea, beach",
+"rank": 619
+},
+{
+"jp": "渡る",
+"kana": "わたる",
+"src": "to cross over, to go across",
+"rank": 620
+},
+{
+"jp": "新聞",
+"kana": "しんぶん",
+"src": "newspaper",
+"rank": 624
+},
+{
+"jp": "ああ",
+"kana": "ああ",
+"src": "Ah!, Oh!",
+"rank": 647
+},
+{
+"jp": "午前",
+"kana": "ごぜん",
+"src": "morning, A.M.",
+"rank": 649
+},
+{
+"jp": "～番",
+"kana": "ばん",
+"src": "~st; ~th best",
+"rank": 654
+},
+{
+"jp": "外国",
+"kana": "がいこく",
+"src": "foreign country; abroad",
+"rank": 661
+},
+{
+"jp": "近く",
+"kana": "ちかく",
+"src": "nearby; in the neighborhood",
+"rank": 663
+},
+{
+"jp": "家庭",
+"kana": "かてい",
+"src": "home; family",
+"rank": 665
+},
+{
+"jp": "小さな",
+"kana": "ちいさな",
+"src": "small, little",
+"rank": 686
+},
+{
+"jp": "大切",
+"kana": "たいせつ",
+"src": "important",
+"rank": 687
+},
+{
+"jp": "料理",
+"kana": "りょうり",
+"src": "cooking; cuisine",
+"rank": 692
+},
+{
+"jp": "嫌",
+"kana": "いや",
+"src": "disagreeable, detestable, unpleasant",
+"rank": 699
+},
+{
+"jp": "楽しい",
+"kana": "たのしい",
+"src": "enjoyable, fun",
+"rank": 704
+},
+{
+"jp": "引く",
+"kana": "ひく",
+"src": "to pull, to draw; subtract",
+"rank": 711
+},
+{
+"jp": "～階",
+"kana": "かい",
+"src": "counter for stories (floors) of a building",
+"rank": 717
+},
+{
+"jp": "～台",
+"kana": "だい",
+"src": "counter for vehicles; machines",
+"rank": 720
+},
+{
+"jp": "あれ",
+"kana": "あれ",
+"src": "that one (over there)",
+"rank": 722
+},
+{
+"jp": "難しい",
+"kana": "むずかしい",
+"src": "difficult",
+"rank": 724
+},
+{
+"jp": "住む",
+"kana": "すむ",
+"src": "to reside, to live in",
+"rank": 740
+},
+{
+"jp": "～個",
+"kana": "こ",
+"src": "counter for small items (e.g., fruits, cups)",
+"rank": 744
+},
+{
+"jp": "お母さん",
+"kana": "おかあさん",
+"src": "mother (formal)",
+"rank": 783
+},
+{
+"jp": "近い",
+"kana": "ちかい",
+"src": "near, close by, short",
+"rank": 786
+},
+{
+"jp": "低い",
+"kana": "ひくい",
+"src": "short, low",
+"rank": 787
+},
+{
+"jp": "覚える",
+"kana": "おぼえる",
+"src": "to learn, to commit to memory, to remember, to memorize",
+"rank": 791
+},
+{
+"jp": "今年",
+"kana": "ことし",
+"src": "this year",
+"rank": 797
+},
+{
+"jp": "開ける",
+"kana": "あける",
+"src": "to open (v.t.)",
+"rank": 798
+},
+{
+"jp": "三つ",
+"kana": "みっつ",
+"src": "three things",
+"rank": 804
+},
+{
+"jp": "広い",
+"kana": "ひろい",
+"src": "spacious; wide; broad",
+"rank": 807
+},
+{
+"jp": "一日",
+"kana": "いちにち・ついたち",
+"src": "one day (duration)",
+"rank": 832
+},
+{
+"jp": "では",
+"kana": "では",
+"src": "then, well, so",
+"rank": 836
+},
+{
+"jp": "右",
+"kana": "みぎ",
+"src": "right hand side",
+"rank": 844
+},
+{
+"jp": "ホテル",
+"kana": "ホテル",
+"src": "hotel",
+"rank": 856
+},
+{
+"jp": "歌",
+"kana": "うた",
+"src": "a song",
+"rank": 859
+},
+{
+"jp": "薬",
+"kana": "くすり",
+"src": "medicine",
+"rank": 867
+},
+{
+"jp": "紙",
+"kana": "かみ",
+"src": "paper",
+"rank": 883
+},
+{
+"jp": "半",
+"kana": "はん",
+"src": "half (e.g., にじはん | half-past two)",
+"rank": 886
+},
+{
+"jp": "結構",
+"kana": "けっこう",
+"src": "splendid; enough, tolerably",
+"rank": 893
+},
+{
+"jp": "犬",
+"kana": "いぬ",
+"src": "dog",
+"rank": 897
+},
+{
+"jp": "白",
+"kana": "しろ",
+"src": "white",
+"rank": 912
+},
+{
+"jp": "全部",
+"kana": "ぜんぶ",
+"src": "all, entire, whole",
+"rank": 914
+},
+{
+"jp": "座る",
+"kana": "すわる",
+"src": "to sit",
+"rank": 927
+},
+{
+"jp": "夏",
+"kana": "なつ",
+"src": "summer",
+"rank": 944
+},
+{
+"jp": "動物",
+"kana": "どうぶつ",
+"src": "animal",
+"rank": 945
+},
+{
+"jp": "遊ぶ",
+"kana": "あそぶ",
+"src": "to play; to spend time pleasantly; to hang out",
+"rank": 946
+},
+{
+"jp": "黒",
+"kana": "くろ",
+"src": "black",
+"rank": 952
+},
+{
+"jp": "旅行",
+"kana": "りょこう",
+"src": "travel, trip",
+"rank": 963
+},
+{
+"jp": "困る",
+"kana": "こまる",
+"src": "to be bothered, to have difficulty",
+"rank": 966
+},
+{
+"jp": "～週間",
+"kana": "しゅうかん",
+"src": "~ weeks",
+"rank": 967
+},
+{
+"jp": "病気",
+"kana": "びょうき",
+"src": "illness; sickness",
+"rank": 968
+},
+{
+"jp": "大丈夫",
+"kana": "だいじょうぶ",
+"src": "It's ok (all right); No need to worry; Everything is under control",
+"rank": 975
+},
+{
+"jp": "耳",
+"kana": "みみ",
+"src": "ear",
+"rank": 988
+},
+{
+"jp": "白い",
+"kana": "しろい",
+"src": "white",
+"rank": 997
+},
+{
+"jp": "バス",
+"kana": "バス",
+"src": "bus; bath; bass",
+"rank": 1002
+},
+{
+"jp": "売る",
+"kana": "うる",
+"src": "to sell (v.t.)",
+"rank": 1009
+},
+{
+"jp": "かわいい",
+"kana": "かわいい",
+"src": "cute, adorable",
+"rank": 1014
+},
+{
+"jp": "登る",
+"kana": "のぼる",
+"src": "to climb",
+"rank": 1015
+},
+{
+"jp": "スポーツ",
+"kana": "スポーツ",
+"src": "sport(s)",
+"rank": 1016
+},
+{
+"jp": "差す",
+"kana": "さす",
+"src": "to raise (stretch out) hands, to raise (e.g., umbrella)",
+"rank": 1028
+},
+{
+"jp": "～ずつ",
+"kana": "ずつ",
+"src": "at a time",
+"rank": 1029
+},
+{
+"jp": "空",
+"kana": "そら",
+"src": "sky",
+"rank": 1031
+},
+{
+"jp": "左",
+"kana": "ひだり",
+"src": "left hand side",
+"rank": 1046
+},
+{
+"jp": "横",
+"kana": "よこ",
+"src": "beside; side; width",
+"rank": 1049
+},
+{
+"jp": "絵",
+"kana": "え",
+"src": "a painting; a picture; a drawing",
+"rank": 1054
+},
+{
+"jp": "大人",
+"kana": "おとな",
+"src": "adult",
+"rank": 1070
+},
+{
+"jp": "着る",
+"kana": "きる",
+"src": "to put on (clothes above your waist); to wear",
+"rank": 1079
+},
+{
+"jp": "歌う",
+"kana": "うたう",
+"src": "to sing",
+"rank": 1082
+},
+{
+"jp": "電気",
+"kana": "でんき",
+"src": "electricity, (electric) light",
+"rank": 1094
+},
+{
+"jp": "兄",
+"kana": "あに",
+"src": "(my) older brother (humble)",
+"rank": 1098
+},
+{
+"jp": "建物",
+"kana": "たてもの",
+"src": "building",
+"rank": 1100
+},
+{
+"jp": "ゆっくり",
+"kana": "ゆっくり",
+"src": "slowly, at ease",
+"rank": 1108
+},
+{
+"jp": "東",
+"kana": "ひがし",
+"src": "east",
+"rank": 1111
+},
+{
+"jp": "軽い",
+"kana": "かるい",
+"src": "light, non-serious, minor",
+"rank": 1112
+},
+{
+"jp": "英語",
+"kana": "えいご",
+"src": "English (language)",
+"rank": 1117
+},
+{
+"jp": "生徒",
+"kana": "せいと",
+"src": "student; pupil",
+"rank": 1119
+},
+{
+"jp": "辛い",
+"kana": "からい",
+"src": "hot and spicy; salty",
+"rank": 1123
+},
+{
+"jp": "押す",
+"kana": "おす",
+"src": "to push, to press, to stamp (e.g., a passport)",
+"rank": 1128
+},
+{
+"jp": "こっち",
+"kana": "こっち",
+"src": "this person; this direction; this side",
+"rank": 1135
+},
+{
+"jp": "キロ",
+"kana": "キロ",
+"src": "(abbr.) kilo (kilogram)",
+"rank": 1142
+},
+{
+"jp": "多分",
+"kana": "たぶん",
+"src": "perhaps, probably, maybe",
+"rank": 1143
+},
+{
+"jp": "消える",
+"kana": "きえる",
+"src": "to vanish, to disappear",
+"rank": 1153
+},
+{
+"jp": "番号",
+"kana": "ばんごう",
+"src": "number, series of digits",
+"rank": 1160
+},
+{
+"jp": "ドア",
+"kana": "ドア",
+"src": "door (Western style)",
+"rank": 1169
+},
+{
+"jp": "はい",
+"kana": "はい",
+"src": "yes",
+"rank": 1185
+},
+{
+"jp": "三日",
+"kana": "みっか",
+"src": "three days, third day of the month",
+"rank": 1186
+},
+{
+"jp": "窓",
+"kana": "まど",
+"src": "window",
+"rank": 1190
+},
+{
+"jp": "南",
+"kana": "みなみ",
+"src": "South",
+"rank": 1201
+},
+{
+"jp": "春",
+"kana": "はる",
+"src": "spring",
+"rank": 1215
+},
+{
+"jp": "北",
+"kana": "きた",
+"src": "north",
+"rank": 1216
+},
+{
+"jp": "並ぶ",
+"kana": "ならぶ",
+"src": "to line up, to stand in a line (v.i.)",
+"rank": 1219
+},
+{
+"jp": "お父さん",
+"kana": "おとうさん",
+"src": "father (formal)",
+"rank": 1235
+},
+{
+"jp": "出かける",
+"kana": "でかける",
+"src": "to go out; to depart",
+"rank": 1237
+},
+{
+"jp": "頼む",
+"kana": "たのむ",
+"src": "to request, to ask (a favor)",
+"rank": 1242
+},
+{
+"jp": "西",
+"kana": "にし",
+"src": "west",
+"rank": 1251
+},
+{
+"jp": "重い",
+"kana": "おもい",
+"src": "heavy; serious",
+"rank": 1254
+},
+{
+"jp": "秋",
+"kana": "あき",
+"src": "fall (season)",
+"rank": 1255
+},
+{
+"jp": "降りる",
+"kana": "おりる",
+"src": "to get off",
+"rank": 1264
+},
+{
+"jp": "猫",
+"kana": "ねこ",
+"src": "cat",
+"rank": 1274
+},
+{
+"jp": "飛ぶ",
+"kana": "とぶ",
+"src": "to fly, to hop",
+"rank": 1283
+},
+{
+"jp": "二日",
+"kana": "ふつか",
+"src": "two days; second day of the month",
+"rank": 1291
+},
+{
+"jp": "明るい",
+"kana": "あかるい",
+"src": "bright (in reference to personality or weather); cheerful",
+"rank": 1293
+},
+{
+"jp": "練習",
+"kana": "れんしゅう",
+"src": "(to) practice",
+"rank": 1307
+},
+{
+"jp": "後ろ",
+"kana": "うしろ",
+"src": "back, behind, rear",
+"rank": 1321
+},
+{
+"jp": "雪",
+"kana": "ゆき",
+"src": "snow",
+"rank": 1325
+},
+{
+"jp": "止まる",
+"kana": "とまる",
+"src": "to come to a halt",
+"rank": 1326
+},
+{
+"jp": "教室",
+"kana": "きょうしつ",
+"src": "classroom",
+"rank": 1339
+},
+{
+"jp": "グラム",
+"kana": "グラム",
+"src": "gram",
+"rank": 1343
+},
+{
+"jp": "姉",
+"kana": "あね",
+"src": "(my) older sister (humble)",
+"rank": 1347
+},
+{
+"jp": "それでは",
+"kana": "それでは",
+"src": "in that situation, well then...",
+"rank": 1354
+},
+{
+"jp": "半分",
+"kana": "はんぶん",
+"src": "half",
+"rank": 1357
+},
+{
+"jp": "返す",
+"kana": "かえす",
+"src": "to return something",
+"rank": 1373
+},
+{
+"jp": "ちょうど",
+"kana": "ちょうど",
+"src": "just, right, exactly",
+"rank": 1376
+},
+{
+"jp": "十日",
+"kana": "とおか",
+"src": "ten days; tenth day of the month",
+"rank": 1379
+},
+{
+"jp": "女の子",
+"kana": "おんなのこ",
+"src": "girl",
+"rank": 1380
+},
+{
+"jp": "冬",
+"kana": "ふゆ",
+"src": "winter",
+"rank": 1407
+},
+{
+"jp": "おじさん",
+"kana": "おじさん",
+"src": "uncle, middle-aged man",
+"rank": 1417
+},
+{
+"jp": "痛い",
+"kana": "いたい",
+"src": "hurt; painful; sore",
+"rank": 1429
+},
+{
+"jp": "椅子",
+"kana": "いす",
+"src": "chair",
+"rank": 1442
+},
+{
+"jp": "隣",
+"kana": "となり",
+"src": "next to, next door to",
+"rank": 1456
+},
+{
+"jp": "いかが",
+"kana": "いかが",
+"src": "how, in what way",
+"rank": 1459
+},
+{
+"jp": "赤い",
+"kana": "あかい",
+"src": "red",
+"rank": 1466
+},
+{
+"jp": "たばこ",
+"kana": "たばこ",
+"src": "tobacco, cigarettes",
+"rank": 1471
+},
+{
+"jp": "短い",
+"kana": "みじかい",
+"src": "short (length)",
+"rank": 1474
+},
+{
+"jp": "カメラ",
+"kana": "カメラ",
+"src": "camera",
+"rank": 1476
+},
+{
+"jp": "テーブル",
+"kana": "テーブル",
+"src": "table",
+"rank": 1495
+},
+{
+"jp": "ベッド",
+"kana": "ベッド",
+"src": "bed",
+"rank": 1497
+},
+{
+"jp": "辺",
+"kana": "へん",
+"src": "area, vicinity",
+"rank": 1500
+},
+{
+"jp": "遅い",
+"kana": "おそい",
+"src": "slow; (to be) late",
+"rank": 1510
+},
+{
+"jp": "奥さん",
+"kana": "おくさん",
+"src": "(someone else's) wife (hon.)",
+"rank": 1519
+},
+{
+"jp": "服",
+"kana": "ふく",
+"src": "clothes",
+"rank": 1525
+},
+{
+"jp": "雑誌",
+"kana": "ざっし",
+"src": "magazine, journal",
+"rank": 1528
+},
+{
+"jp": "ボタン",
+"kana": "ボタン",
+"src": "button",
+"rank": 1537
+},
+{
+"jp": "クラス",
+"kana": "クラス",
+"src": "a class",
+"rank": 1538
+},
+{
+"jp": "二十日",
+"kana": "はつか",
+"src": "twenty days, twentieth (day of the month)",
+"rank": 1539
+},
+{
+"jp": "赤",
+"kana": "あか",
+"src": "red",
+"rank": 1544
+},
+{
+"jp": "どっち",
+"kana": "どっち",
+"src": "which one, which way",
+"rank": 1565
+},
+{
+"jp": "歯",
+"kana": "は",
+"src": "tooth",
+"rank": 1571
+},
+{
+"jp": "塩",
+"kana": "しお",
+"src": "salt",
+"rank": 1576
+},
+{
+"jp": "ええ",
+"kana": "ええ",
+"src": "yes",
+"rank": 1590
+},
+{
+"jp": "五日",
+"kana": "いつか",
+"src": "five days; fifth day of the month",
+"rank": 1595
+},
+{
+"jp": "橋",
+"kana": "はし",
+"src": "bridge",
+"rank": 1601
+},
+{
+"jp": "弱い",
+"kana": "よわい",
+"src": "weak",
+"rank": 1608
+},
+{
+"jp": "～すぎ",
+"kana": "すぎ",
+"src": "past; to exceed, ~ too much",
+"rank": 1630
+},
+{
+"jp": "文章",
+"kana": "ぶんしょう",
+"src": "sentence, text",
+"rank": 1646
+},
+{
+"jp": "薄い",
+"kana": "うすい",
+"src": "thin, weak",
+"rank": 1647
+},
+{
+"jp": "向こう",
+"kana": "むこう",
+"src": "beyond, over there",
+"rank": 1651
+},
+{
+"jp": "箱",
+"kana": "はこ",
+"src": "box",
+"rank": 1665
+},
+{
+"jp": "卵",
+"kana": "たまご",
+"src": "egg",
+"rank": 1667
+},
+{
+"jp": "疲れる",
+"kana": "つかれる",
+"src": "to get (become) tired; to become fatigued",
+"rank": 1692
+},
+{
+"jp": "勤める",
+"kana": "つとめる",
+"src": "to work (for)",
+"rank": 1699
+},
+{
+"jp": "暗い",
+"kana": "くらい",
+"src": "dark, gloomy",
+"rank": 1702
+},
+{
+"jp": "四日",
+"kana": "よっか",
+"src": "four days; fourth day of the month",
+"rank": 1712
+},
+{
+"jp": "自転車",
+"kana": "じてんしゃ",
+"src": "bicycle",
+"rank": 1713
+},
+{
+"jp": "緑",
+"kana": "みどり",
+"src": "green",
+"rank": 1731
+},
+{
+"jp": "黒い",
+"kana": "くろい",
+"src": "black; dark",
+"rank": 1744
+},
+{
+"jp": "自動車",
+"kana": "じどうしゃ",
+"src": "automobile",
+"rank": 1749
+},
+{
+"jp": "借りる",
+"kana": "かりる",
+"src": "to borrow, to owe",
+"rank": 1756
+},
+{
+"jp": "両親",
+"kana": "りょうしん",
+"src": "parents (lit., both parents)",
+"rank": 1757
+},
+{
+"jp": "遠い",
+"kana": "とおい",
+"src": "far (away), distant",
+"rank": 1765
+},
+{
+"jp": "授業",
+"kana": "じゅぎょう",
+"src": "a class (of school)",
+"rank": 1766
+},
+{
+"jp": "さあ",
+"kana": "さあ",
+"src": "come now, well",
+"rank": 1768
+},
+{
+"jp": "ニュース",
+"kana": "ニュース",
+"src": "news",
+"rank": 1771
+},
+{
+"jp": "甘い",
+"kana": "あまい",
+"src": "generous, sweet",
+"rank": 1773
+},
+{
+"jp": "渡す",
+"kana": "わたす",
+"src": "to hand (something) over (v.t.); to get across",
+"rank": 1779
+},
+{
+"jp": "庭",
+"kana": "にわ",
+"src": "garden",
+"rank": 1810
+},
+{
+"jp": "七日",
+"kana": "なのか",
+"src": "seven days; seventh day (of the month)",
+"rank": 1820
+},
+{
+"jp": "初め",
+"kana": "はじめ",
+"src": "beginning, start",
+"rank": 1822
+},
+{
+"jp": "着く",
+"kana": "つく",
+"src": "to arrive at, to reach",
+"rank": 1827
+},
+{
+"jp": "八日",
+"kana": "ようか",
+"src": "eight days; eighth day of the month",
+"rank": 1830
+},
+{
+"jp": "四つ",
+"kana": "よっつ",
+"src": "four things",
+"rank": 1838
+},
+{
+"jp": "毎年",
+"kana": "まいとし",
+"src": "every year, yearly, annually",
+"rank": 1845
+},
+{
+"jp": "降る",
+"kana": "ふる",
+"src": "to precipitate, to fall (e.g., rain, snow, etc.)",
+"rank": 1847
+},
+{
+"jp": "暖かい",
+"kana": "あたたかい",
+"src": "warm",
+"rank": 1872
+},
+{
+"jp": "鳥",
+"kana": "とり",
+"src": "chicken (lit., bird)",
+"rank": 1877
+},
+{
+"jp": "～杯",
+"kana": "はい",
+"src": "counter for cupfuls",
+"rank": 1894
+},
+{
+"jp": "狭い",
+"kana": "せまい",
+"src": "narrow; not spacious",
+"rank": 1897
+},
+{
+"jp": "医者",
+"kana": "いしゃ",
+"src": "doctor; physician",
+"rank": 1899
+},
+{
+"jp": "時々",
+"kana": "ときどき",
+"src": "sometimes",
+"rank": 1901
+},
+{
+"jp": "じゃあ",
+"kana": "じゃあ",
+"src": "well, well then",
+"rank": 1902
+},
+{
+"jp": "鼻",
+"kana": "はな",
+"src": "nose",
+"rank": 1906
+},
+{
+"jp": "背",
+"kana": "せい",
+"src": "(one's) height, stature",
+"rank": 1910
+},
+{
+"jp": "大好き",
+"kana": "だいすき",
+"src": "very like-able, like very much",
+"rank": 1914
+},
+{
+"jp": "洗う",
+"kana": "あらう",
+"src": "to wash",
+"rank": 1927
+},
+{
+"jp": "咲く",
+"kana": "さく",
+"src": "to bloom",
+"rank": 1930
+},
+{
+"jp": "六日",
+"kana": "むいか",
+"src": "six days; sixth day of month",
+"rank": 1942
+},
+{
+"jp": "九日",
+"kana": "ここのか",
+"src": "nine days; ninth day of the month",
+"rank": 1947
+},
+{
+"jp": "弟",
+"kana": "おとうと",
+"src": "younger brother",
+"rank": 1997
+},
+{
+"jp": "消す",
+"kana": "けす",
+"src": "to erase, to delete, to turn off power",
+"rank": 2007
+},
+{
+"jp": "冷たい",
+"kana": "つめたい",
+"src": "cold (things, people)",
+"rank": 2015
+},
+{
+"jp": "便利",
+"kana": "べんり",
+"src": "convenient, handy",
+"rank": 2034
+},
+{
+"jp": "門",
+"kana": "もん",
+"src": "gate",
+"rank": 2037
+},
+{
+"jp": "玄関",
+"kana": "げんかん",
+"src": "entrance (to a house or a building)",
+"rank": 2049
+},
+{
+"jp": "飛行機",
+"kana": "ひこうき",
+"src": "airplane",
+"rank": 2051
+},
+{
+"jp": "昼",
+"kana": "ひる",
+"src": "noon, daytime",
+"rank": 2055
+},
+{
+"jp": "テスト",
+"kana": "テスト",
+"src": "test",
+"rank": 2059
+},
+{
+"jp": "兄弟",
+"kana": "きょうだい",
+"src": "siblings (humble), brothers and sisters",
+"rank": 2081
+},
+{
+"jp": "どうぞ",
+"kana": "どうぞ",
+"src": "please, kindly, by all means",
+"rank": 2083
+},
+{
+"jp": "嫌い",
+"kana": "きらい",
+"src": "dislike",
+"rank": 2090
+},
+{
+"jp": "階段",
+"kana": "かいだん",
+"src": "stairs",
+"rank": 2105
+},
+{
+"jp": "要る",
+"kana": "いる",
+"src": "to need",
+"rank": 2116
+},
+{
+"jp": "シャツ",
+"kana": "シャツ",
+"src": "shirt",
+"rank": 2133
+},
+{
+"jp": "妹",
+"kana": "いもうと",
+"src": "younger sister (humble)",
+"rank": 2186
+},
+{
+"jp": "休み",
+"kana": "やすみ",
+"src": "holiday; day off; absence",
+"rank": 2196
+},
+{
+"jp": "お腹",
+"kana": "おなか",
+"src": "stomach",
+"rank": 2197
+},
+{
+"jp": "カップ",
+"kana": "カップ",
+"src": "cup",
+"rank": 2210
+},
+{
+"jp": "地図",
+"kana": "ちず",
+"src": "a map",
+"rank": 2212
+},
+{
+"jp": "熱い",
+"kana": "あつい",
+"src": "hot (objects)",
+"rank": 2220
+},
+{
+"jp": "そちら",
+"kana": "そちら",
+"src": "over there",
+"rank": 2233
+},
+{
+"jp": "入口",
+"kana": "いりぐち",
+"src": "entrance",
+"rank": 2247
+},
+{
+"jp": "鍵",
+"kana": "かぎ",
+"src": "a lock; a key",
+"rank": 2261
+},
+{
+"jp": "りっぱ",
+"kana": "りっぱ",
+"src": "splendid, fine",
+"rank": 2270
+},
+{
+"jp": "～匹",
+"kana": "ひき",
+"src": "counter for small animals",
+"rank": 2294
+},
+{
+"jp": "外国人",
+"kana": "がいこくじん",
+"src": "foreigner",
+"rank": 2297
+},
+{
+"jp": "並べる",
+"kana": "ならべる",
+"src": "to put (things) side by side; to line up",
+"rank": 2303
+},
+{
+"jp": "掃除",
+"kana": "そうじ",
+"src": "cleaning, sweeping",
+"rank": 2306
+},
+{
+"jp": "細い",
+"kana": "ほそい",
+"src": "thin, slender, fine",
+"rank": 2320
+},
+{
+"jp": "買い物",
+"kana": "かいもの",
+"src": "shopping",
+"rank": 2329
+},
+{
+"jp": "上手",
+"kana": "じょうず",
+"src": "be good at, skillful",
+"rank": 2339
+},
+{
+"jp": "角",
+"kana": "かど",
+"src": "corner (e.g., desk, pavement)",
+"rank": 2373
+},
+{
+"jp": "かぶる",
+"kana": "かぶる",
+"src": "to wear, to put on (e.g., a hat on the head)",
+"rank": 2388
+},
+{
+"jp": "戸",
+"kana": "と",
+"src": "door (Japanese style)",
+"rank": 2401
+},
+{
+"jp": "夕方",
+"kana": "ゆうがた",
+"src": "late afternoon (typically just before dinner time), evening",
+"rank": 2411
+},
+{
+"jp": "吸う",
+"kana": "すう",
+"src": "to breathe in, to suck",
+"rank": 2417
+},
+{
+"jp": "閉める",
+"kana": "しめる",
+"src": "to close, to shut",
+"rank": 2465
+},
+{
+"jp": "締める",
+"kana": "しめる",
+"src": "to tie, to fasten, to tighten",
+"rank": 2465
+},
+{
+"jp": "日曜日",
+"kana": "にちようび",
+"src": "Sunday",
+"rank": 2465
+},
+{
+"jp": "青い",
+"kana": "あおい",
+"src": "blue",
+"rank": 2467
+},
+{
+"jp": "男の子",
+"kana": "おとこのこ",
+"src": "boy",
+"rank": 2507
+},
+{
+"jp": "冷蔵庫",
+"kana": "れいぞうこ",
+"src": "refrigerator",
+"rank": 2509
+},
+{
+"jp": "醤油",
+"kana": "しょうゆ",
+"src": "soy sauce",
+"rank": 2536
+},
+{
+"jp": "厚い",
+"kana": "あつい",
+"src": "kind, warm(hearted), thick, deep",
+"rank": 2540
+},
+{
+"jp": "ラジオ",
+"kana": "ラジオ",
+"src": "radio",
+"rank": 2542
+},
+{
+"jp": "机",
+"kana": "つくえ",
+"src": "desk",
+"rank": 2545
+},
+{
+"jp": "だんだん",
+"kana": "だんだん",
+"src": "gradually, by degrees",
+"rank": 2553
+},
+{
+"jp": "誕生日",
+"kana": "たんじょうび",
+"src": "birthday",
+"rank": 2583
+},
+{
+"jp": "散歩",
+"kana": "さんぽ",
+"src": "walk, stroll",
+"rank": 2587
+},
+{
+"jp": "～冊",
+"kana": "さつ",
+"src": "counter for books",
+"rank": 2608
+},
+{
+"jp": "晩",
+"kana": "ばん",
+"src": "evening",
+"rank": 2643
+},
+{
+"jp": "お酒",
+"kana": "おさけ",
+"src": "sake; alcohol",
+"rank": 2651
+},
+{
+"jp": "暇",
+"kana": "ひま",
+"src": "free time, leisure",
+"rank": 2656
+},
+{
+"jp": "カレー",
+"kana": "カレー",
+"src": "curry (abbr. for curry and rice)",
+"rank": 2658
+},
+{
+"jp": "砂糖",
+"kana": "さとう",
+"src": "sugar",
+"rank": 2668
+},
+{
+"jp": "食べ物",
+"kana": "たべもの",
+"src": "food",
+"rank": 2679
+},
+{
+"jp": "はく",
+"kana": "はく",
+"src": "to put on (items below your waist)",
+"rank": 2687
+},
+{
+"jp": "洗濯",
+"kana": "せんたく",
+"src": "washing, laundry",
+"rank": 2690
+},
+{
+"jp": "吹く",
+"kana": "ふく",
+"src": "to blow (wind, etc.)",
+"rank": 2707
+},
+{
+"jp": "はがき",
+"kana": "はがき",
+"src": "postcard",
+"rank": 2746
+},
+{
+"jp": "荷物",
+"kana": "にもつ",
+"src": "luggage; baggage",
+"rank": 2757
+},
+{
+"jp": "去年",
+"kana": "きょねん",
+"src": "last year",
+"rank": 2761
+},
+{
+"jp": "廊下",
+"kana": "ろうか",
+"src": "corridor",
+"rank": 2763
+},
+{
+"jp": "パーティー",
+"kana": "パーティー",
+"src": "a party",
+"rank": 2771
+},
+{
+"jp": "貸す",
+"kana": "かす",
+"src": "to lend",
+"rank": 2783
+},
+{
+"jp": "ノート",
+"kana": "ノート",
+"src": "notebook",
+"rank": 2786
+},
+{
+"jp": "おばさん",
+"kana": "おばさん",
+"src": "aunt",
+"rank": 2788
+},
+{
+"jp": "ポケット",
+"kana": "ポケット",
+"src": "pocket",
+"rank": 2792
+},
+{
+"jp": "太い",
+"kana": "ふとい",
+"src": "fat, thick",
+"rank": 2802
+},
+{
+"jp": "土曜日",
+"kana": "どようび",
+"src": "Saturday",
+"rank": 2808
+},
+{
+"jp": "池",
+"kana": "いけ",
+"src": "pond",
+"rank": 2815
+},
+{
+"jp": "タクシー",
+"kana": "タクシー",
+"src": "taxi",
+"rank": 2834
+},
+{
+"jp": "今朝",
+"kana": "けさ",
+"src": "this morning",
+"rank": 2866
+},
+{
+"jp": "あそこ",
+"kana": "あそこ",
+"src": "there, over there, that place",
+"rank": 2915
+},
+{
+"jp": "コート",
+"kana": "コート",
+"src": "coat; court (e.g., tennis)",
+"rank": 2960
+},
+{
+"jp": "お風呂",
+"kana": "おふろ",
+"src": "a bath",
+"rank": 2970
+},
+{
+"jp": "風邪",
+"kana": "かぜ",
+"src": "cold, flu",
+"rank": 2979
+},
+{
+"jp": "漢字",
+"kana": "かんじ",
+"src": "kanji; Chinese character",
+"rank": 2997
+},
+{
+"jp": "青",
+"kana": "あお",
+"src": "blue",
+"rank": 3022
+},
+{
+"jp": "大勢",
+"kana": "おおぜい",
+"src": "great number of people",
+"rank": 3066
+},
+{
+"jp": "まっすぐ",
+"kana": "まっすぐ",
+"src": "straight (ahead), direct",
+"rank": 3067
+},
+{
+"jp": "毎週",
+"kana": "まいしゅう",
+"src": "every week",
+"rank": 3075
+},
+{
+"jp": "アパート",
+"kana": "アパート",
+"src": "apartment (abbr.)",
+"rank": 3083
+},
+{
+"jp": "五つ",
+"kana": "いつつ",
+"src": "five things",
+"rank": 3126
+},
+{
+"jp": "毎月",
+"kana": "まいつき",
+"src": "every month, monthly",
+"rank": 3140
+},
+{
+"jp": "浴びる",
+"kana": "あびる",
+"src": "to bathe, to shower",
+"rank": 3149
+},
+{
+"jp": "無くす",
+"kana": "なくす",
+"src": "to lose something",
+"rank": 3152
+},
+{
+"jp": "下手",
+"kana": "へた",
+"src": "unskillful, poor",
+"rank": 3182
+},
+{
+"jp": "ペット",
+"kana": "ペット",
+"src": "pet",
+"rank": 3224
+},
+{
+"jp": "昨夜",
+"kana": "ゆうべ",
+"src": "last night",
+"rank": 3269
+},
+{
+"jp": "あちら",
+"kana": "あちら",
+"src": "this way (polite)",
+"rank": 3274
+},
+{
+"jp": "眼鏡",
+"kana": "めがね",
+"src": "eye glasses",
+"rank": 3298
+},
+{
+"jp": "丸い",
+"kana": "まるい",
+"src": "round, circular",
+"rank": 3326
+},
+{
+"jp": "お菓子",
+"kana": "おかし",
+"src": "confections, sweets, snack",
+"rank": 3338
+},
+{
+"jp": "ペン",
+"kana": "ペン",
+"src": "pen",
+"rank": 3340
+},
+{
+"jp": "バター",
+"kana": "バター",
+"src": "butter",
+"rank": 3356
+},
+{
+"jp": "弾く",
+"kana": "ひく",
+"src": "to play (a string instrument or piano)",
+"rank": 3443
+},
+{
+"jp": "帽子",
+"kana": "ぼうし",
+"src": "hat; cap",
+"rank": 3462
+},
+{
+"jp": "金曜日",
+"kana": "きんようび",
+"src": "Friday",
+"rank": 3484
+},
+{
+"jp": "脱ぐ",
+"kana": "ぬぐ",
+"src": "to take off (clothes)",
+"rank": 3528
+},
+{
+"jp": "郵便局",
+"kana": "ゆうびんきょく",
+"src": "post office",
+"rank": 3542
+},
+{
+"jp": "スカート",
+"kana": "スカート",
+"src": "skirt",
+"rank": 3582
+},
+{
+"jp": "ポスト",
+"kana": "ポスト",
+"src": "mailbox; post, position",
+"rank": 3615
+},
+{
+"jp": "今月",
+"kana": "こんげつ",
+"src": "this month",
+"rank": 3644
+},
+{
+"jp": "プール",
+"kana": "プール",
+"src": "swimming pool",
+"rank": 3655
+},
+{
+"jp": "まずい",
+"kana": "まずい",
+"src": "terrible (in reference to food), unappetizing, unpleasant (taste)",
+"rank": 3676
+},
+{
+"jp": "泳ぐ",
+"kana": "およぐ",
+"src": "to swim",
+"rank": 3686
+},
+{
+"jp": "曲がる",
+"kana": "まがる",
+"src": "to turn, to bend",
+"rank": 3691
+},
+{
+"jp": "台所",
+"kana": "だいどころ",
+"src": "kitchen",
+"rank": 3693
+},
+{
+"jp": "うるさい",
+"kana": "うるさい",
+"src": "noisy; annoying",
+"rank": 3701
+},
+{
+"jp": "いいえ",
+"kana": "いいえ",
+"src": "no, not at all",
+"rank": 3806
+},
+{
+"jp": "危ない",
+"kana": "あぶない",
+"src": "dangerous, critical",
+"rank": 3816
+},
+{
+"jp": "たて",
+"kana": "たて",
+"src": "length, height",
+"rank": 3828
+},
+{
+"jp": "黄色",
+"kana": "きいろ",
+"src": "yellow",
+"rank": 3840
+},
+{
+"jp": "今週",
+"kana": "こんしゅう",
+"src": "this week",
+"rank": 3896
+},
+{
+"jp": "夏休み",
+"kana": "なつやすみ",
+"src": "summer vacation",
+"rank": 3902
+},
+{
+"jp": "磨く",
+"kana": "みがく",
+"src": "to brush (teeth); to polish",
+"rank": 3981
+},
+{
+"jp": "そっち",
+"kana": "そっち",
+"src": "over there",
+"rank": 4016
+},
+{
+"jp": "月曜日",
+"kana": "げつようび",
+"src": "Monday",
+"rank": 4144
+},
+{
+"jp": "ナイフ",
+"kana": "ナイフ",
+"src": "knife",
+"rank": 4172
+},
+{
+"jp": "洋服",
+"kana": "ようふく",
+"src": "Western-style clothes",
+"rank": 4190
+},
+{
+"jp": "晴れる",
+"kana": "はれる",
+"src": "to be sunny",
+"rank": 4199
+},
+{
+"jp": "おばあさん",
+"kana": "おばあさん",
+"src": "grandmother, female senior-citizen",
+"rank": 4259
+},
+{
+"jp": "お弁当",
+"kana": "おべんとう",
+"src": "a boxed lunch",
+"rank": 4347
+},
+{
+"jp": "警官",
+"kana": "けいかん",
+"src": "police officer",
+"rank": 4371
+},
+{
+"jp": "食堂",
+"kana": "しょくどう",
+"src": "cafeteria, dining hall",
+"rank": 4392
+},
+{
+"jp": "ギター",
+"kana": "ギター",
+"src": "guitar",
+"rank": 4485
+},
+{
+"jp": "汚い",
+"kana": "きたない",
+"src": "dirty, unclean, filthy",
+"rank": 4505
+},
+{
+"jp": "鳴く",
+"kana": "なく",
+"src": "to make sound (animal)",
+"rank": 4515
+},
+{
+"jp": "習う",
+"kana": "ならう",
+"src": "to learn",
+"rank": 4580
+},
+{
+"jp": "涼しい",
+"kana": "すずしい",
+"src": "cool, refreshing (in reference to weather)",
+"rank": 4614
+},
+{
+"jp": "黄色い",
+"kana": "きいろい",
+"src": "yellow",
+"rank": 4647
+},
+{
+"jp": "シャワー",
+"kana": "シャワー",
+"src": "shower",
+"rank": 4657
+},
+{
+"jp": "封筒",
+"kana": "ふうとう",
+"src": "envelope",
+"rank": 4666
+},
+{
+"jp": "箸",
+"kana": "はし",
+"src": "chopsticks",
+"rank": 4692
+},
+{
+"jp": "エレベーター",
+"kana": "エレベーター",
+"src": "elevator",
+"rank": 4732
+},
+{
+"jp": "牛肉",
+"kana": "ぎゅうにく",
+"src": "beef",
+"rank": 4734
+},
+{
+"jp": "先週",
+"kana": "せんしゅう",
+"src": "last week",
+"rank": 4815
+},
+{
+"jp": "来週",
+"kana": "らいしゅう",
+"src": "next week",
+"rank": 4824
+},
+{
+"jp": "ズボン",
+"kana": "ズボン",
+"src": "trousers",
+"rank": 4905
+},
+{
+"jp": "財布",
+"kana": "さいふ",
+"src": "wallet",
+"rank": 4918
+},
+{
+"jp": "喫茶店",
+"kana": "きっさてん",
+"src": "café",
+"rank": 5062
+},
+{
+"jp": "コピーする",
+"kana": "コピーする",
+"src": "to copy",
+"rank": 5064
+},
+{
+"jp": "飲み物",
+"kana": "のみもの",
+"src": "drink, beverage",
+"rank": 5254
+},
+{
+"jp": "六つ",
+"kana": "むっつ",
+"src": "six things",
+"rank": 5276
+},
+{
+"jp": "おじいさん",
+"kana": "おじいさん",
+"src": "grandfather, male senior citizen",
+"rank": 5302
+},
+{
+"jp": "石鹸",
+"kana": "せっけん",
+"src": "soap",
+"rank": 5319
+},
+{
+"jp": "デパート",
+"kana": "デパート",
+"src": "(abbr.) department store",
+"rank": 5384
+},
+{
+"jp": "お姉さん",
+"kana": "おねえさん",
+"src": "older sister (formal)",
+"rank": 5413
+},
+{
+"jp": "かばん",
+"kana": "かばん",
+"src": "bag, basket",
+"rank": 5426
+},
+{
+"jp": "地下鉄",
+"kana": "ちかてつ",
+"src": "underground train, subway",
+"rank": 5447
+},
+{
+"jp": "あっち",
+"kana": "あっち",
+"src": "over there",
+"rank": 5487
+},
+{
+"jp": "晴れ",
+"kana": "はれ",
+"src": "clear (sunny) weather",
+"rank": 5534
+},
+{
+"jp": "出口",
+"kana": "でぐち",
+"src": "an exit",
+"rank": 5645
+},
+{
+"jp": "七つ",
+"kana": "ななつ",
+"src": "seven things",
+"rank": 5784
+},
+{
+"jp": "お兄さん",
+"kana": "おにいさん",
+"src": "(someone else's) older brother (formal)",
+"rank": 5814
+},
+{
+"jp": "閉まる",
+"kana": "しまる",
+"src": "to close, to be closed",
+"rank": 5830
+},
+{
+"jp": "コップ",
+"kana": "コップ",
+"src": "a tumbler; a glass",
+"rank": 5835
+},
+{
+"jp": "辞書",
+"kana": "じしょ",
+"src": "dictionary",
+"rank": 5864
+},
+{
+"jp": "にぎやか",
+"kana": "にぎやか",
+"src": "bustling, busy",
+"rank": 5913
+},
+{
+"jp": "フォーク",
+"kana": "フォーク",
+"src": "fork",
+"rank": 6061
+},
+{
+"jp": "茶碗",
+"kana": "ちゃわん",
+"src": "rice bowl",
+"rank": 6105
+},
+{
+"jp": "切手",
+"kana": "きって",
+"src": "postal (postage) stamps",
+"rank": 6125
+},
+{
+"jp": "紅茶",
+"kana": "こうちゃ",
+"src": "black tea",
+"rank": 6131
+},
+{
+"jp": "鉛筆",
+"kana": "えんぴつ",
+"src": "pencil",
+"rank": 6155
+},
+{
+"jp": "豚肉",
+"kana": "ぶたにく",
+"src": "pork",
+"rank": 6275
+},
+{
+"jp": "丈夫",
+"kana": "じょうぶ",
+"src": "strong, solid, durable",
+"rank": 6322
+},
+{
+"jp": "曇る",
+"kana": "くもる",
+"src": "to become cloudy, to become dim",
+"rank": 6344
+},
+{
+"jp": "切符",
+"kana": "きっぷ",
+"src": "a ticket",
+"rank": 6481
+},
+{
+"jp": "交差点",
+"kana": "こうさてん",
+"src": "intersection",
+"rank": 6554
+},
+{
+"jp": "上着",
+"kana": "うわぎ",
+"src": "coat, jacket",
+"rank": 6562
+},
+{
+"jp": "映画館",
+"kana": "えいがかん",
+"src": "movie theater, cinema",
+"rank": 6618
+},
+{
+"jp": "宿題",
+"kana": "しゅくだい",
+"src": "homework",
+"rank": 6737
+},
+{
+"jp": "スプーン",
+"kana": "スプーン",
+"src": "spoon",
+"rank": 6743
+},
+{
+"jp": "茶色",
+"kana": "ちゃいろ",
+"src": "brown",
+"rank": 6761
+},
+{
+"jp": "ハンカチ",
+"kana": "ハンカチ",
+"src": "handkerchief",
+"rank": 6987
+},
+{
+"jp": "ネクタイ",
+"kana": "ネクタイ",
+"src": "tie, necktie",
+"rank": 6996
+},
+{
+"jp": "来月",
+"kana": "らいげつ",
+"src": "next month",
+"rank": 7102
+},
+{
+"jp": "毎朝",
+"kana": "まいあさ",
+"src": "every morning",
+"rank": 7112
+},
+{
+"jp": "カレンダー",
+"kana": "カレンダー",
+"src": "calendar",
+"rank": 7229
+},
+{
+"jp": "水曜日",
+"kana": "すいようび",
+"src": "Wednesday",
+"rank": 7274
+},
+{
+"jp": "火曜日",
+"kana": "かようび",
+"src": "Tuesday",
+"rank": 7275
+},
+{
+"jp": "先月",
+"kana": "せんげつ",
+"src": "last month",
+"rank": 7284
+},
+{
+"jp": "飴",
+"kana": "あめ",
+"src": "(hard) candy",
+"rank": 7660
+},
+{
+"jp": "鶏肉",
+"kana": "とりにく",
+"src": "chicken meat",
+"rank": 7782
+},
+{
+"jp": "夕飯",
+"kana": "ゆうはん",
+"src": "dinner, supper, evening meal",
+"rank": 7807
+},
+{
+"jp": "毎晩",
+"kana": "まいばん",
+"src": "every night",
+"rank": 8017
+},
+{
+"jp": "セーター",
+"kana": "セーター",
+"src": "sweater",
+"rank": 8046
+},
+{
+"jp": "木曜日",
+"kana": "もくようび",
+"src": "Thursday",
+"rank": 8125
+},
+{
+"jp": "曇り",
+"kana": "くもり",
+"src": "cloudiness, cloudy weather",
+"rank": 8126
+},
+{
+"jp": "靴下",
+"kana": "くつした",
+"src": "socks",
+"rank": 8163
+},
+{
+"jp": "作文",
+"kana": "さくぶん",
+"src": "essay; composition",
+"rank": 8671
+},
+{
+"jp": "八つ",
+"kana": "やっつ",
+"src": "eight things",
+"rank": 8683
+},
+{
+"jp": "お皿",
+"kana": "おさら",
+"src": "plate, dish",
+"rank": 8753
+},
+{
+"jp": "片仮名",
+"kana": "かたかな",
+"src": "katakana",
+"rank": 8938
+},
+{
+"jp": "留学生",
+"kana": "りゅうがくせい",
+"src": "international student",
+"rank": 9062
+},
+{
+"jp": "ストーブ",
+"kana": "ストーブ",
+"src": "heater (lit: stove)",
+"rank": 9140
+},
+{
+"jp": "今晩",
+"kana": "こんばん",
+"src": "tonight, this evening",
+"rank": 9301
+},
+{
+"jp": "平仮名",
+"kana": "ひらがな",
+"src": "hiragana",
+"rank": 10022
+},
+{
+"jp": "晩御飯",
+"kana": "ばんごはん",
+"src": "dinner, evening meal",
+"rank": 10172
+},
+{
+"jp": "本棚",
+"kana": "ほんだな",
+"src": "bookshelf",
+"rank": 10174
+},
+{
+"jp": "朝御飯",
+"kana": "あさごはん",
+"src": "breakfast",
+"rank": 10542
+},
+{
+"jp": "明後日",
+"kana": "あさって",
+"src": "day after tomorrow",
+"rank": 10706
+},
+{
+"jp": "もしもし",
+"kana": "もしもし",
+"src": "Hello? (used on the phone)",
+"rank": 10869
+},
+{
+"jp": "背広",
+"kana": "せびろ",
+"src": "men's suit",
+"rank": 10986
+},
+{
+"jp": "交番",
+"kana": "こうばん",
+"src": "police box",
+"rank": 11146
+},
+{
+"jp": "花瓶",
+"kana": "かびん",
+"src": "(flower) vase",
+"rank": 12234
+},
+{
+"jp": "昼御飯",
+"kana": "ひるごはん",
+"src": "lunch, midday meal",
+"rank": 12315
+},
+{
+"jp": "九つ",
+"kana": "ここのつ",
+"src": "nine things",
+"rank": 12799
+},
+{
+"jp": "大使館",
+"kana": "たいしかん",
+"src": "embassy",
+"rank": 13154
+},
+{
+"jp": "ボールペン",
+"kana": "ボールペン",
+"src": "ball-point pen",
+"rank": 13527
+},
+{
+"jp": "ワイシャツ",
+"kana": "ワイシャツ",
+"src": "shirt (lit: white shirt), business shirt",
+"rank": 14556
+},
+{
+"jp": "一昨日",
+"kana": "おととい",
+"src": "the day before yesterday",
+"rank": 14895
+},
+{
+"jp": "八百屋",
+"kana": "やおや",
+"src": "greengrocer",
+"rank": 15623
+},
+{
+"jp": "万年筆",
+"kana": "まんねんひつ",
+"src": "fountain pen",
+"rank": 15626
+},
+{
+"jp": "ぬるい",
+"kana": "ぬるい",
+"src": "lukewarm",
+"rank": 15746
+},
+{
+"jp": "おまわりさん",
+"kana": "おまわりさん",
+"src": "policeman (friendly term)",
+"rank": 20160
+},
+{
+"jp": "易しい",
+"kana": "やさしい",
+"src": "easy, plain, simple",
+"rank": 21317
+},
+{
+"jp": "二十歳",
+"kana": "はたち",
+"src": "20 years old",
+"rank": 25760
+},
+{
+"jp": "おととし",
+"kana": "おととし",
+"src": "year before last",
+"rank": 28810
+},
+{
+"jp": "いい",
+"kana": "いい・よい",
+"src": "good",
+"rank": 35610
+},
+{
+"jp": "さ来年",
+"kana": "さらいねん",
+"src": "year after next",
+"rank": 38754
+},
+{
+"jp": "お手洗い",
+"kana": "おてあらい",
+"src": "toilet, restroom, bathroom (lit., a place to wash one's hands)",
+"rank": 43146
+},
+{
+"jp": "一つ",
+"kana": "ひとつ",
+"src": "one thing",
+"rank": 78675
+},
+{
+"jp": "二つ",
+"kana": "ふたつ",
+"src": "two things",
+"rank": 85331
+},
+{
+"jp": "いつも",
+"kana": "いつも",
+"src": "always, usually, every time, never (with neg. verb)",
+"rank": null
+},
+{
+"jp": "つまらない",
+"kana": "つまらない",
+"src": "boring, dull; insignificant",
+"rank": null
+},
+{
+"jp": "どうも",
+"kana": "どうも",
+"src": "Thank you; somehow; no matter how hard one may try",
+"rank": null
+},
+{
+"jp": "撮る",
+"kana": "とる",
+"src": "to take (a photo), to make (a film)",
+"rank": null
+},
+{
+"jp": "速い",
+"kana": "はやい",
+"src": "fast, quick",
+"rank": null
+},
+{
+"jp": "貼る",
+"kana": "はる",
+"src": "to post; to paste; to attach",
+"rank": null
+}
+]
