@@ -861,28 +861,28 @@ function readVocab(){
   shuffle(pairs).forEach(p=>{ if(items.length<VREAD_N&&!seen.has(p.w)){ seen.add(p.w); items.push(p); } });
   startRead('Vocab reading', items, {type:'vocab'});
 }
-// Reading reviews: no grading. Each due word gets one sentence (not the one from its last review, card.exi) and
-// each due lesson REVIEW_GPER sentences, unread ones first. Reading past an item's last sentence (fin) schedules
-// it as Good; "See again soon" schedules it as Again and adds one more of its sentences at the end of the feed.
+// Reading reviews: no grading. Each due word gets REVIEW_WPER sentences in a row (ones not shown at its last review,
+// card.exi, first) and each due lesson REVIEW_GPER, unread ones first. Reading past an item's last sentence (fin)
+// schedules it as Good; "See again soon" schedules it as Again and adds one more of its sentences at the end of the feed.
 // Learning new words works the same way: LEARN_PER sentences per word, and the word's card is made at its last one.
-const REVIEW_V=20, REVIEW_G=4, REVIEW_GPER=3, LEARN_N=5, LEARN_PER=2;
-function wordSentence(w,skip){
-  let idx=w.ex.map((_,k)=>k).filter(k=>skip.indexOf(k)<0); if(!idx.length) idx=w.ex.map((_,k)=>k);
-  const k=idx[Math.floor(Math.random()*idx.length)], e=w.ex[k];
-  return {jp:e.jp,en:e.en,cas:e.cas,w:w.id,exi:k,rid:w.id};
+// A review feed holds at most REVIEW_V words and REVIEW_G lessons; the end screen offers the rest.
+const REVIEW_V=10, REVIEW_G=3, REVIEW_WPER=3, REVIEW_GPER=5, LEARN_N=5, LEARN_PER=2;
+function wordSentences(w,n,skip){
+  const all=w.ex.map((_,k)=>k), ks=shuffle(all.filter(k=>skip.indexOf(k)<0)).concat(shuffle(all.filter(k=>skip.indexOf(k)>=0))).slice(0,n);
+  return ks.map(k=>({jp:w.ex[k].jp,en:w.ex[k].en,cas:w.ex[k].cas,w:w.id,exi:k,rid:w.id}));
 }
 function startReview(kind){
   const now=Date.now(), units=[];
-  if(kind!=='grammar') dueIds('vocab',now).slice(0,REVIEW_V).forEach(id=>{ const c=S.cards[id]; units.push([wordSentence(ITEM[id],c.exi===undefined?[]:[c.exi])]); });
+  if(kind!=='grammar') dueIds('vocab',now).slice(0,REVIEW_V).forEach(id=>{ const c=S.cards[id]; units.push(wordSentences(ITEM[id],REVIEW_WPER,c.exi===undefined?[]:[].concat(c.exi))); });
   if(kind!=='vocab') dueLessons(now).slice(0,REVIEW_G).forEach(g=>units.push(lessonSentences(GRAMMAR.indexOf(g),REVIEW_GPER)));
   if(!units.length) return;
-  const items=[]; shuffle(units).forEach(u=>{ u[u.length-1].fin=true; u.forEach(x=>items.push(x)); });
+  const items=[]; shuffle(units).forEach(u=>{ const f=u[u.length-1]; f.fin=true; f.exs=u.map(x=>x.exi); u.forEach(x=>items.push(x)); });
   startRead('Reading review', items, {type:'review',kind:kind,soon:{},n:units.length});
 }
 function startLearn(){
   const ws=newIds('vocab',LEARN_N).map(id=>ITEM[id]); if(!ws.length) return;
   const picks=ws.map(w=>shuffle(w.ex.map((_,k)=>k)).slice(0,LEARN_PER)), items=[];
-  for(let r=0;r<LEARN_PER;r++) ws.forEach((w,j)=>{ const k=picks[j][r], e=w.ex[k]; items.push({jp:e.jp,en:e.en,cas:e.cas,w:w.id,exi:k,rid:w.id,fin:r===LEARN_PER-1,isNew:true}); });
+  for(let r=0;r<LEARN_PER;r++) ws.forEach((w,j)=>{ const k=picks[j][r], e=w.ex[k]; items.push({jp:e.jp,en:e.en,cas:e.cas,w:w.id,exi:k,rid:w.id,fin:r===LEARN_PER-1,exs:picks[j],isNew:true}); });
   startRead('New words', items, {type:'learn',soon:{},n:ws.length});
 }
 function reviewPass(it,soon){
@@ -891,8 +891,8 @@ function reviewPass(it,soon){
   if(!it.fin) return;
   const miss=!!r.meta.soon[id]; delete r.meta.soon[id];
   S.cards[id]=nextState(S.cards[id]||(w?null:gCard(GRAMMAR[it.g]))||newCard(now),miss?0:2,now);
-  if(w) S.cards[id].exi=it.exi;
-  if(miss){ const x=w?wordSentence(w,[it.exi]):lessonSentences(it.g,1,[it.exi])[0]; x.fin=true; x.again=true; r.items.push(x); }
+  if(w) S.cards[id].exi=it.exs||[it.exi];
+  if(miss){ const x=w?wordSentences(w,1,it.exs||[it.exi])[0]:lessonSentences(it.g,1,it.exs||[it.exi])[0]; x.fin=true; x.again=true; r.items.push(x); }
 }
 // "I already know this" in a review or new-word feed: marks the word or lesson known and drops its other sentences.
 function knowRead(){
@@ -951,11 +951,12 @@ function readHtml(){
     return head+'<section class="panel done"><p class="eyebrow">'+esc(r.title)+'</p><div class="big">'+n+'</div><p>sentences read</p>'+(sc&&!isKnown(GRAMMAR[r.meta.idx].id)?'<div class="facts"><span>In your reading reviews: <b>'+schedText(sc,now)+'</b></span></div>':'')+'<div class="actions">'+btns+'</div></section>';
   }
   const it=r.items[r.i], w=it.w&&ITEM[it.w], g=w?null:GRAMMAR[it.g];
-  const label=w?w.jp+(w.kana!==w.jp?' · '+w.kana:'')+' · '+w.en:r.meta.type==='lesson'?g.pattern:g.level+' · '+g.title;
+  // A word's meaning stays hidden with the English line, so the sentence gets read first.
+  const enOn=lineOn('en'), shown=r.shown||!enOn;
+  const label=w?w.jp+(w.kana!==w.jp?' · '+w.kana:'')+(shown?' · '+w.en:''):r.meta.type==='lesson'?g.pattern:g.level+' · '+g.title;
   const pill=it.isNew?'<span class="pill">New</span>':it.again?'<span class="pill">Again</span>':'';
   const top='<div class="card-top"><button class="linkish" data-act="feedOpen" data-arg="'+(w?esc(w.id):'g'+it.g)+'"'+(w?' lang="ja"':'')+' title="'+(w?'Open this word':'Open this lesson')+'">'+esc(label)+'</button>'+pill+flagBtn(it,w?w.jp:g.title)+'</div>';
   const extra=r.meta.soon?'<div class="read-extra"><button class="btn link know" data-act="readSoon">See again soon <kbd>A</kbd></button><button class="btn link know" data-act="knowRead">I already know this <kbd>K</kbd></button></div>':'';
-  const enOn=lineOn('en'), shown=r.shown||!enOn;
   const ctrl=shown
     ? '<button class="btn primary wide" data-act="readNext">Next</button>'
     : '<div class="grades two"><button class="btn primary" data-act="readShow">Show English</button><button class="btn" data-act="readNext">Next →</button></div>';
