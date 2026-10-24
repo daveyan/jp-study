@@ -225,6 +225,8 @@ h3{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--m
 .lesson.known .ln{background:var(--st-known); color:var(--panel)}
 .btn.know{justify-self:center; font-size:13px}
 .btn.know kbd{font:inherit; font-size:11px; border:1px solid var(--line); border-radius:4px; padding:0 5px; margin-left:4px}
+.read-extra{display:flex; flex-wrap:wrap; justify-content:center; gap:0 18px}
+.card-top .pill{margin-left:8px; flex:none}
 
 /* Japanese sentences: ruby furigana, highlights, reading feed */
 ruby rt{
