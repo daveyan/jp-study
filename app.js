@@ -22,7 +22,7 @@ function setVoicePref(uri){ try{ if(uri) localStorage.setItem(VOICE_KEY,uri); el
 // Gender from well-known voice names (Apple, Microsoft, Google, Amazon). Unknown names get no label.
 const VOICE_MALE=/otoya|hattori|ichiro|keita|daichi|naoki|takumi/i, VOICE_FEMALE=/kyoko|o-?ren|haruka|ayumi|sayaka|nanami|mizuki|aoi|mayu|shiori|kazuha|tomoko|google/i;
 function voiceGender(v){ return VOICE_MALE.test(v.name)?'male':VOICE_FEMALE.test(v.name)?'female':''; }
-function speak(t,uri){ try{ if(!CAN_SPEAK) return; const u=new SpeechSynthesisUtterance(t); u.lang='ja-JP'; u.rate=0.9;
+function speak(t,uri){ try{ if(!CAN_SPEAK) return; const u=new SpeechSynthesisUtterance(t); u.lang='ja-JP'; u.rate=+S.settings.rate||0.9;
   const want=uri===undefined?voicePref():uri, v=want&&jaVoices().find(x=>x.voiceURI===want); if(v){ u.voice=v; u.lang=v.lang; }
   if(speechSynthesis.speaking||speechSynthesis.pending){ speechSynthesis.cancel(); setTimeout(()=>{ try{ speechSynthesis.speak(u); }catch(e){} },25); }
   else speechSynthesis.speak(u); }catch(e){} }
@@ -167,10 +167,23 @@ function lookupHtml(id){
     +(pr||w.kana!==w.jp?'<div class="reading lk-rd" lang="ja">'+(pr||esc(w.kana))+'</div>':'')+'</div>'
     +'<button class="icon-btn" data-act="lkClose" aria-label="Close">✕</button></div>'
     +'<p class="lk-en">'+esc(w.en)+'</p>'
-    +'<p class="lk-meta"><span class="lvb">'+esc(w.lv||'N5')+'</span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></p>'
+    +'<p class="lk-meta"><span class="lvb">'+esc(w.lv||'N5')+'</span><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span>'+(S.cards[id]&&S.cards[id].tap&&st!=='known'?'<span>Looked up: comes back sooner</span>':'')+'</p>'
+    +lookupExamples(w)
     +'<div class="actions">'+(canSpeakJa()?'<button class="btn" data-act="say" data-arg="'+esc(w.kana.split('・')[0])+'">Play audio</button>':'')
     +(!S.cards[id]&&st!=='known'?'<button class="btn" data-act="lkAdd" data-arg="'+esc(id)+'">Add to reviews</button>':'')
     +(ui.session||ui.quiz?'':'<button class="btn primary" data-act="lkOpen" data-arg="'+esc(id)+'">Open word</button>')+'</div></div>';
+}
+// Two of the word's other sentences (not the one on screen), so a lookup shows the word in more than one context.
+function lookupExamples(w){
+  const cur=ui.read&&ui.read.items[ui.read.i], ex=shuffle(w.ex.filter(e=>!cur||e.jp!==cur.jp)).slice(0,2);
+  return ex.map(e=>'<div class="lk-ex"><p class="lk-exj" lang="ja">'+jpHtml(e.jp)+'</p><p class="lk-exe">'+esc(e.en)+'</p></div>').join('');
+}
+// Looking a word up in a reading feed means it isn't solid yet. If it's in your reviews (and not known), its next
+// pass counts as Hard instead of Good (card.tap, cleared by reviewPass), and if it was due after tomorrow it now
+// comes back tomorrow. Words without a card are left alone; the sheet offers Add to reviews.
+function noteTap(id){
+  const c=S.cards[id]; if(!ui.read||!c||c.tap||isKnown(id)) return;
+  const t=dayStartPlus(Date.now(),1); c.tap=Date.now(); if(c.due>t) c.due=t; commit();
 }
 function openLookup(id,el){
   if(!ITEM[id]) return;
@@ -187,7 +200,7 @@ function closeLookup(){
 
 /* ---------- State and storage ---------- */
 const KEY='jp-study.progress.v1';
-function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},flags:{},settings:{recall:false,furi:'auto',order:['pol','cas','en'],off:[],autoSpeak:false,spread:true}}; }
+function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},flags:{},settings:{recall:false,furi:'auto',order:['pol','cas','en'],off:[],autoSpeak:false,spread:true,listen:false,rate:0.9,goal:60}}; }
 function normalize(o){
   const d=defaultState();
   if(!o||typeof o!=='object') return d;
@@ -391,12 +404,38 @@ function nextLessonBtn(quiet){
   const i=GRAMMAR.findIndex(g=>!lessonDone(g));
   return i>=0?'<button class="btn'+(quiet?'':' primary')+'" data-act="gopen" data-arg="'+i+'">Next: '+esc(GRAMMAR[i].level+' '+GRAMMAR[i].title)+'</button>':'';
 }
+// Daily goal (settings.goal sentences, from the activity log) and a rough load forecast: sentences the reviews due by
+// the end of tomorrow will take (REVIEW_WPER per word, REVIEW_GPER per lesson). When that reaches the goal, Learn new
+// steps back (quiet button, a note) so new words don't pile onto a heavy day.
+function goal(){ return +S.settings.goal||60; }
+function todayCount(){ return S.log[dayKey()]||0; }
+function loadSoon(){
+  const t=dayStartPlus(Date.now(),2);
+  return VOCAB.filter(w=>{ const c=S.cards[w.id]; return c&&c.due<t&&!isKnown(w.id); }).length*REVIEW_WPER
+    +GRAMMAR.filter(g=>{ const c=gCard(g); return c&&c.due<t&&!isKnown(g.id); }).length*REVIEW_GPER;
+}
+function heavy(){ return loadSoon()>=goal(); }
+function learnBtn(n,primary){ const h=heavy();
+  return '<button class="btn'+(primary&&!h?' primary':'')+'" data-act="learn" data-arg="vocab"'+(n?'':' disabled')+'>'+(n?(h?'Learn anyway':'Learn '+Math.min(LEARN_N,n)+' new'):'Learn new')+'</button>'; }
+function heavyNote(){ return heavy()?'<p class="muted" style="font-size:13px">Today and tomorrow already hold about '+loadSoon()+' sentences of reviews, at or over your daily goal of '+goal()+'. New words can wait a day.</p>':''; }
+function goalHtml(){
+  const n=todayCount(), g=goal();
+  return '<div class="goal"><div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="'+g+'" aria-valuenow="'+Math.min(n,g)+'"><i style="width:'+Math.min(100,n/g*100)+'%"></i></div><span class="muted">'+(n>=g?'Daily goal reached: '+n+' sentences today':n+' of '+g+' sentences today')+'</span></div>';
+}
+function goalSetting(){
+  return '<div><h3 style="margin-bottom:8px">Daily goal</h3><div class="seg three" role="group" aria-label="Daily goal">'+[30,60,100].map(x=>'<button data-act="goal" data-arg="'+x+'" aria-pressed="'+(goal()===x)+'">'+x+' sentences</button>').join('')+'</div>'
+    +'<p class="muted" style="margin-top:6px;font-size:13px">Learn new steps back when upcoming reviews already fill the goal.</p></div>';
+}
 function studyRow(kind){
   const now=Date.now(), items=itemsOf(kind), c=counts(kind);
   const due=dueIds(kind,now).length, nn=newIds(kind,5).length, started=items.length-c.new-c.known;
   return '<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">'+(kind==='vocab'?'単語':'漢字')+'</span><div><h2>'+(kind==='vocab'?'Vocabulary':'Kanji')+'</h2><p class="muted">'+started+' of '+items.length+' started'+(c.known?' · '+c.known+' known':'')+' · '+due+' due now</p></div></div>'
    +stackBar(kind)
-   +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="'+kind+'"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button>'+(kind==='vocab'?'<button class="btn" data-act="readVocab">Read sentences</button>':'')+'</div></section>';
+   +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button>'+(kind==='vocab'?learnBtn(nn)+'<button class="btn" data-act="readVocab">Read sentences</button>':'<button class="btn" data-act="learn" data-arg="kanji"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button>')+'</div>'+(kind==='vocab'?heavyNote():'')+'</section>';
+}
+function totalsHtml(){
+  const all=Object.values(S.log).reduce((a,n)=>a+(n||0),0), words=VOCAB.filter(w=>S.cards[w.id]||isKnown(w.id)).length, gc=gcounts();
+  return '<div class="facts totals"><span><b>'+all.toLocaleString('en-US')+'</b> sentences read in all</span><span><b>'+words+'</b> words met</span><span><b>'+(gc.started+gc.done+gc.known)+'</b> lessons opened</span></div>';
 }
 function homeHtml(){
   const now=Date.now();
@@ -419,11 +458,11 @@ function homeHtml(){
   const reset=ui.confirmReset
     ? '<div class="confirm"><span>Erase all progress on every device?</span><button class="btn danger" data-act="resetGo">Erase</button><button class="btn" data-act="resetNo">Cancel</button></div>'
     : '<div><button class="btn" data-act="resetAsk">Reset progress</button></div>';
-  return '<section class="hero"><p class="eyebrow">'+esc(date)+'</p><h1>'+msg+'</h1>'+(dw&&dl?'<div class="actions"><button class="btn primary" data-act="review" data-arg="all">Read everything due</button></div>':'')+'</section>'
+  return '<section class="hero"><p class="eyebrow">'+esc(date)+'</p><h1>'+msg+'</h1>'+goalHtml()+(dw&&dl?'<div class="actions"><button class="btn primary" data-act="review" data-arg="all">Read everything due</button></div>':'')+'</section>'
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
-    +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' cards and sentences in two weeks</p></section>'
+    +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' sentences in two weeks</p>'+totalsHtml()+'</section>'
     +'<section class="panel settings">'+(SHOW_KANJI?'<div><h3 style="margin-bottom:8px">Kanji card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>':'')
-    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</section>';
+    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+goalSetting()+listenSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</section>';
 }
 
 // The last Japanese line that is on can't be hidden, so every example still shows some Japanese.
@@ -438,6 +477,12 @@ function linesSetting(){
     +'</div><p class="muted" style="margin-top:6px;font-size:13px">Order and visibility for example sentences on cards, reading feeds and lesson pages.</p></div>';
 }
 
+function listenSetting(){
+  if(!canSpeakJa()) return '';
+  const on=!!S.settings.listen;
+  return '<div><h3 style="margin-bottom:8px">Listen first</h3><div class="seg" role="group" aria-label="Listen first"><button data-act="listen" data-arg="0" aria-pressed="'+(!on)+'">Off</button><button data-act="listen" data-arg="1" aria-pressed="'+on+'">On</button></div>'
+    +'<p class="muted" style="margin-top:6px;font-size:13px">In reviews and reading feeds, each sentence plays first with the text hidden; tap to see the Japanese, then the English. Also toggled in a feed with L.</p></div>';
+}
 function spreadSetting(){
   const on=S.settings.spread!==false;
   return '<div><h3 style="margin-bottom:8px">Review order</h3><div class="seg" role="group" aria-label="Review order">'
@@ -515,6 +560,7 @@ function voiceSetting(){
     body='<div class="voicerow"><select id="voice" aria-label="Voice">'+opt('','Device default')
       +vs.map((v,i)=>{ const g=voiceGender(v); return opt(v.voiceURI,v.name+(g?' ('+g+')':'')); }).join('')
       +'</select><button class="btn sm" data-act="voiceTest">Play sample</button></div>'
+      +'<div class="seg three" role="group" aria-label="Speed" style="margin-top:8px">'+[[0.7,'Slow'],[0.9,'Normal'],[1.1,'Fast']].map(x=>'<button data-act="rate" data-arg="'+x[0]+'" aria-pressed="'+((+S.settings.rate||0.9)===x[0])+'">'+x[1]+'</button>').join('')+'</div>'
       +'<p class="muted" style="margin-top:6px;font-size:13px">Voices come from your device, so the choice is saved on this device only.'+(vs.some(v=>!voiceGender(v))?' Unlabelled voices: play a sample to hear which is which.':'')+'</p>';
   }
   return '<div><h3 style="margin-bottom:8px">Voice</h3>'+body+'</div>';
@@ -724,7 +770,7 @@ function vocabHtml(){
   const now=Date.now(), due=dueIds('vocab',now).length, nn=newIds('vocab',5).length;
   const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>'+['N5','N4'].map(l=>'<button class="chip" data-act="vlv" data-arg="'+l+'" aria-pressed="'+(ui.vlv===l)+'">'+l+'</button>').join('');
   return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')
-    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Read '+due+' due':'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="vocab"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="readVocab">Read sentences</button>'+markBtn()+'</div>'+markHint()+'</section>'
+    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Read '+due+' due':'Nothing due')+'</button>'+learnBtn(nn)+'<button class="btn" data-act="readVocab">Read sentences</button>'+markBtn()+'</div>'+heavyNote()+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>'
     +'<p class="muted credits">Word list: JLPT lists by Jonathan Waller (<a href="https://www.tanos.co.uk/jlpt/">tanos.co.uk</a>, CC BY). Frequency: BCCWJ word frequency lists (NINJAL). Pitch accent: <a href="https://github.com/mifunetoshiro/kanjium">Kanjium</a> and <a href="https://en.wiktionary.org/">Wiktionary</a> (CC BY-SA 4.0).</p>';
@@ -821,10 +867,17 @@ function lessonListHtml(){
 
 /* ---------- Reading feed ---------- */
 // One sentence at a time: read it, optionally reveal the English, move on. No grading.
+// Listen first (settings.listen, only with a Japanese voice): each sentence plays with its text hidden (r.heard false);
+// the first tap shows the Japanese, the next the English. Feeds speak the first Japanese line that is shown.
+function listenOn(){ return !!S.settings.listen&&canSpeakJa(); }
+function feedAudio(it){ const k=lineOrder().find(k=>k!=='en'&&lineOn(k)&&(k!=='cas'||it.cas)); return jpPlain(k==='cas'?it.cas:it.jp); }
+function feedSpeak(){ const r=ui.read; if(r&&r.i<r.items.length&&(S.settings.autoSpeak||listenOn())) speak(feedAudio(r.items[r.i])); }
+// Space, Enter and a left swipe: show the Japanese (listening), then the English, then go on.
+function readStep(){ const r=ui.read; if(listenOn()&&!r.heard){ r.heard=true; render(); } else if(r.shown||!lineOn('en')) readNext(); else { r.shown=true; render(); } }
 function startRead(title,items,meta){
   go(()=>{
     ui.read={title:title,items:items,i:0,shown:false,meta:meta};
-    if(S.settings.autoSpeak&&items.length) speak(jpPlain(items[0].jp));
+    feedSpeak();
   });
 }
 // A lesson feed shows sentences not yet read in the current round first, so a few sessions cover the whole pool.
@@ -916,7 +969,8 @@ function reviewPass(it,soon){
   if(soon) r.meta.soon[id]=1;
   if(!it.fin) return;
   const miss=!!r.meta.soon[id]; delete r.meta.soon[id];
-  S.cards[id]=nextState(S.cards[id]||(w?null:gCard(GRAMMAR[it.g]))||newCard(now),miss?0:2,now);
+  const prev=S.cards[id]||(w?null:gCard(GRAMMAR[it.g]))||newCard(now);
+  S.cards[id]=nextState(prev,miss?0:prev.tap?1:2,now); delete S.cards[id].tap;
   if(w) S.cards[id].exi=it.exs||[it.exi];
   if(miss){ const x=w?wordSentences(w,1,it.exs||[it.exi])[0]:lessonSentences(it.g,1,it.exs||[it.exi])[0]; x.fin=true; x.again=true; insertLater(r,x); }
 }
@@ -924,9 +978,9 @@ function reviewPass(it,soon){
 function knowRead(){
   const r=ui.read, it=r&&r.items[r.i]; if(!it||!it.rid||!r.meta.soon) return;
   setKnown(it.rid,true); delete r.meta.soon[it.rid];
-  r.items=r.items.slice(0,r.i).concat(r.items.slice(r.i).filter(x=>x.rid!==it.rid)); r.known=(r.known||0)+1; r.shown=false;
+  r.items=r.items.slice(0,r.i).concat(r.items.slice(r.i).filter(x=>x.rid!==it.rid)); r.known=(r.known||0)+1; r.shown=false; r.heard=false;
   commit(); render(); window.scrollTo(0,0);
-  if(S.settings.autoSpeak&&r.i<r.items.length) speak(jpPlain(r.items[r.i].jp));
+  feedSpeak();
 }
 function readNext(soon){
   const r=ui.read; if(!r||r.i>=r.items.length) return;
@@ -948,9 +1002,9 @@ function readNext(soon){
   }
   if(r.meta.soon) reviewPass(it,soon);
   commit();
-  r.i++; r.shown=false;
+  r.i++; r.shown=false; r.heard=false;
   render(); window.scrollTo(0,0);
-  if(S.settings.autoSpeak&&r.i<r.items.length) speak(jpPlain(r.items[r.i].jp));
+  feedSpeak();
 }
 function readHtml(){
   const r=ui.read, n=r.items.length;
@@ -963,10 +1017,10 @@ function readHtml(){
       const days=daysUntil(nextDue,now);
       const nxt=nextDue===Infinity||left?'':days<1?'later today':days===1?'tomorrow':'in '+days+' days';
       const btns=(left?'<button class="btn primary" data-act="review" data-arg="'+(r.meta.kind||'all')+'">Read '+left+' more due</button>':'')
-        +(nn&&t==='learn'?'<button class="btn'+(left?'':' primary')+'" data-act="learn" data-arg="vocab">Learn '+Math.min(LEARN_N,nn)+' more</button>':'')
-        +'<button class="btn'+(left||(nn&&t==='learn')?'':' primary')+'" data-act="readExit">Done</button>'+(nn&&t==='review'?'<button class="btn" data-act="learn" data-arg="vocab">Learn '+Math.min(LEARN_N,nn)+' new words</button>':'');
+        +(nn&&t==='learn'&&!heavy()?'<button class="btn'+(left?'':' primary')+'" data-act="learn" data-arg="vocab">Learn '+Math.min(LEARN_N,nn)+' more</button>':'')
+        +'<button class="btn'+(left||(nn&&t==='learn'&&!heavy())?'':' primary')+'" data-act="readExit">Done</button>'+(nn&&t==='review'&&!heavy()?'<button class="btn" data-act="learn" data-arg="vocab">Learn '+Math.min(LEARN_N,nn)+' new words</button>':'');
       return head+'<section class="panel done"><p class="eyebrow">'+esc(r.title)+'</p><div class="big">'+n+'</div><p>sentences read</p>'
-        +'<div class="facts">'+(t==='learn'?'<span><b>'+(r.meta.n-(r.known||0))+'</b> new words added to your reviews</span>':'<span><b>'+(r.meta.n-(r.known||0))+'</b> words and lessons reviewed</span>')+(r.known?'<span><b>'+r.known+'</b> marked known</span>':'')+(nxt?'<span>Next reading <b>'+nxt+'</b></span>':'')+'</div>'
+        +'<div class="facts">'+(t==='learn'?'<span><b>'+(r.meta.n-(r.known||0))+'</b> new words added to your reviews</span>':'<span><b>'+(r.meta.n-(r.known||0))+'</b> words and lessons reviewed</span>')+(r.known?'<span><b>'+r.known+'</b> marked known</span>':'')+(nxt?'<span>Next reading <b>'+nxt+'</b></span>':'')+(todayCount()>=goal()?'<span><b>Daily goal reached</b></span>':'')+'</div>'
         +'<div class="actions">'+btns+'</div></section>';
     }
     const lesson=t==='lesson', nx=lesson?r.meta.idx+1:-1;
@@ -982,11 +1036,18 @@ function readHtml(){
   const label=w?w.jp+(w.kana!==w.jp?' · '+w.kana:'')+(shown?' · '+w.en:''):r.meta.type==='lesson'?g.pattern:g.level+' · '+g.title;
   const pill=it.isNew?'<span class="pill">New</span>':it.again?'<span class="pill">Again</span>':'';
   const top='<div class="card-top"><button class="linkish" data-act="feedOpen" data-arg="'+(w?esc(w.id):'g'+it.g)+'"'+(w?' lang="ja"':'')+' title="'+(w?'Open this word':'Open this lesson')+'">'+esc(label)+'</button>'+pill+flagBtn(it,w?w.jp:g.title)+'</div>';
-  const extra=r.meta.soon?'<div class="read-extra"><button class="btn link know" data-act="readSoon">See again soon <kbd>A</kbd></button><button class="btn link know" data-act="knowRead">I already know this <kbd>K</kbd></button></div>':'';
-  const ctrl=shown
+  const hide=listenOn()&&!r.heard;
+  const extra='<div class="read-extra">'+(r.meta.soon?'<button class="btn link know" data-act="readSoon">See again soon <kbd>A</kbd></button><button class="btn link know" data-act="knowRead">I already know this <kbd>K</kbd></button>':'')
+    +(canSpeakJa()?'<button class="btn link know" data-act="listenToggle" aria-pressed="'+listenOn()+'">Listen first: '+(listenOn()?'on':'off')+' <kbd>L</kbd></button>':'')+'</div>';
+  const ctrl=hide
+    ? '<div class="grades two"><button class="btn primary" data-act="readHear">Show Japanese</button><button class="btn" data-act="readNext">Next →</button></div>'
+    : shown
     ? '<button class="btn primary wide" data-act="readNext">Next</button>'
     : '<div class="grades two"><button class="btn primary" data-act="readShow">Show English</button><button class="btn" data-act="readNext">Next →</button></div>';
-  return head+'<article class="card">'+top+'<div class="lines">'+exLines(it,{big:true,noEn:!r.shown})+'</div></article>'+ctrl+extra+'<p class="keyhint">'+(enOn?'Space: English, then next':'Space: next')+' · → skip ahead · R audio · tap a word to look it up</p>';
+  const body=hide
+    ? '<div class="listen"><button class="btn" data-act="feedSay">'+SPK_SVG+' Play again</button><p class="muted">Listen, then show the sentence.</p></div>'
+    : '<div class="lines">'+exLines(it,{big:true,noEn:!r.shown})+'</div>';
+  return head+'<article class="card">'+top+body+'</article>'+ctrl+extra+'<p class="keyhint">'+(hide?'Space: show Japanese':enOn?'Space: English, then next':'Space: next')+' · → skip ahead · R audio'+(hide?'':' · tap a word to look it up')+'</p>';
 }
 
 /* ---------- Quizzes ---------- */
@@ -1072,6 +1133,12 @@ function act(a,arg){
     case 'copyFlags': copyFlags(); break;
     case 'clearFlags': flaggedList().forEach(f=>{ f.on=false; f.at=Date.now(); }); commit(); ui.backupMsg='Cleared the flagged list.'; render(); break;
     case 'readShow': if(ui.read){ ui.read.shown=true; render(); } break;
+    case 'readHear': if(ui.read){ ui.read.heard=true; render(); } break;
+    case 'feedSay': if(ui.read&&ui.read.items[ui.read.i]) speak(feedAudio(ui.read.items[ui.read.i])); break;
+    case 'listenToggle': S.settings.listen=!S.settings.listen; if(ui.read) ui.read.heard=true; commit(); render(); break;
+    case 'listen': S.settings.listen=(arg==='1'); commit(); render(); break;
+    case 'rate': S.settings.rate=+arg; commit(); render(); speak('こんにちは。日本語を勉強しましょう。'); break;
+    case 'goal': S.settings.goal=+arg; commit(); render(); break;
     case 'readNext': readNext(); break;
     case 'readExit': go(()=>{ ui.read=null; }); break;
     case 'voiceTest': speak('こんにちは。日本語を勉強しましょう。'); break;
@@ -1121,7 +1188,7 @@ function act(a,arg){
 }
 document.addEventListener('click',function(e){
   const lk=e.target.closest('.lk');
-  if(lk){ lk.querySelectorAll('ruby.fh').forEach(r=>r.classList.add('fs')); openLookup(lk.dataset.lk,lk); return; }
+  if(lk){ lk.querySelectorAll('ruby.fh').forEach(r=>r.classList.add('fs')); noteTap(lk.dataset.lk); openLookup(lk.dataset.lk,lk); return; }
   if(LKOPEN&&!e.target.closest('#lk-sheet')){ closeLookup(); return; }
   const b=e.target.closest('[data-act]'); if(!b) return;
   if(b.dataset.act==='furi'){ b.classList.toggle('fs'); return; }
@@ -1157,9 +1224,10 @@ document.addEventListener('keydown',function(e){
       if(it) speak(it.ex&&it.ex[0]?it.ex[0][1]:(it.kun||it.on));
     }
   } else if(ui.read&&ui.read.i<ui.read.items.length){
-    if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(ui.read.shown||!lineOn('en')) readNext(); else act('readShow'); }
+    if(e.key===' '||e.key==='Enter'){ e.preventDefault(); readStep(); }
     else if(e.key==='ArrowRight'){ e.preventDefault(); readNext(); }
-    else if(e.key==='r'||e.key==='R'||e.key==='s'||e.key==='S'){ e.preventDefault(); speak(jpPlain(ui.read.items[ui.read.i].jp)); }
+    else if(e.key==='r'||e.key==='R'||e.key==='s'||e.key==='S'){ e.preventDefault(); act('feedSay'); }
+    else if((e.key==='l'||e.key==='L')&&canSpeakJa()){ e.preventDefault(); act('listenToggle'); }
     else if(ui.read.meta.soon&&(e.key==='a'||e.key==='A')){ e.preventDefault(); readNext(true); }
     else if(ui.read.meta.soon&&(e.key==='k'||e.key==='K')){ e.preventDefault(); knowRead(); }
   } else if(ui.quiz&&!ui.quiz.finished){
@@ -1209,7 +1277,7 @@ document.addEventListener('touchend',function(e){
   const dt=Date.now()-touchStartTime;
   if(dt>600||Math.abs(dx)<48||Math.abs(dy)>Math.abs(dx)*0.75) return;
   if(ui.read&&ui.read.i<ui.read.items.length){
-    if(dx<0){ if(ui.read.shown||!lineOn('en')) readNext(); else act('readShow'); }
+    if(dx<0) readStep();
   } else if(ui.session&&ui.session.queue.length){
     if(dx<0&&!ui.session.revealed) act('reveal');
   } else if(ui.vocab!==null&&!ui.session&&!ui.quiz&&!ui.read){
