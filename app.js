@@ -187,7 +187,7 @@ function closeLookup(){
 
 /* ---------- State and storage ---------- */
 const KEY='jp-study.progress.v1';
-function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},flags:{},settings:{recall:false,furi:'auto',order:['pol','cas','en'],off:[],autoSpeak:false}}; }
+function defaultState(){ return {v:1,updatedAt:0,resetAt:0,cards:{},grammar:{},known:{},log:{},flags:{},settings:{recall:false,furi:'auto',order:['pol','cas','en'],off:[],autoSpeak:false,spread:true}}; }
 function normalize(o){
   const d=defaultState();
   if(!o||typeof o!=='object') return d;
@@ -423,7 +423,7 @@ function homeHtml(){
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' cards and sentences in two weeks</p></section>'
     +'<section class="panel settings">'+(SHOW_KANJI?'<div><h3 style="margin-bottom:8px">Kanji card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>':'')
-    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</section>';
+    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</section>';
 }
 
 // The last Japanese line that is on can't be hidden, so every example still shows some Japanese.
@@ -438,6 +438,12 @@ function linesSetting(){
     +'</div><p class="muted" style="margin-top:6px;font-size:13px">Order and visibility for example sentences on cards, reading feeds and lesson pages.</p></div>';
 }
 
+function spreadSetting(){
+  const on=S.settings.spread!==false;
+  return '<div><h3 style="margin-bottom:8px">Review order</h3><div class="seg" role="group" aria-label="Review order">'
+    +'<button data-act="spread" data-arg="1" aria-pressed="'+on+'">Mixed</button><button data-act="spread" data-arg="0" aria-pressed="'+(!on)+'">Grouped</button></div>'
+    +'<p class="muted" style="margin-top:6px;font-size:13px">'+(on?'Sentences for each word and lesson are spread through the review instead of coming one after another.':'Each word\'s or lesson\'s sentences come one after another.')+'</p></div>';
+}
 function autoSpeakSetting(){
   if(!CAN_SPEAK) return '';
   const on=!!S.settings.autoSpeak;
@@ -446,7 +452,7 @@ function autoSpeakSetting(){
     +'<button data-act="autoSpeak" data-arg="0" aria-pressed="'+(!on)+'">Off</button>'
     +'<button data-act="autoSpeak" data-arg="1" aria-pressed="'+on+'">On (reviews & feeds)</button>'
     +'</div>'
-    +'<p class="muted" style="margin-top:6px;font-size:13px">Automatically plays sentence audio when revealing a review card or viewing a sentence in reading feeds.</p></div>';
+    +'<p class="muted" style="margin-top:6px;font-size:13px">Plays each sentence\'s audio as it appears in reviews and reading feeds.</p></div>';
 }
 
 // Backup: progress lives only in this browser's storage, so export it to a file now and then.
@@ -861,7 +867,7 @@ function readVocab(){
   shuffle(pairs).forEach(p=>{ if(items.length<VREAD_N&&!seen.has(p.w)){ seen.add(p.w); items.push(p); } });
   startRead('Vocab reading', items, {type:'vocab'});
 }
-// Reading reviews: no grading. Each due word gets REVIEW_WPER sentences in a row (ones not shown at its last review,
+// Reading reviews: no grading. Each due word gets REVIEW_WPER sentences (ones not shown at its last review,
 // card.exi, first) and each due lesson REVIEW_GPER, unread ones first. Reading past an item's last sentence (fin)
 // schedules it as Good; "See again soon" schedules it as Again and adds one more of its sentences at the end of the feed.
 // Learning new words works the same way: LEARN_PER sentences per word, and the word's card is made at its last one.
@@ -871,19 +877,39 @@ function wordSentences(w,n,skip){
   const all=w.ex.map((_,k)=>k), ks=shuffle(all.filter(k=>skip.indexOf(k)<0)).concat(shuffle(all.filter(k=>skip.indexOf(k)>=0))).slice(0,n);
   return ks.map(k=>({jp:w.ex[k].jp,en:w.ex[k].en,cas:w.ex[k].cas,w:w.id,exi:k,rid:w.id}));
 }
+// Lays out a feed from units (each word's or lesson's sentences, in order). With settings.spread on (the default),
+// units are mixed: each next sentence comes from a random unit, weighted by how many sentences it has left so long
+// units spread across the whole feed, and never from the unit just shown unless it is the only one left. Off, each
+// unit's sentences come together. The last sentence of each unit is marked fin, with the indexes it showed (exs).
+function orderUnits(units){
+  units=shuffle(units).map(u=>{ const f=u[u.length-1]; f.fin=true; f.exs=u.map(x=>x.exi); return u.slice(); });
+  if(S.settings.spread===false) return [].concat(...units);
+  const out=[]; let last=null;
+  while(units.some(u=>u.length)){
+    let pool=units.filter(u=>u.length&&u[0].rid!==last); if(!pool.length) pool=units.filter(u=>u.length);
+    let r=Math.random()*pool.reduce((a,u)=>a+u.length,0), k=0; while(k<pool.length-1&&r>=pool[k].length){ r-=pool[k].length; k++; }
+    const x=pool[k].shift(); out.push(x); last=x.rid;
+  }
+  return out;
+}
+// Puts an extra sentence somewhere after the current one: at the end when grouped, otherwise at a random spot not
+// next to another sentence of the same word or lesson (the end if there is none).
+function insertLater(r,x){
+  if(S.settings.spread===false){ r.items.push(x); return; }
+  const ok=[]; for(let k=r.i+2;k<=r.items.length;k++) if(r.items[k-1].rid!==x.rid&&(!r.items[k]||r.items[k].rid!==x.rid)) ok.push(k);
+  r.items.splice(ok.length?ok[Math.floor(Math.random()*ok.length)]:r.items.length,0,x);
+}
 function startReview(kind){
   const now=Date.now(), units=[];
   if(kind!=='grammar') dueIds('vocab',now).slice(0,REVIEW_V).forEach(id=>{ const c=S.cards[id]; units.push(wordSentences(ITEM[id],REVIEW_WPER,c.exi===undefined?[]:[].concat(c.exi))); });
   if(kind!=='vocab') dueLessons(now).slice(0,REVIEW_G).forEach(g=>units.push(lessonSentences(GRAMMAR.indexOf(g),REVIEW_GPER)));
   if(!units.length) return;
-  const items=[]; shuffle(units).forEach(u=>{ const f=u[u.length-1]; f.fin=true; f.exs=u.map(x=>x.exi); u.forEach(x=>items.push(x)); });
-  startRead('Reading review', items, {type:'review',kind:kind,soon:{},n:units.length});
+  startRead('Reading review', orderUnits(units), {type:'review',kind:kind,soon:{},n:units.length});
 }
 function startLearn(){
   const ws=newIds('vocab',LEARN_N).map(id=>ITEM[id]); if(!ws.length) return;
-  const picks=ws.map(w=>shuffle(w.ex.map((_,k)=>k)).slice(0,LEARN_PER)), items=[];
-  for(let r=0;r<LEARN_PER;r++) ws.forEach((w,j)=>{ const k=picks[j][r], e=w.ex[k]; items.push({jp:e.jp,en:e.en,cas:e.cas,w:w.id,exi:k,rid:w.id,fin:r===LEARN_PER-1,exs:picks[j],isNew:true}); });
-  startRead('New words', items, {type:'learn',soon:{},n:ws.length});
+  const units=ws.map(w=>wordSentences(w,LEARN_PER,[]).map(x=>Object.assign(x,{isNew:true})));
+  startRead('New words', orderUnits(units), {type:'learn',soon:{},n:ws.length});
 }
 function reviewPass(it,soon){
   const r=ui.read, now=Date.now(), id=it.rid, w=it.w&&ITEM[it.w];
@@ -892,7 +918,7 @@ function reviewPass(it,soon){
   const miss=!!r.meta.soon[id]; delete r.meta.soon[id];
   S.cards[id]=nextState(S.cards[id]||(w?null:gCard(GRAMMAR[it.g]))||newCard(now),miss?0:2,now);
   if(w) S.cards[id].exi=it.exs||[it.exi];
-  if(miss){ const x=w?wordSentences(w,1,it.exs||[it.exi])[0]:lessonSentences(it.g,1,it.exs||[it.exi])[0]; x.fin=true; x.again=true; r.items.push(x); }
+  if(miss){ const x=w?wordSentences(w,1,it.exs||[it.exi])[0]:lessonSentences(it.g,1,it.exs||[it.exi])[0]; x.fin=true; x.again=true; insertLater(r,x); }
 }
 // "I already know this" in a review or new-word feed: marks the word or lesson known and drops its other sentences.
 function knowRead(){
@@ -1050,6 +1076,7 @@ function act(a,arg){
     case 'readExit': go(()=>{ ui.read=null; }); break;
     case 'voiceTest': speak('こんにちは。日本語を勉強しましょう。'); break;
     case 'furiMode': S.settings.furi=arg; commit(); render(); break;
+    case 'spread': S.settings.spread=(arg==='1'); commit(); render(); break;
     case 'autoSpeak': S.settings.autoSpeak=(arg==='1'); commit(); render(); break;
     case 'lineMove': { const k=arg.split(':')[0], o=lineOrder().slice(), i=o.indexOf(k), j=i+(+arg.split(':')[1]);
       if(i>=0&&j>=0&&j<o.length){ o[i]=o[j]; o[j]=k; S.settings.order=o; commit(); render(); } } break;
