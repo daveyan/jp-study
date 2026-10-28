@@ -95,7 +95,7 @@ function jpHtml(s,opts){
     if(a.o||a.x){ if(open){ out+='</span>'; open=false; } out+=a.o?'<mark>':'</mark>'; return; }
     if(cur&&a.p>=cur.e){ if(open) out+='</span>'; open=false; cur=null; }
     if(!cur&&at[a.p]) cur=at[a.p];
-    if(cur&&!open){ out+='<span class="lk" data-lk="'+esc(cur.id)+'" data-g="'+cur.g+'">'; open=true; }
+    if(cur&&!open){ out+='<span class="lk" tabindex="0" role="button" aria-haspopup="dialog" data-lk="'+esc(cur.id)+'" data-g="'+cur.g+'">'; open=true; }
     if(a.r!==undefined){
       const show=showFuri(a.b);
       out+='<ruby'+(show?'':' class="fh" data-act="furi" title="Tap for reading"')+'>'+esc(a.b)+'<rt>'+esc(a.r)+'</rt></ruby>';
@@ -160,7 +160,7 @@ function lookupSegs(plain,starts){
   return out;
 }
 // The lookup sheet: a panel fixed to the bottom of the screen, outside #main so re-renders don't touch it.
-let LKOPEN=null;
+let LKOPEN=null, LKFROM=null;
 function lookupHtml(id){
   const w=ITEM[id], st=stateOf(id), pr=pitchFor(w);
   return '<div class="lk-sheet-in"><div class="lk-head"><div><div class="lk-jp" lang="ja">'+esc(w.jp)+'</div>'
@@ -192,10 +192,15 @@ function openLookup(id,el){
   sh.innerHTML=lookupHtml(id); sh.classList.add('open'); LKOPEN=id;
   document.querySelectorAll('.lk.on').forEach(x=>x.classList.remove('on'));
   if(el) document.querySelectorAll('.lk[data-g="'+el.dataset.g+'"]').forEach(x=>x.classList.add('on'));
+  // Keyboard users land on the sheet's close button and return to the word they came from.
+  LKFROM=el||null;
+  const close=sh.querySelector('.lk-head button'); if(close) close.focus({preventScroll:true});
 }
 function closeLookup(){
   const sh=$('#lk-sheet'); if(sh) sh.classList.remove('open');
   LKOPEN=null; document.querySelectorAll('.lk.on').forEach(x=>x.classList.remove('on'));
+  if(LKFROM&&document.contains(LKFROM)) LKFROM.focus({preventScroll:true});
+  LKFROM=null;
 }
 
 /* ---------- State and storage ---------- */
@@ -369,7 +374,7 @@ function renderChrome(){
   $('#streak').innerHTML = n>0 ? '<b>'+n+'</b>-day streak' : 'No streak yet';
   const t=$('#tabs');
   t.hidden=!!(ui.session||ui.quiz||ui.read);
-  t.innerHTML=TABS.map(x=>'<button class="tab" role="tab" aria-selected="'+(ui.tab===x[0])+'" data-act="tab" data-arg="'+x[0]+'"><span class="tj" lang="ja">'+x[1]+'</span><span class="te">'+x[2]+'</span></button>').join('');
+  t.innerHTML=TABS.map(x=>'<button class="tab" role="tab" aria-selected="'+(ui.tab===x[0])+'" tabindex="'+(ui.tab===x[0]?0:-1)+'" data-act="tab" data-arg="'+x[0]+'"><span class="tj" lang="ja">'+x[1]+'</span><span class="te">'+x[2]+'</span></button>').join('');
   renderFoot();
 }
 function renderFoot(){
@@ -1221,6 +1226,15 @@ document.addEventListener('input',function(e){
 });
 document.addEventListener('keydown',function(e){
   if(LKOPEN&&e.key==='Escape'){ e.preventDefault(); closeLookup(); return; }
+  const tg=e.target;
+  // Focused lookup words open like a tap; the tabs move with the arrow keys and activate as they go.
+  if(tg&&tg.classList&&tg.classList.contains('lk')&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); tg.click(); return; }
+  if(tg&&tg.classList&&tg.classList.contains('tab')&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){
+    e.preventDefault();
+    const tabs=[...document.querySelectorAll('#tabs .tab')], j=(tabs.indexOf(tg)+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length, arg=tabs[j].dataset.arg;
+    act('tab',arg); const n=document.querySelector('#tabs .tab[data-arg="'+arg+'"]'); if(n) n.focus();
+    return;
+  }
   const t=e.target; if(t&&t!==document.body&&t!==document.documentElement) return;
   if(e.metaKey||e.ctrlKey||e.altKey) return;
   if(ui.session&&ui.session.queue.length){
