@@ -146,7 +146,8 @@ h3{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--m
 .grade:hover{background:var(--panel2)}
 .grade b{color:var(--c); font-size:15px}
 .grade small{color:var(--muted); font-size:12px}
-.keyhint{text-align:center; font-size:12px; color:var(--muted)}
+.keyhint{text-align:center; font-size:13px; color:var(--muted)}
+.note{font-size:14px; margin-top:6px}
 .done{display:grid; gap:14px; justify-items:center; text-align:center; padding:28px 16px}
 .done .big{font:700 44px/1 var(--f-jp); color:var(--accent); font-variant-numeric:tabular-nums}
 .facts{display:flex; flex-wrap:wrap; justify-content:center; gap:6px 22px; color:var(--muted); font-size:14px}

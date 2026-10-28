@@ -418,14 +418,14 @@ function loadSoon(){
 function heavy(){ return loadSoon()>=goal(); }
 function learnBtn(n,primary){ const h=heavy();
   return '<button class="btn'+(primary&&!h?' primary':'')+'" data-act="learn" data-arg="vocab"'+(n?'':' disabled')+'>'+(n?(h?'Learn anyway':'Learn '+Math.min(LEARN_N,n)+' new'):'Learn new')+'</button>'; }
-function heavyNote(){ return heavy()?'<p class="muted" style="font-size:13px">Today and tomorrow already hold about '+loadSoon()+' sentences of reviews, at or over your daily goal of '+goal()+'. New words can wait a day.</p>':''; }
+function heavyNote(){ return heavy()?'<p class="muted note">Today and tomorrow already hold about '+loadSoon()+' sentences of reviews, at or over your daily goal of '+goal()+'. New words can wait a day.</p>':''; }
 function goalHtml(){
   const n=todayCount(), g=goal();
   return '<div class="goal"><div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="'+g+'" aria-valuenow="'+Math.min(n,g)+'"><i style="width:'+Math.min(100,n/g*100)+'%"></i></div><span class="muted">'+(n>=g?'Daily goal reached: '+n+' sentences today':n+' of '+g+' sentences today')+'</span></div>';
 }
 function goalSetting(){
   return '<div><h3 style="margin-bottom:8px">Daily goal</h3><div class="seg three" role="group" aria-label="Daily goal">'+[30,60,100].map(x=>'<button data-act="goal" data-arg="'+x+'" aria-pressed="'+(goal()===x)+'">'+x+' sentences</button>').join('')+'</div>'
-    +'<p class="muted" style="margin-top:6px;font-size:13px">Learn new steps back when upcoming reviews already fill the goal.</p></div>';
+    +'<p class="muted note">Learn new steps back when upcoming reviews already fill the goal.</p></div>';
 }
 function studyRow(kind){
   const now=Date.now(), items=itemsOf(kind), c=counts(kind);
@@ -461,9 +461,9 @@ function homeHtml(){
     : '<div><button class="btn" data-act="resetAsk">Reset progress</button></div>';
   return '<section class="hero"><p class="eyebrow">'+esc(date)+'</p><h1>'+msg+'</h1>'+goalHtml()+(dw&&dl?'<div class="actions"><button class="btn primary" data-act="review" data-arg="all">Read everything due</button></div>':'')+'</section>'
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
-    +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' sentences in two weeks</p>'+totalsHtml()+'</section>'
+    +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted note">'+total+' sentences in two weeks</p>'+totalsHtml()+'</section>'
     +'<details class="panel settings"'+(ui.settingsOpen?' open':'')+'><summary>Settings</summary><div class="settings-body">'+(SHOW_KANJI?'<div><h3 style="margin-bottom:8px">Kanji card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>':'')
-    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+goalSetting()+listenSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</div></details>';
+    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted note">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+goalSetting()+listenSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</div></details>';
 }
 
 // The last Japanese line that is on can't be hidden, so every example still shows some Japanese.
@@ -475,20 +475,20 @@ function linesSetting(){
       +'<button class="icon-btn" data-act="lineMove" data-arg="'+k+':-1" aria-label="Move '+LINES[k]+' up"'+(i?'':' disabled')+'>↑</button>'
       +'<button class="icon-btn" data-act="lineMove" data-arg="'+k+':1" aria-label="Move '+LINES[k]+' down"'+(i<o.length-1?'':' disabled')+'>↓</button>'
       +'<button class="btn sm" data-act="lineToggle" data-arg="'+k+'" aria-pressed="'+on+'"'+(lineLocked(k)?' disabled title="Keep at least one Japanese line"':'')+'>'+(on?'Shown':'Hidden')+'</button></div>'; }).join('')
-    +'</div><p class="muted" style="margin-top:6px;font-size:13px">Order and visibility for example sentences on cards, reading feeds and lesson pages.</p></div>';
+    +'</div><p class="muted note">Order and visibility for example sentences on cards, reading feeds and lesson pages.</p></div>';
 }
 
 function listenSetting(){
   if(!canSpeakJa()) return '';
   const on=!!S.settings.listen;
   return '<div><h3 style="margin-bottom:8px">Listen first</h3><div class="seg" role="group" aria-label="Listen first"><button data-act="listen" data-arg="0" aria-pressed="'+(!on)+'">Off</button><button data-act="listen" data-arg="1" aria-pressed="'+on+'">On</button></div>'
-    +'<p class="muted" style="margin-top:6px;font-size:13px">In reviews and reading feeds, each sentence plays first with the text hidden; tap to see the Japanese, then the English. Also toggled in a feed with L.</p></div>';
+    +'<p class="muted note">In reviews and reading feeds, each sentence plays first with the text hidden; tap to see the Japanese, then the English. Also toggled in a feed with L.</p></div>';
 }
 function spreadSetting(){
   const on=S.settings.spread!==false;
   return '<div><h3 style="margin-bottom:8px">Review order</h3><div class="seg" role="group" aria-label="Review order">'
     +'<button data-act="spread" data-arg="1" aria-pressed="'+on+'">Mixed</button><button data-act="spread" data-arg="0" aria-pressed="'+(!on)+'">Grouped</button></div>'
-    +'<p class="muted" style="margin-top:6px;font-size:13px">'+(on?'Sentences for each word and lesson are spread through the review instead of coming one after another.':'Each word\'s or lesson\'s sentences come one after another.')+'</p></div>';
+    +'<p class="muted note">'+(on?'Sentences for each word and lesson are spread through the review instead of coming one after another.':'Each word\'s or lesson\'s sentences come one after another.')+'</p></div>';
 }
 function autoSpeakSetting(){
   if(!CAN_SPEAK) return '';
@@ -498,7 +498,7 @@ function autoSpeakSetting(){
     +'<button data-act="autoSpeak" data-arg="0" aria-pressed="'+(!on)+'">Off</button>'
     +'<button data-act="autoSpeak" data-arg="1" aria-pressed="'+on+'">On (reviews & feeds)</button>'
     +'</div>'
-    +'<p class="muted" style="margin-top:6px;font-size:13px">Plays each sentence\'s audio as it appears in reviews and reading feeds.</p></div>';
+    +'<p class="muted note">Plays each sentence\'s audio as it appears in reviews and reading feeds.</p></div>';
 }
 
 // Backup: progress lives only in this browser's storage, so export it to a file now and then.
@@ -507,8 +507,8 @@ function backupSetting(){
   const nf=flaggedList().length;
   return '<div><h3 style="margin-bottom:8px">Backup</h3><div class="actions"><button class="btn sm" data-act="exportData">Export progress</button>'
     +'<label class="btn sm" for="importFile">Import…</label><input type="file" id="importFile" accept=".json,application/json" hidden></div>'
-    +'<p class="muted" style="margin-top:6px;font-size:13px">Progress is saved in this browser only. Export a backup file now and then; importing merges it with what\'s here.</p>'
-    +'<h3 style="margin:14px 0 8px">Flagged sentences</h3><p class="muted" style="font-size:13px">'+(nf?nf+' flagged. Copy the list and paste it to Claude to get them fixed.':'Tap the flag on any sentence that sounds unnatural. They collect here.')+'</p>'
+    +'<p class="muted note">Progress is saved in this browser only. Export a backup file now and then; importing merges it with what\'s here.</p>'
+    +'<h3 style="margin:14px 0 8px">Flagged sentences</h3><p class="muted note">'+(nf?nf+' flagged. Copy the list and paste it to Claude to get them fixed.':'Tap the flag on any sentence that sounds unnatural. They collect here.')+'</p>'
     +(nf?'<div class="actions" style="margin-top:6px"><button class="btn sm" data-act="copyFlags">Copy list</button><button class="btn sm" data-act="clearFlags">Clear list</button></div>':'')
     +(ui.backupMsg?'<p class="backup-msg">'+esc(ui.backupMsg)+'</p>':'')+'</div>';
 }
@@ -556,8 +556,8 @@ function copyFlags(){
 }
 function voiceSetting(){
   let body;
-  if(!CAN_SPEAK) body='<p class="muted" style="font-size:13px">This browser has no speech support.</p>';
-  else if(voicesChecked&&!jaVoices().length) body='<p class="muted" style="font-size:13px">No Japanese voice on this device, so audio buttons are hidden. Installing a Japanese voice in the system speech settings adds them back.</p>';
+  if(!CAN_SPEAK) body='<p class="muted note">This browser has no speech support.</p>';
+  else if(voicesChecked&&!jaVoices().length) body='<p class="muted note">No Japanese voice on this device, so audio buttons are hidden. Installing a Japanese voice in the system speech settings adds them back.</p>';
   else {
     const cur=voicePref(), vs=jaVoices(), n={};
     const opt=(uri,label)=>'<option value="'+esc(uri)+'"'+(uri===cur?' selected':'')+'>'+esc(label)+'</option>';
@@ -565,7 +565,7 @@ function voiceSetting(){
       +vs.map((v,i)=>{ const g=voiceGender(v); return opt(v.voiceURI,v.name+(g?' ('+g+')':'')); }).join('')
       +'</select><button class="btn sm" data-act="voiceTest">Play sample</button></div>'
       +'<div class="seg three" role="group" aria-label="Speed" style="margin-top:8px">'+[[0.7,'Slow'],[0.9,'Normal'],[1.1,'Fast']].map(x=>'<button data-act="rate" data-arg="'+x[0]+'" aria-pressed="'+((+S.settings.rate||0.9)===x[0])+'">'+x[1]+'</button>').join('')+'</div>'
-      +'<p class="muted" style="margin-top:6px;font-size:13px">Voices come from your device, so the choice is saved on this device only.'+(vs.some(v=>!voiceGender(v))?' Unlabelled voices: play a sample to hear which is which.':'')+'</p>';
+      +'<p class="muted note">Voices come from your device, so the choice is saved on this device only.'+(vs.some(v=>!voiceGender(v))?' Unlabelled voices: play a sample to hear which is which.':'')+'</p>';
   }
   return '<div><h3 style="margin-bottom:8px">Voice</h3>'+body+'</div>';
 }
@@ -764,7 +764,7 @@ function vocabDetailHtml(){
     +'</div>'
     +'<div class="pager"><button class="btn" data-act="openVocab" data-arg="'+esc(prevW.id)+'">← Previous</button>'
     +'<button class="btn" data-act="openVocab" data-arg="'+esc(nextW.id)+'">Next →</button></div>'
-    +'<p class="muted" style="font-size:13px"><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span> · '+esc(cardStatText)+'</p>'
+    +'<p class="muted note"><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span> · '+esc(cardStatText)+'</p>'
     +'<section class="panel" style="display:grid;gap:10px"><h3>Example sentences ('+w.ex.length+')</h3>'
     +w.ex.map(e=>exBlock(e.jp,e.en,e.cas,w.jp)).join('')
     +'</section></div>';
@@ -830,7 +830,7 @@ function grammarHtml(){
       +'<div class="pattern" lang="ja">'+esc(g.pattern)+'</div>'
       +'<div class="actions"><button class="btn primary" data-act="readLesson" data-arg="'+i+'">Read '+feedLen(g)+' examples</button>'+knowBtn(g.id)+'</div>'
       +'<div class="pager"><button class="btn" data-act="lessonStep" data-arg="-1">← Previous</button><button class="btn" data-act="lessonStep" data-arg="1">Next →</button></div>'
-      +'<p class="muted" style="font-size:13px"><span class="stat '+GSTATE_CLS[st]+'">'+GSTATE_LABEL[st]+'</span> · '+seenText(g)+(isKnown(g.id)?'':(gCard(g)?' · '+schedText(gCard(g),Date.now()):' · finish a feed to add it to your reading reviews'))+'</p>'
+      +'<p class="muted note"><span class="stat '+GSTATE_CLS[st]+'">'+GSTATE_LABEL[st]+'</span> · '+seenText(g)+(isKnown(g.id)?'':(gCard(g)?' · '+schedText(gCard(g),Date.now()):' · finish a feed to add it to your reading reviews'))+'</p>'
       +'<details class="how"><summary>How it works</summary><ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul></details>'
       +'<section class="panel" style="display:grid;gap:10px"><h3>Example sentences ('+g.ex.length+')</h3>'+ui.preview.map(e=>exBlock(e[0],e[1],e[2],g.title)).join('')
       +(more.length?'<details class="how allex"><summary>Show the other '+more.length+'</summary><div class="allex-list">'+more.map(e=>exBlock(e[0],e[1],e[2],g.title)).join('')+'</div></details>':'')+'</section></div>';
