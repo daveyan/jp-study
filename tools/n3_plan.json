@@ -2210,5 +2210,8384 @@
 "src": "futility, uselessness",
 "alt": [],
 "rank": null
+},
+{
+"jp": "私たち",
+"kana": "わたしたち",
+"src": "we",
+"alt": [],
+"rank": null
+},
+{
+"jp": "登録",
+"kana": "とうろく",
+"src": "registration",
+"alt": [],
+"rank": null
+},
+{
+"jp": "サラリーマン",
+"kana": "サラリーマン",
+"src": "salaried worker",
+"alt": [],
+"rank": null
+},
+{
+"jp": "希望",
+"kana": "きぼう",
+"src": "hope, request",
+"alt": [],
+"rank": null
+},
+{
+"jp": "駐車違反",
+"kana": "ちゅうしゃいはん",
+"src": "parking violation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "建築家",
+"kana": "けんちくか",
+"src": "architect",
+"alt": [],
+"rank": null
+},
+{
+"jp": "トラック",
+"kana": "トラック",
+"src": "truck",
+"alt": [],
+"rank": null
+},
+{
+"jp": "年齢",
+"kana": "ねんれい",
+"src": "age",
+"alt": [],
+"rank": null
+},
+{
+"jp": "洗濯物",
+"kana": "せんたくもの",
+"src": "washing, laundry",
+"alt": [],
+"rank": null
+},
+{
+"jp": "保証書",
+"kana": "ほしょうしょ",
+"src": "guarantee",
+"alt": [],
+"rank": null
+},
+{
+"jp": "食欲",
+"kana": "しょくよく",
+"src": "appetite",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ガスレンジ",
+"kana": "ガスレンジ",
+"src": "gas range",
+"alt": [],
+"rank": null
+},
+{
+"jp": "理科",
+"kana": "りか",
+"src": "science",
+"alt": [],
+"rank": null
+},
+{
+"jp": "勇気",
+"kana": "ゆうき",
+"src": "courage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "氷",
+"kana": "こおり",
+"src": "ice",
+"alt": [],
+"rank": null
+},
+{
+"jp": "部下",
+"kana": "ぶか",
+"src": "subordinate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ヘッドホン",
+"kana": "ヘッドホン",
+"src": "headphone",
+"alt": [],
+"rank": null
+},
+{
+"jp": "新体操",
+"kana": "しんたいそう",
+"src": "rhythmic gymnastic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アドバイス",
+"kana": "アドバイス",
+"src": "advice",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アンケート",
+"kana": "アンケート",
+"src": "questionnaire, answering surveys",
+"alt": [],
+"rank": null
+},
+{
+"jp": "意地悪",
+"kana": "いじわる",
+"src": "mean-spirited",
+"alt": [],
+"rank": null
+},
+{
+"jp": "往復",
+"kana": "おうふく",
+"src": "round trip",
+"alt": [],
+"rank": null
+},
+{
+"jp": "改札",
+"kana": "かいさつ",
+"src": "gate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "片道",
+"kana": "かたみち",
+"src": "one way",
+"alt": [],
+"rank": null
+},
+{
+"jp": "活動",
+"kana": "かつどう",
+"src": "activities",
+"alt": [],
+"rank": null
+},
+{
+"jp": "環境",
+"kana": "かんきょう",
+"src": "environment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "感情",
+"kana": "かんじょう",
+"src": "feeling, emotion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "クッション",
+"kana": "クッション",
+"src": "cushion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "グラス",
+"kana": "グラス",
+"src": "tumbler, glass",
+"alt": [],
+"rank": null
+},
+{
+"jp": "クラブ",
+"kana": "クラブ",
+"src": "club",
+"alt": [],
+"rank": null
+},
+{
+"jp": "芸術",
+"kana": "げいじゅつ",
+"src": "art",
+"alt": [],
+"rank": null
+},
+{
+"jp": "外科",
+"kana": "げか",
+"src": "surgeon",
+"alt": [],
+"rank": null
+},
+{
+"jp": "広告",
+"kana": "こうこく",
+"src": "advertisement",
+"alt": [],
+"rank": null
+},
+{
+"jp": "口座",
+"kana": "こうざ",
+"src": "account",
+"alt": [],
+"rank": null
+},
+{
+"jp": "小包",
+"kana": "こづつみ",
+"src": "parcel",
+"alt": [],
+"rank": null
+},
+{
+"jp": "サークル",
+"kana": "サークル",
+"src": "circle, club",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最悪",
+"kana": "さいあく",
+"src": "the worst",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最低",
+"kana": "さいてい",
+"src": "the lowest, the worst",
+"alt": [],
+"rank": null
+},
+{
+"jp": "仕方がない",
+"kana": "しかたがない",
+"src": "cannot be helped",
+"alt": [],
+"rank": null
+},
+{
+"jp": "時給",
+"kana": "じきゅう",
+"src": "an hourly wage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "指定席",
+"kana": "していせき",
+"src": "reserved seat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "自由席",
+"kana": "じゆうせき",
+"src": "general admission seat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "終電",
+"kana": "しゅうでん",
+"src": "last train",
+"alt": [],
+"rank": null
+},
+{
+"jp": "授業料",
+"kana": "じゅぎょうりょう",
+"src": "tuition",
+"alt": [],
+"rank": null
+},
+{
+"jp": "手術",
+"kana": "しゅじゅつ",
+"src": "operation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "種類",
+"kana": "しゅるい",
+"src": "a kind; a sort",
+"alt": [],
+"rank": null
+},
+{
+"jp": "奨学金",
+"kana": "しょうがくきん",
+"src": "scholarship",
+"alt": [],
+"rank": null
+},
+{
+"jp": "食費",
+"kana": "しょくひ",
+"src": "food cost",
+"alt": [],
+"rank": null
+},
+{
+"jp": "生活費",
+"kana": "せいかつひ",
+"src": "the cost of living",
+"alt": [],
+"rank": null
+},
+{
+"jp": "税金",
+"kana": "ぜいきん",
+"src": "tax",
+"alt": [],
+"rank": null
+},
+{
+"jp": "政府",
+"kana": "せいふ",
+"src": "government",
+"alt": [],
+"rank": null
+},
+{
+"jp": "そめます",
+"kana": "そめます",
+"src": "to dye",
+"alt": [],
+"rank": null
+},
+{
+"jp": "第一印象",
+"kana": "だいいちいんしょう",
+"src": "the first impression",
+"alt": [],
+"rank": null
+},
+{
+"jp": "タイヤ",
+"kana": "タイヤ",
+"src": "tire",
+"alt": [],
+"rank": null
+},
+{
+"jp": "助けます",
+"kana": "たすけます",
+"src": "to help, to rescue",
+"alt": [],
+"rank": null
+},
+{
+"jp": "たちます",
+"kana": "たちます",
+"src": "(time) pass",
+"alt": [],
+"rank": null
+},
+{
+"jp": "父親",
+"kana": "ちちおや",
+"src": "father",
+"alt": [],
+"rank": null
+},
+{
+"jp": "通帳記入",
+"kana": "つうちょうきにゅう",
+"src": "passbook update",
+"alt": [],
+"rank": null
+},
+{
+"jp": "定期券",
+"kana": "ていきけん",
+"src": "commuter’s pass",
+"alt": [],
+"rank": null
+},
+{
+"jp": "天井",
+"kana": "てんじょう",
+"src": "ceiling",
+"alt": [],
+"rank": null
+},
+{
+"jp": "内科",
+"kana": "ないか",
+"src": "physician",
+"alt": [],
+"rank": null
+},
+{
+"jp": "怠け者",
+"kana": "なまけもの",
+"src": "lazy person",
+"alt": [],
+"rank": null
+},
+{
+"jp": "悩み",
+"kana": "なやみ",
+"src": "worry",
+"alt": [],
+"rank": null
+},
+{
+"jp": "バイト",
+"kana": "バイト",
+"src": "abbreviation of アルバイト",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ヒーター",
+"kana": "ヒーター",
+"src": "heater",
+"alt": [],
+"rank": null
+},
+{
+"jp": "人々",
+"kana": "ひとびと",
+"src": "people",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一人暮らし",
+"kana": "ひとりぐらし",
+"src": "living alone",
+"alt": [],
+"rank": null
+},
+{
+"jp": "秘密",
+"kana": "ひみつ",
+"src": "secret",
+"alt": [],
+"rank": null
+},
+{
+"jp": "表情",
+"kana": "ひょうじょう",
+"src": "facial expression",
+"alt": [],
+"rank": null
+},
+{
+"jp": "貧乏",
+"kana": "びんぼう",
+"src": "poor",
+"alt": [],
+"rank": null
+},
+{
+"jp": "夫婦",
+"kana": "ふうふ",
+"src": "married couple, husband and wife",
+"alt": [],
+"rank": null
+},
+{
+"jp": "保険",
+"kana": "ほけん",
+"src": "insurance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "募集",
+"kana": "ぼしゅう",
+"src": "recruitment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "マイナス",
+"kana": "マイナス",
+"src": "minus",
+"alt": [],
+"rank": null
+},
+{
+"jp": "窓口",
+"kana": "まどぐち",
+"src": "counter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "味方",
+"kana": "みかた",
+"src": "person on one’s side, supporter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "身ぶり",
+"kana": "みぶり",
+"src": "gesture",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無駄遣い",
+"kana": "むだづかい",
+"src": "waste (money)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "夕食",
+"kana": "ゆうしょく",
+"src": "dinner",
+"alt": [],
+"rank": null
+},
+{
+"jp": "預金",
+"kana": "よきん",
+"src": "savings",
+"alt": [],
+"rank": null
+},
+{
+"jp": "理想",
+"kana": "りそう",
+"src": "ideal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "履歴書",
+"kana": "りれきしょ",
+"src": "resume",
+"alt": [],
+"rank": null
+},
+{
+"jp": "留守番電話",
+"kana": "るすばんでんわ",
+"src": "answering machine",
+"alt": [],
+"rank": null
+},
+{
+"jp": "割引券",
+"kana": "わりびきけん",
+"src": "discount coupon",
+"alt": [],
+"rank": null
+},
+{
+"jp": "母親",
+"kana": "ははおや",
+"src": "mother",
+"alt": [],
+"rank": null
+},
+{
+"jp": "長女",
+"kana": "ちょうじょ",
+"src": "oldest daughter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "長男",
+"kana": "ちょうなん",
+"src": "oldest son",
+"alt": [],
+"rank": null
+},
+{
+"jp": "次女",
+"kana": "じじょ",
+"src": "second-oldest daughter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "次男",
+"kana": "じなん",
+"src": "second-oldest son",
+"alt": [],
+"rank": null
+},
+{
+"jp": "三女",
+"kana": "さんじょ",
+"src": "third-oldest daughter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "三男",
+"kana": "さんなん",
+"src": "third-oldest son",
+"alt": [],
+"rank": null
+},
+{
+"jp": "末っ子",
+"kana": "すえっこ",
+"src": "youngest child",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一人っ子",
+"kana": "ひとりっこ",
+"src": "only child",
+"alt": [],
+"rank": null
+},
+{
+"jp": "姉妹",
+"kana": "しまい",
+"src": "sisters, female siblings",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一人娘",
+"kana": "ひとりむすめ",
+"src": "only daughter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "親子",
+"kana": "おやこ",
+"src": "parent and child",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一人息子",
+"kana": "ひとりむすこ",
+"src": "only son",
+"alt": [],
+"rank": null
+},
+{
+"jp": "夫妻",
+"kana": "ふさい",
+"src": "married couple, husband and wife",
+"alt": [],
+"rank": null
+},
+{
+"jp": "親類",
+"kana": "しんるい",
+"src": "relatives",
+"alt": [],
+"rank": null
+},
+{
+"jp": "先祖",
+"kana": "せんぞ",
+"src": "ancestor",
+"alt": [],
+"rank": null
+},
+{
+"jp": "祖先",
+"kana": "そせん",
+"src": "ancestor",
+"alt": [],
+"rank": null
+},
+{
+"jp": "尊敬",
+"kana": "そんけい",
+"src": "respect, looking up to",
+"alt": [],
+"rank": null
+},
+{
+"jp": "いとこ",
+"kana": "いとこ",
+"src": "cousin",
+"alt": [],
+"rank": null
+},
+{
+"jp": "甥",
+"kana": "おい",
+"src": "nephew",
+"alt": [],
+"rank": null
+},
+{
+"jp": "姪",
+"kana": "めい",
+"src": "niece",
+"alt": [],
+"rank": null
+},
+{
+"jp": "仲間",
+"kana": "なかま",
+"src": "comrade, mate, friend",
+"alt": [],
+"rank": null
+},
+{
+"jp": "仲良し",
+"kana": "なかよし",
+"src": "close friend",
+"alt": [],
+"rank": null
+},
+{
+"jp": "幼馴染",
+"kana": "おさななじみ",
+"src": "childhood friend",
+"alt": [],
+"rank": null
+},
+{
+"jp": "友情",
+"kana": "ゆうじょう",
+"src": "friendship",
+"alt": [],
+"rank": null
+},
+{
+"jp": "知人",
+"kana": "ちじん",
+"src": "acquaintance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "メンバー",
+"kana": "メンバー",
+"src": "member",
+"alt": [],
+"rank": null
+},
+{
+"jp": "繋ぎます",
+"kana": "つなぎます",
+"src": "put together, tie",
+"alt": [],
+"rank": null
+},
+{
+"jp": "当時",
+"kana": "とうじ",
+"src": "at that time",
+"alt": [],
+"rank": null
+},
+{
+"jp": "彼氏",
+"kana": "かれし",
+"src": "boyfriend",
+"alt": [],
+"rank": null
+},
+{
+"jp": "愛情",
+"kana": "あいじょう",
+"src": "love",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出会い",
+"kana": "であい",
+"src": "encounter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "交際",
+"kana": "こうさい",
+"src": "association",
+"alt": [],
+"rank": null
+},
+{
+"jp": "記念日",
+"kana": "きねんび",
+"src": "anniversary",
+"alt": [],
+"rank": null
+},
+{
+"jp": "喧嘩",
+"kana": "けんか",
+"src": "fight, dispute",
+"alt": [],
+"rank": null
+},
+{
+"jp": "口喧嘩",
+"kana": "くちげんか",
+"src": "argument",
+"alt": [],
+"rank": null
+},
+{
+"jp": "内緒",
+"kana": "ないしょ",
+"src": "secret",
+"alt": [],
+"rank": null
+},
+{
+"jp": "恋愛",
+"kana": "れんあい",
+"src": "love, affection",
+"alt": [],
+"rank": null
+},
+{
+"jp": "恋愛結婚",
+"kana": "れんあいけっこん",
+"src": "marriage of love",
+"alt": [],
+"rank": null
+},
+{
+"jp": "存在",
+"kana": "そんざい",
+"src": "existence, presence",
+"alt": [],
+"rank": null
+},
+{
+"jp": "待ち合わせ",
+"kana": "まちあわせ",
+"src": "meeting, appointment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "交換",
+"kana": "こうかん",
+"src": "exchange",
+"alt": [],
+"rank": null
+},
+{
+"jp": "交流",
+"kana": "こうりゅう",
+"src": "exchange, networking",
+"alt": [],
+"rank": null
+},
+{
+"jp": "預けます",
+"kana": "あずけます",
+"src": "deposit, entrust",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ついて来ます",
+"kana": "ついてきます",
+"src": "come with, come along",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ついて行きます",
+"kana": "ついていきます",
+"src": "go with",
+"alt": [],
+"rank": null
+},
+{
+"jp": "悪口",
+"kana": "わるぐち",
+"src": "bad mouthing, foul",
+"alt": [],
+"rank": null
+},
+{
+"jp": "我々",
+"kana": "われわれ",
+"src": "we, us",
+"alt": [],
+"rank": null
+},
+{
+"jp": "真似",
+"kana": "まね",
+"src": "imitation, copy, mimic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "名字",
+"kana": "みょうじ",
+"src": "surname, family name",
+"alt": [],
+"rank": null
+},
+{
+"jp": "性別",
+"kana": "せいべつ",
+"src": "gender",
+"alt": [],
+"rank": null
+},
+{
+"jp": "高齢",
+"kana": "こうれい",
+"src": "old age",
+"alt": [],
+"rank": null
+},
+{
+"jp": "高齢者",
+"kana": "こうれいしゃ",
+"src": "elderly",
+"alt": [],
+"rank": null
+},
+{
+"jp": "老人",
+"kana": "ろうじん",
+"src": "elderly people",
+"alt": [],
+"rank": null
+},
+{
+"jp": "乳児",
+"kana": "にゅうじ",
+"src": "infant",
+"alt": [],
+"rank": null
+},
+{
+"jp": "児童",
+"kana": "じどう",
+"src": "children",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出身地",
+"kana": "しゅっしんち",
+"src": "hometown, place of origin",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出身大学",
+"kana": "しゅっしんだいがく",
+"src": "alma mater",
+"alt": [],
+"rank": null
+},
+{
+"jp": "生まれ",
+"kana": "うまれ",
+"src": "place of birth",
+"alt": [],
+"rank": null
+},
+{
+"jp": "育ち",
+"kana": "そだち",
+"src": "place where one was raised",
+"alt": [],
+"rank": null
+},
+{
+"jp": "行儀",
+"kana": "ぎょうぎ",
+"src": "etiquette, behavior",
+"alt": [],
+"rank": null
+},
+{
+"jp": "マナー",
+"kana": "マナー",
+"src": "manners",
+"alt": [],
+"rank": null
+},
+{
+"jp": "礼儀",
+"kana": "れいぎ",
+"src": "manners",
+"alt": [],
+"rank": null
+},
+{
+"jp": "個人",
+"kana": "こじん",
+"src": "individual, private",
+"alt": [],
+"rank": null
+},
+{
+"jp": "個人情報",
+"kana": "こじんじょうほう",
+"src": "personal information",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アドレス",
+"kana": "アドレス",
+"src": "mail address",
+"alt": [],
+"rank": null
+},
+{
+"jp": "本人",
+"kana": "ほんにん",
+"src": "person in question, said person",
+"alt": [],
+"rank": null
+},
+{
+"jp": "既婚",
+"kana": "きこん",
+"src": "married",
+"alt": [],
+"rank": null
+},
+{
+"jp": "専業主婦",
+"kana": "せんぎょうしゅふ",
+"src": "stay-at-home wife",
+"alt": [],
+"rank": null
+},
+{
+"jp": "フリーター",
+"kana": "フリーター",
+"src": "freeter, part-time jobber",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無職",
+"kana": "むしょく",
+"src": "unemployed",
+"alt": [],
+"rank": null
+},
+{
+"jp": "本日",
+"kana": "ほんじつ",
+"src": "today, this day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "前日",
+"kana": "ぜんじつ",
+"src": "the day before",
+"alt": [],
+"rank": null
+},
+{
+"jp": "翌日",
+"kana": "よくじつ",
+"src": "the next day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "翌週",
+"kana": "よくしゅう",
+"src": "the next week",
+"alt": [],
+"rank": null
+},
+{
+"jp": "翌月",
+"kana": "よくげつ",
+"src": "the next month",
+"alt": [],
+"rank": null
+},
+{
+"jp": "翌年",
+"kana": "よくねん",
+"src": "the next year",
+"alt": [],
+"rank": null
+},
+{
+"jp": "しあさって",
+"kana": "しあさって",
+"src": "two days after tomorrow",
+"alt": [],
+"rank": null
+},
+{
+"jp": "先一昨日",
+"kana": "さきおととい",
+"src": "three days ago",
+"alt": [],
+"rank": null
+},
+{
+"jp": "昨年",
+"kana": "さくねん",
+"src": "last year",
+"alt": [],
+"rank": null
+},
+{
+"jp": "先々週",
+"kana": "せんせんしゅう",
+"src": "two weeks ago",
+"alt": [],
+"rank": null
+},
+{
+"jp": "上旬",
+"kana": "じょうじゅん",
+"src": "the beginning of a month",
+"alt": [],
+"rank": null
+},
+{
+"jp": "初旬",
+"kana": "しょじゅん",
+"src": "the beginning",
+"alt": [],
+"rank": null
+},
+{
+"jp": "中旬",
+"kana": "ちゅうじゅん",
+"src": "the middle of a month",
+"alt": [],
+"rank": null
+},
+{
+"jp": "下旬",
+"kana": "げじゅん",
+"src": "later part of the month",
+"alt": [],
+"rank": null
+},
+{
+"jp": "深夜",
+"kana": "しんや",
+"src": "late night",
+"alt": [],
+"rank": null
+},
+{
+"jp": "深夜番組",
+"kana": "しんやばんぐみ",
+"src": "late-night show",
+"alt": [],
+"rank": null
+},
+{
+"jp": "数日",
+"kana": "すうじつ",
+"src": "several days",
+"alt": [],
+"rank": null
+},
+{
+"jp": "数か月",
+"kana": "すうかげつ",
+"src": "several months",
+"alt": [],
+"rank": null
+},
+{
+"jp": "数年",
+"kana": "すうねん",
+"src": "several years",
+"alt": [],
+"rank": null
+},
+{
+"jp": "数回",
+"kana": "すうかい",
+"src": "several times",
+"alt": [],
+"rank": null
+},
+{
+"jp": "以降",
+"kana": "いこう",
+"src": "hereafter, thereafter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "以後",
+"kana": "いご",
+"src": "after, since",
+"alt": [],
+"rank": null
+},
+{
+"jp": "以来",
+"kana": "いらい",
+"src": "since, henceforth",
+"alt": [],
+"rank": null
+},
+{
+"jp": "朝食",
+"kana": "ちょうしょく",
+"src": "breakfast",
+"alt": [],
+"rank": null
+},
+{
+"jp": "モーニング",
+"kana": "モーニング",
+"src": "morning",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ディナー",
+"kana": "ディナー",
+"src": "dinner",
+"alt": [],
+"rank": null
+},
+{
+"jp": "デザート",
+"kana": "デザート",
+"src": "dessert",
+"alt": [],
+"rank": null
+},
+{
+"jp": "おやつ",
+"kana": "おやつ",
+"src": "snack",
+"alt": [],
+"rank": null
+},
+{
+"jp": "自炊",
+"kana": "じすい",
+"src": "cooking for oneself",
+"alt": [],
+"rank": null
+},
+{
+"jp": "外食",
+"kana": "がいしょく",
+"src": "eating out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "グルメ",
+"kana": "グルメ",
+"src": "foodie",
+"alt": [],
+"rank": null
+},
+{
+"jp": "お代わり",
+"kana": "おかわり",
+"src": "refill",
+"alt": [],
+"rank": null
+},
+{
+"jp": "残り物",
+"kana": "のこりもの",
+"src": "leftovers, remains",
+"alt": [],
+"rank": null
+},
+{
+"jp": "バランス",
+"kana": "バランス",
+"src": "balance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "包丁",
+"kana": "ほうちょう",
+"src": "kitchen knife",
+"alt": [],
+"rank": null
+},
+{
+"jp": "まな板",
+"kana": "まないた",
+"src": "cutting board",
+"alt": [],
+"rank": null
+},
+{
+"jp": "おたま",
+"kana": "おたま",
+"src": "ladle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "しゃもじ",
+"kana": "しゃもじ",
+"src": "rice scoop",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大匙",
+"kana": "おおさじ",
+"src": "tablespoon",
+"alt": [],
+"rank": null
+},
+{
+"jp": "小匙",
+"kana": "こさじ",
+"src": "teaspoon",
+"alt": [],
+"rank": null
+},
+{
+"jp": "炊飯器",
+"kana": "すいはんき",
+"src": "rice cooker",
+"alt": [],
+"rank": null
+},
+{
+"jp": "流し台",
+"kana": "ながしだい",
+"src": "sink",
+"alt": [],
+"rank": null
+},
+{
+"jp": "電子レンジ",
+"kana": "でんしレンジ",
+"src": "microwave",
+"alt": [],
+"rank": null
+},
+{
+"jp": "調味料",
+"kana": "ちょうみりょう",
+"src": "seasoning",
+"alt": [],
+"rank": null
+},
+{
+"jp": "サラダ油",
+"kana": "サラダあぶら",
+"src": "salad oil",
+"alt": [],
+"rank": null
+},
+{
+"jp": "酢",
+"kana": "す",
+"src": "vinegar",
+"alt": [],
+"rank": null
+},
+{
+"jp": "サラダオイル",
+"kana": "サラダオイル",
+"src": "salad oil",
+"alt": [],
+"rank": null
+},
+{
+"jp": "レトルト食品",
+"kana": "レトルトしょくひん",
+"src": "retort pouch",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アルミホイル",
+"kana": "アルミホイル",
+"src": "aluminum foil",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ラップ",
+"kana": "ラップ",
+"src": "plastic wrap",
+"alt": [],
+"rank": null
+},
+{
+"jp": "おしぼり",
+"kana": "おしぼり",
+"src": "wet towel",
+"alt": [],
+"rank": null
+},
+{
+"jp": "食器",
+"kana": "しょっき",
+"src": "tableware",
+"alt": [],
+"rank": null
+},
+{
+"jp": "おむすび",
+"kana": "おむすび",
+"src": "rice ball",
+"alt": [],
+"rank": null
+},
+{
+"jp": "加熱",
+"kana": "かねつ",
+"src": "heat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "水分",
+"kana": "すいぶん",
+"src": "moisture, fluid",
+"alt": [],
+"rank": null
+},
+{
+"jp": "味見",
+"kana": "あじみ",
+"src": "taste, check by",
+"alt": [],
+"rank": null
+},
+{
+"jp": "手間",
+"kana": "てま",
+"src": "hassle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出来上がり",
+"kana": "できあがり",
+"src": "completion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "冷凍",
+"kana": "れいとう",
+"src": "freezing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "冷凍食品",
+"kana": "れいとうしょくひん",
+"src": "frozen food",
+"alt": [],
+"rank": null
+},
+{
+"jp": "箒",
+"kana": "ほうき",
+"src": "broom",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ちりとり",
+"kana": "ちりとり",
+"src": "dustpan",
+"alt": [],
+"rank": null
+},
+{
+"jp": "雑巾",
+"kana": "ぞうきん",
+"src": "rag, dustcloth",
+"alt": [],
+"rank": null
+},
+{
+"jp": "バケツ",
+"kana": "バケツ",
+"src": "bucket",
+"alt": [],
+"rank": null
+},
+{
+"jp": "洗剤",
+"kana": "せんざい",
+"src": "detergent",
+"alt": [],
+"rank": null
+},
+{
+"jp": "かび",
+"kana": "かび",
+"src": "mold",
+"alt": [],
+"rank": null
+},
+{
+"jp": "埃",
+"kana": "ほこり",
+"src": "dust",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ブラシ",
+"kana": "ブラシ",
+"src": "brush",
+"alt": [],
+"rank": null
+},
+{
+"jp": "泡",
+"kana": "あわ",
+"src": "bubble",
+"alt": [],
+"rank": null
+},
+{
+"jp": "乾燥",
+"kana": "かんそう",
+"src": "drying",
+"alt": [],
+"rank": null
+},
+{
+"jp": "乾燥機",
+"kana": "かんそうき",
+"src": "dryer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アイロン",
+"kana": "アイロン",
+"src": "iron",
+"alt": [],
+"rank": null
+},
+{
+"jp": "育児",
+"kana": "いくじ",
+"src": "childcare, upbringing, raising a child",
+"alt": [],
+"rank": null
+},
+{
+"jp": "子育て",
+"kana": "こそだて",
+"src": "childcare, upbringing, raising a child",
+"alt": [],
+"rank": null
+},
+{
+"jp": "空き缶",
+"kana": "あきかん",
+"src": "empty can",
+"alt": [],
+"rank": null
+},
+{
+"jp": "住まい",
+"kana": "すまい",
+"src": "residence",
+"alt": [],
+"rank": null
+},
+{
+"jp": "リビング",
+"kana": "リビング",
+"src": "living room",
+"alt": [],
+"rank": null
+},
+{
+"jp": "家電",
+"kana": "かでん",
+"src": "house appliance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "クーラー",
+"kana": "クーラー",
+"src": "air conditioner, cooler",
+"alt": [],
+"rank": null
+},
+{
+"jp": "床",
+"kana": "ゆか",
+"src": "floor",
+"alt": [],
+"rank": null
+},
+{
+"jp": "カーペット",
+"kana": "カーペット",
+"src": "carpet",
+"alt": [],
+"rank": null
+},
+{
+"jp": "座布団",
+"kana": "ざぶとん",
+"src": "zabuton",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ソファー",
+"kana": "ソファー",
+"src": "sofa",
+"alt": [],
+"rank": null
+},
+{
+"jp": "どかします",
+"kana": "どかします",
+"src": "move out of the way",
+"alt": [],
+"rank": null
+},
+{
+"jp": "どきます",
+"kana": "どきます",
+"src": "be moved out of the way",
+"alt": [],
+"rank": null
+},
+{
+"jp": "コンセント",
+"kana": "コンセント",
+"src": "power outlet",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ドライヤー",
+"kana": "ドライヤー",
+"src": "hair dryer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "蛇口",
+"kana": "じゃぐち",
+"src": "faucet, tap",
+"alt": [],
+"rank": null
+},
+{
+"jp": "実家",
+"kana": "じっか",
+"src": "one's parents' home",
+"alt": [],
+"rank": null
+},
+{
+"jp": "物置",
+"kana": "ものおき",
+"src": "storage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日当たり",
+"kana": "ひあたり",
+"src": "sunlight",
+"alt": [],
+"rank": null
+},
+{
+"jp": "内側",
+"kana": "うちがわ",
+"src": "inside, inner part",
+"alt": [],
+"rank": null
+},
+{
+"jp": "外側",
+"kana": "そとがわ",
+"src": "outside, outer part",
+"alt": [],
+"rank": null
+},
+{
+"jp": "内部",
+"kana": "ないぶ",
+"src": "inside, interior",
+"alt": [],
+"rank": null
+},
+{
+"jp": "お札",
+"kana": "おさつ",
+"src": "monetary note",
+"alt": [],
+"rank": null
+},
+{
+"jp": "紙幣",
+"kana": "しへい",
+"src": "monetary note",
+"alt": [],
+"rank": null
+},
+{
+"jp": "コイン",
+"kana": "コイン",
+"src": "coin",
+"alt": [],
+"rank": null
+},
+{
+"jp": "硬貨",
+"kana": "こうか",
+"src": "coin",
+"alt": [],
+"rank": null
+},
+{
+"jp": "小銭",
+"kana": "こぜに",
+"src": "coin, change",
+"alt": [],
+"rank": null
+},
+{
+"jp": "光熱費",
+"kana": "こうねつひ",
+"src": "heating and electricity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "交際費",
+"kana": "こうさいひ",
+"src": "entertainment expense",
+"alt": [],
+"rank": null
+},
+{
+"jp": "公共料金",
+"kana": "こうきょうりょうきん",
+"src": "public utilities charge",
+"alt": [],
+"rank": null
+},
+{
+"jp": "お小遣い",
+"kana": "おこづかい",
+"src": "allowance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "贅沢な",
+"kana": "ぜいたくな",
+"src": "luxury, extravagance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "割り勘",
+"kana": "わりかん",
+"src": "splitting the cost",
+"alt": [],
+"rank": null
+},
+{
+"jp": "レンタル",
+"kana": "レンタル",
+"src": "rental",
+"alt": [],
+"rank": null
+},
+{
+"jp": "レンタルビデオ",
+"kana": "レンタルビデオ",
+"src": "rental video",
+"alt": [],
+"rank": null
+},
+{
+"jp": "支払います",
+"kana": "しはらいます",
+"src": "pay",
+"alt": [],
+"rank": null
+},
+{
+"jp": "支払い",
+"kana": "しはらい",
+"src": "payment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "勘定",
+"kana": "かんじょう",
+"src": "bill, check",
+"alt": [],
+"rank": null
+},
+{
+"jp": "預金通帳",
+"kana": "よきんつうちょう",
+"src": "bankbook",
+"alt": [],
+"rank": null
+},
+{
+"jp": "貯金通帳",
+"kana": "ちょきんつうちょう",
+"src": "bankbook",
+"alt": [],
+"rank": null
+},
+{
+"jp": "振り込み",
+"kana": "ふりこみ",
+"src": "deposit, payment made via bank deposit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "送金",
+"kana": "そうきん",
+"src": "send money, transfer money",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一回払い",
+"kana": "いっかいばらい",
+"src": "one-time payment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ボーナス払い",
+"kana": "ボーナスばらい",
+"src": "bonus payment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "合計",
+"kana": "ごうけい",
+"src": "total amount",
+"alt": [],
+"rank": null
+},
+{
+"jp": "代金",
+"kana": "だいきん",
+"src": "price, charge",
+"alt": [],
+"rank": null
+},
+{
+"jp": "税込",
+"kana": "ぜいこみ",
+"src": "tax included",
+"alt": [],
+"rank": null
+},
+{
+"jp": "税別",
+"kana": "ぜいべつ",
+"src": "tax not included",
+"alt": [],
+"rank": null
+},
+{
+"jp": "請求書",
+"kana": "せいきゅうしょ",
+"src": "bill, check",
+"alt": [],
+"rank": null
+},
+{
+"jp": "売り切れ",
+"kana": "うりきれ",
+"src": "sold out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "品切れ",
+"kana": "しなぎれ",
+"src": "out of stock",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日替わり",
+"kana": "ひがわり",
+"src": "daily, changing daily",
+"alt": [],
+"rank": null
+},
+{
+"jp": "半額",
+"kana": "はんがく",
+"src": "half price",
+"alt": [],
+"rank": null
+},
+{
+"jp": "半額セール",
+"kana": "はんがくセール",
+"src": "half price sale",
+"alt": [],
+"rank": null
+},
+{
+"jp": "特売日",
+"kana": "とくばいび",
+"src": "special sale day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "特売品",
+"kana": "とくばいひん",
+"src": "special sale product",
+"alt": [],
+"rank": null
+},
+{
+"jp": "得な",
+"kana": "とくな",
+"src": "bargain, good value",
+"alt": [],
+"rank": null
+},
+{
+"jp": "おまけ",
+"kana": "おまけ",
+"src": "plus, bonus, free gift",
+"alt": [],
+"rank": null
+},
+{
+"jp": "レジ袋",
+"kana": "レジぶくろ",
+"src": "shopping bag",
+"alt": [],
+"rank": null
+},
+{
+"jp": "定休日",
+"kana": "ていきゅうび",
+"src": "fixed holiday",
+"alt": [],
+"rank": null
+},
+{
+"jp": "揃えます",
+"kana": "そろえます",
+"src": "gather, arrange",
+"alt": [],
+"rank": null
+},
+{
+"jp": "揃います",
+"kana": "そろいます",
+"src": "be gathered",
+"alt": [],
+"rank": null
+},
+{
+"jp": "昼寝",
+"kana": "ひるね",
+"src": "nap",
+"alt": [],
+"rank": null
+},
+{
+"jp": "暮れます",
+"kana": "くれます",
+"src": "close, conclude",
+"alt": [],
+"rank": null
+},
+{
+"jp": "年の暮れ",
+"kana": "としのくれ",
+"src": "end of the year",
+"alt": [],
+"rank": null
+},
+{
+"jp": "おしゃべり",
+"kana": "おしゃべり",
+"src": "chatting",
+"alt": [],
+"rank": null
+},
+{
+"jp": "リラックス",
+"kana": "リラックス",
+"src": "relaxing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "普段",
+"kana": "ふだん",
+"src": "usually, normally",
+"alt": [],
+"rank": null
+},
+{
+"jp": "普段着",
+"kana": "ふだんぎ",
+"src": "casual wear",
+"alt": [],
+"rank": null
+},
+{
+"jp": "夜更かし",
+"kana": "よふかし",
+"src": "staying up late",
+"alt": [],
+"rank": null
+},
+{
+"jp": "充電",
+"kana": "じゅうでん",
+"src": "charging a battery",
+"alt": [],
+"rank": null
+},
+{
+"jp": "撫でます",
+"kana": "なでます",
+"src": "pet, stroke",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日常",
+"kana": "にちじょう",
+"src": "daily, everyday",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日常生活",
+"kana": "にちじょうせいかつ",
+"src": "daily life",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日常会話",
+"kana": "にちじょうかいわ",
+"src": "daily conversation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出迎え",
+"kana": "でむかえ",
+"src": "reception, welcome",
+"alt": [],
+"rank": null
+},
+{
+"jp": "見送り",
+"kana": "みおくり",
+"src": "seeing off",
+"alt": [],
+"rank": null
+},
+{
+"jp": "郵送",
+"kana": "ゆうそう",
+"src": "mail",
+"alt": [],
+"rank": null
+},
+{
+"jp": "送料",
+"kana": "そうりょう",
+"src": "fee, charge",
+"alt": [],
+"rank": null
+},
+{
+"jp": "宛先",
+"kana": "あてさき",
+"src": "address of recipient",
+"alt": [],
+"rank": null
+},
+{
+"jp": "宛名",
+"kana": "あてな",
+"src": "name of recipient",
+"alt": [],
+"rank": null
+},
+{
+"jp": "差出人",
+"kana": "さしだしにん",
+"src": "sender",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出前",
+"kana": "でまえ",
+"src": "home delivery",
+"alt": [],
+"rank": null
+},
+{
+"jp": "デリバリー",
+"kana": "デリバリー",
+"src": "home delivery",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ほどきます",
+"kana": "ほどきます",
+"src": "unwind, untie, unfold",
+"alt": [],
+"rank": null
+},
+{
+"jp": "早めな",
+"kana": "はやめな",
+"src": "early",
+"alt": [],
+"rank": null
+},
+{
+"jp": "どけます",
+"kana": "どけます",
+"src": "move out of the way",
+"alt": [],
+"rank": null
+},
+{
+"jp": "商店街",
+"kana": "しょうてんがい",
+"src": "shopping street",
+"alt": [],
+"rank": null
+},
+{
+"jp": "高層ビル",
+"kana": "こうそうビル",
+"src": "high rise, skyscraper",
+"alt": [],
+"rank": null
+},
+{
+"jp": "高層マンション",
+"kana": "こうそうマンション",
+"src": "high rise apartment building",
+"alt": [],
+"rank": null
+},
+{
+"jp": "水族館",
+"kana": "すいぞくかん",
+"src": "aquarium",
+"alt": [],
+"rank": null
+},
+{
+"jp": "博物館",
+"kana": "はくぶつかん",
+"src": "museum",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出入口",
+"kana": "でいりぐち",
+"src": "entrance, exit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "自動ドア",
+"kana": "じどうドア",
+"src": "automatic door",
+"alt": [],
+"rank": null
+},
+{
+"jp": "入館料",
+"kana": "にゅうかんりょう",
+"src": "admission fee",
+"alt": [],
+"rank": null
+},
+{
+"jp": "混雑",
+"kana": "こんざつ",
+"src": "be crowded",
+"alt": [],
+"rank": null
+},
+{
+"jp": "行列",
+"kana": "ぎょうれつ",
+"src": "line",
+"alt": [],
+"rank": null
+},
+{
+"jp": "休館日",
+"kana": "きゅうかんび",
+"src": "holiday, closed day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ホール",
+"kana": "ホール",
+"src": "hall",
+"alt": [],
+"rank": null
+},
+{
+"jp": "使用料",
+"kana": "しようりょう",
+"src": "usage fee",
+"alt": [],
+"rank": null
+},
+{
+"jp": "目印",
+"kana": "めじるし",
+"src": "landmark, sign",
+"alt": [],
+"rank": null
+},
+{
+"jp": "歩道橋",
+"kana": "ほどうきょう",
+"src": "pedestrian bridge",
+"alt": [],
+"rank": null
+},
+{
+"jp": "タワー",
+"kana": "タワー",
+"src": "tower",
+"alt": [],
+"rank": null
+},
+{
+"jp": "東京タワー",
+"kana": "とうきょうタワー",
+"src": "Tokyo tower",
+"alt": [],
+"rank": null
+},
+{
+"jp": "スカイツリー",
+"kana": "スカイツリー",
+"src": "Tokyo skytree",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ライト",
+"kana": "ライト",
+"src": "light",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ライトアップ",
+"kana": "ライトアップ",
+"src": "illumination",
+"alt": [],
+"rank": null
+},
+{
+"jp": "正面",
+"kana": "しょうめん",
+"src": "front",
+"alt": [],
+"rank": null
+},
+{
+"jp": "コンクリート",
+"kana": "コンクリート",
+"src": "concrete",
+"alt": [],
+"rank": null
+},
+{
+"jp": "地方",
+"kana": "ちほう",
+"src": "region, countryside",
+"alt": [],
+"rank": null
+},
+{
+"jp": "中心",
+"kana": "ちゅうしん",
+"src": "center",
+"alt": [],
+"rank": null
+},
+{
+"jp": "中央",
+"kana": "ちゅうおう",
+"src": "center, middle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "移転",
+"kana": "いてん",
+"src": "moving",
+"alt": [],
+"rank": null
+},
+{
+"jp": "工事",
+"kana": "こうじ",
+"src": "construction work",
+"alt": [],
+"rank": null
+},
+{
+"jp": "空き地",
+"kana": "あきち",
+"src": "vacant land",
+"alt": [],
+"rank": null
+},
+{
+"jp": "人ごみ",
+"kana": "ひとごみ",
+"src": "crowd of people",
+"alt": [],
+"rank": null
+},
+{
+"jp": "都会",
+"kana": "とかい",
+"src": "city, urban area",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ぶらぶら",
+"kana": "ぶらぶら",
+"src": "roaming, wandering",
+"alt": [],
+"rank": null
+},
+{
+"jp": "うろうろ",
+"kana": "うろうろ",
+"src": "aimlessly, wandering",
+"alt": [],
+"rank": null
+},
+{
+"jp": "徒歩",
+"kana": "とほ",
+"src": "walking",
+"alt": [],
+"rank": null
+},
+{
+"jp": "遠回り",
+"kana": "とおまわり",
+"src": "taking the long way",
+"alt": [],
+"rank": null
+},
+{
+"jp": "近道",
+"kana": "ちかみち",
+"src": "shortcut",
+"alt": [],
+"rank": null
+},
+{
+"jp": "回り道",
+"kana": "まわりみち",
+"src": "detour route",
+"alt": [],
+"rank": null
+},
+{
+"jp": "距離",
+"kana": "きょり",
+"src": "distance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "追いつきます",
+"kana": "おいつきます",
+"src": "catch up with",
+"alt": [],
+"rank": null
+},
+{
+"jp": "突き当たり",
+"kana": "つきあたり",
+"src": "end of a street",
+"alt": [],
+"rank": null
+},
+{
+"jp": "立ち止まります",
+"kana": "たちどまります",
+"src": "stop, stand still",
+"alt": [],
+"rank": null
+},
+{
+"jp": "横切ります",
+"kana": "よこぎります",
+"src": "cross, go across",
+"alt": [],
+"rank": null
+},
+{
+"jp": "行き先",
+"kana": "いきさき",
+"src": "destination",
+"alt": [],
+"rank": null
+},
+{
+"jp": "往復切符",
+"kana": "おうふくきっぷ",
+"src": "round trip ticket",
+"alt": [],
+"rank": null
+},
+{
+"jp": "始発",
+"kana": "しはつ",
+"src": "first train",
+"alt": [],
+"rank": null
+},
+{
+"jp": "終点",
+"kana": "しゅうてん",
+"src": "last stop, final destination",
+"alt": [],
+"rank": null
+},
+{
+"jp": "上り",
+"kana": "のぼり",
+"src": "up, inbound",
+"alt": [],
+"rank": null
+},
+{
+"jp": "下り",
+"kana": "くだり",
+"src": "down, outbound",
+"alt": [],
+"rank": null
+},
+{
+"jp": "JR",
+"kana": "JR",
+"src": "Japan Railways",
+"alt": [],
+"rank": null
+},
+{
+"jp": "私鉄",
+"kana": "してつ",
+"src": "private railway",
+"alt": [],
+"rank": null
+},
+{
+"jp": "経由",
+"kana": "けいゆ",
+"src": "through, by way of",
+"alt": [],
+"rank": null
+},
+{
+"jp": "有効期限",
+"kana": "ゆうこうきげん",
+"src": "expiration date",
+"alt": [],
+"rank": null
+},
+{
+"jp": "通路側",
+"kana": "つうろがわ",
+"src": "aisle side",
+"alt": [],
+"rank": null
+},
+{
+"jp": "通路",
+"kana": "つうろ",
+"src": "aisle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "窓側",
+"kana": "まどがわ",
+"src": "window side",
+"alt": [],
+"rank": null
+},
+{
+"jp": "改札口",
+"kana": "かいさつぐち",
+"src": "ticket gate entrance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "自動改札",
+"kana": "じどうかいさつ",
+"src": "automatic ticket gate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "指定",
+"kana": "してい",
+"src": "designate, reserve",
+"alt": [],
+"rank": null
+},
+{
+"jp": "車内アナウンス",
+"kana": "しゃないアナウンス",
+"src": "onboard announcement",
+"alt": [],
+"rank": null
+},
+{
+"jp": "車掌",
+"kana": "しゃしょう",
+"src": "train conductor",
+"alt": [],
+"rank": null
+},
+{
+"jp": "プラットホーム",
+"kana": "プラットホーム",
+"src": "platform",
+"alt": [],
+"rank": null
+},
+{
+"jp": "線路",
+"kana": "せんろ",
+"src": "rail track",
+"alt": [],
+"rank": null
+},
+{
+"jp": "踏切",
+"kana": "ふみきり",
+"src": "railway crossing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "乗り越し料金",
+"kana": "のりこしりょうきん",
+"src": "excess fare",
+"alt": [],
+"rank": null
+},
+{
+"jp": "停留所",
+"kana": "ていりゅうじょ",
+"src": "bus stop",
+"alt": [],
+"rank": null
+},
+{
+"jp": "バス乗りば",
+"kana": "バスのりば",
+"src": "bus stop",
+"alt": [],
+"rank": null
+},
+{
+"jp": "乗車口",
+"kana": "じょうしゃぐち",
+"src": "entrance door",
+"alt": [],
+"rank": null
+},
+{
+"jp": "降車口",
+"kana": "こうしゃぐち",
+"src": "exit door",
+"alt": [],
+"rank": null
+},
+{
+"jp": "乗客",
+"kana": "じょうきゃく",
+"src": "passenger",
+"alt": [],
+"rank": null
+},
+{
+"jp": "乗車",
+"kana": "じょうしゃ",
+"src": "ride",
+"alt": [],
+"rank": null
+},
+{
+"jp": "通過",
+"kana": "つうか",
+"src": "passing, passing through",
+"alt": [],
+"rank": null
+},
+{
+"jp": "停車",
+"kana": "ていしゃ",
+"src": "stopping",
+"alt": [],
+"rank": null
+},
+{
+"jp": "下車",
+"kana": "げしゃ",
+"src": "getting off",
+"alt": [],
+"rank": null
+},
+{
+"jp": "途中下車",
+"kana": "とちゅうげしゃ",
+"src": "getting off in the middle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "交通費",
+"kana": "こうつうひ",
+"src": "traveling expenses",
+"alt": [],
+"rank": null
+},
+{
+"jp": "バス代",
+"kana": "バスだい",
+"src": "bus fare",
+"alt": [],
+"rank": null
+},
+{
+"jp": "払い戻し",
+"kana": "はらいもどし",
+"src": "paying back",
+"alt": [],
+"rank": null
+},
+{
+"jp": "定員",
+"kana": "ていいん",
+"src": "capacity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "時刻",
+"kana": "じこく",
+"src": "time schedule",
+"alt": [],
+"rank": null
+},
+{
+"jp": "優先席",
+"kana": "ゆうせんせき",
+"src": "priority seating",
+"alt": [],
+"rank": null
+},
+{
+"jp": "助手席",
+"kana": "じょしゅせき",
+"src": "passenger seat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "運転席",
+"kana": "うんてんせき",
+"src": "driver's seat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "カーナビ",
+"kana": "カーナビ",
+"src": "car GPS",
+"alt": [],
+"rank": null
+},
+{
+"jp": "道路",
+"kana": "どうろ",
+"src": "road, street",
+"alt": [],
+"rank": null
+},
+{
+"jp": "渋滞",
+"kana": "じゅうたい",
+"src": "congestion, traffic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "速度",
+"kana": "そくど",
+"src": "speed",
+"alt": [],
+"rank": null
+},
+{
+"jp": "スピード",
+"kana": "スピード",
+"src": "speed",
+"alt": [],
+"rank": null
+},
+{
+"jp": "高速道路",
+"kana": "こうそくどうろ",
+"src": "highway, expressway",
+"alt": [],
+"rank": null
+},
+{
+"jp": "割り込み",
+"kana": "わりこみ",
+"src": "cutting in",
+"alt": [],
+"rank": null
+},
+{
+"jp": "スピード違反",
+"kana": "スピードいはん",
+"src": "speeding, illegal speeding",
+"alt": [],
+"rank": null
+},
+{
+"jp": "飲酒運転",
+"kana": "いんしゅうんてん",
+"src": "drunk driving",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アクセル",
+"kana": "アクセル",
+"src": "accelerator, gas pedal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "カーブ",
+"kana": "カーブ",
+"src": "curve",
+"alt": [],
+"rank": null
+},
+{
+"jp": "パンク",
+"kana": "パンク",
+"src": "puncture, flat tire",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一方通行",
+"kana": "いっぽうつうこう",
+"src": "one way traffic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "通行止め",
+"kana": "つうこうどめ",
+"src": "dead end",
+"alt": [],
+"rank": null
+},
+{
+"jp": "運転免許証",
+"kana": "うんてんめんきょしょう",
+"src": "driver's license",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ハンドル",
+"kana": "ハンドル",
+"src": "steering wheel",
+"alt": [],
+"rank": null
+},
+{
+"jp": "トランク",
+"kana": "トランク",
+"src": "trunk",
+"alt": [],
+"rank": null
+},
+{
+"jp": "中古車",
+"kana": "ちゅうこしゃ",
+"src": "used car",
+"alt": [],
+"rank": null
+},
+{
+"jp": "新車",
+"kana": "しんしゃ",
+"src": "new car",
+"alt": [],
+"rank": null
+},
+{
+"jp": "急ブレーキ",
+"kana": "きゅうブレーキ",
+"src": "emergency brake",
+"alt": [],
+"rank": null
+},
+{
+"jp": "飲酒",
+"kana": "いんしゅ",
+"src": "drinking alcohol",
+"alt": [],
+"rank": null
+},
+{
+"jp": "通学",
+"kana": "つうがく",
+"src": "commuting to school",
+"alt": [],
+"rank": null
+},
+{
+"jp": "学年",
+"kana": "がくねん",
+"src": "school year, grade",
+"alt": [],
+"rank": null
+},
+{
+"jp": "学期",
+"kana": "がっき",
+"src": "school term",
+"alt": [],
+"rank": null
+},
+{
+"jp": "居眠り",
+"kana": "いねむり",
+"src": "nodding off, dozing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "期間",
+"kana": "きかん",
+"src": "period of time",
+"alt": [],
+"rank": null
+},
+{
+"jp": "時間割",
+"kana": "じかんわり",
+"src": "timetable",
+"alt": [],
+"rank": null
+},
+{
+"jp": "項目",
+"kana": "こうもく",
+"src": "item, entry",
+"alt": [],
+"rank": null
+},
+{
+"jp": "座席",
+"kana": "ざせき",
+"src": "seat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "きっかけ",
+"kana": "きっかけ",
+"src": "opportunity, motive",
+"alt": [],
+"rank": null
+},
+{
+"jp": "貸し出し",
+"kana": "かしだし",
+"src": "renting",
+"alt": [],
+"rank": null
+},
+{
+"jp": "返却",
+"kana": "へんきゃく",
+"src": "returning",
+"alt": [],
+"rank": null
+},
+{
+"jp": "名札",
+"kana": "なふだ",
+"src": "name plate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "給食",
+"kana": "きゅうしょく",
+"src": "lunch service",
+"alt": [],
+"rank": null
+},
+{
+"jp": "体育",
+"kana": "たいいく",
+"src": "P.E.",
+"alt": [],
+"rank": null
+},
+{
+"jp": "体育館",
+"kana": "たいいくかん",
+"src": "gymnasium",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アクセント",
+"kana": "アクセント",
+"src": "accent",
+"alt": [],
+"rank": null
+},
+{
+"jp": "暗記",
+"kana": "あんき",
+"src": "memorize",
+"alt": [],
+"rank": null
+},
+{
+"jp": "記憶",
+"kana": "きおく",
+"src": "memory",
+"alt": [],
+"rank": null
+},
+{
+"jp": "記憶力",
+"kana": "きおくりょく",
+"src": "ability to memorize",
+"alt": [],
+"rank": null
+},
+{
+"jp": "聞き取ります",
+"kana": "ききとります",
+"src": "hear, catch",
+"alt": [],
+"rank": null
+},
+{
+"jp": "入門",
+"kana": "にゅうもん",
+"src": "entering, beginning",
+"alt": [],
+"rank": null
+},
+{
+"jp": "下書き",
+"kana": "したがき",
+"src": "rough copy, draft",
+"alt": [],
+"rank": null
+},
+{
+"jp": "清書",
+"kana": "せいしょ",
+"src": "clean copy",
+"alt": [],
+"rank": null
+},
+{
+"jp": "表れます",
+"kana": "あらわれます",
+"src": "be expressed, become apparent",
+"alt": [],
+"rank": null
+},
+{
+"jp": "物語",
+"kana": "ものがたり",
+"src": "tale, story",
+"alt": [],
+"rank": null
+},
+{
+"jp": "教科",
+"kana": "きょうか",
+"src": "subject",
+"alt": [],
+"rank": null
+},
+{
+"jp": "国語",
+"kana": "こくご",
+"src": "Japanese language",
+"alt": [],
+"rank": null
+},
+{
+"jp": "算数",
+"kana": "さんすう",
+"src": "arithmetic, math",
+"alt": [],
+"rank": null
+},
+{
+"jp": "科目",
+"kana": "かもく",
+"src": "subject, class",
+"alt": [],
+"rank": null
+},
+{
+"jp": "足し算",
+"kana": "たしざん",
+"src": "addition",
+"alt": [],
+"rank": null
+},
+{
+"jp": "引き算",
+"kana": "ひきざん",
+"src": "subtraction",
+"alt": [],
+"rank": null
+},
+{
+"jp": "かけ算",
+"kana": "かけざん",
+"src": "multiplication",
+"alt": [],
+"rank": null
+},
+{
+"jp": "割り算",
+"kana": "わりざん",
+"src": "division",
+"alt": [],
+"rank": null
+},
+{
+"jp": "イコール",
+"kana": "イコール",
+"src": "equals",
+"alt": [],
+"rank": null
+},
+{
+"jp": "グラフ",
+"kana": "グラフ",
+"src": "graph",
+"alt": [],
+"rank": null
+},
+{
+"jp": "三角形",
+"kana": "さんかくけい",
+"src": "triangle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "三角",
+"kana": "さんかく",
+"src": "triangle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "四角",
+"kana": "しかく",
+"src": "square",
+"alt": [],
+"rank": null
+},
+{
+"jp": "定規",
+"kana": "じょうぎ",
+"src": "ruler",
+"alt": [],
+"rank": null
+},
+{
+"jp": "補講",
+"kana": "ほこう",
+"src": "supplementary classes",
+"alt": [],
+"rank": null
+},
+{
+"jp": "文系",
+"kana": "ぶんけい",
+"src": "humanities, fine arts",
+"alt": [],
+"rank": null
+},
+{
+"jp": "理系",
+"kana": "りけい",
+"src": "sciences",
+"alt": [],
+"rank": null
+},
+{
+"jp": "学科",
+"kana": "がっか",
+"src": "course of study",
+"alt": [],
+"rank": null
+},
+{
+"jp": "心理学",
+"kana": "しんりがく",
+"src": "psychology",
+"alt": [],
+"rank": null
+},
+{
+"jp": "物理学",
+"kana": "ぶつりがく",
+"src": "physics",
+"alt": [],
+"rank": null
+},
+{
+"jp": "法学",
+"kana": "ほうがく",
+"src": "study of law",
+"alt": [],
+"rank": null
+},
+{
+"jp": "言語学",
+"kana": "げんごがく",
+"src": "linguistics",
+"alt": [],
+"rank": null
+},
+{
+"jp": "前期",
+"kana": "ぜんき",
+"src": "first term",
+"alt": [],
+"rank": null
+},
+{
+"jp": "後期",
+"kana": "こうき",
+"src": "second term",
+"alt": [],
+"rank": null
+},
+{
+"jp": "学費",
+"kana": "がくひ",
+"src": "school tuition",
+"alt": [],
+"rank": null
+},
+{
+"jp": "公立",
+"kana": "こうりつ",
+"src": "public institution",
+"alt": [],
+"rank": null
+},
+{
+"jp": "国立",
+"kana": "こくりつ",
+"src": "national institution",
+"alt": [],
+"rank": null
+},
+{
+"jp": "県立",
+"kana": "けんりつ",
+"src": "prefectural institution",
+"alt": [],
+"rank": null
+},
+{
+"jp": "市立",
+"kana": "しりつ",
+"src": "municipal institution",
+"alt": [],
+"rank": null
+},
+{
+"jp": "私立",
+"kana": "しりつ",
+"src": "private institution",
+"alt": [],
+"rank": null
+},
+{
+"jp": "教授",
+"kana": "きょうじゅ",
+"src": "professor",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ゼミ",
+"kana": "ゼミ",
+"src": "seminar",
+"alt": [],
+"rank": null
+},
+{
+"jp": "テーマ",
+"kana": "テーマ",
+"src": "theme",
+"alt": [],
+"rank": null
+},
+{
+"jp": "手続き",
+"kana": "てつづき",
+"src": "procedure, process",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日付",
+"kana": "ひづけ",
+"src": "date",
+"alt": [],
+"rank": null
+},
+{
+"jp": "筆者",
+"kana": "ひっしゃ",
+"src": "writer, author",
+"alt": [],
+"rank": null
+},
+{
+"jp": "内容",
+"kana": "ないよう",
+"src": "content",
+"alt": [],
+"rank": null
+},
+{
+"jp": "提出",
+"kana": "ていしゅつ",
+"src": "submission",
+"alt": [],
+"rank": null
+},
+{
+"jp": "進路",
+"kana": "しんろ",
+"src": "route, course, university choice",
+"alt": [],
+"rank": null
+},
+{
+"jp": "進学",
+"kana": "しんがく",
+"src": "school progression",
+"alt": [],
+"rank": null
+},
+{
+"jp": "休学",
+"kana": "きゅうがく",
+"src": "taking time off from school",
+"alt": [],
+"rank": null
+},
+{
+"jp": "退学",
+"kana": "たいがく",
+"src": "leaving school, dropping out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "受験",
+"kana": "じゅけん",
+"src": "taking a test",
+"alt": [],
+"rank": null
+},
+{
+"jp": "受験生",
+"kana": "じゅけんせい",
+"src": "test taker",
+"alt": [],
+"rank": null
+},
+{
+"jp": "配ります",
+"kana": "くばります",
+"src": "distribute, hand out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "氏名",
+"kana": "しめい",
+"src": "full name",
+"alt": [],
+"rank": null
+},
+{
+"jp": "裏返し",
+"kana": "うらがえし",
+"src": "turning over",
+"alt": [],
+"rank": null
+},
+{
+"jp": "問い",
+"kana": "とい",
+"src": "question",
+"alt": [],
+"rank": null
+},
+{
+"jp": "正解",
+"kana": "せいかい",
+"src": "correct answer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "カンニング",
+"kana": "カンニング",
+"src": "cheating",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ぎりぎりな",
+"kana": "ぎりぎりな",
+"src": "barely",
+"alt": [],
+"rank": null
+},
+{
+"jp": "優れます",
+"kana": "すぐれます",
+"src": "surpass, excel",
+"alt": [],
+"rank": null
+},
+{
+"jp": "実力",
+"kana": "じつりょく",
+"src": "real ability, actual ability",
+"alt": [],
+"rank": null
+},
+{
+"jp": "少数",
+"kana": "しょうすう",
+"src": "small amount",
+"alt": [],
+"rank": null
+},
+{
+"jp": "可能性",
+"kana": "かのうせい",
+"src": "possibility",
+"alt": [],
+"rank": null
+},
+{
+"jp": "掲示板",
+"kana": "けいじばん",
+"src": "bulletin board",
+"alt": [],
+"rank": null
+},
+{
+"jp": "知識",
+"kana": "ちしき",
+"src": "knowledge",
+"alt": [],
+"rank": null
+},
+{
+"jp": "理解",
+"kana": "りかい",
+"src": "understanding",
+"alt": [],
+"rank": null
+},
+{
+"jp": "目指します",
+"kana": "めざします",
+"src": "aim for, head for",
+"alt": [],
+"rank": null
+},
+{
+"jp": "試します",
+"kana": "ためします",
+"src": "test, try",
+"alt": [],
+"rank": null
+},
+{
+"jp": "やる気",
+"kana": "やるき",
+"src": "motivation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "レベル",
+"kana": "レベル",
+"src": "level",
+"alt": [],
+"rank": null
+},
+{
+"jp": "生活レベル",
+"kana": "せいかつレベル",
+"src": "living standard",
+"alt": [],
+"rank": null
+},
+{
+"jp": "怠けます",
+"kana": "なまけます",
+"src": "be idle, slack off",
+"alt": [],
+"rank": null
+},
+{
+"jp": "マスター",
+"kana": "マスター",
+"src": "mastery",
+"alt": [],
+"rank": null
+},
+{
+"jp": "問い合わせます",
+"kana": "といあわせます",
+"src": "inquire",
+"alt": [],
+"rank": null
+},
+{
+"jp": "問い合わせ",
+"kana": "といあわせ",
+"src": "inquiry",
+"alt": [],
+"rank": null
+},
+{
+"jp": "正答",
+"kana": "せいとう",
+"src": "correct answer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "企業",
+"kana": "きぎょう",
+"src": "enterprise",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ホームページ",
+"kana": "ホームページ",
+"src": "homepage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "条件",
+"kana": "じょうけん",
+"src": "condition",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ウェブサイト",
+"kana": "ウェブサイト",
+"src": "website",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ウェブページ",
+"kana": "ウェブページ",
+"src": "webpage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "応募",
+"kana": "おうぼ",
+"src": "applying for",
+"alt": [],
+"rank": null
+},
+{
+"jp": "記入",
+"kana": "きにゅう",
+"src": "filling out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "資格",
+"kana": "しかく",
+"src": "qualification",
+"alt": [],
+"rank": null
+},
+{
+"jp": "服装",
+"kana": "ふくそう",
+"src": "attire, garments",
+"alt": [],
+"rank": null
+},
+{
+"jp": "長所",
+"kana": "ちょうしょ",
+"src": "strong point, merit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "短所",
+"kana": "たんしょ",
+"src": "weak point",
+"alt": [],
+"rank": null
+},
+{
+"jp": "全て",
+"kana": "すべて",
+"src": "all, every",
+"alt": [],
+"rank": null
+},
+{
+"jp": "採用",
+"kana": "さいよう",
+"src": "hiring",
+"alt": [],
+"rank": null
+},
+{
+"jp": "受け取ります",
+"kana": "うけとります",
+"src": "receive",
+"alt": [],
+"rank": null
+},
+{
+"jp": "受け取り",
+"kana": "うけとり",
+"src": "receiving",
+"alt": [],
+"rank": null
+},
+{
+"jp": "正社員",
+"kana": "せいしゃいん",
+"src": "full employee",
+"alt": [],
+"rank": null
+},
+{
+"jp": "OL",
+"kana": "OL",
+"src": "office lady",
+"alt": [],
+"rank": null
+},
+{
+"jp": "研修",
+"kana": "けんしゅう",
+"src": "training",
+"alt": [],
+"rank": null
+},
+{
+"jp": "実習",
+"kana": "じっしゅう",
+"src": "practical training",
+"alt": [],
+"rank": null
+},
+{
+"jp": "インターン",
+"kana": "インターン",
+"src": "intern",
+"alt": [],
+"rank": null
+},
+{
+"jp": "職場",
+"kana": "しょくば",
+"src": "workplace",
+"alt": [],
+"rank": null
+},
+{
+"jp": "得ます",
+"kana": "えます",
+"src": "procure, get",
+"alt": [],
+"rank": null
+},
+{
+"jp": "話し合い",
+"kana": "はなしあい",
+"src": "discussion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "調整",
+"kana": "ちょうせい",
+"src": "adjustment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "能力",
+"kana": "のうりょく",
+"src": "ability",
+"alt": [],
+"rank": null
+},
+{
+"jp": "役割",
+"kana": "やくわり",
+"src": "role",
+"alt": [],
+"rank": null
+},
+{
+"jp": "通勤",
+"kana": "つうきん",
+"src": "commuting to work",
+"alt": [],
+"rank": null
+},
+{
+"jp": "早退",
+"kana": "そうたい",
+"src": "leaving early",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無断",
+"kana": "むだん",
+"src": "without permission",
+"alt": [],
+"rank": null
+},
+{
+"jp": "社会人",
+"kana": "しゃかいじん",
+"src": "working adult, member of society",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一人ひとり",
+"kana": "ひとりひとり",
+"src": "one by one, each person",
+"alt": [],
+"rank": null
+},
+{
+"jp": "印鑑",
+"kana": "いんかん",
+"src": "seal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "インタビュー",
+"kana": "インタビュー",
+"src": "interview",
+"alt": [],
+"rank": null
+},
+{
+"jp": "回答",
+"kana": "かいとう",
+"src": "answer, fill out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "月末",
+"kana": "げつまつ",
+"src": "end of the month",
+"alt": [],
+"rank": null
+},
+{
+"jp": "肩書き",
+"kana": "かたがき",
+"src": "title",
+"alt": [],
+"rank": null
+},
+{
+"jp": "同期",
+"kana": "どうき",
+"src": "one's contemporary, people who join at the same time",
+"alt": [],
+"rank": null
+},
+{
+"jp": "休暇",
+"kana": "きゅうか",
+"src": "break, rest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "オフ",
+"kana": "オフ",
+"src": "off, day off",
+"alt": [],
+"rank": null
+},
+{
+"jp": "オン",
+"kana": "オン",
+"src": "on, working day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "プレッシャー",
+"kana": "プレッシャー",
+"src": "pressure",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不満な",
+"kana": "ふまんな",
+"src": "dissatisfaction, displeasure",
+"alt": [],
+"rank": null
+},
+{
+"jp": "命令",
+"kana": "めいれい",
+"src": "order",
+"alt": [],
+"rank": null
+},
+{
+"jp": "指示",
+"kana": "しじ",
+"src": "direction",
+"alt": [],
+"rank": null
+},
+{
+"jp": "苦労",
+"kana": "くろう",
+"src": "trouble, hardship",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ミス",
+"kana": "ミス",
+"src": "mistake",
+"alt": [],
+"rank": null
+},
+{
+"jp": "宴会",
+"kana": "えんかい",
+"src": "banquet",
+"alt": [],
+"rank": null
+},
+{
+"jp": "歓迎会",
+"kana": "かんげいかい",
+"src": "welcome party",
+"alt": [],
+"rank": null
+},
+{
+"jp": "送別会",
+"kana": "そうべつかい",
+"src": "farewell party",
+"alt": [],
+"rank": null
+},
+{
+"jp": "歓迎",
+"kana": "かんげい",
+"src": "welcoming",
+"alt": [],
+"rank": null
+},
+{
+"jp": "つぎます",
+"kana": "つぎます",
+"src": "pour",
+"alt": [],
+"rank": null
+},
+{
+"jp": "勤務",
+"kana": "きんむ",
+"src": "work, duty",
+"alt": [],
+"rank": null
+},
+{
+"jp": "事務",
+"kana": "じむ",
+"src": "business, office work",
+"alt": [],
+"rank": null
+},
+{
+"jp": "担当",
+"kana": "たんとう",
+"src": "in charge",
+"alt": [],
+"rank": null
+},
+{
+"jp": "担当者",
+"kana": "たんとうしゃ",
+"src": "person in charge",
+"alt": [],
+"rank": null
+},
+{
+"jp": "経営",
+"kana": "けいえい",
+"src": "management",
+"alt": [],
+"rank": null
+},
+{
+"jp": "宣伝",
+"kana": "せんでん",
+"src": "publicity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "広告会社",
+"kana": "こうこくがいしゃ",
+"src": "advertising company",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出版",
+"kana": "しゅっぱん",
+"src": "publishing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出版社",
+"kana": "しゅっぱんしゃ",
+"src": "publishing company",
+"alt": [],
+"rank": null
+},
+{
+"jp": "制作",
+"kana": "せいさく",
+"src": "production",
+"alt": [],
+"rank": null
+},
+{
+"jp": "長期",
+"kana": "ちょうき",
+"src": "long term, long time",
+"alt": [],
+"rank": null
+},
+{
+"jp": "短期",
+"kana": "たんき",
+"src": "short term, short time",
+"alt": [],
+"rank": null
+},
+{
+"jp": "長期出張",
+"kana": "ちょうきしゅっちょう",
+"src": "long term business trip",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日程",
+"kana": "にってい",
+"src": "schedule",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ずらします",
+"kana": "ずらします",
+"src": "shift, slide, push back",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ずれます",
+"kana": "ずれます",
+"src": "be shifted",
+"alt": [],
+"rank": null
+},
+{
+"jp": "延期",
+"kana": "えんき",
+"src": "postponement",
+"alt": [],
+"rank": null
+},
+{
+"jp": "省略",
+"kana": "しょうりゃく",
+"src": "abbreviation, omission",
+"alt": [],
+"rank": null
+},
+{
+"jp": "省きます",
+"kana": "はぶきます",
+"src": "omit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "積みます",
+"kana": "つみます",
+"src": "pile up, stack, gain experience",
+"alt": [],
+"rank": null
+},
+{
+"jp": "成長",
+"kana": "せいちょう",
+"src": "grow",
+"alt": [],
+"rank": null
+},
+{
+"jp": "画面",
+"kana": "がめん",
+"src": "screen",
+"alt": [],
+"rank": null
+},
+{
+"jp": "件名",
+"kana": "けんめい",
+"src": "subject of an e-mail",
+"alt": [],
+"rank": null
+},
+{
+"jp": "受信",
+"kana": "じゅしん",
+"src": "receiving",
+"alt": [],
+"rank": null
+},
+{
+"jp": "受信者",
+"kana": "じゅしんしゃ",
+"src": "recipient",
+"alt": [],
+"rank": null
+},
+{
+"jp": "送信",
+"kana": "そうしん",
+"src": "sending",
+"alt": [],
+"rank": null
+},
+{
+"jp": "送信者",
+"kana": "そうしんしゃ",
+"src": "sender",
+"alt": [],
+"rank": null
+},
+{
+"jp": "返信",
+"kana": "へんしん",
+"src": "reply",
+"alt": [],
+"rank": null
+},
+{
+"jp": "やり取り",
+"kana": "やりとり",
+"src": "have an exchange",
+"alt": [],
+"rank": null
+},
+{
+"jp": "変換",
+"kana": "へんかん",
+"src": "conversion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "改行",
+"kana": "かいぎょう",
+"src": "new line, new paragraph",
+"alt": [],
+"rank": null
+},
+{
+"jp": "画像",
+"kana": "がぞう",
+"src": "image, picture, display",
+"alt": [],
+"rank": null
+},
+{
+"jp": "映像",
+"kana": "えいぞう",
+"src": "image, video",
+"alt": [],
+"rank": null
+},
+{
+"jp": "挿入",
+"kana": "そうにゅう",
+"src": "insertion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "添付",
+"kana": "てんぷ",
+"src": "attachment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "削除",
+"kana": "さくじょ",
+"src": "deletion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "保存",
+"kana": "ほぞん",
+"src": "saving",
+"alt": [],
+"rank": null
+},
+{
+"jp": "新規作成",
+"kana": "しんきさくせい",
+"src": "create new",
+"alt": [],
+"rank": null
+},
+{
+"jp": "完了",
+"kana": "かんりょう",
+"src": "completion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ブログ",
+"kana": "ブログ",
+"src": "blog",
+"alt": [],
+"rank": null
+},
+{
+"jp": "マウス",
+"kana": "マウス",
+"src": "mouse",
+"alt": [],
+"rank": null
+},
+{
+"jp": "クリックします",
+"kana": "クリックします",
+"src": "click",
+"alt": [],
+"rank": null
+},
+{
+"jp": "プロバイダー",
+"kana": "プロバイダー",
+"src": "provider",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ダウンロード",
+"kana": "ダウンロード",
+"src": "download",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ノートパソコン",
+"kana": "ノートパソコン",
+"src": "laptop",
+"alt": [],
+"rank": null
+},
+{
+"jp": "デスクトップ",
+"kana": "デスクトップ",
+"src": "desktop computer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アップロード",
+"kana": "アップロード",
+"src": "upload",
+"alt": [],
+"rank": null
+},
+{
+"jp": "インストール",
+"kana": "インストール",
+"src": "installation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "添付ファイル",
+"kana": "てんぷファイル",
+"src": "attached file",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日にち",
+"kana": "ひにち",
+"src": "day, the number of days",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日帰り",
+"kana": "ひがえり",
+"src": "day trip",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日帰り旅行",
+"kana": "ひがえりりょこう",
+"src": "day trip",
+"alt": [],
+"rank": null
+},
+{
+"jp": "泊まり",
+"kana": "とまり",
+"src": "staying at",
+"alt": [],
+"rank": null
+},
+{
+"jp": "宿泊",
+"kana": "しゅくはく",
+"src": "lodging",
+"alt": [],
+"rank": null
+},
+{
+"jp": "滞在",
+"kana": "たいざい",
+"src": "stay",
+"alt": [],
+"rank": null
+},
+{
+"jp": "団体",
+"kana": "だんたい",
+"src": "group",
+"alt": [],
+"rank": null
+},
+{
+"jp": "団体旅行",
+"kana": "だんたいりょこう",
+"src": "group travel",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ツアー",
+"kana": "ツアー",
+"src": "tour",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日帰りツアー",
+"kana": "ひがえりツアー",
+"src": "day tour",
+"alt": [],
+"rank": null
+},
+{
+"jp": "温泉ツアー",
+"kana": "おんせんツアー",
+"src": "hot spring tour",
+"alt": [],
+"rank": null
+},
+{
+"jp": "あちこち",
+"kana": "あちこち",
+"src": "here and there",
+"alt": [],
+"rank": null
+},
+{
+"jp": "あちらこちら",
+"kana": "あちらこちら",
+"src": "here and there",
+"alt": [],
+"rank": null
+},
+{
+"jp": "観光客",
+"kana": "かんこうきゃく",
+"src": "tourist",
+"alt": [],
+"rank": null
+},
+{
+"jp": "観光地",
+"kana": "かんこうち",
+"src": "tourist site",
+"alt": [],
+"rank": null
+},
+{
+"jp": "観光スポット",
+"kana": "かんこうスポット",
+"src": "tourist spot",
+"alt": [],
+"rank": null
+},
+{
+"jp": "費用",
+"kana": "ひよう",
+"src": "expense, cost",
+"alt": [],
+"rank": null
+},
+{
+"jp": "集合",
+"kana": "しゅうごう",
+"src": "gathering",
+"alt": [],
+"rank": null
+},
+{
+"jp": "解散",
+"kana": "かいさん",
+"src": "breaking up",
+"alt": [],
+"rank": null
+},
+{
+"jp": "五つ星ホテル",
+"kana": "いつつぼしホテル",
+"src": "five star hotel",
+"alt": [],
+"rank": null
+},
+{
+"jp": "三つ星レストラン",
+"kana": "みつぼしレストラン",
+"src": "three star restaurant",
+"alt": [],
+"rank": null
+},
+{
+"jp": "満室",
+"kana": "まんしつ",
+"src": "all rooms full",
+"alt": [],
+"rank": null
+},
+{
+"jp": "チェックイン",
+"kana": "チェックイン",
+"src": "check in",
+"alt": [],
+"rank": null
+},
+{
+"jp": "チェックアウト",
+"kana": "チェックアウト",
+"src": "check out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "キャンセル",
+"kana": "キャンセル",
+"src": "cancel",
+"alt": [],
+"rank": null
+},
+{
+"jp": "取り消し",
+"kana": "とりけし",
+"src": "cancellation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "追加",
+"kana": "ついか",
+"src": "addition",
+"alt": [],
+"rank": null
+},
+{
+"jp": "持ち物",
+"kana": "もちもの",
+"src": "one's belongings",
+"alt": [],
+"rank": null
+},
+{
+"jp": "使用",
+"kana": "しよう",
+"src": "usage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "船旅",
+"kana": "ふなたび",
+"src": "boat trip",
+"alt": [],
+"rank": null
+},
+{
+"jp": "時差",
+"kana": "じさ",
+"src": "time difference",
+"alt": [],
+"rank": null
+},
+{
+"jp": "時差ぼけ",
+"kana": "じさぼけ",
+"src": "jet-lag",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ドル",
+"kana": "ドル",
+"src": "dollar",
+"alt": [],
+"rank": null
+},
+{
+"jp": "来日",
+"kana": "らいにち",
+"src": "coming to Japan",
+"alt": [],
+"rank": null
+},
+{
+"jp": "訪日",
+"kana": "ほうにち",
+"src": "visiting to Japan",
+"alt": [],
+"rank": null
+},
+{
+"jp": "活躍",
+"kana": "かつやく",
+"src": "being active, flourishing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ウェア",
+"kana": "ウェア",
+"src": "wear",
+"alt": [],
+"rank": null
+},
+{
+"jp": "スポーツウェア",
+"kana": "スポーツウェア",
+"src": "sportswear",
+"alt": [],
+"rank": null
+},
+{
+"jp": "メンズウェア",
+"kana": "メンズウェア",
+"src": "men's wear",
+"alt": [],
+"rank": null
+},
+{
+"jp": "レディースウェア",
+"kana": "レディースウェア",
+"src": "lady's wear",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ホームラン",
+"kana": "ホームラン",
+"src": "homerun",
+"alt": [],
+"rank": null
+},
+{
+"jp": "前半",
+"kana": "ぜんはん",
+"src": "first half",
+"alt": [],
+"rank": null
+},
+{
+"jp": "後半",
+"kana": "こうはん",
+"src": "second half",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ポイント",
+"kana": "ポイント",
+"src": "point",
+"alt": [],
+"rank": null
+},
+{
+"jp": "引き分け",
+"kana": "ひきわけ",
+"src": "draw",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大声",
+"kana": "おおごえ",
+"src": "loud voice",
+"alt": [],
+"rank": null
+},
+{
+"jp": "思い切ります",
+"kana": "おもいきります",
+"src": "do something with all one's might",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ペース",
+"kana": "ペース",
+"src": "pace",
+"alt": [],
+"rank": null
+},
+{
+"jp": "マイペース",
+"kana": "マイペース",
+"src": "at one's own pace",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ハイペース",
+"kana": "ハイペース",
+"src": "at a high pace",
+"alt": [],
+"rank": null
+},
+{
+"jp": "拍手",
+"kana": "はくしゅ",
+"src": "clapping",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ライバル",
+"kana": "ライバル",
+"src": "rival",
+"alt": [],
+"rank": null
+},
+{
+"jp": "競争相手",
+"kana": "きようそうあいて",
+"src": "rival",
+"alt": [],
+"rank": null
+},
+{
+"jp": "体操",
+"kana": "たいそう",
+"src": "gymnastics",
+"alt": [],
+"rank": null
+},
+{
+"jp": "トレーニング",
+"kana": "トレーニング",
+"src": "training",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日課",
+"kana": "にっか",
+"src": "daily routine",
+"alt": [],
+"rank": null
+},
+{
+"jp": "キャプテン",
+"kana": "キャプテン",
+"src": "captain",
+"alt": [],
+"rank": null
+},
+{
+"jp": "プロ",
+"kana": "プロ",
+"src": "professional",
+"alt": [],
+"rank": null
+},
+{
+"jp": "プロフェッショナル",
+"kana": "プロフェッショナル",
+"src": "professional",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アマ",
+"kana": "アマ",
+"src": "amateur",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アマチュア",
+"kana": "アマチュア",
+"src": "amateur",
+"alt": [],
+"rank": null
+},
+{
+"jp": "プレー",
+"kana": "プレー",
+"src": "playing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ファン",
+"kana": "ファン",
+"src": "fan",
+"alt": [],
+"rank": null
+},
+{
+"jp": "引退",
+"kana": "いんたい",
+"src": "retirement",
+"alt": [],
+"rank": null
+},
+{
+"jp": "水着",
+"kana": "みずぎ",
+"src": "swimsuit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "お洒落",
+"kana": "おしゃれ",
+"src": "fashionable",
+"alt": [],
+"rank": null
+},
+{
+"jp": "好み",
+"kana": "このみ",
+"src": "liking",
+"alt": [],
+"rank": null
+},
+{
+"jp": "流行",
+"kana": "りゅうこう",
+"src": "being popular, be in fashion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "流行語",
+"kana": "りゅうこうご",
+"src": "buzzword",
+"alt": [],
+"rank": null
+},
+{
+"jp": "流行色",
+"kana": "りゅうこうしょく",
+"src": "popular color",
+"alt": [],
+"rank": null
+},
+{
+"jp": "流行り",
+"kana": "はやり",
+"src": "fad, craze",
+"alt": [],
+"rank": null
+},
+{
+"jp": "サンプル",
+"kana": "サンプル",
+"src": "sample",
+"alt": [],
+"rank": null
+},
+{
+"jp": "見本",
+"kana": "みほん",
+"src": "sample",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一流",
+"kana": "いちりゅう",
+"src": "first class",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ブランド",
+"kana": "ブランド",
+"src": "brand",
+"alt": [],
+"rank": null
+},
+{
+"jp": "高級ブランド",
+"kana": "こうきゅうブランド",
+"src": "high quality brand",
+"alt": [],
+"rank": null
+},
+{
+"jp": "有名ブランド",
+"kana": "ゆうめいブランド",
+"src": "famous brand",
+"alt": [],
+"rank": null
+},
+{
+"jp": "偽札",
+"kana": "にせさつ",
+"src": "counterfeit bill",
+"alt": [],
+"rank": null
+},
+{
+"jp": "保証",
+"kana": "ほしょう",
+"src": "guarantee, warranty",
+"alt": [],
+"rank": null
+},
+{
+"jp": "はめます",
+"kana": "はめます",
+"src": "put on",
+"alt": [],
+"rank": null
+},
+{
+"jp": "夏物",
+"kana": "なつもの",
+"src": "summer goods",
+"alt": [],
+"rank": null
+},
+{
+"jp": "冬物",
+"kana": "ふゆもの",
+"src": "winter goods",
+"alt": [],
+"rank": null
+},
+{
+"jp": "婦人服",
+"kana": "ふじんふく",
+"src": "women's clothing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "紳士服",
+"kana": "しんしふく",
+"src": "men's clothing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "レディースファッション",
+"kana": "レディースファッション",
+"src": "lady's fashion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "メンズファッション",
+"kana": "メンズファッション",
+"src": "men's fashion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ジーパン",
+"kana": "ジーパン",
+"src": "jean pants",
+"alt": [],
+"rank": null
+},
+{
+"jp": "イヤリング",
+"kana": "イヤリング",
+"src": "clip on earring",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ネックレス",
+"kana": "ネックレス",
+"src": "necklace",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ピアス",
+"kana": "ピアス",
+"src": "earring",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ペンダント",
+"kana": "ペンダント",
+"src": "pendant",
+"alt": [],
+"rank": null
+},
+{
+"jp": "宝石",
+"kana": "ほうせき",
+"src": "precious gem",
+"alt": [],
+"rank": null
+},
+{
+"jp": "スカーフ",
+"kana": "スカーフ",
+"src": "scarf",
+"alt": [],
+"rank": null
+},
+{
+"jp": "化粧",
+"kana": "けしょう",
+"src": "makeup",
+"alt": [],
+"rank": null
+},
+{
+"jp": "メイク",
+"kana": "メイク",
+"src": "makeup",
+"alt": [],
+"rank": null
+},
+{
+"jp": "化粧品",
+"kana": "けしょうひん",
+"src": "cosmetics",
+"alt": [],
+"rank": null
+},
+{
+"jp": "口紅",
+"kana": "くちべに",
+"src": "lipstick",
+"alt": [],
+"rank": null
+},
+{
+"jp": "まつ毛",
+"kana": "まつげ",
+"src": "eyelash",
+"alt": [],
+"rank": null
+},
+{
+"jp": "眉毛",
+"kana": "まゆげ",
+"src": "eyebrow",
+"alt": [],
+"rank": null
+},
+{
+"jp": "頬",
+"kana": "ほほ",
+"src": "cheek",
+"alt": [],
+"rank": null
+},
+{
+"jp": "香水",
+"kana": "こうすい",
+"src": "perfume",
+"alt": [],
+"rank": null
+},
+{
+"jp": "古着",
+"kana": "ふるぎ",
+"src": "used clothing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "袖",
+"kana": "そで",
+"src": "sleeve",
+"alt": [],
+"rank": null
+},
+{
+"jp": "半袖",
+"kana": "はんそで",
+"src": "short sleeve",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ノースリーブ",
+"kana": "ノースリーブ",
+"src": "sleeveless",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ショップ",
+"kana": "ショップ",
+"src": "shop",
+"alt": [],
+"rank": null
+},
+{
+"jp": "100円ショップ",
+"kana": "100えんショップ",
+"src": "100 yen shop",
+"alt": [],
+"rank": null
+},
+{
+"jp": "コーヒーショップ",
+"kana": "コーヒーショップ",
+"src": "coffee shop",
+"alt": [],
+"rank": null
+},
+{
+"jp": "お気に入り",
+"kana": "おきにいり",
+"src": "favorite",
+"alt": [],
+"rank": null
+},
+{
+"jp": "絵画",
+"kana": "かいが",
+"src": "picture, painting",
+"alt": [],
+"rank": null
+},
+{
+"jp": "才能",
+"kana": "さいのう",
+"src": "talent, ability",
+"alt": [],
+"rank": null
+},
+{
+"jp": "天才",
+"kana": "てんさい",
+"src": "genius",
+"alt": [],
+"rank": null
+},
+{
+"jp": "稽古",
+"kana": "けいこ",
+"src": "training, practice",
+"alt": [],
+"rank": null
+},
+{
+"jp": "読書",
+"kana": "どくしょ",
+"src": "reading",
+"alt": [],
+"rank": null
+},
+{
+"jp": "お薦め",
+"kana": "おすすめ",
+"src": "suggestion, recommend",
+"alt": [],
+"rank": null
+},
+{
+"jp": "薦めます",
+"kana": "すすめます",
+"src": "suggest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ストーリー",
+"kana": "ストーリー",
+"src": "story",
+"alt": [],
+"rank": null
+},
+{
+"jp": "シリーズ",
+"kana": "シリーズ",
+"src": "series",
+"alt": [],
+"rank": null
+},
+{
+"jp": "名作",
+"kana": "めいさく",
+"src": "famous work, masterpiece",
+"alt": [],
+"rank": null
+},
+{
+"jp": "登場",
+"kana": "とうじょう",
+"src": "appearance, entrance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "好奇心",
+"kana": "こうきしん",
+"src": "curiosity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "コンクール",
+"kana": "コンクール",
+"src": "competition, contest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出品",
+"kana": "しゅっぴん",
+"src": "submit a work",
+"alt": [],
+"rank": null
+},
+{
+"jp": "演奏",
+"kana": "えんそう",
+"src": "performance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "イヤホン",
+"kana": "イヤホン",
+"src": "earphones",
+"alt": [],
+"rank": null
+},
+{
+"jp": "講演会",
+"kana": "こうえんかい",
+"src": "lecture",
+"alt": [],
+"rank": null
+},
+{
+"jp": "サークル仲間",
+"kana": "サークルなかま",
+"src": "friend from a circle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "テニスサークル",
+"kana": "テニスサークル",
+"src": "tennis circle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "秤",
+"kana": "はかり",
+"src": "scale",
+"alt": [],
+"rank": null
+},
+{
+"jp": "体温",
+"kana": "たいおん",
+"src": "body temperature",
+"alt": [],
+"rank": null
+},
+{
+"jp": "血液",
+"kana": "けつえき",
+"src": "blood",
+"alt": [],
+"rank": null
+},
+{
+"jp": "血液型",
+"kana": "けつえきがた",
+"src": "blood type",
+"alt": [],
+"rank": null
+},
+{
+"jp": "血液型占い",
+"kana": "けつえきがたうらない",
+"src": "fortune telling based on blood type",
+"alt": [],
+"rank": null
+},
+{
+"jp": "心臓",
+"kana": "しんぞう",
+"src": "heart",
+"alt": [],
+"rank": null
+},
+{
+"jp": "息",
+"kana": "いき",
+"src": "breath",
+"alt": [],
+"rank": null
+},
+{
+"jp": "溜息",
+"kana": "ためいき",
+"src": "sigh",
+"alt": [],
+"rank": null
+},
+{
+"jp": "皮膚",
+"kana": "ひふ",
+"src": "skin",
+"alt": [],
+"rank": null
+},
+{
+"jp": "顔色",
+"kana": "かおいろ",
+"src": "complexion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "睡眠",
+"kana": "すいみん",
+"src": "sleep",
+"alt": [],
+"rank": null
+},
+{
+"jp": "眠り",
+"kana": "ねむり",
+"src": "sleep",
+"alt": [],
+"rank": null
+},
+{
+"jp": "睡眠時間",
+"kana": "すいみんじかん",
+"src": "sleep time",
+"alt": [],
+"rank": null
+},
+{
+"jp": "睡眠不足",
+"kana": "すいみんぶそく",
+"src": "lack of sleep",
+"alt": [],
+"rank": null
+},
+{
+"jp": "歯科医",
+"kana": "しかい",
+"src": "dentist",
+"alt": [],
+"rank": null
+},
+{
+"jp": "虫歯",
+"kana": "むしば",
+"src": "cavity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "裸",
+"kana": "はだか",
+"src": "nakedness, nudity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "裸足",
+"kana": "はだし",
+"src": "barefoot",
+"alt": [],
+"rank": null
+},
+{
+"jp": "あくび",
+"kana": "あくび",
+"src": "yawn",
+"alt": [],
+"rank": null
+},
+{
+"jp": "しゃっくり",
+"kana": "しゃっくり",
+"src": "hiccup",
+"alt": [],
+"rank": null
+},
+{
+"jp": "げっぷ",
+"kana": "げっぷ",
+"src": "burp, belch",
+"alt": [],
+"rank": null
+},
+{
+"jp": "涎",
+"kana": "よだれ",
+"src": "drool",
+"alt": [],
+"rank": null
+},
+{
+"jp": "にきび",
+"kana": "にきび",
+"src": "pimple, acne",
+"alt": [],
+"rank": null
+},
+{
+"jp": "白髪",
+"kana": "しらが",
+"src": "gray hair",
+"alt": [],
+"rank": null
+},
+{
+"jp": "しみ",
+"kana": "しみ",
+"src": "blotch, spot",
+"alt": [],
+"rank": null
+},
+{
+"jp": "しわ",
+"kana": "しわ",
+"src": "wrinkle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日焼け",
+"kana": "ひやけ",
+"src": "tan, sunburn",
+"alt": [],
+"rank": null
+},
+{
+"jp": "カロリー",
+"kana": "カロリー",
+"src": "calorie",
+"alt": [],
+"rank": null
+},
+{
+"jp": "低カロリー",
+"kana": "ていカロリー",
+"src": "low calorie",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アレルギー",
+"kana": "アレルギー",
+"src": "allergy",
+"alt": [],
+"rank": null
+},
+{
+"jp": "埃アレルギー",
+"kana": "ほこりアレルギー",
+"src": "dust allergy",
+"alt": [],
+"rank": null
+},
+{
+"jp": "花粉症",
+"kana": "かふんしょう",
+"src": "hay fever",
+"alt": [],
+"rank": null
+},
+{
+"jp": "うがい",
+"kana": "うがい",
+"src": "gargling",
+"alt": [],
+"rank": null
+},
+{
+"jp": "うがい薬",
+"kana": "うがいぐすり",
+"src": "mouthwash",
+"alt": [],
+"rank": null
+},
+{
+"jp": "手洗い",
+"kana": "てあらい",
+"src": "washing one's hand",
+"alt": [],
+"rank": null
+},
+{
+"jp": "くしゃみ",
+"kana": "くしゃみ",
+"src": "sneeze",
+"alt": [],
+"rank": null
+},
+{
+"jp": "鼻水",
+"kana": "はなみず",
+"src": "runny nose",
+"alt": [],
+"rank": null
+},
+{
+"jp": "マスク",
+"kana": "マスク",
+"src": "mask",
+"alt": [],
+"rank": null
+},
+{
+"jp": "痒み",
+"kana": "かゆみ",
+"src": "itch",
+"alt": [],
+"rank": null
+},
+{
+"jp": "肩こり",
+"kana": "かたこり",
+"src": "get stiff shoulders/neck",
+"alt": [],
+"rank": null
+},
+{
+"jp": "だるさ",
+"kana": "だるさ",
+"src": "sluggishness",
+"alt": [],
+"rank": null
+},
+{
+"jp": "マッサージ",
+"kana": "マッサージ",
+"src": "massage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "腹痛",
+"kana": "ふくつう",
+"src": "stomachache",
+"alt": [],
+"rank": null
+},
+{
+"jp": "胃痛",
+"kana": "いつう",
+"src": "stomachache",
+"alt": [],
+"rank": null
+},
+{
+"jp": "眩暈",
+"kana": "めまい",
+"src": "dizziness",
+"alt": [],
+"rank": null
+},
+{
+"jp": "吐き気",
+"kana": "はきけ",
+"src": "feeling of throwing up, nausea",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ウイルス",
+"kana": "ウイルス",
+"src": "virus",
+"alt": [],
+"rank": null
+},
+{
+"jp": "痺れ",
+"kana": "しびれ",
+"src": "numbness",
+"alt": [],
+"rank": null
+},
+{
+"jp": "部分",
+"kana": "ぶぶん",
+"src": "area, part",
+"alt": [],
+"rank": null
+},
+{
+"jp": "骨折",
+"kana": "こっせつ",
+"src": "bone break",
+"alt": [],
+"rank": null
+},
+{
+"jp": "患者",
+"kana": "かんじゃ",
+"src": "patient",
+"alt": [],
+"rank": null
+},
+{
+"jp": "診察",
+"kana": "しんさつ",
+"src": "examination",
+"alt": [],
+"rank": null
+},
+{
+"jp": "診察室",
+"kana": "しんさつしつ",
+"src": "examination room",
+"alt": [],
+"rank": null
+},
+{
+"jp": "診察時間",
+"kana": "しんさつじかん",
+"src": "examination time",
+"alt": [],
+"rank": null
+},
+{
+"jp": "診察券",
+"kana": "しんさつけん",
+"src": "patient's registration ticket",
+"alt": [],
+"rank": null
+},
+{
+"jp": "検査入院",
+"kana": "けんさにゅういん",
+"src": "hospitalized for examination",
+"alt": [],
+"rank": null
+},
+{
+"jp": "治療",
+"kana": "ちりょう",
+"src": "medical treatment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "治療費",
+"kana": "ちりょうひ",
+"src": "treatment fee",
+"alt": [],
+"rank": null
+},
+{
+"jp": "小児科",
+"kana": "しょうにか",
+"src": "pediatrics",
+"alt": [],
+"rank": null
+},
+{
+"jp": "生命保険",
+"kana": "せいめいほけん",
+"src": "life insurance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "おんぶ",
+"kana": "おんぶ",
+"src": "carrying on one's back",
+"alt": [],
+"rank": null
+},
+{
+"jp": "だっこ",
+"kana": "だっこ",
+"src": "carrying in one's arm",
+"alt": [],
+"rank": null
+},
+{
+"jp": "栄養",
+"kana": "えいよう",
+"src": "nutrition",
+"alt": [],
+"rank": null
+},
+{
+"jp": "回復",
+"kana": "かいふく",
+"src": "recover",
+"alt": [],
+"rank": null
+},
+{
+"jp": "悪化",
+"kana": "あっか",
+"src": "get worsen",
+"alt": [],
+"rank": null
+},
+{
+"jp": "証明",
+"kana": "しょうめい",
+"src": "proof, verification",
+"alt": [],
+"rank": null
+},
+{
+"jp": "証明書",
+"kana": "しょうめいしょ",
+"src": "certificate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "包帯",
+"kana": "ほうたい",
+"src": "bandage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "長生き",
+"kana": "ながいき",
+"src": "long life, longevity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "枯れます",
+"kana": "かれます",
+"src": "wither",
+"alt": [],
+"rank": null
+},
+{
+"jp": "散ります",
+"kana": "ちります",
+"src": "fall, scatter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "浮かびます",
+"kana": "うかびます",
+"src": "float",
+"alt": [],
+"rank": null
+},
+{
+"jp": "浮きます",
+"kana": "うきます",
+"src": "be floating",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日の出",
+"kana": "ひので",
+"src": "sunrise",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日の入り",
+"kana": "ひのいり",
+"src": "sunset",
+"alt": [],
+"rank": null
+},
+{
+"jp": "現れます",
+"kana": "あらわれます",
+"src": "appear",
+"alt": [],
+"rank": null
+},
+{
+"jp": "沈みます",
+"kana": "しずみます",
+"src": "sink, go down",
+"alt": [],
+"rank": null
+},
+{
+"jp": "掘ります",
+"kana": "ほります",
+"src": "dig",
+"alt": [],
+"rank": null
+},
+{
+"jp": "埋めます",
+"kana": "うめます",
+"src": "bury",
+"alt": [],
+"rank": null
+},
+{
+"jp": "土",
+"kana": "つち",
+"src": "dirt, earth",
+"alt": [],
+"rank": null
+},
+{
+"jp": "岩",
+"kana": "いわ",
+"src": "rock, boulder",
+"alt": [],
+"rank": null
+},
+{
+"jp": "丘",
+"kana": "おか",
+"src": "hill",
+"alt": [],
+"rank": null
+},
+{
+"jp": "火山",
+"kana": "かざん",
+"src": "volcano",
+"alt": [],
+"rank": null
+},
+{
+"jp": "想像",
+"kana": "そうぞう",
+"src": "imagining",
+"alt": [],
+"rank": null
+},
+{
+"jp": "見上げます",
+"kana": "みあげます",
+"src": "look up",
+"alt": [],
+"rank": null
+},
+{
+"jp": "見下ろします",
+"kana": "みおろします",
+"src": "look down",
+"alt": [],
+"rank": null
+},
+{
+"jp": "吠えます",
+"kana": "ほえます",
+"src": "howl",
+"alt": [],
+"rank": null
+},
+{
+"jp": "尻尾",
+"kana": "しっぽ",
+"src": "tail",
+"alt": [],
+"rank": null
+},
+{
+"jp": "錆びます",
+"kana": "さびます",
+"src": "rust",
+"alt": [],
+"rank": null
+},
+{
+"jp": "予想",
+"kana": "よそう",
+"src": "expectation, prediction",
+"alt": [],
+"rank": null
+},
+{
+"jp": "予報",
+"kana": "よほう",
+"src": "forecast",
+"alt": [],
+"rank": null
+},
+{
+"jp": "湿気",
+"kana": "しっけ",
+"src": "humidity, moisture",
+"alt": [],
+"rank": null
+},
+{
+"jp": "嵐",
+"kana": "あらし",
+"src": "storm",
+"alt": [],
+"rank": null
+},
+{
+"jp": "強風",
+"kana": "きょうふう",
+"src": "strong wind",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大雨",
+"kana": "おおあめ",
+"src": "heavy rain",
+"alt": [],
+"rank": null
+},
+{
+"jp": "小雨",
+"kana": "こさめ",
+"src": "little rain",
+"alt": [],
+"rank": null
+},
+{
+"jp": "折りたたみ傘",
+"kana": "おりたたみがさ",
+"src": "folding umbrella",
+"alt": [],
+"rank": null
+},
+{
+"jp": "にわか雨",
+"kana": "にわかあめ",
+"src": "rain shower",
+"alt": [],
+"rank": null
+},
+{
+"jp": "途端",
+"kana": "とたん",
+"src": "as soon as, in the moment that",
+"alt": [],
+"rank": null
+},
+{
+"jp": "あっという間",
+"kana": "あっというま",
+"src": "in the blink of an eye",
+"alt": [],
+"rank": null
+},
+{
+"jp": "所々",
+"kana": "ところどころ",
+"src": "here and there",
+"alt": [],
+"rank": null
+},
+{
+"jp": "積もります",
+"kana": "つもります",
+"src": "pile up, accumulate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "快晴",
+"kana": "かいせい",
+"src": "clear weather",
+"alt": [],
+"rank": null
+},
+{
+"jp": "輝きます",
+"kana": "かがやきます",
+"src": "shine",
+"alt": [],
+"rank": null
+},
+{
+"jp": "のち",
+"kana": "のち",
+"src": "later",
+"alt": [],
+"rank": null
+},
+{
+"jp": "当たります",
+"kana": "あたります",
+"src": "be right, be correct",
+"alt": [],
+"rank": null
+},
+{
+"jp": "外れます",
+"kana": "はずれます",
+"src": "miss, fail",
+"alt": [],
+"rank": null
+},
+{
+"jp": "故郷",
+"kana": "ふるさと",
+"src": "hometown",
+"alt": [],
+"rank": null
+},
+{
+"jp": "温度計",
+"kana": "おんどけい",
+"src": "thermometer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "湿度計",
+"kana": "しつどけい",
+"src": "hygrometer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "プラス",
+"kana": "プラス",
+"src": "plus, higher",
+"alt": [],
+"rank": null
+},
+{
+"jp": "夏日",
+"kana": "なつび",
+"src": "summer day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "真夏日",
+"kana": "まなつび",
+"src": "tropical day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "猛暑日",
+"kana": "もうしょび",
+"src": "extremely hot day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "冬日",
+"kana": "ふゆび",
+"src": "chilly day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "真冬日",
+"kana": "まふゆび",
+"src": "ice day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "暖冬",
+"kana": "だんとう",
+"src": "warm winter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "冷夏",
+"kana": "れいか",
+"src": "cold summer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "状態",
+"kana": "じょうたい",
+"src": "condition, status",
+"alt": [],
+"rank": null
+},
+{
+"jp": "変化",
+"kana": "へんか",
+"src": "change",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一定",
+"kana": "いってい",
+"src": "fixed, set",
+"alt": [],
+"rank": null
+},
+{
+"jp": "観察",
+"kana": "かんさつ",
+"src": "observing, watching",
+"alt": [],
+"rank": null
+},
+{
+"jp": "温暖化",
+"kana": "おんだんか",
+"src": "warming",
+"alt": [],
+"rank": null
+},
+{
+"jp": "影響",
+"kana": "えいきょう",
+"src": "influence",
+"alt": [],
+"rank": null
+},
+{
+"jp": "祝日",
+"kana": "しゅくじつ",
+"src": "holiday",
+"alt": [],
+"rank": null
+},
+{
+"jp": "祭日",
+"kana": "さいじつ",
+"src": "holiday",
+"alt": [],
+"rank": null
+},
+{
+"jp": "年末年始",
+"kana": "ねんまつねんし",
+"src": "period including the end of the old year and the start of the New Year",
+"alt": [],
+"rank": null
+},
+{
+"jp": "元日",
+"kana": "がんじつ",
+"src": "New Year's Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "元旦",
+"kana": "がんたん",
+"src": "morning of New Year's Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "年賀状",
+"kana": "ねんがじょう",
+"src": "New Year's Card",
+"alt": [],
+"rank": null
+},
+{
+"jp": "成人の日",
+"kana": "せいじんのひ",
+"src": "Coming-of-age Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "成人式",
+"kana": "せいじんしき",
+"src": "Coming-of-age Ceremony",
+"alt": [],
+"rank": null
+},
+{
+"jp": "雛祭り",
+"kana": "ひなまつり",
+"src": "Girl's Festival",
+"alt": [],
+"rank": null
+},
+{
+"jp": "雛人形",
+"kana": "ひなにんぎょう",
+"src": "hina doll",
+"alt": [],
+"rank": null
+},
+{
+"jp": "子どもの日",
+"kana": "こどものひ",
+"src": "Children's Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "母の日",
+"kana": "ははのひ",
+"src": "Mother's Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "父の日",
+"kana": "ちちのひ",
+"src": "Father's Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "海の日",
+"kana": "うみのひ",
+"src": "Marine Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "山の日",
+"kana": "やまのひ",
+"src": "Mountain Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "敬老の日",
+"kana": "けいろうのひ",
+"src": "Respect-for-the-Aged Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "体育の日",
+"kana": "たいいくのひ",
+"src": "Sports Day",
+"alt": [],
+"rank": null
+},
+{
+"jp": "七五三",
+"kana": "しちごさん",
+"src": "celebration of children's third fifth and seventh years",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大晦日",
+"kana": "おおみそか",
+"src": "New Year's Eve",
+"alt": [],
+"rank": null
+},
+{
+"jp": "入院患者",
+"kana": "にゅういんかんじゃ",
+"src": "inpatient, hospitalized patient",
+"alt": [],
+"rank": null
+},
+{
+"jp": "経済状態",
+"kana": "けいざいじょうたい",
+"src": "economic condition",
+"alt": [],
+"rank": null
+},
+{
+"jp": "心理状況",
+"kana": "しんりじょうきょう",
+"src": "mental condition",
+"alt": [],
+"rank": null
+},
+{
+"jp": "伝わります",
+"kana": "つたわります",
+"src": "be conveyed, be communicated",
+"alt": [],
+"rank": null
+},
+{
+"jp": "噂",
+"kana": "うわさ",
+"src": "rumor",
+"alt": [],
+"rank": null
+},
+{
+"jp": "週刊誌",
+"kana": "しゅうかんし",
+"src": "weekly magazine",
+"alt": [],
+"rank": null
+},
+{
+"jp": "月刊誌",
+"kana": "げっかんし",
+"src": "monthly magazine",
+"alt": [],
+"rank": null
+},
+{
+"jp": "国民",
+"kana": "こくみん",
+"src": "a nation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "立場",
+"kana": "たちば",
+"src": "position, standpoint",
+"alt": [],
+"rank": null
+},
+{
+"jp": "世の中",
+"kana": "よのなか",
+"src": "world, in the world",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大したことがない",
+"kana": "たいしたことがない",
+"src": "nothing special",
+"alt": [],
+"rank": null
+},
+{
+"jp": "司会者",
+"kana": "しかいしゃ",
+"src": "master of ceremonies, host",
+"alt": [],
+"rank": null
+},
+{
+"jp": "司会",
+"kana": "しかい",
+"src": "host, moderating",
+"alt": [],
+"rank": null
+},
+{
+"jp": "再放送",
+"kana": "さいほうそう",
+"src": "rerun, rebroadcasting",
+"alt": [],
+"rank": null
+},
+{
+"jp": "新商品",
+"kana": "しんしょうひん",
+"src": "news product",
+"alt": [],
+"rank": null
+},
+{
+"jp": "発売",
+"kana": "はつばい",
+"src": "putting something on the market",
+"alt": [],
+"rank": null
+},
+{
+"jp": "評判",
+"kana": "ひょうばん",
+"src": "reputation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "注目",
+"kana": "ちゅうもく",
+"src": "notice, attention",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ヒット",
+"kana": "ヒット",
+"src": "hit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ヒット曲",
+"kana": "ヒットきょく",
+"src": "hit song",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ヒット作",
+"kana": "ヒットさく",
+"src": "hit piece, popular work",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ヒット商品",
+"kana": "ヒットしょうひん",
+"src": "hit product",
+"alt": [],
+"rank": null
+},
+{
+"jp": "暴力",
+"kana": "ぼうりょく",
+"src": "violence",
+"alt": [],
+"rank": null
+},
+{
+"jp": "争い",
+"kana": "あらそい",
+"src": "fight, battle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "言い争い",
+"kana": "いいあらそい",
+"src": "argument",
+"alt": [],
+"rank": null
+},
+{
+"jp": "犯罪",
+"kana": "はんざい",
+"src": "crime",
+"alt": [],
+"rank": null
+},
+{
+"jp": "発見者",
+"kana": "はっけんしゃ",
+"src": "discoverer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "疑い",
+"kana": "うたがい",
+"src": "doubt",
+"alt": [],
+"rank": null
+},
+{
+"jp": "いたずら",
+"kana": "いたずら",
+"src": "prank, practical joke",
+"alt": [],
+"rank": null
+},
+{
+"jp": "叫びます",
+"kana": "さけびます",
+"src": "scream, shout",
+"alt": [],
+"rank": null
+},
+{
+"jp": "叫び声",
+"kana": "さけびごえ",
+"src": "shout, scream",
+"alt": [],
+"rank": null
+},
+{
+"jp": "叩きます",
+"kana": "たたきます",
+"src": "strike, hit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ぶちます",
+"kana": "ぶちます",
+"src": "hit, beat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "奪います",
+"kana": "うばいます",
+"src": "take",
+"alt": [],
+"rank": null
+},
+{
+"jp": "追います",
+"kana": "おいます",
+"src": "chase, pursue",
+"alt": [],
+"rank": null
+},
+{
+"jp": "逮捕",
+"kana": "たいほ",
+"src": "arrest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "発生",
+"kana": "はっせい",
+"src": "occur",
+"alt": [],
+"rank": null
+},
+{
+"jp": "命",
+"kana": "いのち",
+"src": "life",
+"alt": [],
+"rank": null
+},
+{
+"jp": "救います",
+"kana": "すくいます",
+"src": "save, rescue",
+"alt": [],
+"rank": null
+},
+{
+"jp": "現場",
+"kana": "げんば",
+"src": "actual spot, scene of the crime, site",
+"alt": [],
+"rank": null
+},
+{
+"jp": "事故現場",
+"kana": "じこげんば",
+"src": "scene of an accident",
+"alt": [],
+"rank": null
+},
+{
+"jp": "事件現場",
+"kana": "じけんげんば",
+"src": "scene of an incident",
+"alt": [],
+"rank": null
+},
+{
+"jp": "工事現場",
+"kana": "こうじげんば",
+"src": "construction site",
+"alt": [],
+"rank": null
+},
+{
+"jp": "混乱",
+"kana": "こんらん",
+"src": "confusion, chaos",
+"alt": [],
+"rank": null
+},
+{
+"jp": "パニック",
+"kana": "パニック",
+"src": "panic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無事な",
+"kana": "ぶじな",
+"src": "safety, being unharmed",
+"alt": [],
+"rank": null
+},
+{
+"jp": "防ぎます",
+"kana": "ふせぎます",
+"src": "protect, defend, stop",
+"alt": [],
+"rank": null
+},
+{
+"jp": "被害者",
+"kana": "ひがいしゃ",
+"src": "victim",
+"alt": [],
+"rank": null
+},
+{
+"jp": "加害者",
+"kana": "かがいしゃ",
+"src": "assaulter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "被害",
+"kana": "ひがい",
+"src": "damage, harm, injury",
+"alt": [],
+"rank": null
+},
+{
+"jp": "疑問",
+"kana": "ぎもん",
+"src": "question",
+"alt": [],
+"rank": null
+},
+{
+"jp": "飛び込みます",
+"kana": "とびこみます",
+"src": "jump in",
+"alt": [],
+"rank": null
+},
+{
+"jp": "溺れます",
+"kana": "おぼれます",
+"src": "drown",
+"alt": [],
+"rank": null
+},
+{
+"jp": "飛び出します",
+"kana": "とびだします",
+"src": "jump out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "飛び出し注意",
+"kana": "とびだしちゅうい",
+"src": "Be careful of things suddenly jumping out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "行方不明",
+"kana": "ゆくえふめい",
+"src": "whereabouts unknown",
+"alt": [],
+"rank": null
+},
+{
+"jp": "偶然",
+"kana": "ぐうぜん",
+"src": "coincidence, by chance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "苦情",
+"kana": "くじょう",
+"src": "grievance, complaint",
+"alt": [],
+"rank": null
+},
+{
+"jp": "クレーム",
+"kana": "クレーム",
+"src": "grievance, complaint",
+"alt": [],
+"rank": null
+},
+{
+"jp": "慌てます",
+"kana": "あわてます",
+"src": "be flustered, panic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "迷子",
+"kana": "まいご",
+"src": "lost person",
+"alt": [],
+"rank": null
+},
+{
+"jp": "借金",
+"kana": "しゃっきん",
+"src": "loan",
+"alt": [],
+"rank": null
+},
+{
+"jp": "倒産します",
+"kana": "とうさんします",
+"src": "go out of business",
+"alt": [],
+"rank": null
+},
+{
+"jp": "潰します",
+"kana": "つぶします",
+"src": "ruin, crush",
+"alt": [],
+"rank": null
+},
+{
+"jp": "停電",
+"kana": "ていでん",
+"src": "blackout",
+"alt": [],
+"rank": null
+},
+{
+"jp": "断水",
+"kana": "だんすい",
+"src": "cut off of water supply",
+"alt": [],
+"rank": null
+},
+{
+"jp": "揺れます",
+"kana": "ゆれます",
+"src": "shake, quake",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ぐらぐら",
+"kana": "ぐらぐら",
+"src": "unsteadily, faltering",
+"alt": [],
+"rank": null
+},
+{
+"jp": "増加",
+"kana": "ぞうか",
+"src": "increase",
+"alt": [],
+"rank": null
+},
+{
+"jp": "減少",
+"kana": "げんしょう",
+"src": "decrease",
+"alt": [],
+"rank": null
+},
+{
+"jp": "超えます",
+"kana": "こえます",
+"src": "exceed, surpass",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ピーク",
+"kana": "ピーク",
+"src": "peak",
+"alt": [],
+"rank": null
+},
+{
+"jp": "越えます",
+"kana": "こえます",
+"src": "pass",
+"alt": [],
+"rank": null
+},
+{
+"jp": "全体",
+"kana": "ぜんたい",
+"src": "all of , entire",
+"alt": [],
+"rank": null
+},
+{
+"jp": "信用",
+"kana": "しんよう",
+"src": "trust",
+"alt": [],
+"rank": null
+},
+{
+"jp": "失います",
+"kana": "うしないます",
+"src": "lose",
+"alt": [],
+"rank": null
+},
+{
+"jp": "正常",
+"kana": "せいじょう",
+"src": "normal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不景気",
+"kana": "ふけいき",
+"src": "economic crisis",
+"alt": [],
+"rank": null
+},
+{
+"jp": "円高",
+"kana": "えんだか",
+"src": "strong yen",
+"alt": [],
+"rank": null
+},
+{
+"jp": "円安",
+"kana": "えんやす",
+"src": "weak yen",
+"alt": [],
+"rank": null
+},
+{
+"jp": "平均",
+"kana": "へいきん",
+"src": "average",
+"alt": [],
+"rank": null
+},
+{
+"jp": "平均点",
+"kana": "へいきんてん",
+"src": "average score",
+"alt": [],
+"rank": null
+},
+{
+"jp": "めちゃくちゃ",
+"kana": "めちゃくちゃ",
+"src": "messy, absurd, excessive",
+"alt": [],
+"rank": null
+},
+{
+"jp": "むちゃくちゃ",
+"kana": "むちゃくちゃ",
+"src": "confused, mixed up",
+"alt": [],
+"rank": null
+},
+{
+"jp": "個性",
+"kana": "こせい",
+"src": "individuality",
+"alt": [],
+"rank": null
+},
+{
+"jp": "個性的",
+"kana": "こせいてき",
+"src": "individual, personal, unique",
+"alt": [],
+"rank": null
+},
+{
+"jp": "働き者",
+"kana": "はたらきもの",
+"src": "hard worker",
+"alt": [],
+"rank": null
+},
+{
+"jp": "正直",
+"kana": "しょうじき",
+"src": "honest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "我儘",
+"kana": "わがまま",
+"src": "selfish",
+"alt": [],
+"rank": null
+},
+{
+"jp": "勝手",
+"kana": "かって",
+"src": "selfish, self-centered",
+"alt": [],
+"rank": null
+},
+{
+"jp": "生意気",
+"kana": "なまいき",
+"src": "impudent, sassy",
+"alt": [],
+"rank": null
+},
+{
+"jp": "単純",
+"kana": "たんじゅん",
+"src": "simple, uncomplicated",
+"alt": [],
+"rank": null
+},
+{
+"jp": "欠点",
+"kana": "けってん",
+"src": "flaw, shortcoming",
+"alt": [],
+"rank": null
+},
+{
+"jp": "弱点",
+"kana": "じゃくてん",
+"src": "weak point",
+"alt": [],
+"rank": null
+},
+{
+"jp": "口癖",
+"kana": "くちぐせ",
+"src": "favorite phrase",
+"alt": [],
+"rank": null
+},
+{
+"jp": "憧れます",
+"kana": "あこがれます",
+"src": "admire",
+"alt": [],
+"rank": null
+},
+{
+"jp": "憧れ",
+"kana": "あこがれ",
+"src": "admiration",
+"alt": [],
+"rank": null
+},
+{
+"jp": "落ち着きます",
+"kana": "おちつきます",
+"src": "calm down",
+"alt": [],
+"rank": null
+},
+{
+"jp": "感激",
+"kana": "かんげき",
+"src": "deep emotion, impression",
+"alt": [],
+"rank": null
+},
+{
+"jp": "感動",
+"kana": "かんどう",
+"src": "being moved emotionally",
+"alt": [],
+"rank": null
+},
+{
+"jp": "感心",
+"kana": "かんしん",
+"src": "admiration, being impressed",
+"alt": [],
+"rank": null
+},
+{
+"jp": "どきどきします",
+"kana": "どきどきします",
+"src": "one's heart beating quickly",
+"alt": [],
+"rank": null
+},
+{
+"jp": "わくわくします",
+"kana": "わくわくします",
+"src": "excited",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ほっとします",
+"kana": "ほっとします",
+"src": "feeling relieved",
+"alt": [],
+"rank": null
+},
+{
+"jp": "のんびりします",
+"kana": "のんびりします",
+"src": "at leisure, carefree",
+"alt": [],
+"rank": null
+},
+{
+"jp": "微笑みます",
+"kana": "ほほえみます",
+"src": "smile",
+"alt": [],
+"rank": null
+},
+{
+"jp": "夢中",
+"kana": "むちゅう",
+"src": "in a daze, entranced, be crazy about",
+"alt": [],
+"rank": null
+},
+{
+"jp": "飽きます",
+"kana": "あきます",
+"src": "get tired of",
+"alt": [],
+"rank": null
+},
+{
+"jp": "嫌がります",
+"kana": "いやがります",
+"src": "dislike",
+"alt": [],
+"rank": null
+},
+{
+"jp": "悲しみます",
+"kana": "かなしみます",
+"src": "be sad",
+"alt": [],
+"rank": null
+},
+{
+"jp": "悲しみ",
+"kana": "かなしみ",
+"src": "sadness",
+"alt": [],
+"rank": null
+},
+{
+"jp": "恐怖",
+"kana": "きょうふ",
+"src": "fear",
+"alt": [],
+"rank": null
+},
+{
+"jp": "恐怖心",
+"kana": "きょうふしん",
+"src": "fear, terror",
+"alt": [],
+"rank": null
+},
+{
+"jp": "恐怖映画",
+"kana": "きょうふえいが",
+"src": "horror movie",
+"alt": [],
+"rank": null
+},
+{
+"jp": "後悔",
+"kana": "こうかい",
+"src": "regret",
+"alt": [],
+"rank": null
+},
+{
+"jp": "悩みます",
+"kana": "なやみます",
+"src": "be worried, be troubled",
+"alt": [],
+"rank": null
+},
+{
+"jp": "面倒",
+"kana": "めんどう",
+"src": "looking after, trouble",
+"alt": [],
+"rank": null
+},
+{
+"jp": "望みます",
+"kana": "のぞみます",
+"src": "desire, wish",
+"alt": [],
+"rank": null
+},
+{
+"jp": "望み",
+"kana": "のぞみ",
+"src": "desire, wish",
+"alt": [],
+"rank": null
+},
+{
+"jp": "願います",
+"kana": "ねがいます",
+"src": "hope, wish",
+"alt": [],
+"rank": null
+},
+{
+"jp": "感じます",
+"kana": "かんじます",
+"src": "feel",
+"alt": [],
+"rank": null
+},
+{
+"jp": "うっかり",
+"kana": "うっかり",
+"src": "carelessly, thoughtlessly",
+"alt": [],
+"rank": null
+},
+{
+"jp": "表現",
+"kana": "ひょうげん",
+"src": "expression",
+"alt": [],
+"rank": null
+},
+{
+"jp": "あがります",
+"kana": "あがります",
+"src": "become nervous, get stage fright",
+"alt": [],
+"rank": null
+},
+{
+"jp": "焦ります",
+"kana": "あせります",
+"src": "be in a hurry, be flustered",
+"alt": [],
+"rank": null
+},
+{
+"jp": "我慢",
+"kana": "がまん",
+"src": "endurance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "自慢",
+"kana": "じまん",
+"src": "boastful",
+"alt": [],
+"rank": null
+},
+{
+"jp": "焦り",
+"kana": "あせり",
+"src": "impatience",
+"alt": [],
+"rank": null
+},
+{
+"jp": "関心",
+"kana": "かんしん",
+"src": "concern, interest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不機嫌",
+"kana": "ふきげん",
+"src": "displeasure, bad mood",
+"alt": [],
+"rank": null
+},
+{
+"jp": "上機嫌",
+"kana": "じょうきげん",
+"src": "good mood",
+"alt": [],
+"rank": null
+},
+{
+"jp": "平気",
+"kana": "へいき",
+"src": "coolness, calmness",
+"alt": [],
+"rank": null
+},
+{
+"jp": "本気",
+"kana": "ほんき",
+"src": "seriousness",
+"alt": [],
+"rank": null
+},
+{
+"jp": "迷います",
+"kana": "まよいます",
+"src": "get lost",
+"alt": [],
+"rank": null
+},
+{
+"jp": "迷い",
+"kana": "まよい",
+"src": "being lost, hesitation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "魅力",
+"kana": "みりょく",
+"src": "charm",
+"alt": [],
+"rank": null
+},
+{
+"jp": "本音",
+"kana": "ほんね",
+"src": "true feeling",
+"alt": [],
+"rank": null
+},
+{
+"jp": "建前",
+"kana": "たてまえ",
+"src": "official stance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "憎みます",
+"kana": "にくみます",
+"src": "hate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "カウンセリング",
+"kana": "カウンセリング",
+"src": "counseling",
+"alt": [],
+"rank": null
+},
+{
+"jp": "模様",
+"kana": "もよう",
+"src": "design, pattern",
+"alt": [],
+"rank": null
+},
+{
+"jp": "模様替え",
+"kana": "もようがえ",
+"src": "rearrange, redecorate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "特徴",
+"kana": "とくちょう",
+"src": "characteristic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "特長",
+"kana": "とくちょう",
+"src": "merit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "特色",
+"kana": "とくしょく",
+"src": "distinctive feature, characteristic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "柄",
+"kana": "がら",
+"src": "pattern, design",
+"alt": [],
+"rank": null
+},
+{
+"jp": "花柄",
+"kana": "はながら",
+"src": "flower pattern",
+"alt": [],
+"rank": null
+},
+{
+"jp": "水玉",
+"kana": "みずたま",
+"src": "polka dot",
+"alt": [],
+"rank": null
+},
+{
+"jp": "水玉模様",
+"kana": "みずたまもよう",
+"src": "polka dot",
+"alt": [],
+"rank": null
+},
+{
+"jp": "しま模様",
+"kana": "しまもよう",
+"src": "stripe",
+"alt": [],
+"rank": null
+},
+{
+"jp": "縦じま",
+"kana": "たてじま",
+"src": "vertical stripe",
+"alt": [],
+"rank": null
+},
+{
+"jp": "縦書き",
+"kana": "たてがき",
+"src": "vertical writing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "横じま",
+"kana": "よこじま",
+"src": "horizontal stripe",
+"alt": [],
+"rank": null
+},
+{
+"jp": "横書き",
+"kana": "よこがき",
+"src": "horizontal writing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ななめ",
+"kana": "ななめ",
+"src": "diagonal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "幅",
+"kana": "はば",
+"src": "width",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ストライプ",
+"kana": "ストライプ",
+"src": "stripe",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無地",
+"kana": "むじ",
+"src": "plain",
+"alt": [],
+"rank": null
+},
+{
+"jp": "印象",
+"kana": "いんしょう",
+"src": "impression",
+"alt": [],
+"rank": null
+},
+{
+"jp": "好印象",
+"kana": "こういんしょう",
+"src": "good impression",
+"alt": [],
+"rank": null
+},
+{
+"jp": "外見",
+"kana": "がいけん",
+"src": "appearance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "姿",
+"kana": "すがた",
+"src": "shape, figure",
+"alt": [],
+"rank": null
+},
+{
+"jp": "後ろ姿",
+"kana": "うしろすがた",
+"src": "appearance from behind",
+"alt": [],
+"rank": null
+},
+{
+"jp": "着物姿",
+"kana": "きものすがた",
+"src": "appearance wearing a kimono",
+"alt": [],
+"rank": null
+},
+{
+"jp": "和服姿",
+"kana": "わふくすがた",
+"src": "appearance wearing a kimono",
+"alt": [],
+"rank": null
+},
+{
+"jp": "言葉遣い",
+"kana": "ことばづかい",
+"src": "way with words, word usage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "美人",
+"kana": "びじん",
+"src": "beauty, beautiful",
+"alt": [],
+"rank": null
+},
+{
+"jp": "美女",
+"kana": "びじょ",
+"src": "beauty, beautiful woman",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不思議な",
+"kana": "ふしぎな",
+"src": "wonderful, mysterious",
+"alt": [],
+"rank": null
+},
+{
+"jp": "さっぱり",
+"kana": "さっぱり",
+"src": "simple, frank",
+"alt": [],
+"rank": null
+},
+{
+"jp": "にっこり",
+"kana": "にっこり",
+"src": "smile, grin",
+"alt": [],
+"rank": null
+},
+{
+"jp": "にこにこ",
+"kana": "にこにこ",
+"src": "smiling, beaming",
+"alt": [],
+"rank": null
+},
+{
+"jp": "にやにや",
+"kana": "にやにや",
+"src": "grinning, smirk",
+"alt": [],
+"rank": null
+},
+{
+"jp": "いきいき",
+"kana": "いきいき",
+"src": "lively",
+"alt": [],
+"rank": null
+},
+{
+"jp": "表面",
+"kana": "ひょうめん",
+"src": "surface",
+"alt": [],
+"rank": null
+},
+{
+"jp": "目立ちます",
+"kana": "めだちます",
+"src": "stand out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "きらきら",
+"kana": "きらきら",
+"src": "flitter, sparkle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "異なります",
+"kana": "ことなります",
+"src": "differ",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ぼんやり",
+"kana": "ぼんやり",
+"src": "dimly, faintly",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大型",
+"kana": "おおがた",
+"src": "large-size",
+"alt": [],
+"rank": null
+},
+{
+"jp": "小型",
+"kana": "こがた",
+"src": "small-size",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大型バス",
+"kana": "おおがたバス",
+"src": "large-size bus",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大型連休",
+"kana": "おおがたれんきゅう",
+"src": "long consecutive holidays",
+"alt": [],
+"rank": null
+},
+{
+"jp": "多め",
+"kana": "おおめ",
+"src": "larger quantity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "少なめ",
+"kana": "すくなめ",
+"src": "smaller quantity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大きめ",
+"kana": "おおきめ",
+"src": "larger size",
+"alt": [],
+"rank": null
+},
+{
+"jp": "小さめ",
+"kana": "ちいさめ",
+"src": "smaller size",
+"alt": [],
+"rank": null
+},
+{
+"jp": "太め",
+"kana": "ふとめ",
+"src": "thicker",
+"alt": [],
+"rank": null
+},
+{
+"jp": "細め",
+"kana": "ほそめ",
+"src": "thinner",
+"alt": [],
+"rank": null
+},
+{
+"jp": "完璧",
+"kana": "かんぺき",
+"src": "perfect",
+"alt": [],
+"rank": null
+},
+{
+"jp": "縮みます",
+"kana": "ちぢみます",
+"src": "shrink",
+"alt": [],
+"rank": null
+},
+{
+"jp": "現代",
+"kana": "げんだい",
+"src": "modern era",
+"alt": [],
+"rank": null
+},
+{
+"jp": "現代人",
+"kana": "げんだいじん",
+"src": "modern person",
+"alt": [],
+"rank": null
+},
+{
+"jp": "現代的",
+"kana": "げんだいてき",
+"src": "modern",
+"alt": [],
+"rank": null
+},
+{
+"jp": "現実",
+"kana": "げんじつ",
+"src": "reality",
+"alt": [],
+"rank": null
+},
+{
+"jp": "現実的な",
+"kana": "げんじつてきな",
+"src": "realistic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "理想的な",
+"kana": "りそうてきな",
+"src": "ideal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "当然",
+"kana": "とうぜん",
+"src": "of course, naturally",
+"alt": [],
+"rank": null
+},
+{
+"jp": "当たり前",
+"kana": "あたりまえ",
+"src": "the obvious",
+"alt": [],
+"rank": null
+},
+{
+"jp": "進歩",
+"kana": "しんぽ",
+"src": "progress",
+"alt": [],
+"rank": null
+},
+{
+"jp": "パワー",
+"kana": "パワー",
+"src": "power",
+"alt": [],
+"rank": null
+},
+{
+"jp": "溢れます",
+"kana": "あふれます",
+"src": "be full of, overflow",
+"alt": [],
+"rank": null
+},
+{
+"jp": "崩れます",
+"kana": "くずれます",
+"src": "crumble, fall apart",
+"alt": [],
+"rank": null
+},
+{
+"jp": "前後",
+"kana": "ぜんご",
+"src": "before and after",
+"alt": [],
+"rank": null
+},
+{
+"jp": "商業",
+"kana": "しょうぎょう",
+"src": "commerce, trade",
+"alt": [],
+"rank": null
+},
+{
+"jp": "商売",
+"kana": "しょうばい",
+"src": "trade, business",
+"alt": [],
+"rank": null
+},
+{
+"jp": "農業",
+"kana": "のうぎょう",
+"src": "farming, agriculture",
+"alt": [],
+"rank": null
+},
+{
+"jp": "語ります",
+"kana": "かたります",
+"src": "speak, talk",
+"alt": [],
+"rank": null
+},
+{
+"jp": "解消",
+"kana": "かいしょう",
+"src": "resolution",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ストレス解消",
+"kana": "ストレスかいしょう",
+"src": "stress reduction",
+"alt": [],
+"rank": null
+},
+{
+"jp": "それぞれ",
+"kana": "それぞれ",
+"src": "each",
+"alt": [],
+"rank": null
+},
+{
+"jp": "囲みます",
+"kana": "かこみます",
+"src": "surround",
+"alt": [],
+"rank": null
+},
+{
+"jp": "友好",
+"kana": "ゆうこう",
+"src": "friendship",
+"alt": [],
+"rank": null
+},
+{
+"jp": "友好国",
+"kana": "ゆうこうこく",
+"src": "friendly nation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "友好関係",
+"kana": "ゆうこうかんけい",
+"src": "friendly relationship",
+"alt": [],
+"rank": null
+},
+{
+"jp": "期待",
+"kana": "きたい",
+"src": "expectation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "区別",
+"kana": "くべつ",
+"src": "distinction",
+"alt": [],
+"rank": null
+},
+{
+"jp": "差別",
+"kana": "さべつ",
+"src": "discrimination",
+"alt": [],
+"rank": null
+},
+{
+"jp": "限界",
+"kana": "げんかい",
+"src": "limit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "通じます",
+"kana": "つうじます",
+"src": "get across, be understood",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ジェスチャー",
+"kana": "ジェスチャー",
+"src": "gesture",
+"alt": [],
+"rank": null
+},
+{
+"jp": "首都",
+"kana": "しゅと",
+"src": "capital city",
+"alt": [],
+"rank": null
+},
+{
+"jp": "対象",
+"kana": "たいしょう",
+"src": "object, subject",
+"alt": [],
+"rank": null
+},
+{
+"jp": "恋愛対象",
+"kana": "れんあいたいしょう",
+"src": "object of romantic interest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "通知",
+"kana": "つうち",
+"src": "notification",
+"alt": [],
+"rank": null
+},
+{
+"jp": "態度",
+"kana": "たいど",
+"src": "attitude, behavior",
+"alt": [],
+"rank": null
+},
+{
+"jp": "求めます",
+"kana": "もとめます",
+"src": "seek, search for",
+"alt": [],
+"rank": null
+},
+{
+"jp": "結論",
+"kana": "けつろん",
+"src": "conclusion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ひっくり返します",
+"kana": "ひっくりかえします",
+"src": "flip over",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ひっくり返ります",
+"kana": "ひっくりかえります",
+"src": "be flipped over",
+"alt": [],
+"rank": null
+},
+{
+"jp": "広がります",
+"kana": "ひろがります",
+"src": "be spread, be expanded",
+"alt": [],
+"rank": null
+},
+{
+"jp": "広げます",
+"kana": "ひろげます",
+"src": "spread, expand",
+"alt": [],
+"rank": null
+},
+{
+"jp": "クラブ活動",
+"kana": "クラブかつどう",
+"src": "club activities",
+"alt": [],
+"rank": null
+},
+{
+"jp": "就職活動",
+"kana": "しゅうしょくかつどう",
+"src": "job hunting",
+"alt": [],
+"rank": null
+},
+{
+"jp": "活動的",
+"kana": "かつどうてき",
+"src": "active, energetic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ボランティア活動",
+"kana": "ボランティアかつどう",
+"src": "volunteer activity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ボランティア団体",
+"kana": "ボランティアだんたい",
+"src": "volunteer group",
+"alt": [],
+"rank": null
+},
+{
+"jp": "崩します",
+"kana": "くずします",
+"src": "break apart",
+"alt": [],
+"rank": null
+},
+{
+"jp": "デザイナー",
+"kana": "デザイナー",
+"src": "designer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "学者",
+"kana": "がくしゃ",
+"src": "scholar",
+"alt": [],
+"rank": null
+},
+{
+"jp": "美容師",
+"kana": "びようし",
+"src": "hair stylist",
+"alt": [],
+"rank": null
+},
+{
+"jp": "保育士",
+"kana": "ほいくし",
+"src": "childcare worker",
+"alt": [],
+"rank": null
+},
+{
+"jp": "タレント",
+"kana": "タレント",
+"src": "talent",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最大",
+"kana": "さいだい",
+"src": "largest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最多",
+"kana": "さいた",
+"src": "most",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最良",
+"kana": "さいりょう",
+"src": "the best",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最善",
+"kana": "さいぜん",
+"src": "the best",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最新",
+"kana": "さいしん",
+"src": "newest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最小",
+"kana": "さいしょう",
+"src": "smallest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最少",
+"kana": "さいしょう",
+"src": "least",
+"alt": [],
+"rank": null
+},
+{
+"jp": "印象的",
+"kana": "いんしょうてき",
+"src": "impressive",
+"alt": [],
+"rank": null
+},
+{
+"jp": "意識的",
+"kana": "いしきてき",
+"src": "conscious",
+"alt": [],
+"rank": null
+},
+{
+"jp": "計画的",
+"kana": "けいかくてき",
+"src": "deliberate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "個人的",
+"kana": "こじんてき",
+"src": "personal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "社会的",
+"kana": "しゃかいてき",
+"src": "social",
+"alt": [],
+"rank": null
+},
+{
+"jp": "全国的",
+"kana": "ぜんこくてき",
+"src": "national",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一般的",
+"kana": "いっぱんてき",
+"src": "general",
+"alt": [],
+"rank": null
+},
+{
+"jp": "具体的",
+"kana": "ぐたいてき",
+"src": "concrete",
+"alt": [],
+"rank": null
+},
+{
+"jp": "現実的",
+"kana": "げんじつてき",
+"src": "realistic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "自動的",
+"kana": "じどうてき",
+"src": "automatical",
+"alt": [],
+"rank": null
+},
+{
+"jp": "世界的",
+"kana": "せかいてき",
+"src": "global",
+"alt": [],
+"rank": null
+},
+{
+"jp": "理想的",
+"kana": "りそうてき",
+"src": "ideal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "デジタル化",
+"kana": "デジタルか",
+"src": "digitalization",
+"alt": [],
+"rank": null
+},
+{
+"jp": "高齢化",
+"kana": "こうれいか",
+"src": "aging of population",
+"alt": [],
+"rank": null
+},
+{
+"jp": "少子化",
+"kana": "しょうしか",
+"src": "declining birth rate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一般化",
+"kana": "いっぱんか",
+"src": "popularization",
+"alt": [],
+"rank": null
+},
+{
+"jp": "自由化",
+"kana": "じゆうか",
+"src": "liberalization",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不可能",
+"kana": "ふかのう",
+"src": "impossible",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不自然",
+"kana": "ふしぜん",
+"src": "unnatural",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不完全",
+"kana": "ふかんぜん",
+"src": "incomplete",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不自由",
+"kana": "ふじゆう",
+"src": "impaired, disabled",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不真面目",
+"kana": "ふまじめ",
+"src": "frivolous",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不合格",
+"kana": "ふごうかく",
+"src": "failure",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不安定",
+"kana": "ふあんてい",
+"src": "unstable",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無意味",
+"kana": "むいみ",
+"src": "meaningless",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無関心",
+"kana": "むかんしん",
+"src": "apathy, indifference",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無許可",
+"kana": "むきょか",
+"src": "without permission",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無責任",
+"kana": "むせきにん",
+"src": "irresponsible",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無計画",
+"kana": "むけいかく",
+"src": "without any plan",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無免許",
+"kana": "むめんきょ",
+"src": "without a license",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無表情",
+"kana": "むひょうじょう",
+"src": "emotionless",
+"alt": [],
+"rank": null
+},
+{
+"jp": "非日常",
+"kana": "ひにちじょう",
+"src": "extraordinary",
+"alt": [],
+"rank": null
+},
+{
+"jp": "非公開",
+"kana": "ひこうかい",
+"src": "not open to the public",
+"alt": [],
+"rank": null
+},
+{
+"jp": "非公式",
+"kana": "ひこうしき",
+"src": "not made public",
+"alt": [],
+"rank": null
+},
+{
+"jp": "非常識",
+"kana": "ひじょうしき",
+"src": "lack of common sense",
+"alt": [],
+"rank": null
+},
+{
+"jp": "未使用",
+"kana": "みしよう",
+"src": "unused",
+"alt": [],
+"rank": null
+},
+{
+"jp": "未成年",
+"kana": "みせいねん",
+"src": "underage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "未解決",
+"kana": "みかいけつ",
+"src": "unresolved",
+"alt": [],
+"rank": null
+},
+{
+"jp": "未開発",
+"kana": "みかいはつ",
+"src": "undeveloped",
+"alt": [],
+"rank": null
+},
+{
+"jp": "未経験",
+"kana": "みけいけん",
+"src": "inexperienced",
+"alt": [],
+"rank": null
+},
+{
+"jp": "北極",
+"kana": "ほっきょく",
+"src": "North Pole",
+"alt": [],
+"rank": null
+},
+{
+"jp": "南極",
+"kana": "なんきょく",
+"src": "South Pole",
+"alt": [],
+"rank": null
+},
+{
+"jp": "北半球",
+"kana": "きたはんきゅう",
+"src": "northern hemisphere",
+"alt": [],
+"rank": null
+},
+{
+"jp": "南半球",
+"kana": "みなみはんきゅう",
+"src": "southern hemisphere",
+"alt": [],
+"rank": null
+},
+{
+"jp": "赤道",
+"kana": "せきどう",
+"src": "equator",
+"alt": [],
+"rank": null
+},
+{
+"jp": "北アフリカ",
+"kana": "きたアフリカ",
+"src": "North Africa",
+"alt": [],
+"rank": null
+},
+{
+"jp": "中央アフリカ",
+"kana": "ちゅうおうアフリカ",
+"src": "Central Africa",
+"alt": [],
+"rank": null
+},
+{
+"jp": "南アフリカ",
+"kana": "みなみアフリカ",
+"src": "South Africa",
+"alt": [],
+"rank": null
+},
+{
+"jp": "オセアニア",
+"kana": "オセアニア",
+"src": "Oceania",
+"alt": [],
+"rank": null
+},
+{
+"jp": "北アメリカ",
+"kana": "きたアメリカ",
+"src": "North America",
+"alt": [],
+"rank": null
+},
+{
+"jp": "南アメリカ",
+"kana": "みなみアメリカ",
+"src": "South America",
+"alt": [],
+"rank": null
+},
+{
+"jp": "東南アジア",
+"kana": "とうなんアジア",
+"src": "Southeast Asia",
+"alt": [],
+"rank": null
+},
+{
+"jp": "東アジア",
+"kana": "ひがしアジア",
+"src": "East Asia",
+"alt": [],
+"rank": null
+},
+{
+"jp": "中央アジア",
+"kana": "ちゅうおうアジア",
+"src": "Central and South Asia",
+"alt": [],
+"rank": null
+},
+{
+"jp": "南アジア",
+"kana": "みなみアジア",
+"src": "South Asia",
+"alt": [],
+"rank": null
+},
+{
+"jp": "中東",
+"kana": "ちゅうとう",
+"src": "the Middle East",
+"alt": [],
+"rank": null
+},
+{
+"jp": "中南米",
+"kana": "ちゅうなんべい",
+"src": "Central and South America",
+"alt": [],
+"rank": null
+},
+{
+"jp": "北欧",
+"kana": "ほくおう",
+"src": "Northern Europe",
+"alt": [],
+"rank": null
+},
+{
+"jp": "東欧",
+"kana": "とうおう",
+"src": "Eastern Europe",
+"alt": [],
+"rank": null
+},
+{
+"jp": "西欧",
+"kana": "せいおう",
+"src": "Western Europe",
+"alt": [],
+"rank": null
+},
+{
+"jp": "南欧",
+"kana": "なんおう",
+"src": "Southern Europe",
+"alt": [],
+"rank": null
+},
+{
+"jp": "欧米",
+"kana": "おうべい",
+"src": "Europe and America",
+"alt": [],
+"rank": null
+},
+{
+"jp": "代表的",
+"kana": "だいひょうてき",
+"src": "typical, representative",
+"alt": [],
+"rank": null
+},
+{
+"jp": "伝統的",
+"kana": "でんとうてき",
+"src": "traditional",
+"alt": [],
+"rank": null
+},
+{
+"jp": "食パン",
+"kana": "しょくパン",
+"src": "bread",
+"alt": [],
+"rank": null
+},
+{
+"jp": "焼き鳥",
+"kana": "やきとり",
+"src": "grilled chicken on a skewer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "回転ずし",
+"kana": "かいてんずし",
+"src": "conveyor-belt sushi",
+"alt": [],
+"rank": null
 }
 ]
