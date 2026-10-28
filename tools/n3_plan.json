@@ -208,5 +208,2007 @@
 "src": "urgent, pressing",
 "alt": [],
 "rank": null
+},
+{
+"jp": "届く",
+"kana": "とどく",
+"src": "to reach",
+"alt": [],
+"rank": null
+},
+{
+"jp": "合格",
+"kana": "ごうかく",
+"src": "success, passing (e.g., exam)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "苦手",
+"kana": "にがて",
+"src": "poor (at), weak (in), dislike (of)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "人気",
+"kana": "にんき",
+"src": "popularity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "桜",
+"kana": "さくら",
+"src": "cherry blossom, cherry tree",
+"alt": [],
+"rank": null
+},
+{
+"jp": "スープ",
+"kana": "スープ",
+"src": "(Western) soup",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ゲーム",
+"kana": "ゲーム",
+"src": "game",
+"alt": [],
+"rank": null
+},
+{
+"jp": "中止",
+"kana": "ちゅうし",
+"src": "suspension, stoppage, discontinuance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "注文",
+"kana": "ちゅうもん",
+"src": "order, request",
+"alt": [],
+"rank": null
+},
+{
+"jp": "遅刻",
+"kana": "ちこく",
+"src": "lateness, late coming",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ビール",
+"kana": "ビール",
+"src": "beer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "割る",
+"kana": "わる",
+"src": "to divide, to break",
+"alt": [],
+"rank": null
+},
+{
+"jp": "確認",
+"kana": "かくにん",
+"src": "affirmation, confirmation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無料",
+"kana": "むりょう",
+"src": "free, no charge",
+"alt": [],
+"rank": null
+},
+{
+"jp": "守る",
+"kana": "まもる",
+"src": "to protect; to abide (by the rules)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "日中",
+"kana": "にっちゅう",
+"src": "daytime, broad daylight",
+"alt": [],
+"rank": null
+},
+{
+"jp": "給料",
+"kana": "きゅうりょう",
+"src": "salary, wages",
+"alt": [],
+"rank": null
+},
+{
+"jp": "パスポート",
+"kana": "パスポート",
+"src": "passport",
+"alt": [],
+"rank": null
+},
+{
+"jp": "家賃",
+"kana": "やちん",
+"src": "rent",
+"alt": [],
+"rank": null
+},
+{
+"jp": "迷う",
+"kana": "まよう",
+"src": "to be puzzled, to be perplexed, to lose one's way",
+"alt": [],
+"rank": null
+},
+{
+"jp": "信号",
+"kana": "しんごう",
+"src": "traffic lights, signal, semaphore",
+"alt": [],
+"rank": null
+},
+{
+"jp": "取れる",
+"kana": "とれる",
+"src": "to come off, to be taken off",
+"alt": [],
+"rank": null
+},
+{
+"jp": "間違い",
+"kana": "まちがい",
+"src": "mistake",
+"alt": [],
+"rank": null
+},
+{
+"jp": "似合う",
+"kana": "にあう",
+"src": "to suit (a person), to match (clothing), (something) becomes",
+"alt": [],
+"rank": null
+},
+{
+"jp": "学ぶ",
+"kana": "まなぶ",
+"src": "to learn; to study",
+"alt": [],
+"rank": null
+},
+{
+"jp": "気温",
+"kana": "きおん",
+"src": "temperature (weather - not used for things)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "免許",
+"kana": "めんきょ",
+"src": "license, permit, certificate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "育つ",
+"kana": "そだつ",
+"src": "to be brought up, to grow (up)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ワイン",
+"kana": "ワイン",
+"src": "wine",
+"alt": [],
+"rank": null
+},
+{
+"jp": "列",
+"kana": "れつ",
+"src": "queue, line, row",
+"alt": [],
+"rank": null
+},
+{
+"jp": "合わせる",
+"kana": "あわせる",
+"src": "to combine",
+"alt": [],
+"rank": null
+},
+{
+"jp": "書類",
+"kana": "しょるい",
+"src": "documents, official papers",
+"alt": [],
+"rank": null
+},
+{
+"jp": "全員",
+"kana": "ぜんいん",
+"src": "all members",
+"alt": [],
+"rank": null
+},
+{
+"jp": "観光",
+"kana": "かんこう",
+"src": "sightseeing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "海外",
+"kana": "かいがい",
+"src": "foreign, abroad, overseas",
+"alt": [],
+"rank": null
+},
+{
+"jp": "転ぶ",
+"kana": "ころぶ",
+"src": "to fall down, to fall over",
+"alt": [],
+"rank": null
+},
+{
+"jp": "骨",
+"kana": "ほね",
+"src": "bone",
+"alt": [],
+"rank": null
+},
+{
+"jp": "覚める",
+"kana": "さめる",
+"src": "to wake, to wake up",
+"alt": [],
+"rank": null
+},
+{
+"jp": "孫",
+"kana": "まご",
+"src": "grandchild",
+"alt": [],
+"rank": null
+},
+{
+"jp": "餌",
+"kana": "えさ",
+"src": "feed, bait",
+"alt": [],
+"rank": null
+},
+{
+"jp": "会計",
+"kana": "かいけい",
+"src": "account, finance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "過ごす",
+"kana": "すごす",
+"src": "to pass, to spend (time)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "得意",
+"kana": "とくい",
+"src": "pride, triumph, prosperity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "太陽",
+"kana": "たいよう",
+"src": "sun",
+"alt": [],
+"rank": null
+},
+{
+"jp": "スキー",
+"kana": "スキー",
+"src": "ski",
+"alt": [],
+"rank": null
+},
+{
+"jp": "減らす",
+"kana": "へらす",
+"src": "to decrease, to diminish",
+"alt": [],
+"rank": null
+},
+{
+"jp": "目標",
+"kana": "もくひょう",
+"src": "mark, objective, target",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ずっと",
+"kana": "ずっと",
+"src": "for a long time; all the time; consecutively",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ちゃんと",
+"kana": "ちゃんと",
+"src": "perfectly, properly, exactly",
+"alt": [],
+"rank": null
+},
+{
+"jp": "携帯",
+"kana": "けいたい",
+"src": "carrying something; mobile telephone",
+"alt": [],
+"rank": null
+},
+{
+"jp": "外す",
+"kana": "はずす",
+"src": "to unfasten, to remove",
+"alt": [],
+"rank": null
+},
+{
+"jp": "健康",
+"kana": "けんこう",
+"src": "health(y)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "感謝",
+"kana": "かんしゃ",
+"src": "thanks, gratitude",
+"alt": [],
+"rank": null
+},
+{
+"jp": "減る",
+"kana": "へる",
+"src": "to decrease (in size or number), to diminish",
+"alt": [],
+"rank": null
+},
+{
+"jp": "頭痛",
+"kana": "ずつう",
+"src": "headache",
+"alt": [],
+"rank": null
+},
+{
+"jp": "諦める",
+"kana": "あきらめる",
+"src": "to give up, to abandon",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一言",
+"kana": "ひとこと",
+"src": "one word",
+"alt": [],
+"rank": null
+},
+{
+"jp": "迷惑",
+"kana": "めいわく",
+"src": "trouble, bother, annoyance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "先日",
+"kana": "せんじつ",
+"src": "the other day, a few days ago",
+"alt": [],
+"rank": null
+},
+{
+"jp": "詳しい",
+"kana": "くわしい",
+"src": "detailed; full; accurate",
+"alt": [],
+"rank": null
+},
+{
+"jp": "セット",
+"kana": "セット",
+"src": "set",
+"alt": [],
+"rank": null
+},
+{
+"jp": "捕まる",
+"kana": "つかまる",
+"src": "to be arrested; to be caught",
+"alt": [],
+"rank": null
+},
+{
+"jp": "出身",
+"kana": "しゅっしん",
+"src": "come from",
+"alt": [],
+"rank": null
+},
+{
+"jp": "数える",
+"kana": "かぞえる",
+"src": "to count",
+"alt": [],
+"rank": null
+},
+{
+"jp": "貯金",
+"kana": "ちょきん",
+"src": "(bank) savings",
+"alt": [],
+"rank": null
+},
+{
+"jp": "修理",
+"kana": "しゅうり",
+"src": "repairing, mending",
+"alt": [],
+"rank": null
+},
+{
+"jp": "性格",
+"kana": "せいかく",
+"src": "character, personality",
+"alt": [],
+"rank": null
+},
+{
+"jp": "チーム",
+"kana": "チーム",
+"src": "team",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ぶつける",
+"kana": "ぶつける",
+"src": "to knock, to strike hard, to hit and attack",
+"alt": [],
+"rank": null
+},
+{
+"jp": "象",
+"kana": "ぞう",
+"src": "elephant",
+"alt": [],
+"rank": null
+},
+{
+"jp": "売れる",
+"kana": "うれる",
+"src": "to be sold",
+"alt": [],
+"rank": null
+},
+{
+"jp": "描く",
+"kana": "えがく",
+"src": "to draw, to depict, to describe",
+"alt": [],
+"rank": null
+},
+{
+"jp": "痛み",
+"kana": "いたみ",
+"src": "pain, ache, sore",
+"alt": [],
+"rank": null
+},
+{
+"jp": "手伝い",
+"kana": "てつだい",
+"src": "help, helper, assistant",
+"alt": [],
+"rank": null
+},
+{
+"jp": "料金",
+"kana": "りょうきん",
+"src": "fee, charge, fare",
+"alt": [],
+"rank": null
+},
+{
+"jp": "伸びる",
+"kana": "のびる",
+"src": "to extend, to make progress, to grow",
+"alt": [],
+"rank": null
+},
+{
+"jp": "黒板",
+"kana": "こくばん",
+"src": "blackboard",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ベルト",
+"kana": "ベルト",
+"src": "Belt for western clothes",
+"alt": [],
+"rank": null
+},
+{
+"jp": "預ける",
+"kana": "あずける",
+"src": "to give into custody, to deposit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "穴",
+"kana": "あな",
+"src": "hole",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ボート",
+"kana": "ボート",
+"src": "rowing boat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "凍る",
+"kana": "こおる",
+"src": "to freeze, to be frozen over, to congeal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "譲る",
+"kana": "ゆずる",
+"src": "to turn over, to assign, to hand over",
+"alt": [],
+"rank": null
+},
+{
+"jp": "寮",
+"kana": "りょう",
+"src": "hostel, dormitory",
+"alt": [],
+"rank": null
+},
+{
+"jp": "傷",
+"kana": "きず",
+"src": "wound, injury, hurt",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ストレス",
+"kana": "ストレス",
+"src": "stress",
+"alt": [],
+"rank": null
+},
+{
+"jp": "調査",
+"kana": "ちょうさ",
+"src": "survey; investigation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "作家",
+"kana": "さっか",
+"src": "author, writer, novelist",
+"alt": [],
+"rank": null
+},
+{
+"jp": "努力",
+"kana": "どりょく",
+"src": "great effort, exertion, endeavor",
+"alt": [],
+"rank": null
+},
+{
+"jp": "面接",
+"kana": "めんせつ",
+"src": "interview",
+"alt": [],
+"rank": null
+},
+{
+"jp": "カード",
+"kana": "カード",
+"src": "card, curd",
+"alt": [],
+"rank": null
+},
+{
+"jp": "同僚",
+"kana": "どうりょう",
+"src": "colleague; co-worker",
+"alt": [],
+"rank": null
+},
+{
+"jp": "量",
+"kana": "りょう",
+"src": "quantity, amount",
+"alt": [],
+"rank": null
+},
+{
+"jp": "商品",
+"kana": "しょうひん",
+"src": "commodity, merchandise",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不足",
+"kana": "ふそく",
+"src": "insufficiency, shortage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "物価",
+"kana": "ぶっか",
+"src": "(commodity/consumer) prices",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ルール",
+"kana": "ルール",
+"src": "rule",
+"alt": [],
+"rank": null
+},
+{
+"jp": "センター",
+"kana": "センター",
+"src": "center",
+"alt": [],
+"rank": null
+},
+{
+"jp": "緊張",
+"kana": "きんちょう",
+"src": "tension, mental strain, nervousness",
+"alt": [],
+"rank": null
+},
+{
+"jp": "備える",
+"kana": "そなえる",
+"src": "to prepare, to furnish, to store",
+"alt": [],
+"rank": null
+},
+{
+"jp": "雷",
+"kana": "かみなり",
+"src": "thunder",
+"alt": [],
+"rank": null
+},
+{
+"jp": "石油",
+"kana": "せきゆ",
+"src": "oil, petroleum, kerosene",
+"alt": [],
+"rank": null
+},
+{
+"jp": "肌",
+"kana": "はだ",
+"src": "skin",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無事",
+"kana": "ぶじ",
+"src": "safety, peace",
+"alt": [],
+"rank": null
+},
+{
+"jp": "犯人",
+"kana": "はんにん",
+"src": "offender, criminal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "握手",
+"kana": "あくしゅ",
+"src": "handshake",
+"alt": [],
+"rank": null
+},
+{
+"jp": "測る",
+"kana": "はかる",
+"src": "to measure, to weigh, to survey",
+"alt": [],
+"rank": null
+},
+{
+"jp": "予算",
+"kana": "よさん",
+"src": "estimate, budget",
+"alt": [],
+"rank": null
+},
+{
+"jp": "温度",
+"kana": "おんど",
+"src": "temperature",
+"alt": [],
+"rank": null
+},
+{
+"jp": "冗談",
+"kana": "じょうだん",
+"src": "a joke",
+"alt": [],
+"rank": null
+},
+{
+"jp": "作品",
+"kana": "さくひん",
+"src": "work, opus, production",
+"alt": [],
+"rank": null
+},
+{
+"jp": "平和",
+"kana": "へいわ",
+"src": "peace",
+"alt": [],
+"rank": null
+},
+{
+"jp": "報告",
+"kana": "ほうこく",
+"src": "report, information",
+"alt": [],
+"rank": null
+},
+{
+"jp": "単語",
+"kana": "たんご",
+"src": "word; vocabulary",
+"alt": [],
+"rank": null
+},
+{
+"jp": "汚す",
+"kana": "よごす",
+"src": "to pollute, to make dirty",
+"alt": [],
+"rank": null
+},
+{
+"jp": "確かめる",
+"kana": "たしかめる",
+"src": "to ascertain, to make sure",
+"alt": [],
+"rank": null
+},
+{
+"jp": "制度",
+"kana": "せいど",
+"src": "system, institution",
+"alt": [],
+"rank": null
+},
+{
+"jp": "歌手",
+"kana": "かしゅ",
+"src": "singer",
+"alt": [],
+"rank": null
+},
+{
+"jp": "一時",
+"kana": "いちじ",
+"src": "for a time, temporarily",
+"alt": [],
+"rank": null
+},
+{
+"jp": "金庫",
+"kana": "きんこ",
+"src": "safe, vault",
+"alt": [],
+"rank": null
+},
+{
+"jp": "閉じる",
+"kana": "とじる",
+"src": "to close (e.g., book, eyes), to shut",
+"alt": [],
+"rank": null
+},
+{
+"jp": "繋ぐ",
+"kana": "つなぐ",
+"src": "to tie, to fasten, to connect",
+"alt": [],
+"rank": null
+},
+{
+"jp": "吠える",
+"kana": "ほえる",
+"src": "to bark, to howl",
+"alt": [],
+"rank": null
+},
+{
+"jp": "農家",
+"kana": "のうか",
+"src": "farmer, farm family",
+"alt": [],
+"rank": null
+},
+{
+"jp": "兎",
+"kana": "うさぎ",
+"src": "rabbit, hare",
+"alt": [],
+"rank": null
+},
+{
+"jp": "禁煙",
+"kana": "きんえん",
+"src": "No Smoking",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ノック",
+"kana": "ノック",
+"src": "knock; fungo (baseball)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "沈む",
+"kana": "しずむ",
+"src": "to sink; to feel depressed",
+"alt": [],
+"rank": null
+},
+{
+"jp": "笑い",
+"kana": "わらい",
+"src": "laugh, laughter, smile",
+"alt": [],
+"rank": null
+},
+{
+"jp": "預かる",
+"kana": "あずかる",
+"src": "to keep (something) for (someone)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "流行る",
+"kana": "はやる",
+"src": "to be popular, to come into fashion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "鍋",
+"kana": "なべ",
+"src": "saucepan, pot",
+"alt": [],
+"rank": null
+},
+{
+"jp": "順",
+"kana": "じゅん",
+"src": "order, turn",
+"alt": [],
+"rank": null
+},
+{
+"jp": "紐",
+"kana": "ひも",
+"src": "string, cord",
+"alt": [],
+"rank": null
+},
+{
+"jp": "覆う",
+"kana": "おおう",
+"src": "to cover, to hide, to conceal",
+"alt": [],
+"rank": null
+},
+{
+"jp": "流れる",
+"kana": "ながれる",
+"src": "to flow, to be washed away",
+"alt": [],
+"rank": null
+},
+{
+"jp": "残す",
+"kana": "のこす",
+"src": "to leave (behind, over), to save, to reserve",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ジーンズ",
+"kana": "ジーンズ",
+"src": "jeans",
+"alt": [],
+"rank": null
+},
+{
+"jp": "冷ます",
+"kana": "さます",
+"src": "to cool, to let cool",
+"alt": [],
+"rank": null
+},
+{
+"jp": "笛",
+"kana": "ふえ",
+"src": "flute, whistle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "生地",
+"kana": "きじ",
+"src": "fabric; dough",
+"alt": [],
+"rank": null
+},
+{
+"jp": "炒める",
+"kana": "いためる",
+"src": "to stir-fry",
+"alt": [],
+"rank": null
+},
+{
+"jp": "バイオリン",
+"kana": "バイオリン",
+"src": "violin",
+"alt": [],
+"rank": null
+},
+{
+"jp": "飛ばす",
+"kana": "とばす",
+"src": "to skip over, to omit",
+"alt": [],
+"rank": null
+},
+{
+"jp": "インク",
+"kana": "インク",
+"src": "ink",
+"alt": [],
+"rank": null
+},
+{
+"jp": "助ける",
+"kana": "たすける",
+"src": "to help (v.t.), to save, to rescue",
+"alt": [],
+"rank": null
+},
+{
+"jp": "調子",
+"kana": "ちょうし",
+"src": "condition, state, tune, tone",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ビデオ",
+"kana": "ビデオ",
+"src": "video tape; VCR",
+"alt": [],
+"rank": null
+},
+{
+"jp": "流れ",
+"kana": "ながれ",
+"src": "stream, current",
+"alt": [],
+"rank": null
+},
+{
+"jp": "メモ",
+"kana": "メモ",
+"src": "memorandum, note",
+"alt": [],
+"rank": null
+},
+{
+"jp": "願い",
+"kana": "ねがい",
+"src": "desire, wish, request",
+"alt": [],
+"rank": null
+},
+{
+"jp": "画家",
+"kana": "がか",
+"src": "painter",
+"alt": [],
+"rank": null
+},
+{
+"jp": "助かる",
+"kana": "たすかる",
+"src": "to be saved; (something) helps (v.i.)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "検査",
+"kana": "けんさ",
+"src": "inspection, examination",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ショック",
+"kana": "ショック",
+"src": "shock",
+"alt": [],
+"rank": null
+},
+{
+"jp": "現金",
+"kana": "げんきん",
+"src": "cash",
+"alt": [],
+"rank": null
+},
+{
+"jp": "苦しい",
+"kana": "くるしい",
+"src": "tough; physically strenuous",
+"alt": [],
+"rank": null
+},
+{
+"jp": "当たる",
+"kana": "あたる",
+"src": "to be hit, to be successful",
+"alt": [],
+"rank": null
+},
+{
+"jp": "越える",
+"kana": "こえる",
+"src": "to exceed, to cross over, to cross",
+"alt": [],
+"rank": null
+},
+{
+"jp": "追い付く",
+"kana": "おいつく",
+"src": "to overtake, to catch up (with)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "チャンス",
+"kana": "チャンス",
+"src": "chance, opportunity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "雰囲気",
+"kana": "ふんいき",
+"src": "atmosphere (e.g., musical), mood, ambiance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "人生",
+"kana": "じんせい",
+"src": "(human) life (e.g., conception to death)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "禁止",
+"kana": "きんし",
+"src": "prohibition, ban",
+"alt": [],
+"rank": null
+},
+{
+"jp": "豊富",
+"kana": "ほうふ",
+"src": "abundance, plenty",
+"alt": [],
+"rank": null
+},
+{
+"jp": "植物",
+"kana": "しょくぶつ",
+"src": "plant, vegetation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ホーム",
+"kana": "ホーム",
+"src": "platform; home",
+"alt": [],
+"rank": null
+},
+{
+"jp": "文字",
+"kana": "もじ",
+"src": "letter (of alphabet), character",
+"alt": [],
+"rank": null
+},
+{
+"jp": "幸い",
+"kana": "さいわい",
+"src": "fortunately; luckily",
+"alt": [],
+"rank": null
+},
+{
+"jp": "体重",
+"kana": "たいじゅう",
+"src": "(body) weight",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ドラマ",
+"kana": "ドラマ",
+"src": "drama",
+"alt": [],
+"rank": null
+},
+{
+"jp": "巻く",
+"kana": "まく",
+"src": "to wind, to coil, to roll",
+"alt": [],
+"rank": null
+},
+{
+"jp": "チーズ",
+"kana": "チーズ",
+"src": "cheese",
+"alt": [],
+"rank": null
+},
+{
+"jp": "方向",
+"kana": "ほうこう",
+"src": "direction, course, way",
+"alt": [],
+"rank": null
+},
+{
+"jp": "不思議",
+"kana": "ふしぎ",
+"src": "mystery, curiosity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "正確",
+"kana": "せいかく",
+"src": "accurate, punctuality, exact",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ほっと",
+"kana": "ほっと",
+"src": "feel relieved",
+"alt": [],
+"rank": null
+},
+{
+"jp": "集中",
+"kana": "しゅうちゅう",
+"src": "concentration, focusing the mind",
+"alt": [],
+"rank": null
+},
+{
+"jp": "溜める",
+"kana": "ためる",
+"src": "to accumulate, to collect",
+"alt": [],
+"rank": null
+},
+{
+"jp": "地球",
+"kana": "ちきゅう",
+"src": "the earth",
+"alt": [],
+"rank": null
+},
+{
+"jp": "頼る",
+"kana": "たよる",
+"src": "to rely on, to have recourse to, to depend on",
+"alt": [],
+"rank": null
+},
+{
+"jp": "クリーム",
+"kana": "クリーム",
+"src": "cream",
+"alt": [],
+"rank": null
+},
+{
+"jp": "掴む",
+"kana": "つかむ",
+"src": "to seize, to catch, to grasp",
+"alt": [],
+"rank": null
+},
+{
+"jp": "組む",
+"kana": "くむ",
+"src": "to put together",
+"alt": [],
+"rank": null
+},
+{
+"jp": "繋がる",
+"kana": "つながる",
+"src": "to be connected to, to be related to",
+"alt": [],
+"rank": null
+},
+{
+"jp": "情報",
+"kana": "じょうほう",
+"src": "information, (military) intelligence",
+"alt": [],
+"rank": null
+},
+{
+"jp": "激しい",
+"kana": "はげしい",
+"src": "violent, vehement, intense",
+"alt": [],
+"rank": null
+},
+{
+"jp": "製品",
+"kana": "せいひん",
+"src": "manufactured goods, finished goods",
+"alt": [],
+"rank": null
+},
+{
+"jp": "発展",
+"kana": "はってん",
+"src": "development, growth, progress",
+"alt": [],
+"rank": null
+},
+{
+"jp": "増やす",
+"kana": "ふやす",
+"src": "to increase (v.t.), to add to",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ぐっすり",
+"kana": "ぐっすり",
+"src": "sound asleep, fast asleep",
+"alt": [],
+"rank": null
+},
+{
+"jp": "夜中",
+"kana": "よなか",
+"src": "midnight, dead of night",
+"alt": [],
+"rank": null
+},
+{
+"jp": "年間",
+"kana": "ねんかん",
+"src": "year",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無し",
+"kana": "なし",
+"src": "without",
+"alt": [],
+"rank": null
+},
+{
+"jp": "賞",
+"kana": "しょう",
+"src": "prize, award",
+"alt": [],
+"rank": null
+},
+{
+"jp": "乾かす",
+"kana": "かわかす",
+"src": "to dry",
+"alt": [],
+"rank": null
+},
+{
+"jp": "唯一",
+"kana": "ゆいいつ",
+"src": "only, sole, unique",
+"alt": [],
+"rank": null
+},
+{
+"jp": "続き",
+"kana": "つづき",
+"src": "sequel, continuation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "燃える",
+"kana": "もえる",
+"src": "to burn",
+"alt": [],
+"rank": null
+},
+{
+"jp": "毛布",
+"kana": "もうふ",
+"src": "blanket",
+"alt": [],
+"rank": null
+},
+{
+"jp": "霧",
+"kana": "きり",
+"src": "fog, mist",
+"alt": [],
+"rank": null
+},
+{
+"jp": "成績",
+"kana": "せいせき",
+"src": "grade (i.e., on a test), academic record",
+"alt": [],
+"rank": null
+},
+{
+"jp": "破る",
+"kana": "やぶる",
+"src": "to tear; to violate; to defeat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "乗せる",
+"kana": "のせる",
+"src": "to place on (something), to take on board",
+"alt": [],
+"rank": null
+},
+{
+"jp": "キャンプ",
+"kana": "キャンプ",
+"src": "camp",
+"alt": [],
+"rank": null
+},
+{
+"jp": "積む",
+"kana": "つむ",
+"src": "to pile up, to stack",
+"alt": [],
+"rank": null
+},
+{
+"jp": "計算",
+"kana": "けいさん",
+"src": "calculation, reckoning",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ミルク",
+"kana": "ミルク",
+"src": "milk",
+"alt": [],
+"rank": null
+},
+{
+"jp": "鐘",
+"kana": "かね",
+"src": "bell, chime",
+"alt": [],
+"rank": null
+},
+{
+"jp": "変更",
+"kana": "へんこう",
+"src": "change, modification, alteration",
+"alt": [],
+"rank": null
+},
+{
+"jp": "支店",
+"kana": "してん",
+"src": "branch store (office)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "話題",
+"kana": "わだい",
+"src": "topic, subject",
+"alt": [],
+"rank": null
+},
+{
+"jp": "グループ",
+"kana": "グループ",
+"src": "group",
+"alt": [],
+"rank": null
+},
+{
+"jp": "話し合う",
+"kana": "はなしあう",
+"src": "to discuss, to talk together",
+"alt": [],
+"rank": null
+},
+{
+"jp": "癖",
+"kana": "くせ",
+"src": "a habit (often a bad habit), peculiarity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "機嫌",
+"kana": "きげん",
+"src": "humor, temper, mood",
+"alt": [],
+"rank": null
+},
+{
+"jp": "市場",
+"kana": "いちば",
+"src": "market, bazaar",
+"alt": [],
+"rank": null
+},
+{
+"jp": "クリスマス",
+"kana": "クリスマス",
+"src": "Christmas",
+"alt": [],
+"rank": null
+},
+{
+"jp": "突然",
+"kana": "とつぜん",
+"src": "abruptly, suddenly, unexpectedly",
+"alt": [],
+"rank": null
+},
+{
+"jp": "針",
+"kana": "はり",
+"src": "needle, hand (e.g., clock)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "チャイム",
+"kana": "チャイム",
+"src": "chime",
+"alt": [],
+"rank": null
+},
+{
+"jp": "たっぷり",
+"kana": "たっぷり",
+"src": "full, in plenty, ample",
+"alt": [],
+"rank": null
+},
+{
+"jp": "玉",
+"kana": "たま",
+"src": "ball, sphere, coin",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ブレーキ",
+"kana": "ブレーキ",
+"src": "a brake",
+"alt": [],
+"rank": null
+},
+{
+"jp": "解く",
+"kana": "とく",
+"src": "to unfasten; answer, solve",
+"alt": [],
+"rank": null
+},
+{
+"jp": "専攻",
+"kana": "せんこう",
+"src": "major subject, special study",
+"alt": [],
+"rank": null
+},
+{
+"jp": "最高",
+"kana": "さいこう",
+"src": "highest, supreme, the most",
+"alt": [],
+"rank": null
+},
+{
+"jp": "上司",
+"kana": "じょうし",
+"src": "one's superior",
+"alt": [],
+"rank": null
+},
+{
+"jp": "髪の毛",
+"kana": "かみのけ",
+"src": "hair (head)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "戻す",
+"kana": "もどす",
+"src": "to restore, to put back, to return",
+"alt": [],
+"rank": null
+},
+{
+"jp": "塔",
+"kana": "とう",
+"src": "tower, pagoda",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ペンキ",
+"kana": "ペンキ",
+"src": "paint",
+"alt": [],
+"rank": null
+},
+{
+"jp": "記念",
+"kana": "きねん",
+"src": "commemoration, memory",
+"alt": [],
+"rank": null
+},
+{
+"jp": "畑",
+"kana": "はたけ",
+"src": "field, patch",
+"alt": [],
+"rank": null
+},
+{
+"jp": "種",
+"kana": "たね",
+"src": "seed; material; cause",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ジュース",
+"kana": "ジュース",
+"src": "juice, soft drink; deuce",
+"alt": [],
+"rank": null
+},
+{
+"jp": "安定",
+"kana": "あんてい",
+"src": "stability, equilibrium",
+"alt": [],
+"rank": null
+},
+{
+"jp": "下る",
+"kana": "くだる",
+"src": "to get down, to descend",
+"alt": [],
+"rank": null
+},
+{
+"jp": "絶対",
+"kana": "ぜったい",
+"src": "definitely, without fail, absoluteness",
+"alt": [],
+"rank": null
+},
+{
+"jp": "許す",
+"kana": "ゆるす",
+"src": "to permit, to allow, to approve",
+"alt": [],
+"rank": null
+},
+{
+"jp": "反る",
+"kana": "かえる",
+"src": "to warp, to be warped, to curve",
+"alt": [],
+"rank": null
+},
+{
+"jp": "伸ばす",
+"kana": "のばす",
+"src": "to extend, to stretch, to reach out",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ドライブ",
+"kana": "ドライブ",
+"src": "drive, driving",
+"alt": [],
+"rank": null
+},
+{
+"jp": "就職",
+"kana": "しゅうしょく",
+"src": "finding employment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "発車",
+"kana": "はっしゃ",
+"src": "departure of a vehicle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "食品",
+"kana": "しょくひん",
+"src": "foodstuff",
+"alt": [],
+"rank": null
+},
+{
+"jp": "大会",
+"kana": "たいかい",
+"src": "convention, (big) tournament, mass meeting",
+"alt": [],
+"rank": null
+},
+{
+"jp": "ピクニック",
+"kana": "ピクニック",
+"src": "picnic",
+"alt": [],
+"rank": null
+},
+{
+"jp": "限る",
+"kana": "かぎる",
+"src": "to restrict, to limit, to confine",
+"alt": [],
+"rank": null
+},
+{
+"jp": "タオル",
+"kana": "タオル",
+"src": "(hand) towel",
+"alt": [],
+"rank": null
+},
+{
+"jp": "アルバム",
+"kana": "アルバム",
+"src": "album",
+"alt": [],
+"rank": null
+},
+{
+"jp": "隠れる",
+"kana": "かくれる",
+"src": "to hide, to be hidden",
+"alt": [],
+"rank": null
+},
+{
+"jp": "立ち上がる",
+"kana": "たちあがる",
+"src": "to stand up",
+"alt": [],
+"rank": null
+},
+{
+"jp": "外れる",
+"kana": "はずれる",
+"src": "to be disconnected, to be out (e.g., of gear)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "昼食",
+"kana": "ちゅうしょく",
+"src": "lunch (same as 昼ご飯 (ひるごはん))",
+"alt": [],
+"rank": null
+},
+{
+"jp": "名人",
+"kana": "めいじん",
+"src": "master, expert",
+"alt": [],
+"rank": null
+},
+{
+"jp": "販売",
+"kana": "はんばい",
+"src": "sale, selling, marketing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "梅",
+"kana": "うめ",
+"src": "plum, lowest (of a three-tier ranking system)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "豆",
+"kana": "まめ",
+"src": "beans, peas",
+"alt": [],
+"rank": null
+},
+{
+"jp": "スイッチ",
+"kana": "スイッチ",
+"src": "switch",
+"alt": [],
+"rank": null
+},
+{
+"jp": "明かり",
+"kana": "あかり",
+"src": "lamplight, light (in general)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "コンテスト",
+"kana": "コンテスト",
+"src": "contest",
+"alt": [],
+"rank": null
+},
+{
+"jp": "解決",
+"kana": "かいけつ",
+"src": "settlement, solution, resolution",
+"alt": [],
+"rank": null
+},
+{
+"jp": "囲む",
+"kana": "かこむ",
+"src": "to surround, to encircle",
+"alt": [],
+"rank": null
+},
+{
+"jp": "材料",
+"kana": "ざいりょう",
+"src": "ingredients, material",
+"alt": [],
+"rank": null
+},
+{
+"jp": "協力",
+"kana": "きょうりょく",
+"src": "cooperation, collaboration",
+"alt": [],
+"rank": null
+},
+{
+"jp": "温める",
+"kana": "あたためる",
+"src": "to warm, to heat",
+"alt": [],
+"rank": null
+},
+{
+"jp": "全国",
+"kana": "ぜんこく",
+"src": "the entire nation, country-wide, nation-wide",
+"alt": [],
+"rank": null
+},
+{
+"jp": "訓練",
+"kana": "くんれん",
+"src": "practice, training",
+"alt": [],
+"rank": null
+},
+{
+"jp": "試す",
+"kana": "ためす",
+"src": "to attempt, to test",
+"alt": [],
+"rank": null
+},
+{
+"jp": "任せる",
+"kana": "まかせる",
+"src": "to entrust to another, to leave to",
+"alt": [],
+"rank": null
+},
+{
+"jp": "貢献",
+"kana": "こうけん",
+"src": "contribution, services",
+"alt": [],
+"rank": null
+},
+{
+"jp": "場面",
+"kana": "ばめん",
+"src": "scene, setting (e.g., of novel)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "与える",
+"kana": "あたえる",
+"src": "to give",
+"alt": [],
+"rank": null
+},
+{
+"jp": "求める",
+"kana": "もとめる",
+"src": "to request, to ask for; to seek, to search for",
+"alt": [],
+"rank": null
+},
+{
+"jp": "天然",
+"kana": "てんねん",
+"src": "nature, spontaneity",
+"alt": [],
+"rank": null
+},
+{
+"jp": "節約",
+"kana": "せつやく",
+"src": "economizing, saving",
+"alt": [],
+"rank": null
+},
+{
+"jp": "違い",
+"kana": "ちがい",
+"src": "difference, discrepancy",
+"alt": [],
+"rank": null
+},
+{
+"jp": "宗教",
+"kana": "しゅうきょう",
+"src": "religion",
+"alt": [],
+"rank": null
+},
+{
+"jp": "倒産",
+"kana": "とうさん",
+"src": "(corporate) bankruptcy, insolvency",
+"alt": [],
+"rank": null
+},
+{
+"jp": "率",
+"kana": "りつ",
+"src": "rate, ratio, percentage",
+"alt": [],
+"rank": null
+},
+{
+"jp": "景気",
+"kana": "けいき",
+"src": "condition, state, business (condition)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "収入",
+"kana": "しゅうにゅう",
+"src": "income, revenue",
+"alt": [],
+"rank": null
+},
+{
+"jp": "記録",
+"kana": "きろく",
+"src": "record, minutes, document",
+"alt": [],
+"rank": null
+},
+{
+"jp": "管理",
+"kana": "かんり",
+"src": "control, management (e.g., of a business)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "無駄",
+"kana": "むだ",
+"src": "futility, uselessness",
+"alt": [],
+"rank": null
 }
 ]
