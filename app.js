@@ -317,7 +317,8 @@ function dueIds(kind,now){
 // New vocab comes N5 first, then N4; within a level most frequent first (BCCWJ rank; unranked words last).
 // Kanji keep list order.
 const byRank=(a,b)=>(a.rank||1e9)-(b.rank||1e9);
-const byLearnOrder=(a,b)=>((a.lv==='N4')-(b.lv==='N4'))||byRank(a,b);
+const LEVEL_ORDER={N5:0,N4:1,N3:2};
+const byLearnOrder=(a,b)=>((LEVEL_ORDER[a.lv||'N5'])-(LEVEL_ORDER[b.lv||'N5']))||byRank(a,b);
 // Grammar lessons go on the same schedule (S.cards[lesson id]) once one of their feeds is finished. A lesson
 // finished before reviews existed has no card yet: it counts as due until its first review creates one.
 function gCard(g){ const c=S.cards[g.id]; if(c) return c; const p=S.grammar[g.id]; return p&&p.done?newCard(p.at||0):null; }
@@ -345,7 +346,7 @@ function streak(){
 /* ---------- UI state ---------- */
 const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',gq:'',gf:'all',glv:'',back:null,mark:false,confirmReset:false};
 // The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
-const SHOW_KANJI=false;
+const SHOW_KANJI=true;
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
 function go(fn){ fn(); render(); window.scrollTo(0,0); }
 
@@ -768,8 +769,8 @@ function vocabDetailHtml(){
 function vocabHtml(){
   if(ui.vocab!==null) return vocabDetailHtml();
   const now=Date.now(), due=dueIds('vocab',now).length, nn=newIds('vocab',5).length;
-  const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>'+['N5','N4'].map(l=>'<button class="chip" data-act="vlv" data-arg="'+l+'" aria-pressed="'+(ui.vlv===l)+'">'+l+'</button>').join('');
-  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')
+  const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>'+['N5','N4','N3'].map(l=>'<button class="chip" data-act="vlv" data-arg="'+l+'" aria-pressed="'+(ui.vlv===l)+'">'+l+'</button>').join('');
+  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4','N3'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Read '+due+' due':'Nothing due')+'</button>'+learnBtn(nn)+'<button class="btn" data-act="readVocab">Read sentences</button>'+markBtn()+'</div>'+heavyNote()+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>'
@@ -790,9 +791,10 @@ function kanjiHtml(){
   }
   const now=Date.now(), due=dueIds('kanji',now).length, nn=newIds('kanji',5).length;
   const tiles=KANJI.map(k=>{ const st=stateOf(k.id); return '<button class="ktile st-'+st+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(k.id)+'" aria-pressed="'+(st==='known')+'"':'data-act="openKanji" data-arg="'+esc(k.ch)+'"')+' aria-label="'+esc(k.ch+', '+k.en)+'"><span class="kc" lang="ja">'+esc(k.ch)+'</span><span class="km">'+esc(k.en)+'</span></button>'; }).join('');
-  return '<section class="panel row"><div><h2>Kanji</h2><p class="muted">'+KANJI.length+' kanji from the N5 level, with readings and words</p></div>'+stackBar('kanji')+legend('kanji')
+  return '<section class="panel row"><div><h2>Kanji</h2><p class="muted">'+KANJI.length+' kanji from the N5 and N4 levels, with readings and words</p></div>'+stackBar('kanji')+legend('kanji')
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="kanji"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="kanji"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="kquiz">Reading quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
-    +'<div class="kgrid">'+tiles+'</div>';
+    +'<div class="kgrid">'+tiles+'</div>'
+    +'<p class="muted credits">N4 kanji readings, meanings and stroke counts: <a href="https://www.edrdg.org/wiki/index.php/KANJIDIC_Project">KANJIDIC2</a> (EDRDG, CC BY-SA 4.0).</p>';
 }
 
 /* ---------- Grammar tab ---------- */

@@ -99,7 +99,7 @@ def check_vocab():
         if not line.startswith('["'):
             continue
         row = json.loads(line)
-        if len(row) not in (6, 7) or not isinstance(row[5], int) or (len(row) == 7 and row[6] != 'N4'):
+        if len(row) not in (6, 7) or not isinstance(row[5], int) or (len(row) == 7 and row[6] not in ('N4', 'N3')):
             errors.append(f'vocab row should be [jp, kana, en, group, examples, rank] plus \'N4\' for N4 words: {line[:60]}')
             continue
         jp, kana, en, tag, exs, _rank = row[:6]

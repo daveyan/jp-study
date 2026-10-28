@@ -1,0 +1,212 @@
+[
+{
+"jp": "参加",
+"kana": "さんか",
+"src": "participation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "参考",
+"kana": "さんこう",
+"src": "reference, consultation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "賛成",
+"kana": "さんせい",
+"src": "approval, agreement",
+"alt": [],
+"rank": null
+},
+{
+"jp": "幸せ",
+"kana": "しあわせ",
+"src": "happiness, blessing",
+"alt": [],
+"rank": null
+},
+{
+"jp": "事件",
+"kana": "じけん",
+"src": "event, affair, incident",
+"alt": [],
+"rank": null
+},
+{
+"jp": "事実",
+"kana": "じじつ",
+"src": "fact, truth, reality",
+"alt": [],
+"rank": null
+},
+{
+"jp": "事情",
+"kana": "じじょう",
+"src": "circumstances, situation, reasons",
+"alt": [],
+"rank": null
+},
+{
+"jp": "自身",
+"kana": "じしん",
+"src": "oneself",
+"alt": [],
+"rank": null
+},
+{
+"jp": "自然",
+"kana": "しぜん",
+"src": "nature, spontaneous",
+"alt": [],
+"rank": null
+},
+{
+"jp": "時期",
+"kana": "じき",
+"src": "time, season, period",
+"alt": [],
+"rank": null
+},
+{
+"jp": "実際",
+"kana": "じっさい",
+"src": "in fact; in actuality",
+"alt": [],
+"rank": null
+},
+{
+"jp": "実現",
+"kana": "じつげん",
+"src": "implementation, materialization, realization",
+"alt": [],
+"rank": null
+},
+{
+"jp": "実験",
+"kana": "じっけん",
+"src": "lab work; experiment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "実施",
+"kana": "じっし",
+"src": "enforcement, carry out, operation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "状況",
+"kana": "じょうきょう",
+"src": "state of affairs, situation",
+"alt": [],
+"rank": null
+},
+{
+"jp": "結果",
+"kana": "けっか",
+"src": "result, consequence",
+"alt": [],
+"rank": null
+},
+{
+"jp": "方法",
+"kana": "ほうほう",
+"src": "method, means, technique",
+"alt": [],
+"rank": null
+},
+{
+"jp": "責任",
+"kana": "せきにん",
+"src": "duty, responsibility",
+"alt": [],
+"rank": null
+},
+{
+"jp": "地域",
+"kana": "ちいき",
+"src": "area, region",
+"alt": [],
+"rank": null
+},
+{
+"jp": "以前",
+"kana": "いぜん",
+"src": "in the past; before",
+"alt": [],
+"rank": null
+},
+{
+"jp": "様々",
+"kana": "さまざま",
+"src": "varied, various",
+"alt": [],
+"rank": null
+},
+{
+"jp": "次第",
+"kana": "しだい",
+"src": "order; circumstances; immediate(ly)",
+"alt": [],
+"rank": null
+},
+{
+"jp": "従う",
+"kana": "したがう",
+"src": "to abide (by the rules), to obey",
+"alt": [],
+"rank": null
+},
+{
+"jp": "支給",
+"kana": "しきゅう",
+"src": "payment, allowance",
+"alt": [],
+"rank": null
+},
+{
+"jp": "刺激",
+"kana": "しげき",
+"src": "stimulus, impetus, incentive",
+"alt": [],
+"rank": null
+},
+{
+"jp": "資源",
+"kana": "しげん",
+"src": "resources",
+"alt": [],
+"rank": null
+},
+{
+"jp": "思想",
+"kana": "しそう",
+"src": "thought, idea",
+"alt": [],
+"rank": null
+},
+{
+"jp": "失業",
+"kana": "しつぎょう",
+"src": "unemployment",
+"alt": [],
+"rank": null
+},
+{
+"jp": "支出",
+"kana": "ししゅつ",
+"src": "expenditure, expenses",
+"alt": [],
+"rank": null
+},
+{
+"jp": "至急",
+"kana": "しきゅう",
+"src": "urgent, pressing",
+"alt": [],
+"rank": null
+}
+]

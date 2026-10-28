@@ -4,7 +4,7 @@
 import sys,json,runpy
 SP=None
 plan={}
-for lv in ('N5','N4'):
+for lv in ('N5','N4','N3'):
     for x in json.load(open(__import__('os').path.join(__import__('os').path.dirname(__file__),lv.lower()+'_plan.json'),encoding='utf-8')):
         plan.setdefault(x['jp'],dict(x,lv=lv))
 B=runpy.run_path(sys.argv[1])['B']
