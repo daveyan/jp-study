@@ -115,7 +115,7 @@ def main():
         page.locator('[data-act="tab"][data-arg="grammar"]').click()
         page.locator('[data-act="gopen"]').first.click()
         page.wait_for_timeout(100)
-        check(page.locator('.lesson-page, .lesson, h1').count() > 0, 'a grammar lesson page opens')
+        check(page.locator('.lesson-view').count() == 1, 'a grammar lesson page opens')
 
         page.locator('.brand').click()
         page.wait_for_selector('.hero')

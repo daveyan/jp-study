@@ -791,10 +791,10 @@ function kanjiHtml(){
   }
   const now=Date.now(), due=dueIds('kanji',now).length, nn=newIds('kanji',5).length;
   const tiles=KANJI.map(k=>{ const st=stateOf(k.id); return '<button class="ktile st-'+st+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(k.id)+'" aria-pressed="'+(st==='known')+'"':'data-act="openKanji" data-arg="'+esc(k.ch)+'"')+' aria-label="'+esc(k.ch+', '+k.en)+'"><span class="kc" lang="ja">'+esc(k.ch)+'</span><span class="km">'+esc(k.en)+'</span></button>'; }).join('');
-  return '<section class="panel row"><div><h2>Kanji</h2><p class="muted">'+KANJI.length+' kanji from the N5 and N4 levels, with readings and words</p></div>'+stackBar('kanji')+legend('kanji')
+  return '<section class="panel row"><div><h2>Kanji</h2><p class="muted">'+KANJI.length+' Jōyō kanji, with readings and words</p></div>'+stackBar('kanji')+legend('kanji')
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="kanji"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="kanji"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="kquiz">Reading quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="kgrid">'+tiles+'</div>'
-    +'<p class="muted credits">N4 kanji readings, meanings and stroke counts: <a href="https://www.edrdg.org/wiki/index.php/KANJIDIC_Project">KANJIDIC2</a> (EDRDG, CC BY-SA 4.0).</p>';
+    +'<p class="muted credits">Kanji readings, meanings, grades and stroke counts: <a href="https://www.edrdg.org/wiki/index.php/KANJIDIC_Project">KANJIDIC2</a>; example words: <a href="https://www.edrdg.org/jmdict/j_jmdict.html">JMdict</a> (both EDRDG, CC BY-SA 4.0).</p>';
 }
 
 /* ---------- Grammar tab ---------- */
