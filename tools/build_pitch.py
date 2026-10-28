@@ -12,6 +12,10 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 # Values copied from accents.txt. Kana-written words are listed there under a kanji spelling (こと = 事, ひげ = 髭);
 # a する verb or お-word takes its noun's accent when that noun is flat or the verb adds nothing (けが 2 -> けがする 2).
 # Some entries give an accent per part of speech, e.g. 多分 (名)0,(副)1; these keep the one for the sense taught here.
+# Guesses, not from a dictionary: none of Kanjium, Wiktionary or the pages checked give an accent for these.
+# Check them against a dictionary when one is to hand.
+GUESSED = {'じゃあ': [['じゃあ', [1]]], 'それで': [['それで', [1]]], 'それに': [['それに', [0]]],
+           'お金持ち': [['おかねもち', [3]]], 'もうすぐ': [['もうすぐ', [0]]]}
 MANUAL = {'こと': [['こと', [2]]], 'ため': [['ため', [2]]], 'わけ': [['わけ', [1]]], 'こう': [['こう', [0, 1]]],
           'そう': [['そう', [0, 1]]], 'やめる': [['やめる', [0]]], 'いっぱい': [['いっぱい', [0]]], 'ごみ': [['ごみ', [2]]],
           'すり': [['すり', [1]]], 'とうとう': [['とうとう', [1]]], 'ぶどう': [['ぶどう', [0]]], 'ひげ': [['ひげ', [0]]],
@@ -42,6 +46,7 @@ WIKTIONARY = {'グラム': [['グラム', [1, 0]]],  # gram (unit): acc=1 SMK8,D
               'できるだけ': [['できるだけ', [0]]],  # page 出来るだけ: NHK
               '役に立つ': [['やくに たつ', [[2, 1]]]]}  # acc=やく+に+たつ 2+p+1
 MANUAL.update(WIKTIONARY)
+MANUAL.update(GUESSED)
 
 
 def hira(s):
