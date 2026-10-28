@@ -108,7 +108,8 @@ h3{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--m
 .seg{display:inline-grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); border-radius:10px; overflow:hidden}
 .seg button{border:0; background:var(--panel); padding:8px 14px; cursor:pointer; font-weight:500; color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--accent); color:var(--on-accent)}
-.settings{display:grid; gap:14px}
+.settings > summary{cursor:pointer; font-weight:500; font-size:17px; list-style-position:inside}
+.settings-body{display:grid; gap:14px; margin-top:14px}
 .confirm{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
 .btn.danger{border-color:var(--again); color:var(--again)}
 

@@ -344,7 +344,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',gq:'',gf:'all',glv:'',back:null,mark:false,confirmReset:false};
+const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',gq:'',gf:'all',glv:'',back:null,mark:false,confirmReset:false,settingsOpen:false};
 // The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
 const SHOW_KANJI=true;
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
@@ -462,8 +462,8 @@ function homeHtml(){
   return '<section class="hero"><p class="eyebrow">'+esc(date)+'</p><h1>'+msg+'</h1>'+goalHtml()+(dw&&dl?'<div class="actions"><button class="btn primary" data-act="review" data-arg="all">Read everything due</button></div>':'')+'</section>'
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted" style="margin-top:8px;font-size:13px">'+total+' sentences in two weeks</p>'+totalsHtml()+'</section>'
-    +'<section class="panel settings">'+(SHOW_KANJI?'<div><h3 style="margin-bottom:8px">Kanji card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>':'')
-    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+goalSetting()+listenSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</section>';
+    +'<details class="panel settings"'+(ui.settingsOpen?' open':'')+'><summary>Settings</summary><div class="settings-body">'+(SHOW_KANJI?'<div><h3 style="margin-bottom:8px">Kanji card direction</h3><div class="seg" role="group" aria-label="Card direction"><button data-act="dir" data-arg="read" aria-pressed="'+(!dir)+'">日本語 → English</button><button data-act="dir" data-arg="recall" aria-pressed="'+dir+'">English → 日本語</button></div></div>':'')
+    +'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted" style="margin-top:6px;font-size:13px">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+goalSetting()+listenSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</div></details>';
 }
 
 // The last Japanese line that is on can't be hidden, so every example still shows some Japanese.
@@ -513,6 +513,7 @@ function backupSetting(){
     +(ui.backupMsg?'<p class="backup-msg">'+esc(ui.backupMsg)+'</p>':'')+'</div>';
 }
 async function exportData(){
+  ui.settingsOpen=true;
   try{
     const json=JSON.stringify({app:'jp-study',exportedAt:new Date().toISOString(),state:S},null,1);
     const filename='jp-study-backup-'+dayKey()+'.json';
@@ -537,6 +538,7 @@ async function exportData(){
   render();
 }
 function importData(text){
+  ui.settingsOpen=true;
   try{
     const o=JSON.parse(text), st=normalize(o&&o.state?o.state:o);
     const n=Object.keys(st.cards).length;
@@ -546,6 +548,7 @@ function importData(text){
   render();
 }
 function copyFlags(){
+  ui.settingsOpen=true;
   const t=flagsText();
   const done=()=>{ ui.backupMsg='Copied '+flaggedList().length+' flagged sentences.'; render(); };
   try{ navigator.clipboard.writeText(t).then(done,()=>{ ui.backupMsg='Copy failed. Here they are:\n'+t; render(); }); }
@@ -1181,7 +1184,7 @@ function act(a,arg){
     case 'toggleKnown': setKnown(arg,!isKnown(arg)); commit(); render(); break;
     case 'markShown': { const on=arg==='1'; vocabRows().forEach(w=>{ if(isKnown(w.id)!==on) setKnown(w.id,on); }); commit(); render(); break; }
     case 'dir': S.settings.recall=(arg==='recall'); commit(); render(); break;
-    case 'resetAsk': ui.confirmReset=true; render(); break;
+    case 'resetAsk': ui.confirmReset=true; ui.settingsOpen=true; render(); break;
     case 'resetNo': ui.confirmReset=false; render(); break;
     case 'resetGo': {
       const keep=Date.now();
@@ -1196,6 +1199,10 @@ document.addEventListener('click',function(e){
   if(b.dataset.act==='furi'){ b.classList.toggle('fs'); return; }
   act(b.dataset.act,b.dataset.arg);
 });
+// Remember whether Settings is open, since every change re-renders the page.
+document.addEventListener('toggle',function(e){
+  if(e.target&&e.target.classList&&e.target.classList.contains('settings')) ui.settingsOpen=e.target.open;
+},true);
 document.addEventListener('change',function(e){
   if(e.target&&e.target.id==='importFile'&&e.target.files&&e.target.files[0]){ const f=e.target.files[0]; f.text().then(importData,()=>{ ui.backupMsg='Could not read that file.'; render(); }); return; }
   if(e.target&&e.target.id==='voice'){ setVoicePref(e.target.value); speak('こんにちは。日本語を勉強しましょう。'); }
