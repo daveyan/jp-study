@@ -1,5 +1,5 @@
 {
- "_about": "Each N5 and N4 grammar lesson's number in JLPT Sensei's list (https://jlptsensei.com/jlpt-n5-grammar-list/ and /jlpt-n4-grammar-list/), which is alphabetical by romaji. null when no point in the list matches the lesson; such a lesson goes straight after the lesson before it in the file. The N4 list has 132 points; this covers 1-120 (page 4 would not load).",
+ "_about": "Each N5 and N4 grammar lesson's number in JLPT Sensei's list (https://jlptsensei.com/jlpt-n5-grammar-list/ and /jlpt-n4-grammar-list/), which is alphabetical by romaji. null when no point in the list matches the lesson; such a lesson goes straight after the lesson before it in the file. N4 points 121-132 are from the Wayback Machine copy of page 4 (2025-12-11), since the live page did not load.",
  "N5": {
   "g1": 2,
   "n5-mo": 34,
@@ -72,7 +72,7 @@
   "n4-nakute": null,
   "n4-passive": 119,
   "n4-transitive": null,
-  "n4-compound": null,
+  "n4-compound": 18,
   "n4-koto": 34,
   "n4-kotoni": 37,
   "n4-toki": null,
@@ -83,7 +83,7 @@
   "n4-adv-degree": null,
   "n4-tokoro": 116,
   "n4-noni": 62,
-  "n4-youda": 44,
+  "n4-youda": 125,
   "n4-sou-look": 82,
   "n4-sa": 71,
   "n4-toka": 115,
@@ -99,7 +99,7 @@
   "n4-adverb": null,
   "n4-wa-contrast": 120,
   "n4-toii": null,
-  "n4-youni": null,
+  "n4-youni": 126,
   "n4-janai": 25,
   "n4-rashii": 70,
   "n4-teoku": 101,
@@ -134,11 +134,11 @@
   "n4-shi": 77,
   "n4-dekiru": 31,
   "n4-nagara": 50,
-  "n4-youniiu": null,
-  "n4-yotei": null,
+  "n4-youniiu": 126,
+  "n4-yotei": 124,
   "n4-bakari": 7,
   "n4-fuu": null,
   "n4-kigatsuku": 57,
-  "n4-connect2": null
+  "n4-connect2": 79
  }
 }
