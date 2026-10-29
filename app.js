@@ -842,8 +842,8 @@ function grammarHtml(){
   }
   const dl=dueLessons(Date.now()).length;
   const chips=Object.keys(GSTATE_LABEL).map(k=>'<button class="chip" data-act="gfilter" data-arg="'+k+'" aria-pressed="'+(ui.gf===k)+'">'+GSTATE_LABEL[k]+'</button>').join('')
-    +['N5','N4'].map(l=>'<button class="chip" data-act="glv" data-arg="'+l+'" aria-pressed="'+(ui.glv===l)+'">'+l+'</button>').join('');
-  return '<section class="panel row"><div><h2>Grammar</h2><p class="muted">'+GRAMMAR.length+' lessons with example sentences ('+['N5','N4'].map(l=>GRAMMAR.filter(g=>g.level===l).length+' '+l).join(', ')+'). Finish a lesson\'s feed and it comes back in your reading reviews.</p></div>'+gStackBar()+gLegend()
+    +['N5','N4','N3'].map(l=>'<button class="chip" data-act="glv" data-arg="'+l+'" aria-pressed="'+(ui.glv===l)+'">'+l+'</button>').join('');
+  return '<section class="panel row"><div><h2>Grammar</h2><p class="muted">'+GRAMMAR.length+' lessons with example sentences ('+['N5','N4','N3'].map(l=>GRAMMAR.filter(g=>g.level===l).length+' '+l).join(', ')+'). Finish a lesson\'s feed and it comes back in your reading reviews.</p></div>'+gStackBar()+gLegend()
     +'<div class="actions">'+gReviewBtn(dl)+nextLessonBtn(dl>0)+mixBtn()+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="gq" type="search" placeholder="Search titles, patterns or notes" aria-label="Search lessons" value="'+esc(ui.gq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="lessons" id="glist">'+lessonListHtml()+'</div>';

@@ -315,5 +315,15 @@
 {"bunpro": 392, "level": "N4", "bunpro_lesson": 20, "point": "とかんがえられている", "lesson": "n4-iwareru"},
 {"bunpro": 659, "level": "N4", "bunpro_lesson": 20, "point": "とされている", "lesson": "n4-iwareru"},
 {"bunpro": 184, "level": "N4", "bunpro_lesson": 20, "point": "といわれている", "lesson": "n4-iwareru"},
-{"bunpro": 163, "level": "N4", "bunpro_lesson": 20, "point": "ばよかった", "lesson": "n4-toii"}
+{"bunpro": 163, "level": "N4", "bunpro_lesson": 20, "point": "ばよかった", "lesson": "n4-toii"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 7, "point": "ba~hodo", "lesson": "n3-ba-hodo"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 10, "point": "bakari denaku", "lesson": "n3-bakari-denaku"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 11, "point": "beki da", "lesson": "n3-beki"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 14, "point": "buri ni", "lesson": "n3-buri-ni"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 21, "point": "doushitemo", "lesson": "n3-doushitemo"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 24, "point": "gachi", "lesson": "n3-gachi"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 25, "point": "gatai", "lesson": "n3-gatai"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 29, "point": "hodo~nai", "lesson": "n3-hodo-nai"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 35, "point": "ka nani ka", "lesson": "n3-ka-nani-ka"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 38, "point": "kawari ni", "lesson": "n3-kawari-ni"}
 ]

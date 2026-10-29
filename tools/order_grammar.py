@@ -1,7 +1,7 @@
 # Usage: python3 tools/order_grammar.py [--dry]
 # Puts the grammar lessons in Bunpro's teaching order, using tools/bunpro_map.json (each Bunpro N5/N4 point,
-# in Bunpro's order, mapped to the lesson that teaches it). A lesson sits at its first mapped point and takes
-# that point's level; N5 lessons are written to grammar-n5.js and N4 lessons to grammar-n4.js.
+# in Bunpro's order, mapped to the lesson that teaches it; the N3 points come from JLPT Sensei's list, in its order). A lesson sits at its first mapped point and takes
+# that point's level; N5, N4 and N3 lessons are written to grammar-n5.js, grammar-n4.js and grammar-n3.js.
 # Lessons that teach no Bunpro point are placed after the lesson named in EXTRA.
 # Map entries whose lesson doesn't exist yet are skipped, so this can run between batches.
 import json
@@ -10,7 +10,7 @@ import re
 import sys
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-FILES = {'N5': 'grammar-n5.js', 'N4': 'grammar-n4.js'}
+FILES = {'N5': 'grammar-n5.js', 'N4': 'grammar-n4.js', 'N3': 'grammar-n3.js'}
 # lesson -> (lesson it follows, level)
 EXTRA = {'n5-de-cause': ('n5-ni-iku', 'N5'), 'n4-kotoni': ('n4-koto', 'N4')}
 # lessons whose first mapped point doesn't reflect where they belong
@@ -29,7 +29,7 @@ def split(path):
 
 def main():
     parts = {lv: split(os.path.join(ROOT, f)) for lv, f in FILES.items()}
-    blocks = {**parts['N5'][1], **parts['N4'][1]}
+    blocks = {k: b for lv in FILES for k, b in parts[lv][1].items()}
     seq, level = [], {}
     for e in json.load(open(os.path.join(ROOT, 'tools', 'bunpro_map.json'), encoding='utf-8')):
         i = e['lesson']
