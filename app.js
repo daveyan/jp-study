@@ -421,8 +421,10 @@ function loadSoon(){
     +GRAMMAR.filter(g=>{ const c=gCard(g); return c&&c.due<t&&!isKnown(g.id); }).length*REVIEW_GPER;
 }
 function heavy(){ return loadSoon()>=goal(); }
-function learnBtn(n,primary){ const h=heavy();
-  return '<button class="btn'+(primary&&!h?' primary':'')+'" data-act="learn" data-arg="vocab"'+(n?'':' disabled')+'>'+(n?(h?'Learn anyway':'Learn '+Math.min(LEARN_N,n)+' new'):'Learn new')+'</button>'; }
+// The next word to learn (most frequent N5 first) and the button that opens its word page, where Start learning is.
+function nextNew(){ const id=newIds('vocab',1)[0]; return id?ITEM[id]:null; }
+function learnBtn(primary){ const w=nextNew(), h=heavy();
+  return '<button class="btn'+(primary&&!h?' primary':'')+'" data-act="openNew"'+(w?'':' disabled')+'>'+(w?(h?'Learn anyway: ':'Learn ')+esc(w.jp):'Nothing new to learn')+'</button>'; }
 function heavyNote(){ return heavy()?'<p class="muted note">Today and tomorrow already hold about '+loadSoon()+' sentences of reviews, at or over your daily goal of '+goal()+'. New words can wait a day.</p>':''; }
 function goalHtml(){
   const n=todayCount(), g=goal();
@@ -437,7 +439,7 @@ function studyRow(kind){
   const due=dueIds(kind,now).length, nn=newIds(kind,5).length, started=items.length-c.new-c.known;
   return '<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">'+(kind==='vocab'?'単語':'漢字')+'</span><div><h2>'+(kind==='vocab'?'Vocabulary':'Kanji')+'</h2><p class="muted">'+started+' of '+items.length+' started'+(c.known?' · '+c.known+' known':'')+' · '+due+' due now</p></div></div>'
    +stackBar(kind)
-   +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button>'+(kind==='vocab'?learnBtn(nn)+'<button class="btn" data-act="readVocab">Read sentences</button>':'<button class="btn" data-act="learn" data-arg="kanji"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button>')+'</div>'+(kind==='vocab'?heavyNote():'')+'</section>';
+   +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button>'+(kind==='vocab'?learnBtn(!due):'<button class="btn" data-act="learn" data-arg="kanji"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button>')+'</div>'+(kind==='vocab'?heavyNote():'')+'</section>';
 }
 function totalsHtml(){
   const all=Object.values(S.log).reduce((a,n)=>a+(n||0),0), words=VOCAB.filter(w=>S.cards[w.id]||isKnown(w.id)).length, gc=gcounts();
@@ -448,7 +450,7 @@ function homeHtml(){
   const dw=dueIds('vocab',now).length, dl=dueLessons(now).length, due=dw+dl+(SHOW_KANJI?dueIds('kanji',now).length:0);
   const started=Object.keys(S.cards).length;
   const what=[dw?dw+(dw===1?' word':' words'):'',dl?dl+(dl===1?' lesson':' lessons'):''].filter(Boolean).join(' and ');
-  const msg = started===0&&!dl ? 'Start with five new words.' : dw+dl>0 ? 'Time to read: '+what+'.' : due>0 ? due+' kanji ready to review.' : 'You are all caught up.';
+  const msg = started===0&&!dl ? 'Start with your first word.' : dw+dl>0 ? 'Time to read: '+what+'.' : due>0 ? due+' kanji ready to review.' : 'You are all caught up.';
   const date=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
   const gc=gcounts();
   const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+(gc.started+gc.done)+' of '+GRAMMAR.length+' lessons started · '+gc.done+' done'+(gc.known?' · '+gc.known+' known':'')+' · '+dl+' due now</p></div></div>'
@@ -765,7 +767,7 @@ function vocabDetailHtml(){
     +'<div class="actions">'
     +(canSpeakJa()?'<button class="btn" data-act="say" data-arg="'+esc(w.kana.split('・')[0])+'">Play audio</button>':'')
     +knowBtn(w.id)
-    +(S.cards[w.id]||st==='known'?'':'<button class="btn primary" data-act="addCard" data-arg="'+esc(w.id)+'">Add to reviews</button>')
+    +(S.cards[w.id]||st==='known'?'':'<button class="btn primary" data-act="startWord" data-arg="'+esc(w.id)+'">Start learning</button>')
     +'</div>'
     +'<div class="pager"><button class="btn" data-act="openVocab" data-arg="'+esc(prevW.id)+'">← Previous</button>'
     +'<button class="btn" data-act="openVocab" data-arg="'+esc(nextW.id)+'">Next →</button></div>'
@@ -776,10 +778,10 @@ function vocabDetailHtml(){
 }
 function vocabHtml(){
   if(ui.vocab!==null) return vocabDetailHtml();
-  const now=Date.now(), due=dueIds('vocab',now).length, nn=newIds('vocab',5).length;
+  const now=Date.now(), due=dueIds('vocab',now).length;
   const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>'+['N5','N4','N3'].map(l=>'<button class="chip" data-act="vlv" data-arg="'+l+'" aria-pressed="'+(ui.vlv===l)+'">'+l+'</button>').join('');
   return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4','N3'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')
-    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Read '+due+' due':'Nothing due')+'</button>'+learnBtn(nn)+'<button class="btn" data-act="readVocab">Read sentences</button>'+markBtn()+'</div>'+heavyNote()+markHint()+'</section>'
+    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Read '+due+' due':'Nothing due')+'</button>'+learnBtn()+'<button class="btn" data-act="readVocab">Read sentences</button>'+markBtn()+'</div>'+heavyNote()+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>'
     +'<p class="muted credits">Word list: JLPT lists by Jonathan Waller (<a href="https://www.tanos.co.uk/jlpt/">tanos.co.uk</a>, CC BY). Frequency: BCCWJ word frequency lists (NINJAL). N3 word list: <a href="https://langoal.com/en/vocabulary/n3.html">Langoal</a>. Pitch accent: <a href="https://github.com/mifunetoshiro/kanjium">Kanjium</a> and <a href="https://en.wiktionary.org/">Wiktionary</a> (CC BY-SA 4.0).</p>';
@@ -933,9 +935,9 @@ function readVocab(){
 // Reading reviews: no grading. Each due word gets REVIEW_WPER sentences (ones not shown at its last review,
 // card.exi, first) and each due lesson REVIEW_GPER, unread ones first. Reading past an item's last sentence (fin)
 // schedules it as Good; "See again soon" schedules it as Again and adds one more of its sentences at the end of the feed.
-// Learning new words works the same way: LEARN_PER sentences per word, and the word's card is made at its last one.
+// Learning a new word works the same way: LEARN_SENT sentences, and the word's card is made at the last one.
 // A review feed holds at most REVIEW_V words and REVIEW_G lessons; the end screen offers the rest.
-const REVIEW_V=10, REVIEW_G=3, REVIEW_WPER=3, REVIEW_GPER=5, LEARN_N=5, LEARN_PER=2;
+const REVIEW_V=10, REVIEW_G=3, REVIEW_WPER=3, REVIEW_GPER=5, LEARN_SENT=5;
 function wordSentences(w,n,skip){
   const all=w.ex.map((_,k)=>k), ks=shuffle(all.filter(k=>skip.indexOf(k)<0)).concat(shuffle(all.filter(k=>skip.indexOf(k)>=0))).slice(0,n);
   return ks.map(k=>({jp:w.ex[k].jp,en:w.ex[k].en,cas:w.ex[k].cas,w:w.id,exi:k,rid:w.id}));
@@ -969,10 +971,10 @@ function startReview(kind){
   if(!units.length) return;
   startRead('Reading review', orderUnits(units), {type:'review',kind:kind,soon:{},n:units.length});
 }
-function startLearn(){
-  const ws=newIds('vocab',LEARN_N).map(id=>ITEM[id]); if(!ws.length) return;
-  const units=ws.map(w=>wordSentences(w,LEARN_PER,[]).map(x=>Object.assign(x,{isNew:true})));
-  startRead('New words', orderUnits(units), {type:'learn',soon:{},n:ws.length});
+// Start learning on a word page: LEARN_SENT sentences of that word; its card is made at the last one.
+function startWordLearn(id){
+  const w=ITEM[id]; if(!w||S.cards[id]||isKnown(id)) return;
+  startRead('New word', orderUnits([wordSentences(w,LEARN_SENT,[]).map(x=>Object.assign(x,{isNew:true}))]), {type:'learn',soon:{},n:1});
 }
 function reviewPass(it,soon){
   const r=ui.read, now=Date.now(), id=it.rid, w=it.w&&ITEM[it.w];
@@ -1022,13 +1024,13 @@ function readHtml(){
   if(r.i>=n){
     const t=r.meta.type, now=Date.now();
     if(t==='review'||t==='learn'){
-      const dw=dueIds('vocab',now).length, dl=dueLessons(now).length, left=r.meta.kind==='vocab'?dw:r.meta.kind==='grammar'?dl:dw+dl, nn=newIds('vocab',LEARN_N).length;
+      const dw=dueIds('vocab',now).length, dl=dueLessons(now).length, left=r.meta.kind==='vocab'?dw:r.meta.kind==='grammar'?dl:dw+dl, nw=nextNew();
       let nextDue=Infinity; Object.keys(S.cards).forEach(id=>{ const d=S.cards[id].due; if(d>now&&d<nextDue&&(id.slice(0,2)==='v:'||GRAMMAR.some(g=>g.id===id))) nextDue=d; });
       const days=daysUntil(nextDue,now);
       const nxt=nextDue===Infinity||left?'':days<1?'later today':days===1?'tomorrow':'in '+days+' days';
       const btns=(left?'<button class="btn primary" data-act="review" data-arg="'+(r.meta.kind||'all')+'">Read '+left+' more due</button>':'')
-        +(nn&&t==='learn'&&!heavy()?'<button class="btn'+(left?'':' primary')+'" data-act="learn" data-arg="vocab">Learn '+Math.min(LEARN_N,nn)+' more</button>':'')
-        +'<button class="btn'+(left||(nn&&t==='learn'&&!heavy())?'':' primary')+'" data-act="readExit">Done</button>'+(nn&&t==='review'&&!heavy()?'<button class="btn" data-act="learn" data-arg="vocab">Learn '+Math.min(LEARN_N,nn)+' new words</button>':'');
+        +(nw&&t==='learn'&&!heavy()?'<button class="btn'+(left?'':' primary')+'" data-act="openNew">Learn '+esc(nw.jp)+'</button>':'')
+        +'<button class="btn'+(left||(nw&&t==='learn'&&!heavy())?'':' primary')+'" data-act="readExit">Done</button>'+(nw&&t==='review'&&!heavy()?'<button class="btn" data-act="openNew">Learn '+esc(nw.jp)+'</button>':'');
       return head+'<section class="panel done"><p class="eyebrow">'+esc(r.title)+'</p><div class="big">'+n+'</div><p>sentences read</p>'
         +'<div class="facts">'+(t==='learn'?'<span><b>'+(r.meta.n-(r.known||0))+'</b> new words added to your reviews</span>':'<span><b>'+(r.meta.n-(r.known||0))+'</b> words and lessons reviewed</span>')+(r.known?'<span><b>'+r.known+'</b> marked known</span>':'')+(nxt?'<span>Next reading <b>'+nxt+'</b></span>':'')+(todayCount()>=goal()?'<span><b>Daily goal reached</b></span>':'')+'</div>'
         +'<div class="actions">'+btns+'</div></section>';
@@ -1120,7 +1122,9 @@ function act(a,arg){
     case 'home': ui.back=null; vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab='home'; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'tab': ui.back=null; vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'review': if(arg==='kanji') startSession(arg,'due'); else startReview(arg); break;
-    case 'learn': if(arg==='kanji') startSession(arg,'new'); else startLearn(); break;
+    case 'learn': startSession(arg,'new'); break;
+    case 'openNew': { const w=nextNew(); if(!w) break; go(()=>{ ui.back=null; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.mark=false; ui.tab='vocab'; ui.vocab=w.id; }); break; }
+    case 'startWord': startWordLearn(arg); break;
     case 'readSoon': readNext(true); break;
     case 'knowRead': knowRead(); break;
     case 'reveal':

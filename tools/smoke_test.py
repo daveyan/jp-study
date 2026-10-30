@@ -5,7 +5,7 @@ Usage: python3 tools/smoke_test.py   (needs `pip install playwright` and `playwr
 
 Serves the repo under /jp-study/ (a subpath, as on GitHub Pages) and checks that:
   - the app loads with no console or page errors
-  - Learn new opens a reading feed, which can be read to the end
+  - Learn opens a word page, and Start learning gives a feed that can be read to the end
   - the feed's progress is saved to localStorage and survives a reload unchanged
   - a vocab feed opens, and tapping a word in a sentence opens the lookup sheet
   - the Kanji tab lists its kanji, the Vocab tab has an N3 chip, and a grammar lesson page opens
@@ -79,12 +79,14 @@ def main():
         page.wait_for_selector('.hero')
         check(True, 'Today tab renders from a subpath')
 
-        learn = page.locator('[data-act="learn"][data-arg="vocab"]').first
-        check(learn.is_enabled(), 'Learn new is enabled on a fresh profile')
+        learn = page.locator('[data-act="openNew"]').first
+        check(learn.is_enabled(), 'Learn is enabled on a fresh profile')
         learn.click()
+        page.locator('[data-act="startWord"]').first.wait_for()
+        page.locator('[data-act="startWord"]').first.click()
         page.wait_for_selector('.sess-head')
         presses = read_to_end(page)
-        check(presses > 0, f'Learn new feed is read to its end screen ({presses} presses)')
+        check(presses > 0, f'Learn feed for one word is read to its end screen ({presses} presses)')
         page.get_by_text('sentences read').wait_for()
 
         state = saved(page)
