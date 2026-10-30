@@ -306,6 +306,10 @@ const STATUS_LABEL={new:'New',learning:'Learning',young:'Young',mature:'Mature',
 function isKnown(id){ const k=S.known[id]; return !!(k&&k.on); }
 function setKnown(id,on){ S.known[id]={on:!!on,at:Date.now()}; }
 function stateOf(id){ return isKnown(id)?'known':status(S.cards[id]); }
+// An item whose interval has reached RETIRE_DAYS leaves review and counts as known (about the 5th Good in a row).
+// Unmarking it later keeps the card, as with any known item.
+const RETIRE_DAYS=63;
+function retireIfMature(id){ const c=S.cards[id]; if(c&&c.int>=RETIRE_DAYS&&!isKnown(id)) setKnown(id,true); }
 function lessonDone(g){ const p=S.grammar[g.id]; return isKnown(g.id)||!!(p&&p.done); }
 function itemsOf(kind){ return kind==='vocab'?VOCAB:KANJI; }
 function dueIds(kind,now){
@@ -600,7 +604,7 @@ function startKanjiReads(ids,known,learn){
 function finishRead(){
   const s=ui.session; if(!s||!s.queue.length) return;
   const id=s.queue.shift(), now=Date.now();
-  if(!s.known) S.cards[id]=nextState(S.cards[id]||newCard(now),2,now);
+  if(!s.known) { S.cards[id]=nextState(S.cards[id]||newCard(now),2,now); retireIfMature(id); }
   bump(1); s.done++;
   commit();
   if(s.learn){ act('home'); return; }
@@ -1053,6 +1057,7 @@ function reviewPass(it,soon){
   const miss=!!r.meta.soon[id]; delete r.meta.soon[id];
   const prev=S.cards[id]||(w?null:gCard(GRAMMAR[it.g]))||newCard(now);
   S.cards[id]=nextState(prev,miss?0:prev.tap?1:2,now); delete S.cards[id].tap;
+  if(!miss) retireIfMature(id);
   if(w) S.cards[id].exi=it.exs||[it.exi];
   if(miss){ const x=w?wordSentences(w,1,it.exs||[it.exi])[0]:lessonSentences(it.g,1,it.exs||[it.exi])[0]; x.fin=true; x.again=true; insertLater(r,x); }
 }
@@ -1078,7 +1083,7 @@ function readNext(soon){
     if(r.meta.type==='lesson'){
       p.read=Math.max(p.read||0,r.i+1);
       // Finishing a lesson's feed puts it on the reading schedule, and counts as its review when it's due.
-      if(r.i+1>=r.items.length){ p.done=true; const c=gCard(g); if(!S.cards[g.id]||c.due<=now) S.cards[g.id]=nextState(c||newCard(now),2,now); }
+      if(r.i+1>=r.items.length){ p.done=true; const c=gCard(g); if(!S.cards[g.id]||c.due<=now) { S.cards[g.id]=nextState(c||newCard(now),2,now); retireIfMature(g.id); } }
     }
     S.grammar[g.id]=p;
   }
