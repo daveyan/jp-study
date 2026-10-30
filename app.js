@@ -772,9 +772,9 @@ function vocabDetailHtml(){
     +'<div class="pager"><button class="btn" data-act="openVocab" data-arg="'+esc(prevW.id)+'">← Previous</button>'
     +'<button class="btn" data-act="openVocab" data-arg="'+esc(nextW.id)+'">Next →</button></div>'
     +'<p class="muted note"><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span> · '+esc(cardStatText)+'</p>'
-    +'<section class="panel" style="display:grid;gap:10px"><h3>Example sentences ('+w.ex.length+')</h3>'
-    +w.ex.map(e=>exBlock(e.jp,e.en,e.cas,w.jp)).join('')
-    +'</section></div>';
+    +'<section class="panel"><details class="how"><summary><h3 style="display:inline">Example sentences ('+w.ex.length+')</h3></summary>'
+    +'<div style="display:grid;gap:10px;margin-top:12px">'+w.ex.map(e=>exBlock(e.jp,e.en,e.cas,w.jp)).join('')+'</div>'
+    +'</details></section></div>';
 }
 function vocabHtml(){
   if(ui.vocab!==null) return vocabDetailHtml();
