@@ -432,7 +432,12 @@ function studyRow(kind){
   const due=dueIds(kind,now).length, started=items.length-c.new-c.known;
   return '<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">'+(kind==='vocab'?'単語':'漢字')+'</span><div><h2>'+(kind==='vocab'?'Vocabulary':'Kanji')+'</h2><p class="muted">'+started+' of '+items.length+' started'+(c.known?' · '+c.known+' known':'')+' · '+due+' due now</p></div></div>'
    +stackBar(kind)
-   +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button>'+learnBtn(!due,kind)+'</div>'+(kind==='vocab'?heavyNote():'')+'</section>';
+   +actionGroups('<button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button>'+(kind==='vocab'?extraBtns():''),learnBtn(!due,kind))+(kind==='vocab'?heavyNote():'')+'</section>';
+}
+// Buttons on a Today row, in two labelled groups: reviews, then new items.
+function actionGroups(review,learn){
+  const grp=(label,btns)=>btns?'<div class="grp"><span class="grp-label">'+label+'</span><div class="grp-btns">'+btns+'</div></div>':'';
+  return '<div class="groups">'+grp('Review',review)+grp('New',learn)+'</div>';
 }
 function totalsHtml(){
   const all=Object.values(S.log).reduce((a,n)=>a+(n||0),0), words=VOCAB.filter(w=>S.cards[w.id]||isKnown(w.id)).length, gc=gcounts();
@@ -448,7 +453,7 @@ function homeHtml(){
   const gc=gcounts();
   const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+(gc.started+gc.done)+' of '+GRAMMAR.length+' lessons started · '+gc.done+' done'+(gc.known?' · '+gc.known+' known':'')+' · '+dl+' due now</p></div></div>'
     +gStackBar()
-    +'<div class="actions">'+gReviewBtn(dl)+(nextLessonBtn(dl>0)||'<button class="btn" data-act="tab" data-arg="grammar">All lessons</button>')+mixBtn()+'</div></section>';
+    +actionGroups(gReviewBtn(dl)+mixBtn(),nextLessonBtn(dl>0)||'<button class="btn" data-act="tab" data-arg="grammar">All lessons</button>')+'</section>';
   // activity, last 14 days
   const days=[]; for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); days.push({d:d,n:S.log[dayKey(d)]||0}); }
   const max=Math.max(1,...days.map(x=>x.n));
@@ -850,6 +855,34 @@ function feedAudio(it){ const k=lineOrder().find(k=>k!=='en'&&lineOn(k)&&(k!=='c
 function feedSpeak(){ const r=ui.read; if(r&&r.i<r.items.length&&(S.settings.autoSpeak||listenOn())) speak(feedAudio(r.items[r.i])); }
 // Space, Enter and a left swipe: show the Japanese (listening), then the English, then go on.
 function readStep(){ const r=ui.read; if(listenOn()&&!r.heard){ r.heard=true; render(); } else if(r.shown||!lineOn('en')) readNext(); else { r.shown=true; render(); } }
+// Extra reviews pick a random started word or grammar lesson (learning, young or mature; kanji are read on their own page).
+// Random known reads a known word or lesson without touching its schedule.
+function extraPool(){
+  const out=[];
+  VOCAB.forEach(w=>{ if(S.cards[w.id]&&!isKnown(w.id)) out.push({kind:'vocab',id:w.id}); });
+  if(SHOW_KANJI) KANJI.forEach(k=>{ if(S.cards[k.id]&&!isKnown(k.id)) out.push({kind:'kanji',id:k.id}); });
+  GRAMMAR.forEach((g,i)=>{ if(S.cards[g.id]&&!isKnown(g.id)) out.push({kind:'grammar',id:g.id,i:i}); });
+  return out;
+}
+function knownPool(){
+  const out=[];
+  VOCAB.forEach(w=>{ if(isKnown(w.id)) out.push({kind:'vocab',id:w.id}); });
+  GRAMMAR.forEach((g,i)=>{ if(isKnown(g.id)) out.push({kind:'grammar',id:g.id,i:i}); });
+  return out;
+}
+function extraBtns(){
+  return '<button class="btn" data-act="extraReview"'+(extraPool().length?'':' disabled')+'>Extra review</button>'
+    +'<button class="btn" data-act="extraKnown"'+(knownPool().length?'':' disabled')+'>Random known</button>';
+}
+function startExtra(known){
+  const pool=known?knownPool():extraPool(); if(!pool.length) return;
+  const x=pool[Math.floor(Math.random()*pool.length)];
+  if(x.kind==='kanji'){ startKanjiReads([x.id]); return; }
+  const c=S.cards[x.id], skip=c&&c.exi!==undefined?[].concat(c.exi):[];
+  const unit=x.kind==='vocab'?wordSentences(ITEM[x.id],REVIEW_WPER,skip):lessonSentences(x.i,REVIEW_GPER);
+  // Known items have no schedule, so their feed leaves S.cards alone (no soon flag).
+  startRead(known?'Known':'Extra review',orderUnits([unit]),{type:'extra',known:known,soon:known?undefined:{},n:1});
+}
 function startRead(title,items,meta){
   go(()=>{
     ui.read={title:title,items:items,i:0,shown:false,meta:meta};
@@ -987,6 +1020,11 @@ function readHtml(){
   const head='<div class="sess-head"><button class="btn link" data-act="readExit">← Back</button><div class="prog"><i style="width:'+(r.i/n*100)+'%"></i></div><span class="count">'+Math.min(r.i+1,n)+' / '+n+'</span></div>';
   if(r.i>=n){
     const t=r.meta.type, now=Date.now();
+    if(t==='extra'){
+      const act=r.meta.known?'extraKnown':'extraReview';
+      return head+'<section class="panel done"><p class="eyebrow">'+esc(r.title)+'</p><div class="big">'+n+'</div><p>sentences read</p>'
+        +'<div class="actions"><button class="btn primary" data-act="'+act+'">Another</button><button class="btn" data-act="readExit">Done</button></div></section>';
+    }
     if(t==='review'||t==='learn'){
       const dw=dueIds('vocab',now).length, dl=dueLessons(now).length, left=r.meta.kind==='vocab'?dw:r.meta.kind==='grammar'?dl:dw+dl, nw=nextNew();
       let nextDue=Infinity; Object.keys(S.cards).forEach(id=>{ const d=S.cards[id].due; if(d>now&&d<nextDue&&(id.slice(0,2)==='v:'||GRAMMAR.some(g=>g.id===id))) nextDue=d; });
@@ -1090,6 +1128,8 @@ function act(a,arg){
       go(()=>{ ui.back=null; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.mark=false; ui.vocab=null; ui.kanji=null;
         if(kind==='kanji'){ ui.tab='kanji'; ui.kanji=w.ch; } else { ui.tab='vocab'; ui.vocab=w.id; } }); break; }
     case 'startWord': startWordLearn(arg); break;
+    case 'extraReview': startExtra(false); break;
+    case 'extraKnown': startExtra(true); break;
     case 'startKanji': startKanjiLearn(arg); break;
     case 'readDone': finishRead(); break;
     case 'readSoon': readNext(true); break;

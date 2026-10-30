@@ -340,3 +340,9 @@ label.btn{display:inline-block}
 .lk-exj{font-family:var(--f-jp); font-size:17px; line-height:1.9}
 .lk-exe{font-size:13px; color:var(--muted)}
 #lk-sheet .lk-sheet-in{max-height:75vh; overflow-y:auto}
+
+/* Today's rows: buttons in labelled groups (Review, New) */
+.groups{display:flex; flex-wrap:wrap; gap:14px 28px; align-items:flex-start}
+.grp{display:grid; gap:6px}
+.grp-label{font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.grp-btns{display:flex; flex-wrap:wrap; gap:8px}
