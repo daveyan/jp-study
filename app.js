@@ -342,7 +342,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',kq:'',kf:'all',gq:'',gf:'all',glv:'',back:null,mark:false,confirmReset:false,settingsOpen:false};
+const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',kq:'',kf:'all',klv:'',gq:'',gf:'all',glv:'',back:null,mark:false,confirmReset:false,settingsOpen:false};
 // The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
 const SHOW_KANJI=true;
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
@@ -773,9 +773,18 @@ function kanjiReadHtml(s,head){
     +'<div class="actions"><button class="btn primary" data-act="readDone">Done</button></div></section>';
 }
 // Kanji list filter: search (character, meaning, readings; romaji works) and progress.
+const KANJI_LEVELS=['N5','N4','N3','N2','N1'];
+// One progress bar per JLPT level: kanji started or known. Tapping a level filters the list to it.
+function kanjiLevelHtml(){
+  return '<div class="lvbars">'+KANJI_LEVELS.map(l=>{
+    const ks=KANJI.filter(k=>k.lv===l), n=ks.length, started=ks.filter(k=>stateOf(k.id)!=='new').length;
+    return '<button class="lvrow" data-act="klv" data-arg="'+l+'" aria-pressed="'+(ui.klv===l)+'"><span class="lvname">'+l+'</span><span class="prog"><i style="width:'+(n?started/n*100:0)+'%"></i></span><span class="muted">'+started+' of '+n+'</span></button>';
+  }).join('')+'</div>';
+}
 function kanjiRows(){
   const q=ui.kq.trim().toLowerCase(), qh=q?romajiToKana(q):'', qk=qh?toKata(qh):'';
   return KANJI.filter(k=>{
+    if(ui.klv&&k.lv!==ui.klv) return false;
     if(ui.kf!=='all'&&stateOf(k.id)!==ui.kf) return false;
     if(!q) return true;
     const hay=(k.ch+' '+k.en+' '+k.on+' '+k.kun).toLowerCase();
@@ -799,8 +808,9 @@ function kanjiHtml(){
       +'<button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+1)%KANJI.length].ch)+'">Next →</button></div></section>';
   }
   const now=Date.now(), due=dueIds('kanji',now).length;
-  const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="kfilter" data-arg="'+k+'" aria-pressed="'+(ui.kf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('');
-  return '<section class="panel row"><div><h2>Kanji</h2><p class="muted">'+KANJI.length+' Jōyō kanji, with readings and words</p></div>'+stackBar('kanji')+legend('kanji')
+  const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="kfilter" data-arg="'+k+'" aria-pressed="'+(ui.kf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')
+    +KANJI_LEVELS.map(l=>'<button class="chip" data-act="klv" data-arg="'+l+'" aria-pressed="'+(ui.klv===l)+'">'+l+'</button>').join('');
+  return '<section class="panel row"><div><h2>Kanji</h2><p class="muted">'+KANJI.length+' Jōyō kanji, with readings and words</p></div>'+stackBar('kanji')+legend('kanji')+kanjiLevelHtml()
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="kanji"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button>'+learnBtn(false,'kanji')+'<button class="btn" data-act="kquiz">Reading quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="kq" type="search" placeholder="Search kanji, readings or meanings" aria-label="Search kanji" value="'+esc(ui.kq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="kgrid" id="ktiles">'+kanjiTilesHtml()+'</div>'
@@ -1224,6 +1234,7 @@ function act(a,arg){
     case 'addCard': if(!S.cards[arg]){ S.cards[arg]=newCard(Date.now()); commit(); render(); } break;
     case 'filter': ui.vf=arg; render(); break;
     case 'kfilter': ui.kf=arg; render(); break;
+    case 'klv': ui.klv=ui.klv===arg?'':arg; render(); break;
     case 'vtop': ui.vtop=!ui.vtop; render(); break;
     case 'vlv': ui.vlv=ui.vlv===arg?'':arg; render(); break;
     case 'gfilter': ui.gf=arg; render(); break;

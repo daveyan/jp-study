@@ -94,7 +94,7 @@ def main():
         for w in pool: add(w)
         stats[min(len(words), 6)] += 1
         stats['top%d' % min(sum(1 for w in words if w[0] in {v[0] for v in top}), 3)] += 1
-        out.append('  ' + json.dumps(r[:5] + [words], ensure_ascii=False, separators=(',', ':')) + ',')
+        out.append('  ' + json.dumps(r[:5] + [words] + r[6:], ensure_ascii=False, separators=(',', ':')) + ',')  # r[6:] keeps the JLPT level
     print('words per kanji (count of kanji):', {k: v for k, v in stats.items() if isinstance(k, int)})
     print('top-1000 words per kanji:', {k: v for k, v in stats.items() if isinstance(k, str)})
     if '--dry' not in sys.argv:

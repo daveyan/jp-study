@@ -346,3 +346,9 @@ label.btn{display:inline-block}
 .grp{display:grid; gap:6px}
 .grp-label{font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
 .grp-btns{display:flex; flex-wrap:wrap; gap:8px}
+
+/* Kanji level progress: one row per JLPT level, tap to filter */
+.lvbars{display:grid; gap:6px; margin-top:14px}
+.lvrow{display:grid; grid-template-columns:36px 1fr auto; align-items:center; gap:10px; width:100%; padding:4px 0; background:none; border:0; color:inherit; font:inherit; text-align:left; cursor:pointer}
+.lvname{font-weight:500}
+.lvrow[aria-pressed="true"] .lvname{color:var(--ink); text-decoration:underline}
