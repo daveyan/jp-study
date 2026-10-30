@@ -1,5 +1,5 @@
 # Usage: python3 -I tools/build_kanji_words.py [--dry]
-# Rebuilds the example words of each KANJI row in data.js. Each kanji gets up to 6 words that contain it:
+# Rebuilds the example words of each KANJI row in data.js. Each kanji gets up to 5 words that contain it:
 # up to 3 from VOCAB's top 1000 (BCCWJ rank), then the words already there, then the other VOCAB words, then
 # JMdict entries (shorter written forms first, since they tend to be the everyday ones). JMdict is read from the
 # jamdict_data package's jamdict.db (EDRDG, CC BY-SA 4.0), which must be installed.
@@ -11,7 +11,7 @@ import collections
 import glob
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-TOP, PER, MAX = 1000, 3, 6
+TOP, PER, MAX = 1000, 3, 5
 
 
 def hira(s):

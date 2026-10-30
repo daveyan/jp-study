@@ -595,6 +595,13 @@ function gradeCurrent(g){
   s.revealed=false;
   commit(); render(); window.scrollTo(0,0);
 }
+function finishLearn(){
+  const s=ui.session; if(!s||s.mode!=='new'||!s.queue.length) return;
+  const id=s.queue.shift(), now=Date.now();
+  S.cards[id]=nextState(S.cards[id]||newCard(now),2,now);
+  bump(1); s.done++;
+  commit(); render(); window.scrollTo(0,0);
+}
 function knowCurrent(){
   const s=ui.session; if(!s||!s.queue.length) return;
   const id=s.queue[0];
@@ -664,6 +671,7 @@ function sessionHtml(){
       +'<div class="facts"><span><b>'+acc+'%</b> got it first time</span><span><b>'+s.again+'</b> repeated</span>'+(s.known?'<span><b>'+s.known+'</b> marked known</span>':'')+(nxt?'<span>Next review <b>'+nxt+'</b></span>':'')+'</div>'
       +'<div class="actions"><button class="btn primary" data-act="exit">Back</button>'+'</div></section>';
   }
+  if(s.mode==='new') return kanjiLearnHtml(s,head);
   const id=s.queue[0], it=ITEM[id], c=S.cards[id], now=Date.now(), recall=!!S.settings.recall;
   const f=cardFaces(it,recall);
   const top='<div class="card-top"><span>Kanji</span>'+(c?'<span class="stat st-'+status(c)+'">'+STATUS_LABEL[status(c)]+'</span>':'<span class="pill">New</span>')+'</div>';
@@ -793,13 +801,22 @@ function startKanjiLearn(id){
   if(!ITEM[id]||S.cards[id]||isKnown(id)) return;
   go(()=>{ ui.session={kind:'kanji',mode:'new',queue:[id],total:1,done:0,again:0,known:0,revealed:false,grades:[0,0,0,0]}; });
 }
+function kanjiWordsHtml(k){
+  return '<p class="muted note">Words with this kanji. Top 1000 words come first.</p><div class="words">'+k.ex.map(w=>'<div class="word"><span class="w" lang="ja">'+esc(w[0])+'</span><span class="wm"><span class="wr" lang="ja">'+esc(w[1])+'</span><span>'+esc(w[2])+'</span>'+(topWord(w[0])?TOP_BADGE:'')+'</span>'+spk(w[1])+'</div>').join('')+'</div>';
+}
+// The learning page for a new kanji: its five words and a Done button. Done counts as a successful review.
+function kanjiLearnHtml(s,head){
+  const k=ITEM[s.queue[0]];
+  return head+'<section class="panel kd"><div class="kd-char" lang="ja">'+esc(k.ch)+'</div><h2>'+esc(k.en)+'</h2>'+kanjiWordsHtml(k)
+    +'<div class="actions"><button class="btn primary" data-act="learnDone">Done</button></div></section>';
+}
 function kanjiHtml(){
   if(ui.kanji){
     const k=ITEM['k:'+ui.kanji]; const i=KANJI.indexOf(k); const st=stateOf(k.id);
     return '<section class="panel kd"><div class="kd-top"><button class="btn" data-act="closeKanji">← All kanji</button><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></div>'
       +'<div class="kd-char" lang="ja">'+esc(k.ch)+'</div><h2>'+esc(k.en)+'</h2>'
       +'<dl class="kv"><dt>On’yomi</dt><dd lang="ja">'+esc(k.on)+'</dd><dt>Kun’yomi</dt><dd lang="ja">'+esc(k.kun)+'</dd><dt>Strokes</dt><dd>'+k.st+'</dd></dl>'
-      +'<p class="muted note">Words with this kanji. Top 1000 words come first.</p><div class="words">'+k.ex.map(w=>'<div class="word"><span class="w" lang="ja">'+esc(w[0])+'</span><span class="wm"><span class="wr" lang="ja">'+esc(w[1])+'</span><span>'+esc(w[2])+'</span>'+(topWord(w[0])?TOP_BADGE:'')+'</span>'+spk(w[1])+'</div>').join('')+'</div>'
+      +(st==='new'?'':kanjiWordsHtml(k))
       +'<div class="actions"><button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+KANJI.length-1)%KANJI.length].ch)+'">← Previous</button>'
       +knowBtn(k.id)+(S.cards[k.id]||st==='known'?'':'<button class="btn primary" data-act="startKanji" data-arg="'+esc(k.id)+'">Start learning</button>')
       +'<button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+1)%KANJI.length].ch)+'">Next →</button></div></section>';
@@ -1132,6 +1149,7 @@ function act(a,arg){
         if(kind==='kanji'){ ui.tab='kanji'; ui.kanji=w.ch; } else { ui.tab='vocab'; ui.vocab=w.id; } }); break; }
     case 'startWord': startWordLearn(arg); break;
     case 'startKanji': startKanjiLearn(arg); break;
+    case 'learnDone': finishLearn(); break;
     case 'readSoon': readNext(true); break;
     case 'knowRead': knowRead(); break;
     case 'reveal':
