@@ -773,7 +773,7 @@ function kanjiReadHtml(s,head){
     +'<div class="actions"><button class="btn primary" data-act="readDone">Done</button></div></section>';
 }
 // Kanji list filter: search (character, meaning, readings; romaji works) and progress.
-const KANJI_LEVELS=['N5','N4','N3','N2','N1'];
+const KANJI_LEVELS=['N5','N4','N3'];  // N2 and N1 kanji stay in the list under All
 // One progress bar per JLPT level: kanji started or known. Tapping a level filters the list to it.
 function kanjiLevelHtml(){
   return '<div class="lvbars">'+KANJI_LEVELS.map(l=>{
