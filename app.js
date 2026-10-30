@@ -421,10 +421,10 @@ function loadSoon(){
     +GRAMMAR.filter(g=>{ const c=gCard(g); return c&&c.due<t&&!isKnown(g.id); }).length*REVIEW_GPER;
 }
 function heavy(){ return loadSoon()>=goal(); }
-// The next word to learn (most frequent N5 first) and the button that opens its word page, where Start learning is.
-function nextNew(){ const id=newIds('vocab',1)[0]; return id?ITEM[id]:null; }
-function learnBtn(primary){ const w=nextNew(), h=heavy();
-  return '<button class="btn'+(primary&&!h?' primary':'')+'" data-act="openNew"'+(w?'':' disabled')+'>'+(w?(h?'Learn anyway: ':'Learn ')+esc(w.jp):'Nothing new to learn')+'</button>'; }
+// The next word or kanji to learn (most frequent N5 first) and the button that opens its page, where Start learning is.
+function nextNew(kind='vocab'){ const id=newIds(kind,1)[0]; return id?ITEM[id]:null; }
+function learnBtn(primary,kind='vocab'){ const w=nextNew(kind), h=kind==='vocab'&&heavy();
+  return '<button class="btn'+(primary&&!h?' primary':'')+'" data-act="openNew" data-arg="'+kind+'"'+(w?'':' disabled')+'>'+(w?(h?'Learn anyway: ':'Learn ')+esc(w.jp||w.ch):'Nothing new to learn')+'</button>'; }
 function heavyNote(){ return heavy()?'<p class="muted note">Today and tomorrow already hold about '+loadSoon()+' sentences of reviews, at or over your daily goal of '+goal()+'. New words can wait a day.</p>':''; }
 function goalHtml(){
   const n=todayCount(), g=goal();
@@ -436,10 +436,10 @@ function goalSetting(){
 }
 function studyRow(kind){
   const now=Date.now(), items=itemsOf(kind), c=counts(kind);
-  const due=dueIds(kind,now).length, nn=newIds(kind,5).length, started=items.length-c.new-c.known;
+  const due=dueIds(kind,now).length, started=items.length-c.new-c.known;
   return '<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">'+(kind==='vocab'?'単語':'漢字')+'</span><div><h2>'+(kind==='vocab'?'Vocabulary':'Kanji')+'</h2><p class="muted">'+started+' of '+items.length+' started'+(c.known?' · '+c.known+' known':'')+' · '+due+' due now</p></div></div>'
    +stackBar(kind)
-   +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button>'+(kind==='vocab'?learnBtn(!due):'<button class="btn" data-act="learn" data-arg="kanji"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button>')+'</div>'+(kind==='vocab'?heavyNote():'')+'</section>';
+   +'<div class="actions"><button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button>'+learnBtn(!due,kind)+'</div>'+(kind==='vocab'?heavyNote():'')+'</section>';
 }
 function totalsHtml(){
   const all=Object.values(S.log).reduce((a,n)=>a+(n||0),0), words=VOCAB.filter(w=>S.cards[w.id]||isKnown(w.id)).length, gc=gcounts();
@@ -660,10 +660,9 @@ function sessionHtml(){
     Object.keys(S.cards).forEach(id=>{ const d=S.cards[id].due; if(d>now&&d<nextDue) nextDue=d; });
     let nxt='';
     if(nextDue<Infinity){ const mins=Math.round((nextDue-now)/60000); nxt = mins<60? 'in '+mins+' min' : mins<60*24 ? 'later today' : mins<60*48 ? 'tomorrow' : 'in '+Math.round(mins/1440)+' days'; }
-    const more=newIds(s.kind,5).length;
     return head+'<section class="panel done"><p class="eyebrow">Session complete</p><div class="big">'+s.done+'</div><p>kanji finished</p>'
       +'<div class="facts"><span><b>'+acc+'%</b> got it first time</span><span><b>'+s.again+'</b> repeated</span>'+(s.known?'<span><b>'+s.known+'</b> marked known</span>':'')+(nxt?'<span>Next review <b>'+nxt+'</b></span>':'')+'</div>'
-      +'<div class="actions"><button class="btn primary" data-act="exit">Back</button>'+(more?'<button class="btn" data-act="learn" data-arg="'+s.kind+'">Learn 5 more</button>':'')+'</div></section>';
+      +'<div class="actions"><button class="btn primary" data-act="exit">Back</button>'+'</div></section>';
   }
   const id=s.queue[0], it=ITEM[id], c=S.cards[id], now=Date.now(), recall=!!S.settings.recall;
   const f=cardFaces(it,recall);
@@ -788,21 +787,27 @@ function vocabHtml(){
 }
 
 /* ---------- Kanji tab ---------- */
+const topWord=jp=>{ const v=ITEM['v:'+jp]; return !!v&&isTop(v); };
+// Start learning on a kanji page: a single card, graded like the kanji reviews.
+function startKanjiLearn(id){
+  if(!ITEM[id]||S.cards[id]||isKnown(id)) return;
+  go(()=>{ ui.session={kind:'kanji',mode:'new',queue:[id],total:1,done:0,again:0,known:0,revealed:false,grades:[0,0,0,0]}; });
+}
 function kanjiHtml(){
   if(ui.kanji){
     const k=ITEM['k:'+ui.kanji]; const i=KANJI.indexOf(k); const st=stateOf(k.id);
     return '<section class="panel kd"><div class="kd-top"><button class="btn" data-act="closeKanji">← All kanji</button><span class="stat st-'+st+'">'+STATUS_LABEL[st]+'</span></div>'
       +'<div class="kd-char" lang="ja">'+esc(k.ch)+'</div><h2>'+esc(k.en)+'</h2>'
       +'<dl class="kv"><dt>On’yomi</dt><dd lang="ja">'+esc(k.on)+'</dd><dt>Kun’yomi</dt><dd lang="ja">'+esc(k.kun)+'</dd><dt>Strokes</dt><dd>'+k.st+'</dd></dl>'
-      +'<div class="words">'+k.ex.map(w=>'<div class="word"><span class="w" lang="ja">'+esc(w[0])+'</span><span class="wm"><span class="wr" lang="ja">'+esc(w[1])+'</span><span>'+esc(w[2])+'</span></span>'+spk(w[1])+'</div>').join('')+'</div>'
+      +'<p class="muted note">Words with this kanji. Top 1000 words come first.</p><div class="words">'+k.ex.map(w=>'<div class="word"><span class="w" lang="ja">'+esc(w[0])+'</span><span class="wm"><span class="wr" lang="ja">'+esc(w[1])+'</span><span>'+esc(w[2])+'</span>'+(topWord(w[0])?TOP_BADGE:'')+'</span>'+spk(w[1])+'</div>').join('')+'</div>'
       +'<div class="actions"><button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+KANJI.length-1)%KANJI.length].ch)+'">← Previous</button>'
-      +knowBtn(k.id)+(S.cards[k.id]||st==='known'?'':'<button class="btn primary" data-act="addCard" data-arg="'+esc(k.id)+'">Add to reviews</button>')
+      +knowBtn(k.id)+(S.cards[k.id]||st==='known'?'':'<button class="btn primary" data-act="startKanji" data-arg="'+esc(k.id)+'">Start learning</button>')
       +'<button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+1)%KANJI.length].ch)+'">Next →</button></div></section>';
   }
-  const now=Date.now(), due=dueIds('kanji',now).length, nn=newIds('kanji',5).length;
+  const now=Date.now(), due=dueIds('kanji',now).length;
   const tiles=KANJI.map(k=>{ const st=stateOf(k.id); return '<button class="ktile st-'+st+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(k.id)+'" aria-pressed="'+(st==='known')+'"':'data-act="openKanji" data-arg="'+esc(k.ch)+'"')+' aria-label="'+esc(k.ch+', '+k.en)+'"><span class="kc" lang="ja">'+esc(k.ch)+'</span><span class="km">'+esc(k.en)+'</span></button>'; }).join('');
   return '<section class="panel row"><div><h2>Kanji</h2><p class="muted">'+KANJI.length+' Jōyō kanji, with readings and words</p></div>'+stackBar('kanji')+legend('kanji')
-    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="kanji"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button><button class="btn" data-act="learn" data-arg="kanji"'+(nn?'':' disabled')+'>Learn '+(nn?Math.min(5,nn)+' new':'new')+'</button><button class="btn" data-act="kquiz">Reading quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
+    +'<div class="actions"><button class="btn primary" data-act="review" data-arg="kanji"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button>'+learnBtn(false,'kanji')+'<button class="btn" data-act="kquiz">Reading quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="kgrid">'+tiles+'</div>'
     +'<p class="muted credits">Kanji readings, meanings, grades and stroke counts: <a href="https://www.edrdg.org/wiki/index.php/KANJIDIC_Project">KANJIDIC2</a>; example words: <a href="https://www.edrdg.org/jmdict/j_jmdict.html">JMdict</a> (both EDRDG, CC BY-SA 4.0).</p>';
 }
@@ -1122,9 +1127,11 @@ function act(a,arg){
     case 'home': ui.back=null; vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab='home'; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'tab': ui.back=null; vocabScroll=0; lessonScroll=0; kanjiScroll=0; go(()=>{ ui.tab=arg; ui.lesson=null; ui.kanji=null; ui.vocab=null; ui.mark=false; ui.confirmReset=false; }); break;
     case 'review': if(arg==='kanji') startSession(arg,'due'); else startReview(arg); break;
-    case 'learn': startSession(arg,'new'); break;
-    case 'openNew': { const w=nextNew(); if(!w) break; go(()=>{ ui.back=null; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.kanji=null; ui.mark=false; ui.tab='vocab'; ui.vocab=w.id; }); break; }
+    case 'openNew': { const kind=arg||'vocab', w=nextNew(kind); if(!w) break;
+      go(()=>{ ui.back=null; ui.session=null; ui.quiz=null; ui.read=null; ui.lesson=null; ui.mark=false; ui.vocab=null; ui.kanji=null;
+        if(kind==='kanji'){ ui.tab='kanji'; ui.kanji=w.ch; } else { ui.tab='vocab'; ui.vocab=w.id; } }); break; }
     case 'startWord': startWordLearn(arg); break;
+    case 'startKanji': startKanjiLearn(arg); break;
     case 'readSoon': readNext(true); break;
     case 'knowRead': knowRead(); break;
     case 'reveal':
