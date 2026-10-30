@@ -352,3 +352,4 @@ label.btn{display:inline-block}
 .lvrow{display:grid; grid-template-columns:36px 1fr auto; align-items:center; gap:10px; width:100%; padding:4px 0; background:none; border:0; color:inherit; font:inherit; text-align:left; cursor:pointer}
 .lvname{font-weight:500}
 .lvrow[aria-pressed="true"] .lvname{color:var(--ink); text-decoration:underline}
+.lvhead{margin:16px 0 0; font-size:14px}

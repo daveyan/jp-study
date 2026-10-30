@@ -478,6 +478,11 @@ function homeHtml(){
     : '<div><button class="btn" data-act="resetAsk">Reset progress</button></div>';
   return '<section class="hero"><p class="eyebrow">'+esc(date)+'</p><h1>'+msg+'</h1>'+goalHtml()+(dw&&dl?'<div class="actions"><button class="btn primary" data-act="review" data-arg="all">Read everything due</button></div>':'')+'</section>'
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
+    +'<section class="panel"><h3>Progress by level</h3>'
+    +'<p class="muted note">Started or known, out of the items at each level.</p>'
+    +'<h3 class="lvhead">Vocabulary</h3>'+lvBars(['N5','N4','N3'],vocabLvStat)
+    +(SHOW_KANJI?'<h3 class="lvhead">Kanji</h3>'+lvBars(KANJI_LEVELS,kanjiLvStat):'')
+    +'<h3 class="lvhead">Grammar</h3>'+lvBars(['N5','N4','N3'],grammarLvStat)+'</section>'
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted note">'+total+' sentences in two weeks</p>'+totalsHtml()+'</section>'
     +'<details class="panel settings"'+(ui.settingsOpen?' open':'')+'><summary>Settings</summary><div class="settings-body">'+'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted note">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+goalSetting()+knownSetting()+listenSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</div></details>';
 }
@@ -749,7 +754,7 @@ function vocabHtml(){
   if(ui.vocab!==null) return vocabDetailHtml();
   const now=Date.now(), due=dueIds('vocab',now).length;
   const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>'+['N5','N4','N3'].map(l=>'<button class="chip" data-act="vlv" data-arg="'+l+'" aria-pressed="'+(ui.vlv===l)+'">'+l+'</button>').join('');
-  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4','N3'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')
+  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4','N3'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')+lvBars(['N5','N4','N3'],vocabLvStat,'vlv',ui.vlv)
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Read '+due+' due':'Nothing due')+'</button>'+learnBtn()+'<button class="btn" data-act="readVocab">Read sentences</button>'+markBtn()+'</div>'+heavyNote()+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>'
@@ -775,12 +780,19 @@ function kanjiReadHtml(s,head){
 // Kanji list filter: search (character, meaning, readings; romaji works) and progress.
 const KANJI_LEVELS=['N5','N4','N3'];  // N2 and N1 kanji stay in the list under All
 // One progress bar per JLPT level: kanji started or known. Tapping a level filters the list to it.
-function kanjiLevelHtml(){
-  return '<div class="lvbars">'+KANJI_LEVELS.map(l=>{
-    const ks=KANJI.filter(k=>k.lv===l), n=ks.length, started=ks.filter(k=>stateOf(k.id)!=='new').length;
-    return '<button class="lvrow" data-act="klv" data-arg="'+l+'" aria-pressed="'+(ui.klv===l)+'"><span class="lvname">'+l+'</span><span class="prog"><i style="width:'+(n?started/n*100:0)+'%"></i></span><span class="muted">'+started+' of '+n+'</span></button>';
+// Progress bars per JLPT level. With an act, each row is a button that filters (cur is the filtered level);
+// without one (Today), the rows just show progress.
+function lvBars(levels,stat,act,cur){
+  const tag=act?'button':'div';
+  return '<div class="lvbars">'+levels.map(l=>{
+    const [s,n]=stat(l);
+    return '<'+tag+' class="lvrow"'+(act?' data-act="'+act+'" data-arg="'+l+'" aria-pressed="'+(cur===l)+'"':'')+'><span class="lvname">'+l+'</span><span class="prog"><i style="width:'+(n?s/n*100:0)+'%"></i></span><span class="muted">'+s+' of '+n+'</span></'+tag+'>';
   }).join('')+'</div>';
 }
+const vocabLvStat=l=>{ const ws=VOCAB.filter(w=>w.lv===l); return [ws.filter(w=>stateOf(w.id)!=='new').length, ws.length]; };
+const grammarLvStat=l=>{ const gs=GRAMMAR.filter(g=>g.level===l); return [gs.filter(g=>gstate(g)!=='new').length, gs.length]; };
+const kanjiLvStat=l=>{ const ks=KANJI.filter(k=>k.lv===l); return [ks.filter(k=>stateOf(k.id)!=='new').length, ks.length]; };
+function kanjiLevelHtml(){ return lvBars(KANJI_LEVELS,kanjiLvStat,'klv',ui.klv); }
 function kanjiRows(){
   const q=ui.kq.trim().toLowerCase(), qh=q?romajiToKana(q):'', qk=qh?toKata(qh):'';
   return KANJI.filter(k=>{
@@ -865,7 +877,7 @@ function grammarHtml(){
   const dl=dueLessons(Date.now()).length;
   const chips=Object.keys(GSTATE_LABEL).map(k=>'<button class="chip" data-act="gfilter" data-arg="'+k+'" aria-pressed="'+(ui.gf===k)+'">'+GSTATE_LABEL[k]+'</button>').join('')
     +['N5','N4','N3'].map(l=>'<button class="chip" data-act="glv" data-arg="'+l+'" aria-pressed="'+(ui.glv===l)+'">'+l+'</button>').join('');
-  return '<section class="panel row"><div><h2>Grammar</h2><p class="muted">'+GRAMMAR.length+' lessons with example sentences ('+['N5','N4','N3'].map(l=>GRAMMAR.filter(g=>g.level===l).length+' '+l).join(', ')+'). Finish a lesson\'s feed and it comes back in your reading reviews.</p></div>'+gStackBar()+gLegend()
+  return '<section class="panel row"><div><h2>Grammar</h2><p class="muted">'+GRAMMAR.length+' lessons with example sentences ('+['N5','N4','N3'].map(l=>GRAMMAR.filter(g=>g.level===l).length+' '+l).join(', ')+'). Finish a lesson\'s feed and it comes back in your reading reviews.</p></div>'+gStackBar()+gLegend()+lvBars(['N5','N4','N3'],grammarLvStat,'glv',ui.glv)
     +'<div class="actions">'+gReviewBtn(dl)+learnGrammarBtn(dl>0)+mixBtn()+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="gq" type="search" placeholder="Search titles, patterns or notes" aria-label="Search lessons" value="'+esc(ui.gq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="lessons" id="glist">'+lessonListHtml()+'</div>';
