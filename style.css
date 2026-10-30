@@ -3,7 +3,7 @@ body{margin:0}
 [hidden]{display:none!important}
 img{max-width:100%}
 
-/* Layout: one narrow column, tabs (Today, Vocab, Grammar; Kanji is hidden for now). Study cards and quizzes replace the tab content. */
+/* Layout: one narrow column, tabs (Today, Vocab, Kanji, Grammar). Study cards and quizzes replace the tab content. */
 :root{
   --bg:#EDF0F5; --panel:#FBFCFE; --panel2:#E3E8F1; --ink:#141A2E; --muted:#58627F; --line:#CDD4E2;
   --accent:#2D3FA0; --on-accent:#FFFFFF; --accent-soft:#DCE1F7; --seal:#B3343C;
@@ -47,7 +47,7 @@ main{display:grid; gap:14px; align-content:start}
 main > *{min-width:0}
 h1,h2,h3,p,dl,dd,ul{margin:0}
 button{font:inherit; color:inherit}
-button, input, select, .chip, .ktile, .lesson, .vrow, .card.tap-reveal, .tab, .opt, .grade{touch-action:manipulation}
+button, input, select, .chip, .ktile, .lesson, .vrow, .tab, .opt, .grade{touch-action:manipulation}
 :focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 .btn:active, .chip:active, .grade:active, .icon-btn:active, .ktile:active, .opt:active{transform:scale(0.98)}
 .muted{color:var(--muted)}
@@ -119,20 +119,10 @@ h3{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--m
 .prog i{display:block; height:100%; background:var(--accent); border-radius:99px}
 .count{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
 .card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px 16px 22px; min-height:260px; display:grid; align-content:start; gap:14px; min-width:0; transition:border-color .15s ease}
-.card.tap-reveal{cursor:pointer; -webkit-tap-highlight-color:transparent}
-.card.tap-reveal:hover{border-color:color-mix(in srgb, var(--accent) 45%, var(--line))}
-.card.tap-reveal:active{border-color:var(--accent)}
 .card-top{display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase}
 .pill{background:var(--accent-soft); color:var(--accent); border-radius:99px; padding:2px 10px; font-weight:700}
-.face{text-align:center; font-family:var(--f-jp); font-weight:500; line-height:1.15; overflow-wrap:anywhere; padding-block:10px}
-.face.xl{font-size:clamp(64px,22vw,104px)}
-.face.lg{font-size:clamp(44px,13vw,72px)}
-.face.md{font-size:clamp(32px,9.5vw,52px)}
-.face.en{font-family:var(--f-ui); font-size:clamp(24px,6.5vw,34px); line-height:1.3}
-.divider{border:0; border-top:1px dashed var(--line); width:100%; margin:0}
 .back{display:grid; gap:10px; justify-items:center; text-align:center}
 .reading{font:500 clamp(24px,7vw,32px)/1.3 var(--f-jp); color:var(--accent); display:inline-flex; align-items:center; justify-content:center; gap:8px}
-.gloss{font-size:21px; font-weight:500}
 .ex{display:grid; gap:4px; background:var(--panel2); border-radius:10px; padding:10px 12px; text-align:left; width:100%}
 .ex .jpl{font:500 20px/1.5 var(--f-jp)}
 .ex .enl{font-size:16px; color:var(--muted)}
@@ -141,7 +131,6 @@ h3{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--m
 .kv dt{color:var(--muted); font-size:13px}
 .kv dd{font-family:var(--f-jp); font-size:17px}
 .grades{display:grid; grid-template-columns:repeat(4,1fr); gap:8px}
-@media (max-width:480px){.grades{grid-template-columns:repeat(2,1fr)}}
 .grade{display:grid; gap:1px; text-align:center; padding:10px 6px 8px; border-radius:10px; border:1px solid var(--line); border-bottom:3px solid var(--c); background:var(--panel); cursor:pointer}
 .grade:hover{background:var(--panel2)}
 .grade b{color:var(--c); font-size:15px}
@@ -166,7 +155,6 @@ h3{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--m
 .vmid{display:grid; min-width:0}
 .vkana{font:400 13px/1.3 var(--f-jp); color:var(--muted)}
 .ven{overflow-wrap:anywhere}
-.tagline{font-size:12px; color:var(--muted)}
 .kgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(78px,1fr)); gap:8px}
 .ktile{background:var(--panel); border:1px solid var(--line); border-bottom:3px solid var(--stc); border-radius:10px; padding:8px 4px 6px; cursor:pointer; display:grid; gap:2px; justify-items:center; min-width:0}
 .ktile:hover{background:var(--panel2)}
@@ -352,7 +340,6 @@ label.btn{display:inline-block}
 .lvrow{display:grid; grid-template-columns:36px 1fr auto; align-items:center; gap:10px; width:100%; padding:4px 0; background:none; border:0; color:inherit; font:inherit; text-align:left; cursor:pointer}
 .lvname{font-weight:500}
 .lvrow[aria-pressed="true"] .lvname{color:var(--ink); text-decoration:underline}
-.lvhead{margin:16px 0 0; font-size:14px}
 .lvgroup{margin-top:10px}
 .lvgroup > summary{display:flex; align-items:center; gap:10px; cursor:pointer; padding:4px 0}
 .lvgroup > summary .prog{flex:1}

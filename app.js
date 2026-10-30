@@ -98,7 +98,7 @@ function jpHtml(s,opts){
     if(cur&&!open){ out+='<span class="lk" tabindex="0" role="button" aria-haspopup="dialog" data-lk="'+esc(cur.id)+'" data-g="'+cur.g+'">'; open=true; }
     if(a.r!==undefined){
       const show=showFuri(a.b);
-      out+='<ruby'+(show?'':' class="fh" data-act="furi" title="Tap for reading"')+'>'+esc(a.b)+'<rt>'+esc(a.r)+'</rt></ruby>';
+      out+='<ruby'+(show?'':' class="fh" tabindex="0" role="button" data-act="furi" title="Tap for reading"')+'>'+esc(a.b)+'<rt>'+esc(a.r)+'</rt></ruby>';
     } else out+=esc(a.b);
   });
   if(open) out+='</span>';
@@ -343,7 +343,7 @@ function streak(){
 
 /* ---------- UI state ---------- */
 const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',kq:'',kf:'all',klv:'',gq:'',gf:'all',glv:'',back:null,mark:false,confirmReset:false,settingsOpen:false};
-// The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
+// SHOW_KANJI turns the Kanji tab, its Today row and its due count on or off (its code and saved progress are kept).
 const SHOW_KANJI=true;
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
 function go(fn){ fn(); render(); window.scrollTo(0,0); }
@@ -531,7 +531,7 @@ function backupSetting(){
     +'<p class="muted note">Progress is saved in this browser only. Export a backup file now and then; importing merges it with what\'s here.</p>'
     +'<h3 style="margin:14px 0 8px">Flagged sentences</h3><p class="muted note">'+(nf?nf+' flagged. Copy the list and paste it to Claude to get them fixed.':'Tap the flag on any sentence that sounds unnatural. They collect here.')+'</p>'
     +(nf?'<div class="actions" style="margin-top:6px"><button class="btn sm" data-act="copyFlags">Copy list</button><button class="btn sm" data-act="clearFlags">Clear list</button></div>':'')
-    +(ui.backupMsg?'<p class="backup-msg">'+esc(ui.backupMsg)+'</p>':'')+'</div>';
+    +(ui.backupMsg?'<p class="backup-msg" role="status">'+esc(ui.backupMsg)+'</p>':'')+'</div>';
 }
 async function exportData(){
   ui.settingsOpen=true;
@@ -1299,8 +1299,13 @@ if(CAN_SPEAK){
   try{ speechSynthesis.addEventListener('voiceschanged',voicesReady); }catch(e){}
   setTimeout(()=>{ if(!voicesChecked) voicesReady(); },2000);
 }
+let vqTimer=null;
 document.addEventListener('input',function(e){
-  if(e.target&&e.target.id==='vq'){ ui.vq=e.target.value; const l=$('#vlist'); if(l) l.innerHTML=vocabListHtml(); }
+  if(e.target&&e.target.id==='vq'){
+    ui.vq=e.target.value;
+    clearTimeout(vqTimer);
+    vqTimer=setTimeout(function(){ const l=$('#vlist'); if(l) l.innerHTML=vocabListHtml(); },150);
+  }
   if(e.target&&e.target.id==='kq'){ ui.kq=e.target.value; const l=$('#ktiles'); if(l) l.innerHTML=kanjiTilesHtml(); }
   if(e.target&&e.target.id==='gq'){ ui.gq=e.target.value; const l=$('#glist'); if(l) l.innerHTML=lessonListHtml(); }
 });
@@ -1308,7 +1313,7 @@ document.addEventListener('keydown',function(e){
   if(LKOPEN&&e.key==='Escape'){ e.preventDefault(); closeLookup(); return; }
   const tg=e.target;
   // Focused lookup words open like a tap; the tabs move with the arrow keys and activate as they go.
-  if(tg&&tg.classList&&tg.classList.contains('lk')&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); tg.click(); return; }
+  if(tg&&tg.classList&&(tg.classList.contains('lk')||tg.classList.contains('fh'))&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); tg.click(); return; }
   if(tg&&tg.classList&&tg.classList.contains('tab')&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){
     e.preventDefault();
     const tabs=[...document.querySelectorAll('#tabs .tab')], j=(tabs.indexOf(tg)+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length, arg=tabs[j].dataset.arg;
