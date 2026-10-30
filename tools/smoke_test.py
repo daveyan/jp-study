@@ -115,9 +115,9 @@ def main():
         check(page.locator('[data-act="vlv"][data-arg="N3"]').count() == 1, 'the Vocab tab has an N3 filter chip')
 
         page.locator('[data-act="tab"][data-arg="grammar"]').click()
-        page.locator('[data-act="gopen"]').first.click()
+        page.locator('[data-act="learnGrammar"]').first.click()
         page.wait_for_timeout(100)
-        check(page.locator('.lesson-view').count() == 1, 'a grammar lesson page opens')
+        check(page.locator('.lesson-view').count() == 1, 'a grammar learn page opens')
 
         page.locator('.brand').click()
         page.wait_for_selector('.hero')
