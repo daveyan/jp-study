@@ -112,7 +112,7 @@ def main():
         check(page.locator('.kgrid > *').count() > 200, 'the Kanji tab lists the N5 and N4 kanji')
 
         page.locator('[data-act="tab"][data-arg="vocab"]').click()
-        check(page.locator('[data-act="vlv"][data-arg="N3"]').count() == 1, 'the Vocab tab has an N3 filter chip')
+        check(page.locator(".chips [data-act=\"vlv\"][data-arg=\"N3\"]").count() == 1, 'the Vocab tab has an N3 filter chip')
 
         page.locator('[data-act="tab"][data-arg="grammar"]').click()
         page.locator('[data-act="learnGrammar"]').first.click()
