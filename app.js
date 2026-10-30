@@ -735,8 +735,8 @@ function vocabDetailHtml(){
     +'</div></div>'
     +'<div class="actions">'
     +(canSpeakJa()?'<button class="btn" data-act="say" data-arg="'+esc(w.kana.split('・')[0])+'">Play audio</button>':'')
-    +knowBtn(w.id)
     +(S.cards[w.id]||st==='known'?'':'<button class="btn primary" data-act="startWord" data-arg="'+esc(w.id)+'">Start learning</button>')
+    +knowBtn(w.id)
     +'</div>'
     +'<div class="pager"><button class="btn" data-act="openVocab" data-arg="'+esc(prevW.id)+'">← Previous</button>'
     +'<button class="btn" data-act="openVocab" data-arg="'+esc(nextW.id)+'">Next →</button></div>'
@@ -780,7 +780,7 @@ function kanjiHtml(){
       +'<dl class="kv"><dt>On’yomi</dt><dd lang="ja">'+esc(k.on)+'</dd><dt>Kun’yomi</dt><dd lang="ja">'+esc(k.kun)+'</dd><dt>Strokes</dt><dd>'+k.st+'</dd></dl>'
       +(st==='new'?'':kanjiWordsHtml(k))
       +'<div class="actions"><button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+KANJI.length-1)%KANJI.length].ch)+'">← Previous</button>'
-      +knowBtn(k.id)+(S.cards[k.id]||st==='known'?'':'<button class="btn primary" data-act="startKanji" data-arg="'+esc(k.id)+'">Start learning</button>')
+      +(S.cards[k.id]||st==='known'?'':'<button class="btn primary" data-act="startKanji" data-arg="'+esc(k.id)+'">Start learning</button>')+knowBtn(k.id)
       +'<button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+1)%KANJI.length].ch)+'">Next →</button></div></section>';
   }
   const now=Date.now(), due=dueIds('kanji',now).length;
