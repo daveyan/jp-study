@@ -399,6 +399,11 @@ function gLegend(){
   return '<div class="legend">'+li('done','st-mature')+li('started','st-learn')+li('new','st-new')+(c.known?li('known','st-known'):'')+'</div>';
 }
 function gReviewBtn(n){ return n?'<button class="btn primary" data-act="review" data-arg="grammar">Read '+n+' due</button>':''; }
+// The first lesson not started yet, as a Learn button (the New group on Today and the Grammar tab); falls back to the next unfinished lesson.
+function learnGrammarBtn(quiet){
+  const i=GRAMMAR.findIndex(g=>gstate(g)==='new');
+  return i>=0?'<button class="btn'+(quiet?'':' primary')+'" data-act="learnGrammar" data-arg="'+i+'">Learn '+esc(GRAMMAR[i].level+' '+GRAMMAR[i].title)+'</button>':nextLessonBtn(quiet);
+}
 function nextLessonBtn(quiet){
   const i=GRAMMAR.findIndex(g=>!lessonDone(g));
   return i>=0?'<button class="btn'+(quiet?'':' primary')+'" data-act="gopen" data-arg="'+i+'">Next: '+esc(GRAMMAR[i].level+' '+GRAMMAR[i].title)+'</button>':'';
@@ -453,7 +458,7 @@ function homeHtml(){
   const gc=gcounts();
   const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+(gc.started+gc.done)+' of '+GRAMMAR.length+' lessons started · '+gc.done+' done'+(gc.known?' · '+gc.known+' known':'')+' · '+dl+' due now</p></div></div>'
     +gStackBar()
-    +actionGroups(gReviewBtn(dl)+mixBtn(),nextLessonBtn(dl>0)||'<button class="btn" data-act="tab" data-arg="grammar">All lessons</button>')+'</section>';
+    +actionGroups(gReviewBtn(dl)+mixBtn(),learnGrammarBtn(dl>0)||'<button class="btn" data-act="tab" data-arg="grammar">All lessons</button>')+'</section>';
   // activity, last 14 days
   const days=[]; for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); days.push({d:d,n:S.log[dayKey(d)]||0}); }
   const max=Math.max(1,...days.map(x=>x.n));
@@ -796,12 +801,22 @@ function lessonStatus(g){
 // It also picks three random examples to preview; they stay the same until the lesson is opened again.
 // Opening a lesson adds it to the Mixed reading pool. Swiping between lessons only browses (browse=true): those
 // lessons join the pool once their feed or quiz is used.
-function openLesson(i,browse){ const g=GRAMMAR[i]; if(!browse&&!S.grammar[g.id]){ S.grammar[g.id]={best:0,tries:0,done:false,read:0,at:Date.now()}; commit(); } ui.lesson=i; ui.preview=shuffle(g.ex).slice(0,5); }
+function openLesson(i,browse){ const g=GRAMMAR[i]; if(!browse&&!S.grammar[g.id]){ S.grammar[g.id]={best:0,tries:0,done:false,read:0,at:Date.now()}; commit(); } ui.lesson=i; ui.learn=false; ui.preview=shuffle(g.ex).slice(0,5); }
+// The learn page for a new lesson: its description and Start learning. It makes no progress entry until the feed is read.
+function learnLessonHtml(i){
+  const g=GRAMMAR[i];
+  return '<div class="lesson-view"><div>'+backBtn('closeLesson','All lessons')+'</div>'
+    +'<div class="titleline"><span class="ln" style="grid-row:auto">'+lessonNum(i)+'</span><div><p class="eyebrow">'+esc(g.level)+'</p><h1 style="font-size:24px">'+esc(g.title)+'</h1><p class="muted">'+esc(g.sub)+'</p></div></div>'
+    +'<div class="pattern" lang="ja">'+esc(g.pattern)+'</div>'
+    +'<div class="actions"><button class="btn primary" data-act="startGrammar" data-arg="'+i+'">Start learning</button>'+knowBtn(g.id)+'</div>'
+    +'<details class="how" open><summary>How it works</summary><ul class="notes">'+g.notes.map(n=>'<li>'+n+'</li>').join('')+'</ul></details></div>';
+}
 function mixLessons(){ return GRAMMAR.filter(g=>S.grammar[g.id]||isKnown(g.id)); }
 function mixBtn(){ return mixLessons().length?'<button class="btn" data-act="readMix">Mixed reading</button>':''; }
 function grammarHtml(){
   if(ui.lesson!==null){
     const g=GRAMMAR[ui.lesson], i=ui.lesson, p=S.grammar[g.id], st=gstate(g);
+    if(ui.learn&&st==='new') return learnLessonHtml(i);
     const more=g.ex.filter(e=>ui.preview.indexOf(e)<0);
     return '<div class="lesson-view"><div>'+backBtn('closeLesson','All lessons')+'</div>'
       +'<div class="titleline"><span class="ln" style="grid-row:auto">'+lessonNum(i)+'</span><div><p class="eyebrow">'+esc(g.level)+'</p><h1 style="font-size:24px">'+esc(g.title)+'</h1><p class="muted">'+esc(g.sub)+'</p></div></div>'
@@ -817,7 +832,7 @@ function grammarHtml(){
   const chips=Object.keys(GSTATE_LABEL).map(k=>'<button class="chip" data-act="gfilter" data-arg="'+k+'" aria-pressed="'+(ui.gf===k)+'">'+GSTATE_LABEL[k]+'</button>').join('')
     +['N5','N4','N3'].map(l=>'<button class="chip" data-act="glv" data-arg="'+l+'" aria-pressed="'+(ui.glv===l)+'">'+l+'</button>').join('');
   return '<section class="panel row"><div><h2>Grammar</h2><p class="muted">'+GRAMMAR.length+' lessons with example sentences ('+['N5','N4','N3'].map(l=>GRAMMAR.filter(g=>g.level===l).length+' '+l).join(', ')+'). Finish a lesson\'s feed and it comes back in your reading reviews.</p></div>'+gStackBar()+gLegend()
-    +'<div class="actions">'+gReviewBtn(dl)+nextLessonBtn(dl>0)+mixBtn()+markBtn()+'</div>'+markHint()+'</section>'
+    +'<div class="actions">'+gReviewBtn(dl)+learnGrammarBtn(dl>0)+mixBtn()+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="gq" type="search" placeholder="Search titles, patterns or notes" aria-label="Search lessons" value="'+esc(ui.gq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="lessons" id="glist">'+lessonListHtml()+'</div>';
 }
@@ -901,7 +916,7 @@ function lessonSentences(i,n,skip){
   const g=GRAMMAR[i], seen=new Set(((S.grammar[g.id]||{}).seen||[]).concat(skip||[])), all=g.ex.map((e,k)=>k);
   return shuffle(all.filter(k=>!seen.has(k))).concat(shuffle(all.filter(k=>seen.has(k)))).slice(0,n).map(k=>({jp:g.ex[k][0],en:g.ex[k][1],cas:g.ex[k][2]||'',g:i,exi:k,rid:g.id}));
 }
-function readLesson(i){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, lessonSentences(i,FEED_N), {type:'lesson',idx:i}); }
+function readLesson(i,learn){ const g=GRAMMAR[i]; startRead(g.level+' · '+g.title, lessonSentences(i,FEED_N), {type:'lesson',idx:i,learn:!!learn}); }
 function seenText(g){
   const p=S.grammar[g.id]||{}, n=(p.seen||[]).length, r=p.rounds||0;
   return r?'all '+g.ex.length+' sentences read'+(r>1?' '+r+' times':'')+(n?' · '+n+' into the next round':''):n+' of '+g.ex.length+' sentences read';
@@ -1044,7 +1059,7 @@ function readHtml(){
         +'<div class="actions">'+btns+'</div></section>';
     }
     const lesson=t==='lesson', nx=lesson?r.meta.idx+1:-1;
-    const btns=lesson
+    const btns=r.meta.learn?'<button class="btn primary" data-act="home">Done</button>':lesson
       ? '<button class="btn primary" data-act="readExit">Back to lesson</button><button class="btn" data-act="readLesson" data-arg="'+r.meta.idx+'">Read again</button>'+(nx<GRAMMAR.length?'<button class="btn" data-act="gopen" data-arg="'+nx+'">Next lesson</button>':'')
       : '<button class="btn primary" data-act="'+({vocab:'readVocab',mix:'readMix'}[t])+'">More sentences</button><button class="btn" data-act="readExit">Done</button>';
     const sc=lesson&&gCard(GRAMMAR[r.meta.idx]);
@@ -1145,6 +1160,8 @@ function act(a,arg){
     case 'openLesson': if(ui.lesson===null) lessonScroll=window.scrollY; go(()=>{ openLesson(+arg); }); break;
     case 'gopen': go(()=>{ ui.quiz=null; ui.read=null; ui.tab='grammar'; openLesson(+arg); }); break;
     case 'readLesson': readLesson(+arg); break;
+    case 'startGrammar': readLesson(+arg,true); break;
+    case 'learnGrammar': go(()=>{ ui.quiz=null; ui.read=null; ui.tab='grammar'; ui.lesson=+arg; ui.learn=true; ui.preview=[]; }); break;
     case 'readMix': readMix(); break;
     case 'readVocab': readVocab(); break;
     case 'flag': toggleFlag(arg); render(); break;
