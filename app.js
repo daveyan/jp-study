@@ -428,6 +428,14 @@ function goalHtml(){
   const n=todayCount(), g=goal();
   return '<div class="goal"><div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="'+g+'" aria-valuenow="'+Math.min(n,g)+'"><i style="width:'+Math.min(100,n/g*100)+'%"></i></div><span class="muted">'+(n>=g?'Daily goal reached: '+n+' sentences today':n+' of '+g+' sentences today')+'</span></div>';
 }
+// Per-row switch for the Random known button (settings.hideKnown[kind] = true hides it). Pressed means shown.
+function knownHidden(key){ return !!(S.settings.hideKnown&&S.settings.hideKnown[key]); }
+function knownSetting(){
+  const kinds=[['vocab','Vocab'],['grammar','Grammar']].concat(SHOW_KANJI?[['kanji','Kanji']]:[]);
+  return '<div><h3 style="margin-bottom:8px">Random known</h3><div class="seg" role="group" aria-label="Random known buttons">'
+    +kinds.map(x=>'<button data-act="knownToggle" data-arg="'+x[0]+'" aria-pressed="'+(!knownHidden(x[0]))+'">'+x[1]+'</button>').join('')+'</div>'
+    +'<p class="muted note">Shows or hides Random known on each Today row.</p></div>';
+}
 function goalSetting(){
   return '<div><h3 style="margin-bottom:8px">Daily goal</h3><div class="seg three" role="group" aria-label="Daily goal">'+[30,60,100].map(x=>'<button data-act="goal" data-arg="'+x+'" aria-pressed="'+(goal()===x)+'">'+x+' sentences</button>').join('')+'</div>'
     +'<p class="muted note">Learn new steps back when upcoming reviews already fill the goal.</p></div>';
@@ -471,7 +479,7 @@ function homeHtml(){
   return '<section class="hero"><p class="eyebrow">'+esc(date)+'</p><h1>'+msg+'</h1>'+goalHtml()+(dw&&dl?'<div class="actions"><button class="btn primary" data-act="review" data-arg="all">Read everything due</button></div>':'')+'</section>'
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted note">'+total+' sentences in two weeks</p>'+totalsHtml()+'</section>'
-    +'<details class="panel settings"'+(ui.settingsOpen?' open':'')+'><summary>Settings</summary><div class="settings-body">'+'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted note">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+goalSetting()+listenSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</div></details>';
+    +'<details class="panel settings"'+(ui.settingsOpen?' open':'')+'><summary>Settings</summary><div class="settings-body">'+'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted note">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+goalSetting()+knownSetting()+listenSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</div></details>';
 }
 
 // The last Japanese line that is on can't be hidden, so every example still shows some Japanese.
@@ -892,7 +900,7 @@ function knownPool(key){
 }
 function extraBtns(key){
   return '<button class="btn" data-act="extraReview" data-arg="'+key+'"'+(extraPool(key).length?'':' disabled')+'>Extra review</button>'
-    +'<button class="btn" data-act="extraKnown" data-arg="'+key+'"'+(knownPool(key).length?'':' disabled')+'>Random known</button>';
+    +(knownHidden(key)?'':'<button class="btn" data-act="extraKnown" data-arg="'+key+'"'+(knownPool(key).length?'':' disabled')+'>Random known</button>');
 }
 function startExtra(known,key){
   key=EXTRA_KINDS[key]?key:'vocab';
@@ -1175,6 +1183,7 @@ function act(a,arg){
     case 'listen': S.settings.listen=(arg==='1'); commit(); render(); break;
     case 'rate': S.settings.rate=+arg; commit(); render(); speak('こんにちは。日本語を勉強しましょう。'); break;
     case 'goal': S.settings.goal=+arg; commit(); render(); break;
+    case 'knownToggle': S.settings.hideKnown=Object.assign({},S.settings.hideKnown,{[arg]:!knownHidden(arg)}); commit(); render(); break;
     case 'readNext': readNext(); break;
     case 'readExit': go(()=>{ ui.read=null; }); break;
     case 'voiceTest': speak('こんにちは。日本語を勉強しましょう。'); break;
