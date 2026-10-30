@@ -353,3 +353,13 @@ label.btn{display:inline-block}
 .lvname{font-weight:500}
 .lvrow[aria-pressed="true"] .lvname{color:var(--ink); text-decoration:underline}
 .lvhead{margin:16px 0 0; font-size:14px}
+.lvgroup{margin-top:10px}
+.lvgroup > summary{display:flex; align-items:center; gap:10px; cursor:pointer; padding:4px 0}
+.lvgroup > summary .prog{flex:1}
+.lvgroup > summary .lvname{min-width:72px; font-weight:500}
+.lvgroup > .lvbars{margin-top:6px; padding-left:14px}
+.lvgroup:not([open]) > .lvbars{display:none}
+.lvgroup > summary{list-style:none}
+.lvgroup > summary::-webkit-details-marker{display:none}
+.lvgroup > summary::before{content:"\25B8"; color:var(--muted); width:10px}
+.lvgroup[open] > summary::before{content:"\25BE"}

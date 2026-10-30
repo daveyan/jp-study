@@ -480,9 +480,9 @@ function homeHtml(){
     +studyRow('vocab')+(SHOW_KANJI?studyRow('kanji'):'')+grammarRow
     +'<section class="panel"><h3>Progress by level</h3>'
     +'<p class="muted note">Started or known, out of the items at each level.</p>'
-    +'<h3 class="lvhead">Vocabulary</h3>'+lvBars(['N5','N4','N3'],vocabLvStat)
-    +(SHOW_KANJI?'<h3 class="lvhead">Kanji</h3>'+lvBars(KANJI_LEVELS,kanjiLvStat):'')
-    +'<h3 class="lvhead">Grammar</h3>'+lvBars(['N5','N4','N3'],grammarLvStat)+'</section>'
+    +lvGroup(['N5','N4','N3'],vocabLvStat,null,null,'Vocabulary')
+    +(SHOW_KANJI?lvGroup(KANJI_LEVELS,kanjiLvStat,null,null,'Kanji'):'')
+    +lvGroup(['N5','N4','N3'],grammarLvStat,null,null,'Grammar')+'</section>'
     +'<section class="panel"><h3>Last 14 days</h3><div class="bars">'+bars+'</div><div class="barlab">'+labs+'</div><p class="muted note">'+total+' sentences in two weeks</p>'+totalsHtml()+'</section>'
     +'<details class="panel settings"'+(ui.settingsOpen?' open':'')+'><summary>Settings</summary><div class="settings-body">'+'<div><h3 style="margin-bottom:8px">Furigana</h3><div class="seg three" role="group" aria-label="Furigana">'+[['auto','Unknown kanji'],['on','Always'],['off','Off']].map(x=>'<button data-act="furiMode" data-arg="'+x[0]+'" aria-pressed="'+(S.settings.furi===x[0])+'">'+x[1]+'</button>').join('')+'</div><p class="muted note">Hidden readings have a dotted underline: tap the word to show it.</p></div>'+linesSetting()+spreadSetting()+goalSetting()+knownSetting()+listenSetting()+voiceSetting()+autoSpeakSetting()+backupSetting()+reset+'</div></details>';
 }
@@ -754,7 +754,7 @@ function vocabHtml(){
   if(ui.vocab!==null) return vocabDetailHtml();
   const now=Date.now(), due=dueIds('vocab',now).length;
   const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="filter" data-arg="'+k+'" aria-pressed="'+(ui.vf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('')+'<button class="chip" data-act="vtop" aria-pressed="'+ui.vtop+'">Top 1000</button>'+['N5','N4','N3'].map(l=>'<button class="chip" data-act="vlv" data-arg="'+l+'" aria-pressed="'+(ui.vlv===l)+'">'+l+'</button>').join('');
-  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4','N3'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')+lvBars(['N5','N4','N3'],vocabLvStat,'vlv',ui.vlv)
+  return '<section class="panel row"><div><h2>Vocabulary</h2><p class="muted">'+VOCAB.length+' words with example sentences ('+['N5','N4','N3'].map(l=>VOCAB.filter(w=>w.lv===l).length+' '+l).join(', ')+')</p></div>'+stackBar('vocab')+legend('vocab')+lvGroup(['N5','N4','N3'],vocabLvStat,'vlv',ui.vlv,'All levels')
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="vocab"'+(due?'':' disabled')+'>'+(due?'Read '+due+' due':'Nothing due')+'</button>'+learnBtn()+'<button class="btn" data-act="readVocab">Read sentences</button>'+markBtn()+'</div>'+heavyNote()+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="vq" type="search" placeholder="Search words, readings or meanings" aria-label="Search words" value="'+esc(ui.vq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="vlist" id="vlist">'+vocabListHtml()+'</div>'
@@ -789,10 +789,16 @@ function lvBars(levels,stat,act,cur){
     return '<'+tag+' class="lvrow"'+(act?' data-act="'+act+'" data-arg="'+l+'" aria-pressed="'+(cur===l)+'"':'')+'><span class="lvname">'+l+'</span><span class="prog"><i style="width:'+(n?s/n*100:0)+'%"></i></span><span class="muted">'+s+' of '+n+'</span></'+tag+'>';
   }).join('')+'</div>';
 }
+// A combined bar for a group of levels, with the per-level bars in a dropdown under it.
+function lvGroup(levels,stat,act,cur,title){
+  const [s,n]=levels.reduce((a,l)=>{ const [x,y]=stat(l); return [a[0]+x,a[1]+y]; },[0,0]);
+  return '<details class="lvgroup"><summary><span class="lvname">'+title+'</span><span class="prog"><i style="width:'+(n?s/n*100:0)+'%"></i></span><span class="muted">'+s+' of '+n+'</span></summary>'
+    +lvBars(levels,stat,act,cur)+'</details>';
+}
 const vocabLvStat=l=>{ const ws=VOCAB.filter(w=>w.lv===l); return [ws.filter(w=>stateOf(w.id)!=='new').length, ws.length]; };
 const grammarLvStat=l=>{ const gs=GRAMMAR.filter(g=>g.level===l); return [gs.filter(g=>gstate(g)!=='new').length, gs.length]; };
 const kanjiLvStat=l=>{ const ks=KANJI.filter(k=>k.lv===l); return [ks.filter(k=>stateOf(k.id)!=='new').length, ks.length]; };
-function kanjiLevelHtml(){ return lvBars(KANJI_LEVELS,kanjiLvStat,'klv',ui.klv); }
+function kanjiLevelHtml(){ return lvGroup(KANJI_LEVELS,kanjiLvStat,'klv',ui.klv,'All levels'); }
 function kanjiRows(){
   const q=ui.kq.trim().toLowerCase(), qh=q?romajiToKana(q):'', qk=qh?toKata(qh):'';
   return KANJI.filter(k=>{
@@ -877,7 +883,7 @@ function grammarHtml(){
   const dl=dueLessons(Date.now()).length;
   const chips=Object.keys(GSTATE_LABEL).map(k=>'<button class="chip" data-act="gfilter" data-arg="'+k+'" aria-pressed="'+(ui.gf===k)+'">'+GSTATE_LABEL[k]+'</button>').join('')
     +['N5','N4','N3'].map(l=>'<button class="chip" data-act="glv" data-arg="'+l+'" aria-pressed="'+(ui.glv===l)+'">'+l+'</button>').join('');
-  return '<section class="panel row"><div><h2>Grammar</h2><p class="muted">'+GRAMMAR.length+' lessons with example sentences ('+['N5','N4','N3'].map(l=>GRAMMAR.filter(g=>g.level===l).length+' '+l).join(', ')+'). Finish a lesson\'s feed and it comes back in your reading reviews.</p></div>'+gStackBar()+gLegend()+lvBars(['N5','N4','N3'],grammarLvStat,'glv',ui.glv)
+  return '<section class="panel row"><div><h2>Grammar</h2><p class="muted">'+GRAMMAR.length+' lessons with example sentences ('+['N5','N4','N3'].map(l=>GRAMMAR.filter(g=>g.level===l).length+' '+l).join(', ')+'). Finish a lesson\'s feed and it comes back in your reading reviews.</p></div>'+gStackBar()+gLegend()+lvGroup(['N5','N4','N3'],grammarLvStat,'glv',ui.glv,'All levels')
     +'<div class="actions">'+gReviewBtn(dl)+learnGrammarBtn(dl>0)+mixBtn()+markBtn()+'</div>'+markHint()+'</section>'
     +'<div class="toolbar"><input class="search" id="gq" type="search" placeholder="Search titles, patterns or notes" aria-label="Search lessons" value="'+esc(ui.gq)+'"><div class="chips">'+chips+'</div></div>'
     +'<div class="lessons" id="glist">'+lessonListHtml()+'</div>';
