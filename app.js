@@ -625,7 +625,7 @@ function sessionHtml(){
     if(nextDue<Infinity){ const mins=Math.round((nextDue-now)/60000); nxt = mins<60? 'in '+mins+' min' : mins<60*24 ? 'later today' : mins<60*48 ? 'tomorrow' : 'in '+Math.round(mins/1440)+' days'; }
     return head+'<section class="panel done"><p class="eyebrow">Session complete</p><div class="big">'+s.done+'</div><p>kanji read</p>'
       +'<div class="facts">'+(nxt?'<span>Next review <b>'+nxt+'</b></span>':'')+'</div>'
-      +'<div class="actions"><button class="btn primary" data-act="exit">Back</button></div></section>';
+      +'<div class="actions"><button class="btn primary" data-act="home">Back</button></div></section>';
   }
   return kanjiReadHtml(s,head);
 }
