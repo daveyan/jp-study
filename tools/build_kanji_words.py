@@ -88,7 +88,9 @@ def main():
             if w[0] not in seen and len(words) < MAX:
                 seen.add(w[0]); words.append(w); kinds.add(reading_kind(w[1], r[2], r[3]))
         # First take a word for each reading kind (on and kun) the kanji has, then fill in priority order.
-        pool = [w for w in pool if w[0] != ch]  # the kanji on its own is not an example word
+        # Every candidate must contain the kanji and must not be the kanji on its own. Words that were already in the
+        # row are checked too, so a wrong word cannot survive a rebuild.
+        pool = [w for w in pool if ch in w[0] and w[0] != ch]
         for w in pool:
             if reading_kind(w[1], r[2], r[3]) not in kinds: add(w)
         for w in pool: add(w)
