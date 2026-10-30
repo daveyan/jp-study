@@ -342,7 +342,7 @@ function streak(){
 }
 
 /* ---------- UI state ---------- */
-const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',gq:'',gf:'all',glv:'',back:null,mark:false,confirmReset:false,settingsOpen:false};
+const ui={vtop:false,vlv:'',tab:'home',session:null,quiz:null,read:null,lesson:null,kanji:null,vocab:null,preview:[],vq:'',vf:'all',kq:'',kf:'all',gq:'',gf:'all',glv:'',back:null,mark:false,confirmReset:false,settingsOpen:false};
 // The Kanji tab is hidden for now; set SHOW_KANJI to true to bring it back (its code and saved progress are kept).
 const SHOW_KANJI=true;
 const TABS=[['home','今日','Today'],['vocab','単語','Vocab'],['kanji','漢字','Kanji'],['grammar','文法','Grammar']].filter(x=>SHOW_KANJI||x[0]!=='kanji');
@@ -772,6 +772,21 @@ function kanjiReadHtml(s,head){
   return head+'<section class="panel kd"><div class="kd-char" lang="ja">'+esc(k.ch)+'</div><h2>'+esc(k.en)+'</h2>'+kanjiWordsHtml(k)
     +'<div class="actions"><button class="btn primary" data-act="readDone">Done</button></div></section>';
 }
+// Kanji list filter: search (character, meaning, readings; romaji works) and progress.
+function kanjiRows(){
+  const q=ui.kq.trim().toLowerCase(), qh=q?romajiToKana(q):'', qk=qh?toKata(qh):'';
+  return KANJI.filter(k=>{
+    if(ui.kf!=='all'&&stateOf(k.id)!==ui.kf) return false;
+    if(!q) return true;
+    const hay=(k.ch+' '+k.en+' '+k.on+' '+k.kun).toLowerCase();
+    return hay.includes(q)||(qh&&hay.includes(qh))||(qk&&hay.includes(qk));
+  });
+}
+function kanjiTilesHtml(){
+  const rows=kanjiRows();
+  if(!rows.length) return '<p class="muted" style="padding:12px 4px">No kanji match.</p>';
+  return rows.map(k=>{ const st=stateOf(k.id); return '<button class="ktile st-'+st+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(k.id)+'" aria-pressed="'+(st==='known')+'"':'data-act="openKanji" data-arg="'+esc(k.ch)+'"')+' aria-label="'+esc(k.ch+', '+k.en)+'"><span class="kc" lang="ja">'+esc(k.ch)+'</span><span class="km">'+esc(k.en)+'</span></button>'; }).join('');
+}
 function kanjiHtml(){
   if(ui.kanji){
     const k=ITEM['k:'+ui.kanji]; const i=KANJI.indexOf(k); const st=stateOf(k.id);
@@ -784,10 +799,11 @@ function kanjiHtml(){
       +'<button class="btn" data-act="openKanji" data-arg="'+esc(KANJI[(i+1)%KANJI.length].ch)+'">Next →</button></div></section>';
   }
   const now=Date.now(), due=dueIds('kanji',now).length;
-  const tiles=KANJI.map(k=>{ const st=stateOf(k.id); return '<button class="ktile st-'+st+'" '+(ui.mark?'data-act="toggleKnown" data-arg="'+esc(k.id)+'" aria-pressed="'+(st==='known')+'"':'data-act="openKanji" data-arg="'+esc(k.ch)+'"')+' aria-label="'+esc(k.ch+', '+k.en)+'"><span class="kc" lang="ja">'+esc(k.ch)+'</span><span class="km">'+esc(k.en)+'</span></button>'; }).join('');
+  const chips=['all','new','learning','young','mature','known'].map(k=>'<button class="chip" data-act="kfilter" data-arg="'+k+'" aria-pressed="'+(ui.kf===k)+'">'+(k==='all'?'All':STATUS_LABEL[k])+'</button>').join('');
   return '<section class="panel row"><div><h2>Kanji</h2><p class="muted">'+KANJI.length+' Jōyō kanji, with readings and words</p></div>'+stackBar('kanji')+legend('kanji')
     +'<div class="actions"><button class="btn primary" data-act="review" data-arg="kanji"'+(due?'':' disabled')+'>'+(due?'Review '+due:'Nothing due')+'</button>'+learnBtn(false,'kanji')+'<button class="btn" data-act="kquiz">Reading quiz</button>'+markBtn()+'</div>'+markHint()+'</section>'
-    +'<div class="kgrid">'+tiles+'</div>'
+    +'<div class="toolbar"><input class="search" id="kq" type="search" placeholder="Search kanji, readings or meanings" aria-label="Search kanji" value="'+esc(ui.kq)+'"><div class="chips">'+chips+'</div></div>'
+    +'<div class="kgrid" id="ktiles">'+kanjiTilesHtml()+'</div>'
     +'<p class="muted credits">Kanji readings, meanings, grades and stroke counts: <a href="https://www.edrdg.org/wiki/index.php/KANJIDIC_Project">KANJIDIC2</a>; example words: <a href="https://www.edrdg.org/jmdict/j_jmdict.html">JMdict</a> (both EDRDG, CC BY-SA 4.0).</p>';
 }
 
@@ -1207,6 +1223,7 @@ function act(a,arg){
     case 'closeVocab': if(ui.back){ act('backToRead'); break; } ui.vocab=null; render(); window.scrollTo(0,vocabScroll); break;
     case 'addCard': if(!S.cards[arg]){ S.cards[arg]=newCard(Date.now()); commit(); render(); } break;
     case 'filter': ui.vf=arg; render(); break;
+    case 'kfilter': ui.kf=arg; render(); break;
     case 'vtop': ui.vtop=!ui.vtop; render(); break;
     case 'vlv': ui.vlv=ui.vlv===arg?'':arg; render(); break;
     case 'gfilter': ui.gf=arg; render(); break;
@@ -1255,6 +1272,7 @@ if(CAN_SPEAK){
 }
 document.addEventListener('input',function(e){
   if(e.target&&e.target.id==='vq'){ ui.vq=e.target.value; const l=$('#vlist'); if(l) l.innerHTML=vocabListHtml(); }
+  if(e.target&&e.target.id==='kq'){ ui.kq=e.target.value; const l=$('#ktiles'); if(l) l.innerHTML=kanjiTilesHtml(); }
   if(e.target&&e.target.id==='gq'){ ui.gq=e.target.value; const l=$('#glist'); if(l) l.innerHTML=lessonListHtml(); }
 });
 document.addEventListener('keydown',function(e){
