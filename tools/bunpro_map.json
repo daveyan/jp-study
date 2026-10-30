@@ -316,6 +316,8 @@
 {"bunpro": 659, "level": "N4", "bunpro_lesson": 20, "point": "とされている", "lesson": "n4-iwareru"},
 {"bunpro": 184, "level": "N4", "bunpro_lesson": 20, "point": "といわれている", "lesson": "n4-iwareru"},
 {"bunpro": 163, "level": "N4", "bunpro_lesson": 20, "point": "ばよかった", "lesson": "n4-toii"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 1, "point": "ageru", "lesson": "n3-ageru"},
+{"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 2, "point": "amari", "lesson": "n3-amari"},
 {"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 7, "point": "ba~hodo", "lesson": "n3-ba-hodo"},
 {"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 10, "point": "bakari denaku", "lesson": "n3-bakari-denaku"},
 {"bunpro": null, "level": "N3", "source": "jlptsensei", "source_no": 11, "point": "beki da", "lesson": "n3-beki"},
