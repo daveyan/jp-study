@@ -398,7 +398,7 @@ function gLegend(){
   const c=gcounts(), li=(k,v)=>'<span><i style="background:var(--'+v+')"></i>'+c[k]+' '+GSTATE_LABEL[k].toLowerCase()+'</span>';
   return '<div class="legend">'+li('done','st-mature')+li('started','st-learn')+li('new','st-new')+(c.known?li('known','st-known'):'')+'</div>';
 }
-function gReviewBtn(n){ return n?'<button class="btn primary" data-act="review" data-arg="grammar">Read '+n+' due</button>':''; }
+function gReviewBtn(n){ return '<button class="btn primary" data-act="review" data-arg="grammar"'+(n?'':' disabled')+'>'+(n?'Read '+n+' due':'Nothing due')+'</button>'; }
 // The first lesson not started yet, as a Learn button (the New group on Today and the Grammar tab); falls back to the next unfinished lesson.
 function learnGrammarBtn(quiet){
   const i=GRAMMAR.findIndex(g=>gstate(g)==='new');
@@ -437,7 +437,7 @@ function studyRow(kind){
   const due=dueIds(kind,now).length, started=items.length-c.new-c.known;
   return '<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">'+(kind==='vocab'?'単語':'漢字')+'</span><div><h2>'+(kind==='vocab'?'Vocabulary':'Kanji')+'</h2><p class="muted">'+started+' of '+items.length+' started'+(c.known?' · '+c.known+' known':'')+' · '+due+' due now</p></div></div>'
    +stackBar(kind)
-   +actionGroups('<button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button>'+extraBtns(kind==='vocab'?'words':'kanji'),learnBtn(!due,kind))+(kind==='vocab'?heavyNote():'')+'</section>';
+   +actionGroups('<button class="btn primary" data-act="review" data-arg="'+kind+'"'+(due?'':' disabled')+'>'+(due?(kind==='vocab'?'Read ':'Review ')+due+' due':'Nothing due')+'</button>'+extraBtns(kind),learnBtn(!due,kind))+(kind==='vocab'?heavyNote():'')+'</section>';
 }
 // Buttons on a Today row, in two labelled groups: reviews, then new items.
 function actionGroups(review,learn){
@@ -458,7 +458,7 @@ function homeHtml(){
   const gc=gcounts();
   const grammarRow='<section class="panel row"><div class="row-head"><span class="tag-jp" lang="ja">文法</span><div><h2>Grammar</h2><p class="muted">'+(gc.started+gc.done)+' of '+GRAMMAR.length+' lessons started · '+gc.done+' done'+(gc.known?' · '+gc.known+' known':'')+' · '+dl+' due now</p></div></div>'
     +gStackBar()
-    +actionGroups(gReviewBtn(dl)+mixBtn(),learnGrammarBtn(dl>0)||'<button class="btn" data-act="tab" data-arg="grammar">All lessons</button>')+'</section>';
+    +actionGroups(gReviewBtn(dl)+extraBtns('grammar'),learnGrammarBtn(dl>0)||'<button class="btn" data-act="tab" data-arg="grammar">All lessons</button>')+'</section>';
   // activity, last 14 days
   const days=[]; for(let i=13;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); days.push({d:d,n:S.log[dayKey(d)]||0}); }
   const max=Math.max(1,...days.map(x=>x.n));
@@ -874,8 +874,8 @@ function feedSpeak(){ const r=ui.read; if(r&&r.i<r.items.length&&(S.settings.aut
 function readStep(){ const r=ui.read; if(listenOn()&&!r.heard){ r.heard=true; render(); } else if(r.shown||!lineOn('en')) readNext(); else { r.shown=true; render(); } }
 // Extra reviews pick a random started word or grammar lesson (learning, young or mature; kanji are read on their own page).
 // Random known reads a known word or lesson without touching its schedule.
-// Two pools: 'words' (vocab and grammar, on the vocab row) and 'kanji' (on the kanji row).
-const EXTRA_KINDS={words:['vocab','grammar'], kanji:['kanji']};
+// One pool per Today row: vocab, kanji or grammar.
+const EXTRA_KINDS={vocab:['vocab'], kanji:['kanji'], grammar:['grammar']};
 function extraPool(key){
   const kinds=EXTRA_KINDS[key], out=[];
   if(kinds.includes('vocab')) VOCAB.forEach(w=>{ if(S.cards[w.id]&&!isKnown(w.id)) out.push({kind:'vocab',id:w.id}); });
@@ -895,7 +895,7 @@ function extraBtns(key){
     +'<button class="btn" data-act="extraKnown" data-arg="'+key+'"'+(knownPool(key).length?'':' disabled')+'>Random known</button>';
 }
 function startExtra(known,key){
-  key=EXTRA_KINDS[key]?key:'words';
+  key=EXTRA_KINDS[key]?key:'vocab';
   const pool=known?knownPool(key):extraPool(key); if(!pool.length) return;
   const x=pool[Math.floor(Math.random()*pool.length)];
   if(x.kind==='kanji'){ startKanjiReads([x.id],known); return; }
