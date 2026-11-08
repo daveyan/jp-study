@@ -2777,5 +2777,85 @@
   "source_no": 67,
   "point": "nakanaka",
   "lesson": "n3-nakanaka"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 71,
+  "point": "nazenara",
+  "lesson": "n3-nazenara"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 72,
+  "point": "ndatte",
+  "lesson": "n3-ndatte"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 73,
+  "point": "ni chigai nai",
+  "lesson": "n3-ni-chigai-nai"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 74,
+  "point": "ni hanshite",
+  "lesson": "n3-ni-hanshite"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 75,
+  "point": "ni kakete",
+  "lesson": "n3-ni-kakete"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 76,
+  "point": "ni kan suru",
+  "lesson": "n3-ni-kan-suru"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 77,
+  "point": "ni kawatte",
+  "lesson": "n3-ni-kawatte"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 78,
+  "point": "ni kurabete",
+  "lesson": "n3-ni-kurabete"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 79,
+  "point": "ni nareru",
+  "lesson": "n3-ni-nareru"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 80,
+  "point": "ni oite",
+  "lesson": "n3-ni-oite"
  }
 ]
