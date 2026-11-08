@@ -2697,5 +2697,29 @@
   "source_no": 53,
   "point": "kurai / gurai",
   "lesson": "n3-kurai"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 68,
+  "point": "nanka / nante",
+  "lesson": "n3-nanka-nante"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 69,
+  "point": "naosu",
+  "lesson": "n3-naosu"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 70,
+  "point": "naru beku",
+  "lesson": "n3-naru-beku"
  }
 ]
