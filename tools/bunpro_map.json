@@ -2537,5 +2537,85 @@
   "source_no": 40,
   "point": "kekkyoku",
   "lesson": "n3-kekkyoku"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 41,
+  "point": "kesshite~nai",
+  "lesson": "n3-kesshite-nai"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 42,
+  "point": "kirenai",
+  "lesson": "n3-kirenai"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 43,
+  "point": "kiri",
+  "lesson": "n3-kiri"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 44,
+  "point": "kiru",
+  "lesson": "n3-kiru"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 45,
+  "point": "kke",
+  "lesson": "n3-kke"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 46,
+  "point": "komu",
+  "lesson": "n3-komu"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 47,
+  "point": "koso",
+  "lesson": "n3-koso"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 48,
+  "point": "koto",
+  "lesson": "n3-koto-advice"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 49,
+  "point": "koto kara",
+  "lesson": "n3-koto-kara"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 50,
+  "point": "koto ni natteiru",
+  "lesson": "n3-koto-ni-natteiru"
  }
 ]
