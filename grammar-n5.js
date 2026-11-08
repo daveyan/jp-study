@@ -2212,7 +2212,8 @@ const GRAMMAR = [
   `Plain past (た-form) + <b>ことがあります</b> = “have done (at some point)”. It talks about experience.`,
   `Negative: <b>ことがありません</b> = have never done.`,
   `Ask with <b>ことがありますか</b>. Add <b>一度</b> (once) or <b>何度も</b> (many times) for colour.`,
-  `Don’t use it for something that just happened: 昨日食べました, not 昨日食べたことがあります.`],
+  `Don’t use it for something that just happened: 昨日食べました, not 昨日食べたことがあります.`,
+  `<b>ことがある</b> (there are times when; sometimes) describes something that happens now and then: 雨の日は電車が遅れ<b>ることがある</b> (On rainy days, trains are sometimes late). It is not the same as the experience form たことがある above.`],
  ex:[
   ["{富士山|ふじさん}に[{登|のぼ}ったことがあります]。","I have climbed Mt. Fuji.","{富士山|ふじさん}に[{登|のぼ}ったことがある]。"],
   ["{納豆|なっとう}を[{食|た}べたことがありますか]。","Have you ever eaten natto?","{納豆|なっとう}を[{食|た}べたことある]？"],
@@ -2243,7 +2244,10 @@ const GRAMMAR = [
   ["{母|はは}は{一度|いちど}も{怒|おこ}[ったことがありません]。","My mother has never once gotten angry.","{母|はは}は{一回|いっかい}も{怒|おこ}[ったことない]。"],
   ["{有名|ゆうめい}な{歌手|かしゅ}を[{見|み}たことがあります]。","I've seen a famous singer.","{有名|ゆうめい}な{歌手|かしゅ}[{見|み}たことがある]。"],
   ["その{映画|えいが}は{前|まえ}に[{見|み}たことがあります]。","I've seen that movie before.","その{映画|えいが}は{前|まえ}に[{見|み}たことがある]。"],
-  ["{海|うみ}で[{泳|およ}いだことがない]{人|ひと}もいます。","Some people have never swum in the sea.","{海|うみ}で[{泳|およ}いだことない]{人|ひと}もいる。"]],
+  ["{海|うみ}で[{泳|およ}いだことがない]{人|ひと}もいます。","Some people have never swum in the sea.","{海|うみ}で[{泳|およ}いだことない]{人|ひと}もいる。"],
+  ["{時々|ときどき}、{一人|ひとり}で{映画|えいが}を{見|み}[ることがあります]。","Sometimes I watch movies alone.","{時々|ときどき}、{一人|ひとり}で{映画|えいが}を{見|み}[ることがある]。"],
+  ["{雨|あめ}の{日|ひ}は、{電車|でんしゃ}が{遅|おく}れ[ることがあります]。","On rainy days the trains are sometimes late.","{雨|あめ}の{日|ひ}は、{電車|でんしゃ}が{遅|おく}れ[ることがある]。"],
+  ["{私|わたし}も{間違|まちが}え[ることがあります]。","I sometimes make mistakes too.","{私|わたし}も{間違|まちが}え[ることがある]。"]],
  quiz:[
   {q:'“I have been to Kyoto.” 京都に＿＿。',o:['行ったことがあります','行くことがあります','行きたことがあります','行ってことがあります'],a:0,why:'Plain past 行った + ことがあります.'},
   {q:'“I have never eaten it.”',o:['食べたことがありません','食べることがありません','食べたことがあります','食べなかったことです'],a:0,why:'Negative: ことがありません.'},
