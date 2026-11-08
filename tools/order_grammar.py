@@ -1,6 +1,6 @@
 # Usage: python3 tools/order_grammar.py [--dry]
 # Puts the grammar lessons in JLPT Sensei's order. tools/jlpt_sensei_order.json gives each N5 and N4 lesson its number
-# in Sensei's list; a lesson with no number (null) goes straight after the lesson before it in the file. N3 lessons
+# in Sensei's list (a list of numbers when the lesson covers several points); a lesson with no number (null) goes straight after the lesson before it in the file. N3 lessons
 # follow their points in tools/bunpro_map.json, which holds Sensei's N3 numbers in Sensei's order.
 # Lessons are written to grammar-n5.js, grammar-n4.js and grammar-n3.js, keeping each file's header and footer.
 import json
@@ -23,11 +23,13 @@ def split(path):
 
 
 def sensei_order(ids, numbers):
-    # Sorted by Sensei number. An unnumbered lesson takes the number of the one before it, so it lands right after it.
+    # Sorted by Sensei number. A lesson can cover several points (a list); it sorts by its lowest. An unnumbered lesson
+    # takes the number of the one before it, so it lands right after it.
     keys, prev = [], 0
     for idx, i in enumerate(ids):
-        if numbers.get(i) is not None:
-            prev = numbers[i]
+        n = numbers.get(i)
+        if n is not None:
+            prev = min(n) if isinstance(n, list) else n
         keys.append((prev, idx, i))
     return [i for _, _, i in sorted(keys)]
 

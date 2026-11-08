@@ -1,64 +1,140 @@
 {
- "_about": "Each N5 and N4 grammar lesson's number in JLPT Sensei's list (https://jlptsensei.com/jlpt-n5-grammar-list/ and /jlpt-n4-grammar-list/), which is alphabetical by romaji. null when no point in the list matches the lesson; such a lesson goes straight after the lesson before it in the file. N4 points 121-132 are from the Wayback Machine copy of page 4 (2025-12-11), since the live page did not load.",
+ "_about": "Each N5 and N4 grammar lesson's number in JLPT Sensei's list (N5: the 84-point list as of 2026-11-07; a lesson that covers several points has a list of numbers) (https://jlptsensei.com/jlpt-n5-grammar-list/ and /jlpt-n4-grammar-list/), which is alphabetical by romaji. null when no point in the list matches the lesson; such a lesson goes straight after the lesson before it in the file. N4 points 121-132 are from the Wayback Machine copy of page 4 (2025-12-11), since the live page did not load.",
  "N5": {
-  "g1": 2,
-  "n5-mo": 34,
-  "n5-kosoado": null,
+  "g1": [
+   2,
+   79
+  ],
+  "g10": [
+   12,
+   14
+  ],
+  "g11": 67,
+  "g12": [
+   61,
+   72
+  ],
+  "g13": 70,
+  "g2": 21,
   "g3": 52,
+  "g4": 60,
+  "g5": [
+   48,
+   51
+  ],
+  "g6": 5,
+  "g7": null,
   "g8": 16,
   "g9": 36,
-  "g2": 21,
-  "n5-ga": 11,
-  "n5-ne-yo": 47,
-  "n4-plain": null,
-  "g4": 60,
-  "g7": null,
-  "n5-to-ya": 75,
-  "g6": 5,
-  "g5": 51,
-  "n5-ka-or": 22,
-  "n4-kamo": 4,
-  "g10": 12,
-  "n5-ndesu": 46,
-  "n5-no-one": 52,
-  "n5-ga-stative": 56,
-  "n5-no-nominal": 56,
-  "n4-relative": null,
-  "n4-node": 58,
-  "n5-kara-made": 23,
-  "n5-ga-kedo": 25,
-  "g13": 70,
-  "n5-ni-iku": 49,
-  "n5-de-cause": 5,
-  "n5-question-words": 8,
-  "n5-copula": 2,
-  "n4-omou": null,
-  "n5-na": 39,
-  "n5-dake-shika": 3,
-  "n5-tekara": 71,
-  "n5-mou-mada": 27,
-  "n4-temoii": 74,
-  "g11": 67,
-  "n4-tari": 68,
-  "n5-amounts": null,
-  "n4-maeato": 30,
-  "n5-kurai": null,
-  "n5-counting": null,
-  "n5-made": 29,
-  "n4-sugiru": 65,
-  "n5-nisuru": 50,
-  "n5-naru": 45,
-  "n5-compare": 80,
-  "n5-qword": null,
-  "n5-mashou": 32,
-  "g12": 72,
-  "n5-naide": 38,
-  "n4-nakereba": 43,
-  "n4-hougaii": 15,
-  "n4-takoto": 66,
   "n4-giving": null,
+  "n4-hougaii": 15,
+  "n4-kamo": [
+   4,
+   7
+  ],
+  "n4-maeato": 30,
+  "n4-nakereba": 41,
+  "n4-node": 58,
+  "n4-omou": null,
+  "n4-plain": null,
+  "n4-relative": null,
+  "n4-sugiru": 65,
+  "n4-takoto": 66,
+  "n4-tari": 68,
+  "n4-temoii": [
+   73,
+   74
+  ],
   "n4-volitional": 78,
-  "n5-te-link": null
+  "n5-adverbs": [
+   18,
+   19,
+   77
+  ],
+  "n5-amounts": null,
+  "n5-compare": [
+   17,
+   80,
+   84
+  ],
+  "n5-conjunctions": [
+   6,
+   62,
+   63,
+   64
+  ],
+  "n5-copula": [
+   2,
+   20
+  ],
+  "n5-counting": null,
+  "n5-dake-shika": 3,
+  "n5-de-cause": 5,
+  "n5-ga": 11,
+  "n5-ga-kedo": [
+   25,
+   26
+  ],
+  "n5-ga-stative": null,
+  "n5-ka-or": 22,
+  "n5-kara-made": 23,
+  "n5-kosoado": null,
+  "n5-kurai": null,
+  "n5-made": 29,
+  "n5-mashou": [
+   31,
+   32,
+   33,
+   81
+  ],
+  "n5-mo": 34,
+  "n5-mou-mada": [
+   27,
+   28,
+   35
+  ],
+  "n5-must": [
+   1,
+   40,
+   42,
+   43,
+   44
+  ],
+  "n5-na": null,
+  "n5-naide": [
+   38,
+   39
+  ],
+  "n5-naru": 45,
+  "n5-ndesu": [
+   46,
+   53
+  ],
+  "n5-ne-yo": [
+   37,
+   47,
+   83
+  ],
+  "n5-ni-iku": 49,
+  "n5-nisuru": 50,
+  "n5-no-nominal": [
+   54,
+   55,
+   56
+  ],
+  "n5-no-one": 52,
+  "n5-o-go": 59,
+  "n5-question-words": [
+   9,
+   10
+  ],
+  "n5-qword": null,
+  "n5-te-link": null,
+  "n5-tekara": 71,
+  "n5-to-ya": [
+   75,
+   82
+  ]
  },
  "N4": {
   "n4-demo": 11,
