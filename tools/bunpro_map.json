@@ -3177,5 +3177,85 @@
   "source_no": 120,
   "point": "tate",
   "lesson": "n3-tate"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 121,
+  "point": "tatoe~temo",
+  "lesson": "n3-tatoe-temo"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 122,
+  "point": "tatoeba",
+  "lesson": "n3-tatoeba"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 123,
+  "point": "tatte",
+  "lesson": "n3-tatte"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 124,
+  "point": "te bakari iru",
+  "lesson": "n3-te-bakari-iru"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 125,
+  "point": "te goran",
+  "lesson": "n3-te-goran"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 126,
+  "point": "te hajimete",
+  "lesson": "n3-te-hajimete"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 127,
+  "point": "te kara de nai to",
+  "lesson": "n3-te-kara-de-nai-to"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 128,
+  "point": "te shou ga nai",
+  "lesson": "n3-te-shou-ga-nai"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 129,
+  "point": "te sumu",
+  "lesson": "n3-te-sumu"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 130,
+  "point": "te wa ikenai kara",
+  "lesson": "n3-te-wa-ikenai-kara"
  }
 ]
