@@ -2673,5 +2673,29 @@
   "source_no": 60,
   "point": "moshimo~tara",
   "lesson": "n3-moshimo-tara"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 51,
+  "point": "koto wa nai",
+  "lesson": "n3-koto-wa-nai"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 52,
+  "point": "koto wa~ga",
+  "lesson": "n3-koto-wa-ga"
+ },
+ {
+  "bunpro": null,
+  "level": "N3",
+  "source": "jlptsensei",
+  "source_no": 53,
+  "point": "kurai / gurai",
+  "lesson": "n3-kurai"
  }
 ]
